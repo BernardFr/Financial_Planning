@@ -5,6 +5,7 @@ Financial Plan
 | Program | What It Does |
 | --- | --- |
 | `financing_retirement` | Creates a plot of how much you need to save based on when you start saving |
+| `get_morningstar_stats` | Retrieves the latest stats (mean, stddev, correlation) for main asset classes published by Morningstar. Output is `"./Data/Morningstar_asset_stats"` |
 | ----- | ----- |
 | `make_it_work_simple` | |
 | `montecarlo_simulate` | |
