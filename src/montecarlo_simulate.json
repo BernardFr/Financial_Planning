@@ -1,0 +1,42 @@
+{
+  "default_values" : {
+    "RUN_CNT" : 100,
+    "SEED" : 42,
+    "RE_ALLOC_ERROR" : 1e-6,
+    "NB_CPU" : 4,
+    "FUNDS_STEP" : 1e5,
+    "SUCCESS_THRESHOLD" : 0.01,
+    "DISCRET_STEP": 0.025,
+    "BF_BDAY" : "04/09/1958",
+    "AGE_BIN" : 5,
+    "DEBUG" : false,
+    "MIN_DELTA" : 1e4,
+    "MC_TARGET" : 80e-2,
+    "NB_ITER" : 1000,
+    "MAX_ITER" : 100,
+    "MC_THRESHOLD" : 2e-2,
+    "SEED": 42,
+    "GOALS_COL" : ["Amount", "Start_age", "End_age", "Inflation", "Discretionary"],
+    "ALPHA" : 1e-2,
+    "DELTA_NORM" : 1e6,
+    "MANAGEMENT_FEE": 7e-3,
+    "MORNINGSTAR_DIR": "Morningstar_Asset_Stats",
+    "MORNINGSTAR_ROOT": "Morningstar_asset_stats_"
+  },
+  "user_data" : {
+    "START_FUNDS" : 2.6E6,
+    "TARGET_END_FUNDS" : 1E5,
+    "DEFAULT_INFLATION_RATE" : 0.03,
+    "TARGET_SUCCESS_RATE": 80,
+    "GOALS_FILE" : "./Envision/Envision_Goals_Bernard.xlsx",
+    "DEATH_AGE" : 95,
+    "END_AGE" : 101,
+    "STRATEGY": "80/20"
+  },
+  "pfolio_alloc" : {
+    "STOCKS" : 0.80,
+    "BONDS" : 0.1,
+    "TBILLS" : 0.1,
+    "CASH" : 0.0
+  }
+ }

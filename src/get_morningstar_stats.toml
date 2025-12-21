@@ -1,0 +1,7 @@
+[default]
+url_corr = "https://admainnew.morningstar.com/webhelp/Practice/Plans/Correlation_Matrix_of_the_14_Asset_Classes.htm"
+url_stats = "https://admainnew.morningstar.com/webhelp/dialog_boxes/cs_db_editassumptions.htm"
+nb_smpl = 1000000
+quick_flag = false
+model_file = "./Morningstar_Asset_Stats/Models.xlsx"
+xl_out_name = "./Data/Morningstar_asset_stats"

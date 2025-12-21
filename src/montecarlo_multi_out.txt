@@ -1,0 +1,22 @@
+Using TOML file: src/montecarlo_multi.tomlParameters:{'default_values': {'Discret_step': 0.01,
+                    'Funds_step': 100000.0,
+                    'Max_iter': 50,
+                    'Success_threshold': 1.0,
+                    'nb_cpu': 4,
+                    're_alloc_error': 1e-06,
+                    'run_cnt': 100,
+                    'seed': 42},
+ 'pfolio_alloc': {'Bonds': 0.1, 'Cash': 0.0, 'Stocks': 0.8, 'TBills': 0.1},
+ 'user_data': {'Death_age': 95,
+               'End_age': 101,
+               'default_inflation_rate': 0.03,
+               'goals_file': './Data/Envision_Goals.xlsx',
+               'start_funds': 4000000.0,
+               'target_end_funds': 100000.0,
+               'target_success_rate': 80}}Portfolio Allocations:
+{'Bonds': 0.1, 'Cash': 0.0, 'Stocks': 0.8, 'TBills': 0.1}Start Assets:
+               67
+Stocks  3200000.0
+Bonds    400000.0
+TBills   400000.0
+Cash          0.0#1 Busted 11 times out of 100 -> 11.00%Success: Start Funds: $4,000,000 - Discretionary Mult: 1.000 - Success rate: 89.0% vs target: 80%Success: Start Funds: $4,000,000 - Discretionary Mult: 1.000 - Success rate: 89.0% vs target: 80%Final Asset Deciles: {'Min': '$-244,425.67', 'Max': '$626,673,003.04', 'Avg': '$46,104,029.41', 0: '$-101,459.75', 10: '$1,988,114.24', 20: '$5,854,388.86', 30: '$9,569,655.07', 40: '$15,486,534.87', 50: '$21,980,177.19', 60: '$35,575,627.24', 70: '$54,459,293.00', 80: '$91,972,733.37', 90: '$232,150,877.76'}
