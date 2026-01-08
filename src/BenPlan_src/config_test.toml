@@ -1,0 +1,14 @@
+[default]
+LOG_LEVEL = 'INFO'
+PLOT_DEBUG = true
+SKIP_VENMO = true
+VENMO_DEBUG = false
+VC_DEBUG = false  # Brokerage files
+CORNELIA_DEBUG = false
+MAX_X_LABELS_LENGTH = 24  # Max number of labels written out on X axis of a plot
+dirNamePattern = '\d{4}-\d{2}-\d{2}'
+
+[TestClass]
+HELLO = 'hello'
+my_age = 25
+flag = true

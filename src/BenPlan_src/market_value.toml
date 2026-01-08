@@ -1,0 +1,22 @@
+[default]
+LOG_LEVEL = 'DEBUG'
+PLOT_DEBUG = true
+MAX_X_LABELS_LENGTH = 24  # Max number of labels written out on X axis of a plot
+dirNamePattern = '\d{4}-\d{2}-\d{2}'
+HOME_DIR = '/Users/bfraenkel/Documents/Code/BenPlan/'
+DATA_DIR = 'Holdings/'
+
+[ConfigurationManager]
+PLT_STYLE = 'seaborn-v0_8-deep'
+
+
+[BenPlanProcessor]
+WINDOW = 12  # Window size for rolling average for 12 months
+FYI_DATA = ['VC_Invest', 'VC_Principal', 'Vanguard', 'Kayla']
+
+[DataCleaner]
+QDATE_FORMAT = "%m/%d/%Y"
+DIR_DATE_FORMAT = "%Y-%m-%d"
+
+[DataLoader]
+FILE_NAME_PATTERN = 'WFA_Portfolio_Positions_\d{6}_\d{4}'

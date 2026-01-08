@@ -19,4 +19,29 @@ Using TOML file: src/montecarlo_multi.tomlParameters:{'default_values': {'Discre
 Stocks  3200000.0
 Bonds    400000.0
 TBills   400000.0
-Cash          0.0#1 Busted 11 times out of 100 -> 11.00%Success: Start Funds: $4,000,000 - Discretionary Mult: 1.000 - Success rate: 89.0% vs target: 80%Success: Start Funds: $4,000,000 - Discretionary Mult: 1.000 - Success rate: 89.0% vs target: 80%Final Asset Deciles: {'Min': '$-244,425.67', 'Max': '$626,673,003.04', 'Avg': '$46,104,029.41', 0: '$-101,459.75', 10: '$1,988,114.24', 20: '$5,854,388.86', 30: '$9,569,655.07', 40: '$15,486,534.87', 50: '$21,980,177.19', 60: '$35,575,627.24', 70: '$54,459,293.00', 80: '$91,972,733.37', 90: '$232,150,877.76'}
+Cash          0.0#1 Busted 11 times out of 100 -> 11.00%Success: Start Funds: $4,000,000 - Discretionary Mult: 1.000 - Success rate: 89.0% vs target: 80%Start Assets:
+               67
+Stocks  3120000.0
+Bonds    390000.0
+TBills   390000.0
+Cash          0.0#1 Busted 11 times out of 100 -> 11.00%Success: Start Funds: $3,900,000 - Discretionary Mult: 1.000 - Success rate: 89.0% vs target: 80%Start Assets:
+               67
+Stocks  3040000.0
+Bonds    380000.0
+TBills   380000.0
+Cash          0.0#1 Busted 13 times out of 100 -> 13.00%Success: Start Funds: $3,800,000 - Discretionary Mult: 1.000 - Success rate: 87.0% vs target: 80%Start Assets:
+               67
+Stocks  2960000.0
+Bonds    370000.0
+TBills   370000.0
+Cash          0.0#1 Busted 16 times out of 100 -> 16.00%Success: Start Funds: $3,700,000 - Discretionary Mult: 1.000 - Success rate: 84.0% vs target: 80%Start Assets:
+               67
+Stocks  2880000.0
+Bonds    360000.0
+TBills   360000.0
+Cash          0.0#1 Busted 18 times out of 100 -> 18.00%Success: Start Funds: $3,600,000 - Discretionary Mult: 1.000 - Success rate: 82.0% vs target: 80%Start Assets:
+               67
+Stocks  2800000.0
+Bonds    350000.0
+TBills   350000.0
+Cash          0.0#1 Busted 20 times out of 100 -> 20.00%Success: Start Funds: $3,500,000 - Discretionary Mult: 1.000 - Success rate: 80.0% vs target: 80%Success: Start Funds: $3,500,000 - Discretionary Mult: 1.000 - Success rate: 80.0% vs target: 80%Final Asset Deciles: {'Min': '$-357,020.79', 'Max': '$517,859,816.43', 'Avg': '$34,468,727.94', 0: '$-157,269.98', 10: '$-3,854.07', 20: '$1,648,594.62', 30: '$5,241,617.22', 40: '$9,871,281.00', 50: '$14,007,329.60', 60: '$24,016,388.83', 70: '$40,834,055.47', 80: '$69,408,963.24', 90: '$186,204,453.47'}

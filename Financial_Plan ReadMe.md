@@ -1,6 +1,17 @@
 Financial Plan
 ===
 
+# Synopsis
+
+* Load Config
+* Load goals and compute cashflow by year
+* Load Morningstar stats
+* Load holdings - map to Morningstar asset classes -> generate portfolio with assets, %, Morninstar stats
+  * Option: load other stat sources ... and corresponding holding <-> asset class matcher
+* Run simulation with cashflows and portfolio
+  * Option: "make it work": i.e. adjust spending in down years
+* Show results
+
 # Programs
 | Program | What It Does |
 | --- | --- |
@@ -19,5 +30,4 @@ Financial Plan
 | `MonteCarlo_utilities` | |
 | `asset_stats_util` | |
 | `WF_capital_market_data` | |
-
 

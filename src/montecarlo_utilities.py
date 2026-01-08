@@ -10,26 +10,6 @@ import pandas as pd
 import datetime as dt
 
 DEBUG = False
-Money_format = '$#,##0.00_);[Red]($#,##0.00)'  # Excel cell number format for dollar values
-Zoom_level = 110
-XL_col_width = 11  # Width of a column for $ in Excel
-XL_col_1_width = 18  # Width of 1st column
-
-
-def compute_age_today(dob: str) -> int:
-    """
-    Compute my age today based on my DoB
-    @param dob: DoB
-    @return: age today
-
-    Assume dob has format mm/dd/YYYY
-    """
-    dob_mo, dob_dy, dob_yr = map(int, dob.split('/'))  # extract month, day, year as int
-    dob_dt = dt.datetime(dob_yr, dob_mo, dob_dy)
-    today_dt =dt.datetime.now()
-    age_today_dt = today_dt - dob_dt
-    age_today = int(age_today_dt.days/365)
-    return age_today
 
 
 def process_goals_file(goals_filename: str, dob: str, death_age: int, end_age: int, default_inflation_rate: float) ->\
@@ -47,8 +27,8 @@ def process_goals_file(goals_filename: str, dob: str, death_age: int, end_age: i
     age_today = compute_age_today(dob)  # compute my current age
     # Replace strings Death and End with numeric values
     goals_df_age = df_in[['Start_age', 'End_age']]
-    goals_df_age = goals_df_age.applymap(lambda x: death_age if x == "Death" else x)
-    goals_df_age = goals_df_age.applymap(lambda x: end_age if x == "End" else x)
+    goals_df_age = goals_df_age.map(lambda x: death_age if x == "Death" else x)
+    goals_df_age = goals_df_age.map(lambda x: end_age if x == "End" else x)
     goals_df_start = goals_df_age['Start_age'].apply(lambda x: age_today if x < age_today else x)
     goals_df_end = goals_df_age['End_age'].apply(lambda x: end_age if x > end_age else x)
     # Handle inflation
@@ -143,85 +123,4 @@ def linear_transform_fastest(M_in, slope, intercept):
         M.loc[i, :] *= slope[i]
         M.loc[i, :] += intercept[i]
     return M
-
-
-def get_program_name():
-    return re.sub("\.py$", "", os.path.relpath(sys.argv[0]))
-
-
-def make_date_string() -> str:
-    return dt.datetime.strftime(dt.datetime.now(), "%Y-%m-%d")
-
-
-def mv_last_n_to_front(lst, n):
-    """ Moves the last n elements of a list to first positions (in the same order """
-    return lst[len(lst)-n:]+lst[:-n]
-
-
-def mv_last_n_col_to_front(df, n):
-    """ Moves the last n columns of a DF to first positions (in the same order """
-    col = list(df.columns)
-    return df[mv_last_n_to_front(col, n)]
-
-
-def linear_transform_on_matrix(col, v, w):
-    """
-    Linear transformation on a matrix
-    Given a matrix M, and vector X with columns ['a', 'b'], perform y = a*x + b for each cell x
-    R[i,j] = M[i,j] * X['a'][j] +  X['b'][j]  - by row
-    R[i,j] = M[i,j] * X['a'][i] +  X['b'][i]  - by column
-
-    # FYI: Note that the index/column values need to be reset after the apply operation
-    """
-    return pd.Series([float(x * y + z) for x, y, z in zip(col.values, v.values, w.values)])
-
-
-def print_df(df, msg=None, verbose=False):
-    """ Print troubleshooting info on a DF """
-    if msg is None:
-        print(f"{msg}: {len(df.index)} rows")
-    if verbose:
-        print(f"Columns: {df.columns}")
-        print(f"Index: {df.index}")
-        print(df.head())
-        print('/* ... */')
-        print(df.tail())
-        print('/* --------- */')
-    return
-
-
-def print_out(outfile, msg='\n'):
-    """ Prints message to both outfile and terminal
-    :rtype: None
-    """
-    print(msg)
-    outfile.write(msg)
-    return
-
-
-def write_nice_df_2_xl(xlw: pandas.ExcelWriter, df: pandas.DataFrame, sheet: str, index=False, mv_last=None) -> None:
-    """
-    Writes to an Excel worksheet and formats nicely a DF whose values represent $
-    """
-    if mv_last:  # Move last columns to front
-        df = mv_last_n_col_to_front(df, mv_last)
-    df.to_excel(xlw, sheet_name=sheet, float_format='%.2f', header=True, index=index)
-    # Format the data in the worksheet
-    workbook = xlw.book
-    money_fmt = workbook.add_format({'num_format': Money_format})
-    # bg_color does not seem to work
-    header_row_fmt = workbook.add_format({'bold': True, 'align': 'center'})
-    header_col_fmt = workbook.add_format({'bold': True, 'align': 'left'})
-    worksheet = xlw.sheets[sheet]
-    worksheet.set_zoom(Zoom_level)
-    if mv_last:
-        worksheet.freeze_panes(1, 1+mv_last)
-    else:
-        worksheet.freeze_panes(1, 1)
-    # Format header row, header col and data cells by column
-    worksheet.set_row(0, None, header_row_fmt)
-    worksheet.set_column(0, 0, XL_col_1_width, header_col_fmt)
-    worksheet.set_column(1, len(df.columns), XL_col_width, money_fmt)
-    return
-
 
