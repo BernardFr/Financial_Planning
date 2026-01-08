@@ -30,7 +30,6 @@ from bs4 import BeautifulSoup
 # Use helper functions from Color_Map
 sys.path.insert(0, '../Color_Map/')  # Add path to the directory containing plot_color_matrix
 from plot_color_matrix import plot_color_matrix as pcm
-import utilities as ut
 from configuration_manager_class import ConfigurationManager
 from logger import logger
 from typing import List
@@ -42,43 +41,6 @@ QuickFlagDefault = False
 # numbers across runs
 RvsRandomState = 42
 
-
-
-# FYI: DF_STAT_NAMES and DF_CORR_NAMES are the names of the assets in the 2 dataframes - they NEED to be in the same
-#  order
-DF_STAT_NAMES = [
-        "US Large Cap Growth",
-        "US Large Cap Value",
-        "US Mid Cap Growth",
-        "US Mid Cap Value",
-        "US Small Cap Growth",
-        "US Small Cap Value",
-        "Non-US Dev Stk",
-        "Non-US Emrg Stk",
-        "US Inv Grade Bonds",
-        "US High Yield Bonds",
-        "Non-US Dev Bonds",
-        "Cash",
-        "Commodities",
-        "Real Estate",
-]
-
-DF_CORR_NAMES = [
-        "U.S. Lg Cap Growth",
-        "U.S. Lg Cap Val",
-        "U.S. Mid Cap Growth",
-        "U.S. Mid Cap Val",
-        "U.S. Sm Cap Growth",
-        "U.S. Sm Cap Val",
-        "Foreign Industrialzed Mkts Stocks",
-        "Emerging Mkts Stks",
-        "U.S. Investment Grade Bonds",
-        "U.S. High Yield Bonds",
-        "Non-U.S. Bonds",
-        "Cash",
-        "Commodities",
-        "Real Estate",
-]
 
 
 class MorningstarStats:
@@ -94,7 +56,8 @@ class MorningstarStats:
         self.must_have_param = self.config['must_have_param']
         self.XLabelLen = self.config.get('XLabelLen', XLabelLenDefault)
         self.quick_flag = self.config.get('quick_flag', QuickFlagDefault)
-
+        self.df_stat_names = self.config['DF_STAT_NAMES']
+        self.df_corr_names = self.config['DF_CORR_NAMES']
 
     def _make_xlabel(in_str: str, label_len) -> str:
         """
@@ -103,8 +66,6 @@ class MorningstarStats:
         # remove white space
         in_str = in_str.replace(' ', '')
         return in_str[0:label_len]
-
-
 
     def get_asset_stats(self) -> (pd.DataFrame, pd.DataFrame):
         """
@@ -135,8 +96,19 @@ class MorningstarStats:
         """
         Remap the names in names according to the mapping of old_names new_names
         """
+        # Check that df_stat and df_corr indexes match DF_STAT_NAMES and DF_CORR_NAMES
+        error_flag = False
+        if set(list(self.df_stat.index)) != set(self.df_stat_names):
+            error_flag = True
+        if set(list(self.df_corr.index)) != set(self.df_corr_names):
+            error_flag = True
+            logger.error(f"df_corr index: {list(self.df_corr.index)} does not match DF_CORR_NAMES: {self.df_corr_names}")
+        if error_flag:
+            logger.error(f"Error in remapping names")
+            exit(-1)
+
         # New desired values
-        remap_dict = dict(zip(DF_STAT_NAMES, DF_CORR_NAMES))
+        remap_dict = dict(zip(self.df_stat_names, self.df_corr_names))
         asset_class_names = [remap_dict.get(x, "Error") for x in self.df_stat.index]  # remap
         if "Error" in asset_class_names:
             logger.error(f"Error(s) in remapping names: {self.df_stat.index} -> {asset_class_names}")
@@ -152,96 +124,138 @@ class MorningstarStats:
     def _get_morningstar_stats(self) -> pd.DataFrame:
         url_stats = self.config['url_stats']
         try:
-            response = requests.get(url_stats)
-        except (requests.exceptions.RequestException, requests.exceptions.ConnectionError) as e:
+            response = requests.get(url_stats, timeout=30)
+            response.raise_for_status()  # Raises an HTTPError for bad responses
+        except requests.exceptions.RequestException as e:
             logger.error(f"Failed to retrieve the page for URL_STATS Error: {e}\nURL: {url_stats}")
             return None
-        # Check if the request was successful
-        if response.status_code == 200:
-            # Parse the HTML content
-            soup = BeautifulSoup(response.content, 'html.parser')
-            # Find the paragraph containing the Morningstar Basic Statistics which is a class of "Tip-Note-Heading"
-            element_all = soup.find_all("p", {"class": "Tip-Note-Heading"})
-            # find the one that has text 'ETF Database Themes'
-            for elt in element_all:
-                if elt.text.strip() == "Morningstar Basic":
-                    # print(f"\nelement: {elt.text}")
-                    break
-            # Find the first table after elt containing the Morningstar Basic Statistics which is a class of "MsoTableGrid"
-            if elt is not None:
-                tbl = elt.find_next("table", {"class": "MsoTableGrid"})
-            else:
-                exit(-1)
-            # print(f"tbl: {tbl}")
-
-            tbl_row = tbl.find_all('tr')
-            for idx, row in enumerate(tbl_row):
-                row_list = []
-                for td in row.find_all('td'):
-                    row_list.append(td.text.strip())
-                if idx == 0:
-                    col_names = row_list
-                    result_df = pd.DataFrame(columns=col_names)
-                else:
-                    result_df.loc[idx - 1] = row_list
-        else:
-            logger.info(f"Failed to retrieve the page for url {url_stats} Status code: {response.status_code}")
+        
+        # Parse the HTML content
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        # Find the paragraph containing the Morningstar Basic Statistics
+        element_all = soup.find_all("p", {"class": "Tip-Note-Heading"})
+        elt = None
+        for element in element_all:
+            if element.text.strip() == "Morningstar Basic":
+                elt = element
+                break
+        
+        if elt is None:
+            logger.error(f"Could not find 'Morningstar Basic' heading in page: {url_stats}")
+            return None
+        
+        # Find the first table after elt containing the Morningstar Basic Statistics
+        tbl = elt.find_next("table", {"class": "MsoTableGrid"})
+        if tbl is None:
+            logger.error(f"Could not find table with class 'MsoTableGrid' after 'Morningstar Basic' heading")
             return None
 
+        # Build rows more efficiently - collect all rows first, then create DataFrame
+        tbl_rows = tbl.find_all('tr')
+        if not tbl_rows:
+            logger.error("Table has no rows")
+            return None
+        
+        # Extract column names from first row
+        col_names = [td.text.strip() for td in tbl_rows[0].find_all('td')]
+        if not col_names:
+            logger.error("Table has no columns")
+            return None
+        
+        # Build data rows using list comprehension for better performance
+        data_rows = [[td.text.strip() for td in row.find_all('td')] for row in tbl_rows[1:]]
+        
+        # Create DataFrame in one operation instead of row-by-row
+        result_df = pd.DataFrame(data_rows, columns=col_names)
+
         # Make Asset Class the index
+        if 'Asset Class' not in result_df.columns:
+            logger.error(f"'Asset Class' column not found. Available columns: {result_df.columns.tolist()}")
+            return None
+        
         result_df.set_index('Asset Class', inplace=True)
-        result_df = result_df.astype(float)
-        if 'Inflation' in result_df.index:  # get rid of it
+        
+        # Convert to float, handling any non-numeric values
+        try:
+            result_df = result_df.astype(float)
+        except ValueError as e:
+            logger.error(f"Error converting table data to float: {e}")
+            return None
+        
+        # Remove Inflation if present
+        if 'Inflation' in result_df.index:
             logger.info('Removing Inflation from Stats')
             result_df.drop(labels='Inflation', axis=0, inplace=True)
+        
         return result_df
 
 
     def _get_morningstar_corr(self) -> pd.DataFrame:
         url_corr = self.config['url_corr']
         try:
-            response = requests.get(url_corr)
-        except (requests.exceptions.RequestException, requests.exceptions.ConnectionError) as e:
-            logger.info(f"Failed to retrieve the page for URL_CORR Error: {e}\nURL: {url_corr}")
+            response = requests.get(url_corr, timeout=30)
+            response.raise_for_status()  # Raises an HTTPError for bad responses
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Failed to retrieve the page for URL_CORR Error: {e}\nURL: {url_corr}")
             return None
-        # Check if the request was successful
-        if response.status_code == 200:
-            # Parse the HTML content
-            soup = BeautifulSoup(response.content, 'html.parser')
-            # Find the paragraph containing the Morningstar Basic Statistics which is a class of "Tip-Note-Heading"
-            element_all = soup.find_all("h1")
-            # print(f"element_all: {element_all}")
-            # find the one that has text 'ETF Database Themes'
-            for elt in element_all:
-                if elt.text.strip() == "Correlation Matrix for the 14 Asset Classes":
-                    # print(f"\nelement: {elt.text}")
-                    break
-            # Find the first table after elt containing the Morningstar Basic Statistics which is a class of "MsoTableGrid"
-            if elt is not None:
-                tbl = elt.find_next("table")
-            else:
-                exit(-1)
-            # print(f"tbl: {tbl}")
+        
+        # Parse the HTML content
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        # Find the h1 heading containing the correlation matrix title
+        element_all = soup.find_all("h1")
+        elt = None
+        for element in element_all:
+            if element.text.strip() == "Correlation Matrix for the 14 Asset Classes":
+                elt = element
+                break
+        
+        if elt is None:
+            logger.error(f"Could not find 'Correlation Matrix for the 14 Asset Classes' heading in page: {url_corr}")
+            return None
+        
+        # Find the first table after elt
+        tbl = elt.find_next("table")
+        if tbl is None:
+            logger.error(f"Could not find table after 'Correlation Matrix for the 14 Asset Classes' heading")
+            return None
 
-            tbl_row = tbl.find_all('tr')
-            for idx, row in enumerate(tbl_row):
-                row_list = []
-                for td in row.find_all('td'):
-                    row_list.append(td.text.strip())
-                # print(f"\nrow_list: {row_list}")
-                if idx == 0:
-                    row_list[0] = "Asset Class"
-                    col_names = row_list
-                    result_df = pd.DataFrame(columns=col_names)
-                else:
-                    result_df.loc[idx - 1] = row_list
-        else:
-            logger.info(f"Failed to retrieve the page for url {url_corr} Status code: {response.status_code}")
+        # Build rows more efficiently - collect all rows first, then create DataFrame
+        tbl_rows = tbl.find_all('tr')
+        if not tbl_rows:
+            logger.error("Table has no rows")
             return None
+        
+        # Extract column names from first row and fix the first column name
+        col_names = [td.text.strip() for td in tbl_rows[0].find_all('td')]
+        if not col_names:
+            logger.error("Table has no columns")
+            return None
+        
+        # Fix the first column name to "Asset Class" (as per original logic)
+        col_names[0] = "Asset Class"
+        
+        # Build data rows using list comprehension for better performance
+        data_rows = [[td.text.strip() for td in row.find_all('td')] for row in tbl_rows[1:]]
+        
+        # Create DataFrame in one operation instead of row-by-row
+        result_df = pd.DataFrame(data_rows, columns=col_names)
 
         # Make Asset Class the index
+        if 'Asset Class' not in result_df.columns:
+            logger.error(f"'Asset Class' column not found. Available columns: {result_df.columns.tolist()}")
+            return None
+        
         result_df.set_index('Asset Class', inplace=True)
-        result_df = result_df.astype(float)
+        
+        # Convert to float, handling any non-numeric values
+        try:
+            result_df = result_df.astype(float)
+        except ValueError as e:
+            logger.error(f"Error converting correlation matrix data to float: {e}")
+            return None
+        
         return result_df
 
 # --------------------------

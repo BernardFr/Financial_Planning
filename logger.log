@@ -41,3 +41,121 @@ Commodities                                     0.124              0.141  ...   
 Real Estate                                     0.444              0.588  ...        0.159        1.000
 
 [14 rows x 14 columns]
+2026-01-07 18:22:22,260 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-07 18:31:08,629 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-07 18:31:09,081 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-07 18:31:09,097 - Financial_Plan - INFO - 
+Asset Class Correlations
+                                   U.S. Lg Cap Growth  U.S. Lg Cap Value  ...  Commodities  Real Estate
+Asset Class                                                               ...                          
+U.S. Lg Cap Growth                              1.000              0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848              1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896              0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740              0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856              0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718              0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582              0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517              0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189              0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528              0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005             -0.008  ...       -0.076       -0.001
+Cash                                            0.023              0.052  ...       -0.163       -0.050
+Commodities                                     0.124              0.141  ...        1.000        0.159
+Real Estate                                     0.444              0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-07 18:38:13,121 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-07 18:38:13,549 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-07 18:38:13,563 - Financial_Plan - INFO - 
+Asset Class Correlations
+                                   U.S. Lg Cap Growth  U.S. Lg Cap Value  ...  Commodities  Real Estate
+Asset Class                                                               ...                          
+U.S. Lg Cap Growth                              1.000              0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848              1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896              0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740              0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856              0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718              0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582              0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517              0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189              0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528              0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005             -0.008  ...       -0.076       -0.001
+Cash                                            0.023              0.052  ...       -0.163       -0.050
+Commodities                                     0.124              0.141  ...        1.000        0.159
+Real Estate                                     0.444              0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-07 18:38:56,712 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-07 18:38:57,080 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-07 18:38:57,096 - Financial_Plan - INFO - 
+Asset Class Correlations
+                                   U.S. Lg Cap Growth  U.S. Lg Cap Value  ...  Commodities  Real Estate
+Asset Class                                                               ...                          
+U.S. Lg Cap Growth                              1.000              0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848              1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896              0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740              0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856              0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718              0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582              0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517              0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189              0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528              0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005             -0.008  ...       -0.076       -0.001
+Cash                                            0.023              0.052  ...       -0.163       -0.050
+Commodities                                     0.124              0.141  ...        1.000        0.159
+Real Estate                                     0.444              0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]

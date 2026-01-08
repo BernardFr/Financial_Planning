@@ -38,3 +38,39 @@ url_stats = "https://admainnew.morningstar.com/webhelp/dialog_boxes/cs_db_editas
 nb_smpl = 1000000
 model_file = "./Data/Morningstar_Asset_Stats/Models.xlsx"
 xl_out_name = "./Data/Morningstar_asset_stats"
+# FYI: DF_STAT_NAMES and DF_CORR_NAMES are the names of the assets in the 2 dataframes - they NEED to be in the same
+#  order
+DF_STAT_NAMES = [
+        "US Large Cap Growth",
+        "US Large Cap Value",
+        "US Mid Cap Growth",
+        "US Mid Cap Value",
+        "US Small Cap Growth",
+        "US Small Cap Value",
+        "Non-US Dev Stk",
+        "Non-US Emrg Stk",
+        "US Inv Grade Bonds",
+        "US High Yield Bonds",
+        "Non-US Dev Bonds",
+        "Cash",
+        "Commodities",
+        "Real Estate",
+]
+
+DF_CORR_NAMES = [
+        "U.S. Lg Cap Growth",
+        "U.S. Lg Cap Val",
+        "U.S. Mid Cap Growth",
+        "U.S. Mid Cap Val",
+        "U.S. Sm Cap Growth",
+        "U.S. Sm Cap Val",
+        "Foreign Industrialzed Mkts Stocks",
+        "Emerging Mkts Stks",
+        "U.S. Investment Grade Bonds",
+        "U.S. High Yield Bonds",
+        "Non-U.S. Bonds",
+        "Cash",
+        "Commodities",
+        "Real Estate",
+]
+

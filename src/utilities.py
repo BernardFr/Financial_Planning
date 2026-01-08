@@ -16,6 +16,7 @@ Zoom_level = 110
 XL_col_width = 11  # Width of a column for $ in Excel
 XL_col_1_width = 18  # Width of 1st column
 
+
 def make_date_string() -> str:
     return dt.datetime.strftime(dt.datetime.now(), "%Y-%m-%d")
 
