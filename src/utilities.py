@@ -1,3 +1,6 @@
+import os
+import re
+import sys
 import pandas as pd
 import datetime as dt
 import matplotlib.pyplot as plt
@@ -16,6 +19,14 @@ Money_format = '$#,##0.00_);[Red]($#,##0.00)'  # Excel cell number format for do
 Zoom_level = 110
 XL_col_width = 11  # Width of a column for $ in Excel
 XL_col_1_width = 18  # Width of 1st column
+
+def get_prog_name() -> str:
+    """ Get the program name from the path """
+    basename = os.path.basename(sys.argv[0])
+    prog_name = re.sub("\\.py$", "", basename)
+
+    return prog_name
+
 
 def error_exit(error_message: str) -> None:
     """ Exit the program with an error message """

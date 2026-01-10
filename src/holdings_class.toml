@@ -1,0 +1,20 @@
+[default]
+run_cnt = 100
+Max_iter = 50
+BF_BDAY = '04/09/1958'
+End_age = 101
+PLT_STYLE = 'seaborn-v0_8-deep'
+
+[Holdings]
+LOG_LEVEL = 'DEBUG'
+PLOT_DEBUG = true
+MAX_X_LABELS_LENGTH = 24  # Max number of labels written out on X axis of a plot
+dirNamePattern = '\d{4}-\d{2}-\d{2}'
+DATA_DIR = '/Users/bfraenkel/Documents/Code/BenPlan/Holdings/'
+PLT_STYLE = 'seaborn-v0_8-deep'
+QDATE_FORMAT = "%m/%d/%Y"
+DIR_DATE_FORMAT = "%Y-%m-%d"
+FILE_NAME_PATTERN = 'WFA_Portfolio_Positions_\d{6}_\d{4}'
+Cols_2_Keep = ['Symbol', 'Account Number','Shares', 'Market Value' , 'Tax Term']
+Detail_Columns = ['Account Number', 'Tax Term']
+Cash_Amount_String = "Total Cash/Cash Alternatives & Margin"  # this is the string in the

@@ -42,6 +42,8 @@ QuickFlagDefault = False
 # numbers across runs
 RvsRandomState = 42
 
+DEBUG_FLAG = False
+
 
 def matrix_equal(df_1: pd.DataFrame, df_2: pd.DataFrame, error_margin: float) -> (bool, float):
     """
@@ -59,11 +61,10 @@ def matrix_equal(df_1: pd.DataFrame, df_2: pd.DataFrame, error_margin: float) ->
                                                 f"{df_1.index}\n{df_2.index}"
     delta = df_1 - df_2
     # denom is the total number of samples in each DF
-    denom = len(df_1.index) if df_1.ndim == 1 else len(df_1.index) * len(df_1.columns)
+    denom = len(df_1.index) if df_1.ndim == 1 else len(df_1.index) * len(df_1.columns)  # needed to handle 1-dimensional DF
     err = np.linalg.norm(delta) / denom
-    flag = True if abs(err) <= error_margin else False
+    flag = True if abs(err) <= abs(error_margin) else False
     return flag, err
-
 
 
 
@@ -106,14 +107,10 @@ class MorningstarStats:
             return self.df_stat, self.df_corr
 
         # else, we have to compute them
-        if not hasattr(self, 'df_stat'):
-            self.df_stat = self._get_morningstar_stats()
-        if not hasattr(self, 'df_corr'):
-            self.df_corr = self._get_morningstar_corr()
-
+        self.df_stat = self._get_morningstar_stats()
+        self.df_corr = self._get_morningstar_corr()
         # Remap the name of asset classes to match the names in df_corr
         self._remap_names()
-        # Force the index of df_stat to be asset_class_names
 
         return self.df_stat, self.df_corr
 
@@ -324,8 +321,7 @@ class MorningstarStats:
         for idx, cl in enumerate(self.df_corr.columns):  # normalize the rows
             self.df_corr[cl] *= diag_inv[idx]
         if not self._eigen_values_positive():
-            logger.error(f"Failed to create a correlation matrix")
-            exit(-1)
+            error_exit(f"Failed to create a correlation matrix")
         return self.df_corr
 
 
@@ -343,12 +339,10 @@ class MorningstarStats:
         try:
             eigen_values = np.linalg.eigvals(self.df_corr.astype(float))
         except np.linalg.LinAlgError as e:
-            logger.error(f"correlated_rvs could not converge on eigen value decomposition")
-            exit(-1)
+            error_exit(f"correlated_rvs could not converge on eigen value decomposition: {e}")
         negative_eigen = [eigen < 0 for eigen in eigen_values ]
         if any(negative_eigen):
-            logger.error(f"correlated_rvs cannot handle matrices with negative eigen values:\n{eigen_values}")
-            exit(-1)
+            error_exit(f"correlated_rvs cannot handle matrices with negative eigen values:\n{eigen_values}")
 
 
         data_series_list = []  # list of nb_asset data series
@@ -356,36 +350,39 @@ class MorningstarStats:
         stddev_list = list[float](self.df_stat['Standard Deviation'].values)
         # Create nb_asset lists of nb_smpl random variables
         for _ in range(len(self.df_stat.index)):
-            # ToFix the random_state option is supposed to make the random number generator repeatable - however it
-            #  seems to break mean/loc and scale/stddev
-            # x1 = norm.rvs(size=nb_smpl, loc=0.0, scale=1.0, random_state=RvsRandomState)  # create a series w/ the desired
             x1 = norm.rvs(size=self.nb_smpl, loc=0.0, scale=1.0)  # create a series w/ the desired stats
             data_series_list.append(x1)  # add data series list to list of lists
         
         c_matrix = cholesky(self.df_corr, lower=True)
         data_df = pd.DataFrame(np.dot(c_matrix, data_series_list), index=self.df_stat.index)
         
-        # Assign the desired mean and std_dev to each series
+        # Assign the desired mean and std_dev to each row
         def mk_lin_interp(mean_val, std_val):
             def f(x):
                 return mean_val + std_val * x
             return f
+        rvs_df = pd.DataFrame(index=self.df_stat.index, columns=range(self.nb_smpl))
         for rw, mn, stdv in zip(data_df.index, return_list, stddev_list):
-            data_df.loc[rw] = data_df.loc[rw].map(mk_lin_interp(mn, stdv))
+            rvs_df.loc[rw] = data_df.loc[rw].map(mk_lin_interp(mn, stdv))
+        if DEBUG_FLAG:
+            for nn,idx in enumerate(self.df_stat.index):
+                print(f'{idx} {return_list[nn]} -  {data_df.loc[idx].mean()} - {rvs_df.loc[idx].mean()}')
+                print(f'{idx} {stddev_list[nn]} -  {data_df.loc[idx].std()} - {rvs_df.loc[idx].std()}')
 
-        if self.validate_cross_correlation_flag:
+        if self.validate_cross_correlation_flag or DEBUG_FLAG:
             logger.info(f'Validating cross-correlation matrix')
-            mean_validate, stddev_validate, corr_validate = self._validate_cross_correlation(data_df)
-            if  mean_validate and  stddev_validate   and corr_validate:
+            mean_validate, mean_error, stddev_validate, stddev_error, corr_validate, corr_error = self._validate_cross_correlation(rvs_df)
+            if  mean_validate and  stddev_validate  and corr_validate:
                 logger.info(f"Successfully validated cross-correlation matrix")
             else:
-                error_exit(f"Failed to validate cross-correlation matrix:\nMean Validation: {mean_validate}\nStddev Validation: {stddev_validate}\nCorrelation Validation: {corr_validate}")
+                logger.error(f"Mean Error: {mean_error}\nStddev Error: {stddev_error}\nCorrelation Error: {corr_error}")
+                error_exit(f"Failed to validate cross-correlation matrix")
         else:
             logger.info(f'Skipping Validation of cross-correlation matrix')
-        return data_df
+        return rvs_df
 
 
-    def _validate_cross_correlation(self,data_df: pd.DataFrame) -> [bool]:
+    def _validate_cross_correlation(self,data_df: pd.DataFrame) -> [bool, float, bool, float, bool, float]:
         """
         Validate that a data series has the statistics and cross-correlation passed as parameters
         @param data_df: NxM DF - N series of M samples
@@ -394,8 +391,6 @@ class MorningstarStats:
         @param error_margin: margin of error when testing equality
         @return: True if validation passes
         """
-        fct_name = sys._getframe().f_code.co_name
-        error_margin = self.validation_error_margin
         logger.debug(f'data_df.index: {data_df.index}')
         logger.debug(f'self.df_stat.index: {self.df_stat.index}')
         logger.debug(f'self.df_corr.index: {self.df_corr.index}')
@@ -415,19 +410,20 @@ class MorningstarStats:
             logger.error(f'self.df_corr.index: {self.df_corr.index}')
             logger.error(f'self.df_corr.columns: {self.df_corr.columns}')
             exit(-1)
-        mean_ser = data_df.mean(axis=1)
 
+        error_margin = self.validation_error_margin
         # FYI: the _validate variables are (flag, error) tuples
-        mean_validate, _ = matrix_equal(mean_ser, self.df_stat.iloc[:,0], error_margin)  # mean is the first column
+        mean_ser = data_df.mean(axis=1)
+        mean_validate, mean_error = matrix_equal(mean_ser, self.df_stat.iloc[:,0], error_margin)  # mean is the first column
 
         std_ser = data_df.std(axis=1)
-        stddev_validate, _ = matrix_equal(std_ser, self.df_stat.iloc[:,1], error_margin)  # std_dev is second column
+        stddev_validate, stddev_error = matrix_equal(std_ser, self.df_stat.iloc[:,1], error_margin)  # std_dev is second column
 
         # IMPORTANT: astype(float) is needed otherwise, corr() returns empty DF
         data_corr = data_df.T.astype(float).corr()  # Corr works on columns
-        corr_validate, _ = matrix_equal(data_corr, self.df_corr, error_margin)
+        corr_validate, corr_error = matrix_equal(data_corr, self.df_corr, error_margin)
 
-        return mean_validate,  stddev_validate, corr_validate
+        return mean_validate,  mean_error, stddev_validate, stddev_error, corr_validate, corr_error
 
 
 
@@ -517,6 +513,8 @@ def main_old(argv):
     logger.info(f"\nNorm of Delta Matrix (should be 0.0): {matrix_norm(delta, ord='fro')}\n")
     delta.to_excel(xl_wr, sheet_name='delta', float_format='%0.2f', header=True, index=True)
 
+    # --- HERE ---
+
     # Perform portfolio mapping from Ben's Portfolio
     alloc_df = pd.read_excel(model_file, sheet_name='Models', header=0, engine='openpyxl')
     alloc_df.to_excel(xl_wr, sheet_name='Mappings', float_format='%0.2f', header=True, index=True)
@@ -558,7 +556,8 @@ def main(cmd_line: List[str]):
     logger.info(f'\nAsset Class Statistics\n{df_stat}')
     logger.info(f'\nAsset Class Correlations\n{df_corr}')
     correlated_rvs = morningstar_stats.generate_correlated_rvs()
-    logger.info(f'\nCorrelated Random Variables\n{correlated_rvs}')
+    if DEBUG_FLAG:
+        logger.info(f'\nCorrelated Random Variables\n{correlated_rvs}')
 
 
 if __name__ == '__main__':
