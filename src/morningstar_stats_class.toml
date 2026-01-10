@@ -36,41 +36,27 @@ quick_flag = false
 url_corr = "https://admainnew.morningstar.com/webhelp/Practice/Plans/Correlation_Matrix_of_the_14_Asset_Classes.htm"
 url_stats = "https://admainnew.morningstar.com/webhelp/dialog_boxes/cs_db_editassumptions.htm"
 nb_smpl = 1000000
+validate_cross_correlation_flag = true
+validation_error_margin = 1e-3 
 model_file = "./Data/Morningstar_Asset_Stats/Models.xlsx"
 xl_out_name = "./Data/Morningstar_asset_stats"
-# FYI: DF_STAT_NAMES and DF_CORR_NAMES are the names of the assets in the 2 dataframes - they NEED to be in the same
-#  order
-DF_STAT_NAMES = [
-        "US Large Cap Growth",
-        "US Large Cap Value",
-        "US Mid Cap Growth",
-        "US Mid Cap Value",
-        "US Small Cap Growth",
-        "US Small Cap Value",
-        "Non-US Dev Stk",
-        "Non-US Emrg Stk",
-        "US Inv Grade Bonds",
-        "US High Yield Bonds",
-        "Non-US Dev Bonds",
-        "Cash",
-        "Commodities",
-        "Real Estate",
+
+# Dict to map the Morningstar asset statistics labels to those of Morningstar Correlations
+STAT_CORR_NAME_MAP = [
+        ["US Large Cap Growth", "U.S. Lg Cap Growth"],
+        ["US Large Cap Value", "U.S. Lg Cap Val"],
+        ["US Mid Cap Growth", "U.S. Mid Cap Growth"],
+        ["US Mid Cap Value",  "U.S. Mid Cap Val"],
+        ["US Small Cap Growth", "U.S. Sm Cap Growth"],
+        ["US Small Cap Value", "U.S. Sm Cap Val"],
+        ["Non-US Dev Stk", "Foreign Industrialzed Mkts Stocks"],
+        ["Non-US Emrg Stk", "Emerging Mkts Stks"], 
+        ["US Inv Grade Bonds", "U.S. Investment Grade Bonds"],
+        ["US High Yield Bonds", "U.S. High Yield Bonds"],
+        ["Non-US Dev Bonds", "Non-U.S. Bonds"],
+        ["Cash", "Cash"],
+        ["Commodities", "Commodities"],
+        ["Real Estate", "Real Estate"]
 ]
 
-DF_CORR_NAMES = [
-        "U.S. Lg Cap Growth",
-        "U.S. Lg Cap Val",
-        "U.S. Mid Cap Growth",
-        "U.S. Mid Cap Val",
-        "U.S. Sm Cap Growth",
-        "U.S. Sm Cap Val",
-        "Foreign Industrialzed Mkts Stocks",
-        "Emerging Mkts Stks",
-        "U.S. Investment Grade Bonds",
-        "U.S. High Yield Bonds",
-        "Non-U.S. Bonds",
-        "Cash",
-        "Commodities",
-        "Real Estate",
-]
 

@@ -3,6 +3,7 @@ import datetime as dt
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 from matplotlib.backends.backend_pdf import PdfPages
+from logger import logger
 
 Money_format = '$#,##0.00_);[Red]($#,##0.00)'  # Excel cell number format for dollar values
 Zoom_level = 110
@@ -16,6 +17,10 @@ Zoom_level = 110
 XL_col_width = 11  # Width of a column for $ in Excel
 XL_col_1_width = 18  # Width of 1st column
 
+def error_exit(error_message: str) -> None:
+    """ Exit the program with an error message """
+    logger.error(error_message)
+    exit(-1)
 
 def make_date_string() -> str:
     return dt.datetime.strftime(dt.datetime.now(), "%Y-%m-%d")
