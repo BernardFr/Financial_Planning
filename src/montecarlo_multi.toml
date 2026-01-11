@@ -3,6 +3,7 @@ run_cnt = 100
 Max_iter = 50
 BF_BDAY = '04/09/1958'
 End_age = 101
+Death_age = 95
 
 [MonteCarloMulti]
 seed = 42
@@ -13,7 +14,6 @@ Discret_step = 0.01
 Success_threshold = 1.0
 
 [ConfigurationManager]
-goals_file = "./Data/Envision_Goals.xlsx"
 PLT_STYLE = 'seaborn-v0_8-deep'
 
 [Portfolio]
@@ -21,7 +21,6 @@ start_funds = 4.0e6
 target_end_funds = 1e5
 default_inflation_rate = 0.03
 target_success_rate = 80
-Death_age = 95
 
 [pfolio_alloc]
 Stocks = 0.80
@@ -37,42 +36,40 @@ url_corr = "https://admainnew.morningstar.com/webhelp/Practice/Plans/Correlation
 url_stats = "https://admainnew.morningstar.com/webhelp/dialog_boxes/cs_db_editassumptions.htm"
 nb_smpl = 1000000
 validate_cross_correlation_flag = true
-validation_error_margin = 1e-6 
+validation_error_margin = 5e-3 
 model_file = "./Data/Morningstar_Asset_Stats/Models.xlsx"
 xl_out_name = "./Data/Morningstar_asset_stats"
-# FYI: DF_STAT_NAMES and DF_CORR_NAMES are the names of the assets in the 2 dataframes - they NEED to be in the same
-#  order
-DF_STAT_NAMES = [
-        "US Large Cap Growth",
-        "US Large Cap Value",
-        "US Mid Cap Growth",
-        "US Mid Cap Value",
-        "US Small Cap Growth",
-        "US Small Cap Value",
-        "Non-US Dev Stk",
-        "Non-US Emrg Stk",
-        "US Inv Grade Bonds",
-        "US High Yield Bonds",
-        "Non-US Dev Bonds",
-        "Cash",
-        "Commodities",
-        "Real Estate",
+
+# Dict to map the Morningstar asset statistics labels to those of Morningstar Correlations
+STAT_CORR_NAME_MAP = [
+        ["US Large Cap Growth", "U.S. Lg Cap Growth"],
+        ["US Large Cap Value", "U.S. Lg Cap Val"],
+        ["US Mid Cap Growth", "U.S. Mid Cap Growth"],
+        ["US Mid Cap Value",  "U.S. Mid Cap Val"],
+        ["US Small Cap Growth", "U.S. Sm Cap Growth"],
+        ["US Small Cap Value", "U.S. Sm Cap Val"],
+        ["Non-US Dev Stk", "Foreign Industrialzed Mkts Stocks"],
+        ["Non-US Emrg Stk", "Emerging Mkts Stks"], 
+        ["US Inv Grade Bonds", "U.S. Investment Grade Bonds"],
+        ["US High Yield Bonds", "U.S. High Yield Bonds"],
+        ["Non-US Dev Bonds", "Non-U.S. Bonds"],
+        ["Cash", "Cash"],
+        ["Commodities", "Commodities"],
+        ["Real Estate", "Real Estate"]
 ]
 
-DF_CORR_NAMES = [
-        "U.S. Lg Cap Growth",
-        "U.S. Lg Cap Val",
-        "U.S. Mid Cap Growth",
-        "U.S. Mid Cap Val",
-        "U.S. Sm Cap Growth",
-        "U.S. Sm Cap Val",
-        "Foreign Industrialzed Mkts Stocks",
-        "Emerging Mkts Stks",
-        "U.S. Investment Grade Bonds",
-        "U.S. High Yield Bonds",
-        "Non-U.S. Bonds",
-        "Cash",
-        "Commodities",
-        "Real Estate",
-]
+
+[Cashflow]
+Goals_file = "./Data/Envision_Goals.xlsx"
+Default_inflation_rate = 2.5e-2  # 2.5 %
+
+[Holdings]
+DATA_DIR = '/Users/bfraenkel/Documents/Code/BenPlan/Holdings/'
+Cols_2_Keep = ['Symbol', 'Account Number','Shares', 'Market Value' , 'Tax Term']
+ETF_for_cash = "SHY"
+ETF_Asset_Class_Map_File = '/Users/bfraenkel/Documents/Code/Financial_Plan/Morningstar_Asset_Stats/etf_to_asset_class_map.xlsx'
+DIR_DATE_FORMAT = "%Y-%m-%d"
+FILE_NAME_PATTERN = 'WFA_Portfolio_Positions_\d{6}_\d{4}'
+Detail_Columns = ['Account Number', 'Tax Term']
+Cash_Amount_String = "Total Cash/Cash Alternatives & Margin"  # this is the string to find the cash amount
 

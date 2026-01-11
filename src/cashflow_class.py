@@ -161,7 +161,6 @@ def linear_transform_fastest(M_in, slope, intercept):
 
 
 
-
 def main(argv):
     config_manager = ConfigurationManager(argv)
     cashflow_class = Cashflow(config_manager)

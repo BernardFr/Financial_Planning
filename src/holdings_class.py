@@ -37,9 +37,10 @@ class Holdings:
     and calls the async writing functions
     """
 
-    def __init__(self, cmd_line: List[str]):
-        self.config_manager = ConfigurationManager(cmd_line)
+    def __init__(self, config_manager: ConfigurationManager):
+        self.config_manager = config_manager
         self.config = self.config_manager.get_class_config(self.__class__.__name__)
+
         self.data_dir =  self.config['DATA_DIR']
         self.cash_amount_string = self.config['Cash_Amount_String']
         self.cols_2_keep = self.config['Cols_2_Keep']

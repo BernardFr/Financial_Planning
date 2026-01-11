@@ -43,6 +43,8 @@ from multiprocessing import Pool, set_start_method
 from logger import logger
 from configuration_manager_class import ConfigurationManager
 from cashflow_class import Cashflow
+from morningstar_stats_class import MorningstarStats
+from holdings_class import Holdings
 from typing import List
 # import itertools
 
@@ -75,7 +77,7 @@ default_pfolio_alloc = AssetClasses(Stocks=0.75, Bonds=0.15, TBills=0.05, Cash=0
 
 
 
-class MonteCarloProcessor:
+class MonteCarloMulti:
     """
     Main orchestrator class for MonteCarlo  processing with multiple processors.
         1. Initialize: Load Config
@@ -92,16 +94,14 @@ class MonteCarloProcessor:
         """
         1. Load Configuration
         """
-        self.prog_name = ut.get_prog_name()
-        self.config_manager = ConfigurationManager(self.prog_name, cmd_line)
+        self.config_manager = ConfigurationManager(cmd_line)
         self.config = self.config_manager.get_class_config(self.__class__.__name__)
         self.nb_cpu = self.config['nb_cpu']
         self.run_cnt = self.config['run_cnt']
-        self.iter_cnt = self.config['iter_cnt']
-        self.opt_type = self.config['opt_type']
         self.cashflow_class = Cashflow(self.config_manager)
+        self.morningstar_stats = MorningstarStats(self.config_manager)
+        self.holdings = Holdings(self.config_manager)
 
-        
     def _log_info_tick(self, msg: str, xtra_log_msg = None) -> None:
         """Log info and tick timer"""
         if xtra_log_msg is not None:
@@ -113,26 +113,53 @@ class MonteCarloProcessor:
 
 
     def run(self):
-        """Main processing method."""
-        pass
+        """Main processing method.
+        2. Load goals and compute cashflow by year
+        3. Load Morningstar stats
+        4 Load holdings - map to Morningstar asset classes -> generate portfolio with assets, %, Morninstar stats
+        5. Option: load other stat sources ... and corresponding holding <-> asset class matcher
+        6. Run simulation with cashflows and portfolio
+            6.1. Option: "make it work": i.e. adjust spending in down years
+        7. Show results
+        """
+        # Load goals
+        goals_df = self.cashflow_class.process_goals_file()
+        print(f"Goals DataFrame:\n{goals_df}")
+        # Load cashflow
+        self.cashflow_df, self.cashflow_total_ser = self.cashflow_class.make_cashflow()
+        print(f"Cashflow DataFrame:\n{self.cashflow_df}")
+        print(f"Cashflow Total Series:\n{self.cashflow_total_ser}")
+
+        # Load Morningstar stats
+        self.df_stat, self.df_corr = self.morningstar_stats.get_asset_stats()
+        logger.info(f'\nAsset Class Statistics\n{self.df_stat}')
+        logger.info(f'\nAsset Class Correlations\n{self.df_corr}')
+        self.correlated_rvs = self.morningstar_stats.generate_correlated_rvs()
+        logger.info(f'\nCorrelated Random Variables\n{self.correlated_rvs}')
+
+        # Load holdings
+        holdings_df, cash_amount = self.holdings.load_holdings_data()
+        print(f"Holdings DataFrame:\n{holdings_df}")
+        print(f"Cash amount: ${cash_amount:,.2f}")
+        holdings_df = self.holdings.assign_cash_to_etf(holdings_df, cash_amount)
+        print(f"Holdings DataFrame after reassigning cash to ETF_for_cash:\n{holdings_df}")
+        self.holdings.set_holdings_df(holdings_df)
+        self.asset_class_df = self.holdings.map_etf_to_asset_class()
+        print(f"Asset Class DataFrame:\n{self.asset_class_df}")
 
     def cleanup(self, processor_kill_flag: bool = False):
         pass
 
 
-    def compute_cashflow(self):
-
-
-
 def main(cmd_line: [str]):
     """Main entry point for MonteCarlo Multi.
     """
-    processor = MonteCarloProcessor(cmd_line)
+    simulation = MonteCarloMulti(cmd_line)
     # Start the timer for the entire program
     start_time = dt.datetime.now()
     try:
-        processor.run()
-        logger.info(f"Processing completed")
+        simulation.run()
+        logger.info(f"\nDone!")
     except KeyboardInterrupt:
         logger.info("\nKeyboard interrupt received. Cleaning up...")
         # Cancel all async tasks

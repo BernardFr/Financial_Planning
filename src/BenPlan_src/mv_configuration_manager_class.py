@@ -49,7 +49,7 @@ class ConfigurationManager:
         return paths_dict
 
 
-    def _read_config_file(self) -> dict:
+    def  _read_config_file(self) -> dict:
         this_dir = os.path.dirname(os.path.abspath(__file__))
         config_file = os.path.join(this_dir, self.prog_name + '.toml')
         with open(config_file, mode="rb") as fp:
@@ -66,7 +66,7 @@ class ConfigurationManager:
         cmd_line_param = {}
         try:
             opts, args = getopt.getopt(cmd_args, "hpv")
-        except getopt.GetoptError:
+        except getopt.GetoptError: 
             print(f"{Usage}\n{__doc__}")
             sys.exit(2)
         for opt, arg in opts:

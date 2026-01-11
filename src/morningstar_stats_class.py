@@ -72,8 +72,8 @@ class MorningstarStats:
     """
     Class to manage the Morningstar stats
     """
-    def __init__(self, cmd_line: List[str]):
-        self.config_manager = ConfigurationManager(cmd_line)
+    def __init__(self, config_manager: ConfigurationManager):
+        self.config_manager = config_manager
         self.config = self.config_manager.get_class_config(self.__class__.__name__)
         
         self.must_have_param = self.config['must_have_param']
@@ -470,6 +470,7 @@ class MorningstarStats:
 
 
 def main_old(argv):
+    """ FOR REFERENCE ONLY - NOT USED IN THE PROGRAM """
     prog_name = re.sub("\\.py$", "", os.path.relpath(sys.argv[0]))
     plt_file = prog_name + "_out.pdf"  # replace the ".xlsx" extension
     config_file = prog_name + '.toml'
@@ -512,8 +513,6 @@ def main_old(argv):
     delta = df_corr - asset_corr_df   # this matrix should be all 0
     logger.info(f"\nNorm of Delta Matrix (should be 0.0): {matrix_norm(delta, ord='fro')}\n")
     delta.to_excel(xl_wr, sheet_name='delta', float_format='%0.2f', header=True, index=True)
-
-    # --- HERE ---
 
     # Perform portfolio mapping from Ben's Portfolio
     alloc_df = pd.read_excel(model_file, sheet_name='Models', header=0, engine='openpyxl')
