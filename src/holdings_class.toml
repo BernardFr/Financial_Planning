@@ -18,3 +18,5 @@ FILE_NAME_PATTERN = 'WFA_Portfolio_Positions_\d{6}_\d{4}'
 Cols_2_Keep = ['Symbol', 'Account Number','Shares', 'Market Value' , 'Tax Term']
 Detail_Columns = ['Account Number', 'Tax Term']
 Cash_Amount_String = "Total Cash/Cash Alternatives & Margin"  # this is the string in the
+ETF_for_cash = "SHY"
+ETF_Asset_Class_Map_File = '/Users/bfraenkel/Documents/Code/Financial_Plan/Morningstar_Asset_Stats/etf_to_asset_class_map.xlsx'
