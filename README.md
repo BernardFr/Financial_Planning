@@ -1,6 +1,21 @@
 # Financial_Planning
 
+## ToDo
+
+* in `holdings_class.py` : get today's market value of assets rather than the one at time of download
+* Find another source for historical asset statistics - Morningstar seems to be dated 2023
+  * See JP [Morgan	](https://am.jpmorgan.com/us/en/asset-management/liq/insights/portfolio-insights/ltcma/interactive-assumptions-matrices/)	
+  * See [Guggenheim Investments](https://www.guggenheiminvestments.com/advisor-resources/interactive-tools/asset-class-correlation-map) (2024)
+
 # Release Notes
+
+### 1/10/2026
+
+* Basic version `holdings_class.py`: reads holdings, maps them to asset class - with market value
+
+### 1/9/2026
+
+* Optimized `Morningstar_stats_class.py`
 
 ### 1/7/2026
 

@@ -27,6 +27,22 @@ def get_prog_name() -> str:
 
     return prog_name
 
+def my_age(dob: str) -> int:
+    """Returns my age"""
+    today = dt.datetime.now().strftime("%m-%d-%Y")
+    # Find out if the separator is a '/' or a '-'
+    if '/' in dob:
+        sep = '/'
+    else:
+        sep = '-'
+    my_mo, my_dy, my_yr = [int(x) for x in dob.split(sep)]
+    today_mo, today_dy, today_yr = [int(x) for x in today.split('-')]
+    if today_mo > my_mo or (today_mo == my_mo and today_dy >= my_dy):
+        return today_yr - my_yr
+    else:
+        return today_yr - my_yr -1
+
+
 
 def error_exit(error_message: str) -> None:
     """ Exit the program with an error message """

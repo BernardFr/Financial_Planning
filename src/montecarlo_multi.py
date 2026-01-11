@@ -35,7 +35,6 @@ import collections
 import datetime as dt
 import montecarlo_utilities as mc_ut
 import utilities as ut
-import tomli
 from pprint import pformat
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
@@ -43,6 +42,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from multiprocessing import Pool, set_start_method
 from logger import logger
 from configuration_manager_class import ConfigurationManager
+from cashflow_class import Cashflow
 from typing import List
 # import itertools
 
@@ -99,7 +99,9 @@ class MonteCarloProcessor:
         self.run_cnt = self.config['run_cnt']
         self.iter_cnt = self.config['iter_cnt']
         self.opt_type = self.config['opt_type']
+        self.cashflow_class = Cashflow(self.config_manager)
 
+        
     def _log_info_tick(self, msg: str, xtra_log_msg = None) -> None:
         """Log info and tick timer"""
         if xtra_log_msg is not None:
@@ -108,12 +110,17 @@ class MonteCarloProcessor:
             logger.info(msg)
         self.config_manager._tick_timer(msg)
         return
+
+
     def run(self):
         """Main processing method."""
         pass
 
     def cleanup(self, processor_kill_flag: bool = False):
         pass
+
+
+    def compute_cashflow(self):
 
 
 
@@ -130,7 +137,7 @@ def main(cmd_line: [str]):
         logger.info("\nKeyboard interrupt received. Cleaning up...")
         # Cancel all async tasks
     except Exception as e:
-        logger.info(f"\nError: {e}")
+        logger.error(f"\nError: {e}")
         # dump stack trace
         logger.error(traceback.format_exc())
         logger.error("\n----\n")
@@ -144,6 +151,6 @@ if __name__ == "__main__":
     # bug fix for multiprocessing
     set_start_method("forkserver")  # from multiprocessing
 
-    main(sys.argv[1])
+    main(sys.argv)
     sys.exit(0)
 

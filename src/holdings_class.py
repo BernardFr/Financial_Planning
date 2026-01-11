@@ -196,6 +196,11 @@ class Holdings:
         """ Get the total portfolio market value """
         return self.portfolio_assets_df['Market Value'].sum()
 
+    def asset_alloc_pct(self) -> pd.series:
+        """ Get the asset allocation percentages - as a percentage of the total portfolio market value (pct - not ratio)"""
+        return 100.0 * self.portfolio_assets_df['Market Value'] / self.get_total_portfolio_market_value()
+
+
 def main(cmd_line: List[str]):
     """Main entry point for BenPlan.
     processor_kill_flag: if True, async processes will be killed by the cleanup function
