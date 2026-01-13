@@ -45,6 +45,7 @@ from configuration_manager_class import ConfigurationManager
 from cashflow_class import Cashflow
 from morningstar_stats_class import MorningstarStats
 from holdings_class import Holdings
+from montecarlo_simulation_class import MontecarloSimulation
 from typing import List
 # import itertools
 
@@ -101,6 +102,7 @@ class MonteCarloMulti:
         self.cashflow_class = Cashflow(self.config_manager)
         self.morningstar_stats = MorningstarStats(self.config_manager)
         self.holdings = Holdings(self.config_manager)
+        self.montecarlo_simulation = MontecarloSimulation(self.config_manager)
 
     def _log_info_tick(self, msg: str, xtra_log_msg = None) -> None:
         """Log info and tick timer"""
@@ -110,7 +112,6 @@ class MonteCarloMulti:
             logger.info(msg)
         self.config_manager._tick_timer(msg)
         return
-
 
     def run(self):
         """Main processing method.
@@ -146,6 +147,13 @@ class MonteCarloMulti:
         self.holdings.set_holdings_df(holdings_df)
         self.asset_class_df = self.holdings.map_etf_to_asset_class()
         print(f"Asset Class DataFrame:\n{self.asset_class_df}")
+
+        # Load all the info in the montecarlo simulation
+        self.montecarlo_simulation.set_initial_holdings(self.holdings_df)
+        self.montecarlo_simulation.set_cashflow_df(self.cashflow_df)
+        self.montecarlo_simulation.set_asset_class_df(self.asset_class_df)  # FIXME - holdings vs asset class
+        self.montecarlo_simulation.set_ror_df(self.correlated_rvs)   # FIXME
+
 
     def cleanup(self, processor_kill_flag: bool = False):
         pass

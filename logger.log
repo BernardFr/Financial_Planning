@@ -1763,3 +1763,2560 @@ Real Estate                        64.425731 -10.446426    4.30497  ... -40.5375
 Done!
 2026-01-11 15:15:15,473 - Financial_Plan - INFO - End: 2026-01-11 15:15:15.473799 -- Run Time: 0:00:41.476554
 
+2026-01-12 18:16:34,076 - Financial_Plan - DEBUG - ROR:
+Asset_1    1.2
+Asset_2   -1.1
+Asset_3    1.5
+dtype: float64
+2026-01-12 18:16:34,077 - Financial_Plan - DEBUG - Cashflow $10,000.00
+2026-01-12 18:16:34,077 - Financial_Plan - DEBUG - Management Fee: 1.00%
+2026-01-12 18:16:34,077 - Financial_Plan - DEBUG - Initial Portfolio Series:
+Asset_1: $100,000.00
+Asset_2: $200,000.00
+Asset_3: $300,000.00
+
+2026-01-12 18:16:34,077 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $100,000.00
+Asset_2: $200,000.00
+Asset_3: $300,000.00
+
+2026-01-12 18:16:34,078 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.166667
+Asset_2    0.333333
+Asset_3    0.500000
+dtype: float64
+2026-01-12 18:16:34,078 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $120,000.00
+Asset_2: $-220,000.00
+Asset_3: $450,000.00
+
+2026-01-12 18:16:34,079 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $120,000.00
+Asset_2: $0.00
+Asset_3: $450,000.00
+
+2026-01-12 18:16:34,079 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $95,000.00
+Asset_2: $190,000.00
+Asset_3: $285,000.00
+
+2026-01-12 18:16:34,079 - Financial_Plan - DEBUG - Management Fee Value $6,000.00
+2026-01-12 18:16:34,079 - Financial_Plan - DEBUG - Distribution Value $16,000.00
+2026-01-12 18:16:34,079 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $2,666.67
+Asset_2: $5,333.33
+Asset_3: $8,000.00
+
+2026-01-12 18:16:34,080 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $92,333.33
+Asset_2: $184,666.67
+Asset_3: $277,000.00
+
+2026-01-12 18:16:34,080 - Financial_Plan - DEBUG - Initial Portfolio Value: $600,000.00
+2026-01-12 18:16:34,080 - Financial_Plan - DEBUG - Value after ROR: $350,000.00
+2026-01-12 18:16:34,080 - Financial_Plan - DEBUG - Value after clipping negative values: $570,000.00
+2026-01-12 18:16:34,080 - Financial_Plan - DEBUG - Value after rebalancing: $570,000.00
+2026-01-12 18:16:34,080 - Financial_Plan - DEBUG - Value after distribution: $554,000.00
+2026-01-12 18:16:34,080 - Financial_Plan - DEBUG - Portfolio Series after 1 years:
+Asset_1: $92,333.33
+Asset_2: $184,666.67
+Asset_3: $277,000.00
+
+2026-01-12 18:16:34,080 - Financial_Plan - DEBUG - Year: 1 - Portfolio Value: $554,000.00
+
+2026-01-12 18:16:34,080 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $92,333.33
+Asset_2: $184,666.67
+Asset_3: $277,000.00
+
+2026-01-12 18:16:34,081 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.166667
+Asset_2    0.333333
+Asset_3    0.500000
+dtype: float64
+2026-01-12 18:16:34,081 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $110,800.00
+Asset_2: $-203,133.33
+Asset_3: $415,500.00
+
+2026-01-12 18:16:34,082 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $110,800.00
+Asset_2: $0.00
+Asset_3: $415,500.00
+
+2026-01-12 18:16:34,082 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $87,716.67
+Asset_2: $175,433.33
+Asset_3: $263,150.00
+
+2026-01-12 18:16:34,082 - Financial_Plan - DEBUG - Management Fee Value $5,540.00
+2026-01-12 18:16:34,082 - Financial_Plan - DEBUG - Distribution Value $15,540.00
+2026-01-12 18:16:34,083 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $2,590.00
+Asset_2: $5,180.00
+Asset_3: $7,770.00
+
+2026-01-12 18:16:34,083 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $85,126.67
+Asset_2: $170,253.33
+Asset_3: $255,380.00
+
+2026-01-12 18:16:34,083 - Financial_Plan - DEBUG - Initial Portfolio Value: $554,000.00
+2026-01-12 18:16:34,083 - Financial_Plan - DEBUG - Value after ROR: $323,166.67
+2026-01-12 18:16:34,083 - Financial_Plan - DEBUG - Value after clipping negative values: $526,300.00
+2026-01-12 18:16:34,083 - Financial_Plan - DEBUG - Value after rebalancing: $526,300.00
+2026-01-12 18:16:34,083 - Financial_Plan - DEBUG - Value after distribution: $510,760.00
+2026-01-12 18:16:34,083 - Financial_Plan - DEBUG - Portfolio Series after 2 years:
+Asset_1: $85,126.67
+Asset_2: $170,253.33
+Asset_3: $255,380.00
+
+2026-01-12 18:16:34,083 - Financial_Plan - DEBUG - Year: 2 - Portfolio Value: $510,760.00
+
+2026-01-12 18:16:34,084 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $85,126.67
+Asset_2: $170,253.33
+Asset_3: $255,380.00
+
+2026-01-12 18:16:34,084 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.166667
+Asset_2    0.333333
+Asset_3    0.500000
+dtype: float64
+2026-01-12 18:16:34,084 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $102,152.00
+Asset_2: $-187,278.67
+Asset_3: $383,070.00
+
+2026-01-12 18:16:34,085 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $102,152.00
+Asset_2: $0.00
+Asset_3: $383,070.00
+
+2026-01-12 18:16:34,085 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $80,870.33
+Asset_2: $161,740.67
+Asset_3: $242,611.00
+
+2026-01-12 18:16:34,085 - Financial_Plan - DEBUG - Management Fee Value $5,107.60
+2026-01-12 18:16:34,085 - Financial_Plan - DEBUG - Distribution Value $15,107.60
+2026-01-12 18:16:34,086 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $2,517.93
+Asset_2: $5,035.87
+Asset_3: $7,553.80
+
+2026-01-12 18:16:34,086 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $78,352.40
+Asset_2: $156,704.80
+Asset_3: $235,057.20
+
+2026-01-12 18:16:34,086 - Financial_Plan - DEBUG - Initial Portfolio Value: $510,760.00
+2026-01-12 18:16:34,086 - Financial_Plan - DEBUG - Value after ROR: $297,943.33
+2026-01-12 18:16:34,086 - Financial_Plan - DEBUG - Value after clipping negative values: $485,222.00
+2026-01-12 18:16:34,086 - Financial_Plan - DEBUG - Value after rebalancing: $485,222.00
+2026-01-12 18:16:34,086 - Financial_Plan - DEBUG - Value after distribution: $470,114.40
+2026-01-12 18:16:34,086 - Financial_Plan - DEBUG - Portfolio Series after 3 years:
+Asset_1: $78,352.40
+Asset_2: $156,704.80
+Asset_3: $235,057.20
+
+2026-01-12 18:16:34,086 - Financial_Plan - DEBUG - Year: 3 - Portfolio Value: $470,114.40
+
+2026-01-12 18:16:34,086 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $78,352.40
+Asset_2: $156,704.80
+Asset_3: $235,057.20
+
+2026-01-12 18:16:34,087 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.166667
+Asset_2    0.333333
+Asset_3    0.500000
+dtype: float64
+2026-01-12 18:16:34,087 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $94,022.88
+Asset_2: $-172,375.28
+Asset_3: $352,585.80
+
+2026-01-12 18:16:34,088 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $94,022.88
+Asset_2: $0.00
+Asset_3: $352,585.80
+
+2026-01-12 18:16:34,088 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $74,434.78
+Asset_2: $148,869.56
+Asset_3: $223,304.34
+
+2026-01-12 18:16:34,088 - Financial_Plan - DEBUG - Management Fee Value $4,701.14
+2026-01-12 18:16:34,088 - Financial_Plan - DEBUG - Distribution Value $14,701.14
+2026-01-12 18:16:34,088 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $2,450.19
+Asset_2: $4,900.38
+Asset_3: $7,350.57
+
+2026-01-12 18:16:34,089 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $71,984.59
+Asset_2: $143,969.18
+Asset_3: $215,953.77
+
+2026-01-12 18:16:34,089 - Financial_Plan - DEBUG - Initial Portfolio Value: $470,114.40
+2026-01-12 18:16:34,089 - Financial_Plan - DEBUG - Value after ROR: $274,233.40
+2026-01-12 18:16:34,089 - Financial_Plan - DEBUG - Value after clipping negative values: $446,608.68
+2026-01-12 18:16:34,089 - Financial_Plan - DEBUG - Value after rebalancing: $446,608.68
+2026-01-12 18:16:34,089 - Financial_Plan - DEBUG - Value after distribution: $431,907.54
+2026-01-12 18:16:34,089 - Financial_Plan - DEBUG - Portfolio Series after 4 years:
+Asset_1: $71,984.59
+Asset_2: $143,969.18
+Asset_3: $215,953.77
+
+2026-01-12 18:16:34,089 - Financial_Plan - DEBUG - Year: 4 - Portfolio Value: $431,907.54
+
+2026-01-12 18:16:34,089 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $71,984.59
+Asset_2: $143,969.18
+Asset_3: $215,953.77
+
+2026-01-12 18:16:34,090 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.166667
+Asset_2    0.333333
+Asset_3    0.500000
+dtype: float64
+2026-01-12 18:16:34,090 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $86,381.51
+Asset_2: $-158,366.10
+Asset_3: $323,930.65
+
+2026-01-12 18:16:34,091 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $86,381.51
+Asset_2: $0.00
+Asset_3: $323,930.65
+
+2026-01-12 18:16:34,091 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $68,385.36
+Asset_2: $136,770.72
+Asset_3: $205,156.08
+
+2026-01-12 18:16:34,091 - Financial_Plan - DEBUG - Management Fee Value $4,319.08
+2026-01-12 18:16:34,091 - Financial_Plan - DEBUG - Distribution Value $14,319.08
+2026-01-12 18:16:34,091 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $2,386.51
+Asset_2: $4,773.03
+Asset_3: $7,159.54
+
+2026-01-12 18:16:34,092 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $65,998.85
+Asset_2: $131,997.69
+Asset_3: $197,996.54
+
+2026-01-12 18:16:34,092 - Financial_Plan - DEBUG - Initial Portfolio Value: $431,907.54
+2026-01-12 18:16:34,092 - Financial_Plan - DEBUG - Value after ROR: $251,946.06
+2026-01-12 18:16:34,092 - Financial_Plan - DEBUG - Value after clipping negative values: $410,312.16
+2026-01-12 18:16:34,092 - Financial_Plan - DEBUG - Value after rebalancing: $410,312.16
+2026-01-12 18:16:34,092 - Financial_Plan - DEBUG - Value after distribution: $395,993.08
+2026-01-12 18:16:34,092 - Financial_Plan - DEBUG - Portfolio Series after 5 years:
+Asset_1: $65,998.85
+Asset_2: $131,997.69
+Asset_3: $197,996.54
+
+2026-01-12 18:16:34,092 - Financial_Plan - DEBUG - Year: 5 - Portfolio Value: $395,993.08
+
+2026-01-12 18:16:34,093 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $65,998.85
+Asset_2: $131,997.69
+Asset_3: $197,996.54
+
+2026-01-12 18:16:34,093 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.166667
+Asset_2    0.333333
+Asset_3    0.500000
+dtype: float64
+2026-01-12 18:16:34,093 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $79,198.62
+Asset_2: $-145,197.46
+Asset_3: $296,994.81
+
+2026-01-12 18:16:34,094 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $79,198.62
+Asset_2: $0.00
+Asset_3: $296,994.81
+
+2026-01-12 18:16:34,094 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $62,698.90
+Asset_2: $125,397.81
+Asset_3: $188,096.71
+
+2026-01-12 18:16:34,095 - Financial_Plan - DEBUG - Management Fee Value $3,959.93
+2026-01-12 18:16:34,095 - Financial_Plan - DEBUG - Distribution Value $13,959.93
+2026-01-12 18:16:34,095 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $2,326.66
+Asset_2: $4,653.31
+Asset_3: $6,979.97
+
+2026-01-12 18:16:34,095 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $60,372.25
+Asset_2: $120,744.50
+Asset_3: $181,116.75
+
+2026-01-12 18:16:34,095 - Financial_Plan - DEBUG - Initial Portfolio Value: $395,993.08
+2026-01-12 18:16:34,095 - Financial_Plan - DEBUG - Value after ROR: $230,995.97
+2026-01-12 18:16:34,096 - Financial_Plan - DEBUG - Value after clipping negative values: $376,193.43
+2026-01-12 18:16:34,096 - Financial_Plan - DEBUG - Value after rebalancing: $376,193.43
+2026-01-12 18:16:34,096 - Financial_Plan - DEBUG - Value after distribution: $362,233.50
+2026-01-12 18:16:34,096 - Financial_Plan - DEBUG - Portfolio Series after 6 years:
+Asset_1: $60,372.25
+Asset_2: $120,744.50
+Asset_3: $181,116.75
+
+2026-01-12 18:16:34,096 - Financial_Plan - DEBUG - Year: 6 - Portfolio Value: $362,233.50
+
+2026-01-12 18:16:34,096 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $60,372.25
+Asset_2: $120,744.50
+Asset_3: $181,116.75
+
+2026-01-12 18:16:34,097 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.166667
+Asset_2    0.333333
+Asset_3    0.500000
+dtype: float64
+2026-01-12 18:16:34,097 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $72,446.70
+Asset_2: $-132,818.95
+Asset_3: $271,675.12
+
+2026-01-12 18:16:34,098 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $72,446.70
+Asset_2: $0.00
+Asset_3: $271,675.12
+
+2026-01-12 18:16:34,099 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $57,353.64
+Asset_2: $114,707.27
+Asset_3: $172,060.91
+
+2026-01-12 18:16:34,099 - Financial_Plan - DEBUG - Management Fee Value $3,622.33
+2026-01-12 18:16:34,099 - Financial_Plan - DEBUG - Distribution Value $13,622.33
+2026-01-12 18:16:34,099 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $2,270.39
+Asset_2: $4,540.78
+Asset_3: $6,811.17
+
+2026-01-12 18:16:34,099 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $55,083.25
+Asset_2: $110,166.50
+Asset_3: $165,249.74
+
+2026-01-12 18:16:34,099 - Financial_Plan - DEBUG - Initial Portfolio Value: $362,233.50
+2026-01-12 18:16:34,099 - Financial_Plan - DEBUG - Value after ROR: $211,302.87
+2026-01-12 18:16:34,099 - Financial_Plan - DEBUG - Value after clipping negative values: $344,121.82
+2026-01-12 18:16:34,099 - Financial_Plan - DEBUG - Value after rebalancing: $344,121.82
+2026-01-12 18:16:34,099 - Financial_Plan - DEBUG - Value after distribution: $330,499.49
+2026-01-12 18:16:34,100 - Financial_Plan - DEBUG - Portfolio Series after 7 years:
+Asset_1: $55,083.25
+Asset_2: $110,166.50
+Asset_3: $165,249.74
+
+2026-01-12 18:16:34,100 - Financial_Plan - DEBUG - Year: 7 - Portfolio Value: $330,499.49
+
+2026-01-12 18:16:34,100 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $55,083.25
+Asset_2: $110,166.50
+Asset_3: $165,249.74
+
+2026-01-12 18:16:34,100 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.166667
+Asset_2    0.333333
+Asset_3    0.500000
+dtype: float64
+2026-01-12 18:16:34,100 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $66,099.90
+Asset_2: $-121,183.15
+Asset_3: $247,874.62
+
+2026-01-12 18:16:34,101 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $66,099.90
+Asset_2: $0.00
+Asset_3: $247,874.62
+
+2026-01-12 18:16:34,101 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $52,329.09
+Asset_2: $104,658.17
+Asset_3: $156,987.26
+
+2026-01-12 18:16:34,101 - Financial_Plan - DEBUG - Management Fee Value $3,304.99
+2026-01-12 18:16:34,101 - Financial_Plan - DEBUG - Distribution Value $13,304.99
+2026-01-12 18:16:34,102 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $2,217.50
+Asset_2: $4,435.00
+Asset_3: $6,652.50
+
+2026-01-12 18:16:34,102 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $50,111.59
+Asset_2: $100,223.17
+Asset_3: $150,334.76
+
+2026-01-12 18:16:34,102 - Financial_Plan - DEBUG - Initial Portfolio Value: $330,499.49
+2026-01-12 18:16:34,102 - Financial_Plan - DEBUG - Value after ROR: $192,791.37
+2026-01-12 18:16:34,102 - Financial_Plan - DEBUG - Value after clipping negative values: $313,974.51
+2026-01-12 18:16:34,102 - Financial_Plan - DEBUG - Value after rebalancing: $313,974.51
+2026-01-12 18:16:34,102 - Financial_Plan - DEBUG - Value after distribution: $300,669.52
+2026-01-12 18:16:34,102 - Financial_Plan - DEBUG - Portfolio Series after 8 years:
+Asset_1: $50,111.59
+Asset_2: $100,223.17
+Asset_3: $150,334.76
+
+2026-01-12 18:16:34,102 - Financial_Plan - DEBUG - Year: 8 - Portfolio Value: $300,669.52
+
+2026-01-12 18:16:34,103 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $50,111.59
+Asset_2: $100,223.17
+Asset_3: $150,334.76
+
+2026-01-12 18:16:34,103 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.166667
+Asset_2    0.333333
+Asset_3    0.500000
+dtype: float64
+2026-01-12 18:16:34,103 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $60,133.90
+Asset_2: $-110,245.49
+Asset_3: $225,502.14
+
+2026-01-12 18:16:34,104 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $60,133.90
+Asset_2: $0.00
+Asset_3: $225,502.14
+
+2026-01-12 18:16:34,104 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $47,606.01
+Asset_2: $95,212.01
+Asset_3: $142,818.02
+
+2026-01-12 18:16:34,105 - Financial_Plan - DEBUG - Management Fee Value $3,006.70
+2026-01-12 18:16:34,105 - Financial_Plan - DEBUG - Distribution Value $13,006.70
+2026-01-12 18:16:34,105 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $2,167.78
+Asset_2: $4,335.57
+Asset_3: $6,503.35
+
+2026-01-12 18:16:34,105 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $45,438.22
+Asset_2: $90,876.45
+Asset_3: $136,314.67
+
+2026-01-12 18:16:34,105 - Financial_Plan - DEBUG - Initial Portfolio Value: $300,669.52
+2026-01-12 18:16:34,105 - Financial_Plan - DEBUG - Value after ROR: $175,390.55
+2026-01-12 18:16:34,106 - Financial_Plan - DEBUG - Value after clipping negative values: $285,636.04
+2026-01-12 18:16:34,106 - Financial_Plan - DEBUG - Value after rebalancing: $285,636.04
+2026-01-12 18:16:34,106 - Financial_Plan - DEBUG - Value after distribution: $272,629.35
+2026-01-12 18:16:34,106 - Financial_Plan - DEBUG - Portfolio Series after 9 years:
+Asset_1: $45,438.22
+Asset_2: $90,876.45
+Asset_3: $136,314.67
+
+2026-01-12 18:16:34,106 - Financial_Plan - DEBUG - Year: 9 - Portfolio Value: $272,629.35
+
+2026-01-12 18:16:34,106 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $45,438.22
+Asset_2: $90,876.45
+Asset_3: $136,314.67
+
+2026-01-12 18:16:34,107 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.166667
+Asset_2    0.333333
+Asset_3    0.500000
+dtype: float64
+2026-01-12 18:16:34,107 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $54,525.87
+Asset_2: $-99,964.09
+Asset_3: $204,472.01
+
+2026-01-12 18:16:34,108 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $54,525.87
+Asset_2: $0.00
+Asset_3: $204,472.01
+
+2026-01-12 18:16:34,108 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $43,166.31
+Asset_2: $86,332.63
+Asset_3: $129,498.94
+
+2026-01-12 18:16:34,109 - Financial_Plan - DEBUG - Management Fee Value $2,726.29
+2026-01-12 18:16:34,109 - Financial_Plan - DEBUG - Distribution Value $12,726.29
+2026-01-12 18:16:34,109 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $2,121.05
+Asset_2: $4,242.10
+Asset_3: $6,363.15
+
+2026-01-12 18:16:34,110 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $41,045.26
+Asset_2: $82,090.53
+Asset_3: $123,135.79
+
+2026-01-12 18:16:34,110 - Financial_Plan - DEBUG - Initial Portfolio Value: $272,629.35
+2026-01-12 18:16:34,110 - Financial_Plan - DEBUG - Value after ROR: $159,033.79
+2026-01-12 18:16:34,110 - Financial_Plan - DEBUG - Value after clipping negative values: $258,997.88
+2026-01-12 18:16:34,110 - Financial_Plan - DEBUG - Value after rebalancing: $258,997.88
+2026-01-12 18:16:34,110 - Financial_Plan - DEBUG - Value after distribution: $246,271.59
+2026-01-12 18:16:34,110 - Financial_Plan - DEBUG - Portfolio Series after 10 years:
+Asset_1: $41,045.26
+Asset_2: $82,090.53
+Asset_3: $123,135.79
+
+2026-01-12 18:16:34,110 - Financial_Plan - DEBUG - Year: 10 - Portfolio Value: $246,271.59
+
+2026-01-12 18:21:48,559 - Financial_Plan - DEBUG - ROR:
+Asset_1    1.2
+Asset_2   -1.1
+Asset_3    1.5
+Asset_4    0.1
+dtype: float64
+2026-01-12 18:21:48,559 - Financial_Plan - DEBUG - Cashflow $10,000.00
+2026-01-12 18:21:48,560 - Financial_Plan - DEBUG - Management Fee: 1.00%
+2026-01-12 18:21:48,560 - Financial_Plan - DEBUG - Initial Portfolio Series:
+Asset_1: $100,000.00
+Asset_2: $200,000.00
+Asset_3: $300,000.00
+Asset_4: $400,000.00
+
+2026-01-12 18:21:48,560 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $100,000.00
+Asset_2: $200,000.00
+Asset_3: $300,000.00
+Asset_4: $400,000.00
+
+2026-01-12 18:21:48,560 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:21:48,561 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $120,000.00
+Asset_2: $-220,000.00
+Asset_3: $450,000.00
+Asset_4: $40,000.00
+
+2026-01-12 18:21:48,561 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $120,000.00
+Asset_2: $0.00
+Asset_3: $450,000.00
+Asset_4: $40,000.00
+
+2026-01-12 18:21:48,562 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $61,000.00
+Asset_2: $122,000.00
+Asset_3: $183,000.00
+Asset_4: $244,000.00
+
+2026-01-12 18:21:48,562 - Financial_Plan - DEBUG - Management Fee Value $10,000.00
+2026-01-12 18:21:48,562 - Financial_Plan - DEBUG - Distribution Value $20,000.00
+2026-01-12 18:21:48,562 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $2,000.00
+Asset_2: $4,000.00
+Asset_3: $6,000.00
+Asset_4: $8,000.00
+
+2026-01-12 18:21:48,562 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $59,000.00
+Asset_2: $118,000.00
+Asset_3: $177,000.00
+Asset_4: $236,000.00
+
+2026-01-12 18:21:48,562 - Financial_Plan - DEBUG - Initial Portfolio Value: $1,000,000.00
+2026-01-12 18:21:48,562 - Financial_Plan - DEBUG - Value after ROR: $390,000.00
+2026-01-12 18:21:48,562 - Financial_Plan - DEBUG - Value after clipping negative values: $610,000.00
+2026-01-12 18:21:48,562 - Financial_Plan - DEBUG - Value after rebalancing: $610,000.00
+2026-01-12 18:21:48,562 - Financial_Plan - DEBUG - Value after distribution: $590,000.00
+2026-01-12 18:21:48,562 - Financial_Plan - DEBUG - Portfolio Series after 1 years:
+Asset_1: $59,000.00
+Asset_2: $118,000.00
+Asset_3: $177,000.00
+Asset_4: $236,000.00
+
+2026-01-12 18:21:48,563 - Financial_Plan - DEBUG - Year: 1 - Portfolio Value: $590,000.00
+
+2026-01-12 18:21:48,563 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $59,000.00
+Asset_2: $118,000.00
+Asset_3: $177,000.00
+Asset_4: $236,000.00
+
+2026-01-12 18:21:48,563 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:21:48,563 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $70,800.00
+Asset_2: $-129,800.00
+Asset_3: $265,500.00
+Asset_4: $23,600.00
+
+2026-01-12 18:21:48,564 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $70,800.00
+Asset_2: $0.00
+Asset_3: $265,500.00
+Asset_4: $23,600.00
+
+2026-01-12 18:21:48,564 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $35,990.00
+Asset_2: $71,980.00
+Asset_3: $107,970.00
+Asset_4: $143,960.00
+
+2026-01-12 18:21:48,564 - Financial_Plan - DEBUG - Management Fee Value $5,900.00
+2026-01-12 18:21:48,564 - Financial_Plan - DEBUG - Distribution Value $15,900.00
+2026-01-12 18:21:48,564 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,590.00
+Asset_2: $3,180.00
+Asset_3: $4,770.00
+Asset_4: $6,360.00
+
+2026-01-12 18:21:48,565 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $34,400.00
+Asset_2: $68,800.00
+Asset_3: $103,200.00
+Asset_4: $137,600.00
+
+2026-01-12 18:21:48,565 - Financial_Plan - DEBUG - Initial Portfolio Value: $590,000.00
+2026-01-12 18:21:48,565 - Financial_Plan - DEBUG - Value after ROR: $230,100.00
+2026-01-12 18:21:48,565 - Financial_Plan - DEBUG - Value after clipping negative values: $359,900.00
+2026-01-12 18:21:48,565 - Financial_Plan - DEBUG - Value after rebalancing: $359,900.00
+2026-01-12 18:21:48,565 - Financial_Plan - DEBUG - Value after distribution: $344,000.00
+2026-01-12 18:21:48,565 - Financial_Plan - DEBUG - Portfolio Series after 2 years:
+Asset_1: $34,400.00
+Asset_2: $68,800.00
+Asset_3: $103,200.00
+Asset_4: $137,600.00
+
+2026-01-12 18:21:48,565 - Financial_Plan - DEBUG - Year: 2 - Portfolio Value: $344,000.00
+
+2026-01-12 18:21:48,565 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $34,400.00
+Asset_2: $68,800.00
+Asset_3: $103,200.00
+Asset_4: $137,600.00
+
+2026-01-12 18:21:48,566 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:21:48,566 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $41,280.00
+Asset_2: $-75,680.00
+Asset_3: $154,800.00
+Asset_4: $13,760.00
+
+2026-01-12 18:21:48,566 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $41,280.00
+Asset_2: $0.00
+Asset_3: $154,800.00
+Asset_4: $13,760.00
+
+2026-01-12 18:21:48,566 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $20,984.00
+Asset_2: $41,968.00
+Asset_3: $62,952.00
+Asset_4: $83,936.00
+
+2026-01-12 18:21:48,567 - Financial_Plan - DEBUG - Management Fee Value $3,440.00
+2026-01-12 18:21:48,567 - Financial_Plan - DEBUG - Distribution Value $13,440.00
+2026-01-12 18:21:48,567 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,344.00
+Asset_2: $2,688.00
+Asset_3: $4,032.00
+Asset_4: $5,376.00
+
+2026-01-12 18:21:48,567 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $19,640.00
+Asset_2: $39,280.00
+Asset_3: $58,920.00
+Asset_4: $78,560.00
+
+2026-01-12 18:21:48,567 - Financial_Plan - DEBUG - Initial Portfolio Value: $344,000.00
+2026-01-12 18:21:48,567 - Financial_Plan - DEBUG - Value after ROR: $134,160.00
+2026-01-12 18:21:48,568 - Financial_Plan - DEBUG - Value after clipping negative values: $209,840.00
+2026-01-12 18:21:48,568 - Financial_Plan - DEBUG - Value after rebalancing: $209,840.00
+2026-01-12 18:21:48,568 - Financial_Plan - DEBUG - Value after distribution: $196,400.00
+2026-01-12 18:21:48,568 - Financial_Plan - DEBUG - Portfolio Series after 3 years:
+Asset_1: $19,640.00
+Asset_2: $39,280.00
+Asset_3: $58,920.00
+Asset_4: $78,560.00
+
+2026-01-12 18:21:48,568 - Financial_Plan - DEBUG - Year: 3 - Portfolio Value: $196,400.00
+
+2026-01-12 18:21:48,568 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $19,640.00
+Asset_2: $39,280.00
+Asset_3: $58,920.00
+Asset_4: $78,560.00
+
+2026-01-12 18:21:48,569 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:21:48,569 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $23,568.00
+Asset_2: $-43,208.00
+Asset_3: $88,380.00
+Asset_4: $7,856.00
+
+2026-01-12 18:21:48,570 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $23,568.00
+Asset_2: $0.00
+Asset_3: $88,380.00
+Asset_4: $7,856.00
+
+2026-01-12 18:21:48,570 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $11,980.40
+Asset_2: $23,960.80
+Asset_3: $35,941.20
+Asset_4: $47,921.60
+
+2026-01-12 18:21:48,570 - Financial_Plan - DEBUG - Management Fee Value $1,964.00
+2026-01-12 18:21:48,570 - Financial_Plan - DEBUG - Distribution Value $11,964.00
+2026-01-12 18:21:48,570 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,196.40
+Asset_2: $2,392.80
+Asset_3: $3,589.20
+Asset_4: $4,785.60
+
+2026-01-12 18:21:48,571 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $10,784.00
+Asset_2: $21,568.00
+Asset_3: $32,352.00
+Asset_4: $43,136.00
+
+2026-01-12 18:21:48,571 - Financial_Plan - DEBUG - Initial Portfolio Value: $196,400.00
+2026-01-12 18:21:48,571 - Financial_Plan - DEBUG - Value after ROR: $76,596.00
+2026-01-12 18:21:48,571 - Financial_Plan - DEBUG - Value after clipping negative values: $119,804.00
+2026-01-12 18:21:48,571 - Financial_Plan - DEBUG - Value after rebalancing: $119,804.00
+2026-01-12 18:21:48,571 - Financial_Plan - DEBUG - Value after distribution: $107,840.00
+2026-01-12 18:21:48,571 - Financial_Plan - DEBUG - Portfolio Series after 4 years:
+Asset_1: $10,784.00
+Asset_2: $21,568.00
+Asset_3: $32,352.00
+Asset_4: $43,136.00
+
+2026-01-12 18:21:48,571 - Financial_Plan - DEBUG - Year: 4 - Portfolio Value: $107,840.00
+
+2026-01-12 18:21:48,571 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $10,784.00
+Asset_2: $21,568.00
+Asset_3: $32,352.00
+Asset_4: $43,136.00
+
+2026-01-12 18:21:48,572 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:21:48,572 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $12,940.80
+Asset_2: $-23,724.80
+Asset_3: $48,528.00
+Asset_4: $4,313.60
+
+2026-01-12 18:21:48,572 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $12,940.80
+Asset_2: $0.00
+Asset_3: $48,528.00
+Asset_4: $4,313.60
+
+2026-01-12 18:21:48,572 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $6,578.24
+Asset_2: $13,156.48
+Asset_3: $19,734.72
+Asset_4: $26,312.96
+
+2026-01-12 18:21:48,573 - Financial_Plan - DEBUG - Management Fee Value $1,078.40
+2026-01-12 18:21:48,573 - Financial_Plan - DEBUG - Distribution Value $11,078.40
+2026-01-12 18:21:48,573 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,107.84
+Asset_2: $2,215.68
+Asset_3: $3,323.52
+Asset_4: $4,431.36
+
+2026-01-12 18:21:48,573 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $5,470.40
+Asset_2: $10,940.80
+Asset_3: $16,411.20
+Asset_4: $21,881.60
+
+2026-01-12 18:21:48,573 - Financial_Plan - DEBUG - Initial Portfolio Value: $107,840.00
+2026-01-12 18:21:48,573 - Financial_Plan - DEBUG - Value after ROR: $42,057.60
+2026-01-12 18:21:48,573 - Financial_Plan - DEBUG - Value after clipping negative values: $65,782.40
+2026-01-12 18:21:48,573 - Financial_Plan - DEBUG - Value after rebalancing: $65,782.40
+2026-01-12 18:21:48,573 - Financial_Plan - DEBUG - Value after distribution: $54,704.00
+2026-01-12 18:21:48,573 - Financial_Plan - DEBUG - Portfolio Series after 5 years:
+Asset_1: $5,470.40
+Asset_2: $10,940.80
+Asset_3: $16,411.20
+Asset_4: $21,881.60
+
+2026-01-12 18:21:48,573 - Financial_Plan - DEBUG - Year: 5 - Portfolio Value: $54,704.00
+
+2026-01-12 18:21:48,574 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $5,470.40
+Asset_2: $10,940.80
+Asset_3: $16,411.20
+Asset_4: $21,881.60
+
+2026-01-12 18:21:48,574 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:21:48,574 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $6,564.48
+Asset_2: $-12,034.88
+Asset_3: $24,616.80
+Asset_4: $2,188.16
+
+2026-01-12 18:21:48,575 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $6,564.48
+Asset_2: $0.00
+Asset_3: $24,616.80
+Asset_4: $2,188.16
+
+2026-01-12 18:21:48,575 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $3,336.94
+Asset_2: $6,673.89
+Asset_3: $10,010.83
+Asset_4: $13,347.78
+
+2026-01-12 18:21:48,575 - Financial_Plan - DEBUG - Management Fee Value $547.04
+2026-01-12 18:21:48,575 - Financial_Plan - DEBUG - Distribution Value $10,547.04
+2026-01-12 18:21:48,575 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,054.70
+Asset_2: $2,109.41
+Asset_3: $3,164.11
+Asset_4: $4,218.82
+
+2026-01-12 18:21:48,575 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $2,282.24
+Asset_2: $4,564.48
+Asset_3: $6,846.72
+Asset_4: $9,128.96
+
+2026-01-12 18:21:48,575 - Financial_Plan - DEBUG - Initial Portfolio Value: $54,704.00
+2026-01-12 18:21:48,575 - Financial_Plan - DEBUG - Value after ROR: $21,334.56
+2026-01-12 18:21:48,575 - Financial_Plan - DEBUG - Value after clipping negative values: $33,369.44
+2026-01-12 18:21:48,575 - Financial_Plan - DEBUG - Value after rebalancing: $33,369.44
+2026-01-12 18:21:48,576 - Financial_Plan - DEBUG - Value after distribution: $22,822.40
+2026-01-12 18:21:48,576 - Financial_Plan - DEBUG - Portfolio Series after 6 years:
+Asset_1: $2,282.24
+Asset_2: $4,564.48
+Asset_3: $6,846.72
+Asset_4: $9,128.96
+
+2026-01-12 18:21:48,576 - Financial_Plan - DEBUG - Year: 6 - Portfolio Value: $22,822.40
+
+2026-01-12 18:21:48,576 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $2,282.24
+Asset_2: $4,564.48
+Asset_3: $6,846.72
+Asset_4: $9,128.96
+
+2026-01-12 18:21:48,576 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:21:48,576 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $2,738.69
+Asset_2: $-5,020.93
+Asset_3: $10,270.08
+Asset_4: $912.90
+
+2026-01-12 18:21:48,577 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $2,738.69
+Asset_2: $0.00
+Asset_3: $10,270.08
+Asset_4: $912.90
+
+2026-01-12 18:21:48,577 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $1,392.17
+Asset_2: $2,784.33
+Asset_3: $4,176.50
+Asset_4: $5,568.67
+
+2026-01-12 18:21:48,577 - Financial_Plan - DEBUG - Management Fee Value $228.22
+2026-01-12 18:21:48,577 - Financial_Plan - DEBUG - Distribution Value $10,228.22
+2026-01-12 18:21:48,577 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,022.82
+Asset_2: $2,045.64
+Asset_3: $3,068.47
+Asset_4: $4,091.29
+
+2026-01-12 18:21:48,578 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $369.34
+Asset_2: $738.69
+Asset_3: $1,108.03
+Asset_4: $1,477.38
+
+2026-01-12 18:21:48,578 - Financial_Plan - DEBUG - Initial Portfolio Value: $22,822.40
+2026-01-12 18:21:48,578 - Financial_Plan - DEBUG - Value after ROR: $8,900.74
+2026-01-12 18:21:48,578 - Financial_Plan - DEBUG - Value after clipping negative values: $13,921.66
+2026-01-12 18:21:48,578 - Financial_Plan - DEBUG - Value after rebalancing: $13,921.66
+2026-01-12 18:21:48,578 - Financial_Plan - DEBUG - Value after distribution: $3,693.44
+2026-01-12 18:21:48,578 - Financial_Plan - DEBUG - Portfolio Series after 7 years:
+Asset_1: $369.34
+Asset_2: $738.69
+Asset_3: $1,108.03
+Asset_4: $1,477.38
+
+2026-01-12 18:21:48,578 - Financial_Plan - DEBUG - Year: 7 - Portfolio Value: $3,693.44
+
+2026-01-12 18:21:48,578 - Financial_Plan - DEBUG - Portfolio busted at year 6
+2026-01-12 18:22:04,260 - Financial_Plan - DEBUG - ROR:
+Asset_1    1.2
+Asset_2   -1.1
+Asset_3    1.5
+Asset_4    0.2
+dtype: float64
+2026-01-12 18:22:04,260 - Financial_Plan - DEBUG - Cashflow $10,000.00
+2026-01-12 18:22:04,260 - Financial_Plan - DEBUG - Management Fee: 1.00%
+2026-01-12 18:22:04,260 - Financial_Plan - DEBUG - Initial Portfolio Series:
+Asset_1: $100,000.00
+Asset_2: $200,000.00
+Asset_3: $300,000.00
+Asset_4: $400,000.00
+
+2026-01-12 18:22:04,260 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $100,000.00
+Asset_2: $200,000.00
+Asset_3: $300,000.00
+Asset_4: $400,000.00
+
+2026-01-12 18:22:04,261 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:04,261 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $120,000.00
+Asset_2: $-220,000.00
+Asset_3: $450,000.00
+Asset_4: $80,000.00
+
+2026-01-12 18:22:04,262 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $120,000.00
+Asset_2: $0.00
+Asset_3: $450,000.00
+Asset_4: $80,000.00
+
+2026-01-12 18:22:04,262 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $65,000.00
+Asset_2: $130,000.00
+Asset_3: $195,000.00
+Asset_4: $260,000.00
+
+2026-01-12 18:22:04,262 - Financial_Plan - DEBUG - Management Fee Value $10,000.00
+2026-01-12 18:22:04,262 - Financial_Plan - DEBUG - Distribution Value $20,000.00
+2026-01-12 18:22:04,262 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $2,000.00
+Asset_2: $4,000.00
+Asset_3: $6,000.00
+Asset_4: $8,000.00
+
+2026-01-12 18:22:04,263 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $63,000.00
+Asset_2: $126,000.00
+Asset_3: $189,000.00
+Asset_4: $252,000.00
+
+2026-01-12 18:22:04,263 - Financial_Plan - DEBUG - Initial Portfolio Value: $1,000,000.00
+2026-01-12 18:22:04,263 - Financial_Plan - DEBUG - Value after ROR: $430,000.00
+2026-01-12 18:22:04,263 - Financial_Plan - DEBUG - Value after clipping negative values: $650,000.00
+2026-01-12 18:22:04,263 - Financial_Plan - DEBUG - Value after rebalancing: $650,000.00
+2026-01-12 18:22:04,263 - Financial_Plan - DEBUG - Value after distribution: $630,000.00
+2026-01-12 18:22:04,263 - Financial_Plan - DEBUG - Portfolio Series after 1 years:
+Asset_1: $63,000.00
+Asset_2: $126,000.00
+Asset_3: $189,000.00
+Asset_4: $252,000.00
+
+2026-01-12 18:22:04,263 - Financial_Plan - DEBUG - Year: 1 - Portfolio Value: $630,000.00
+
+2026-01-12 18:22:04,263 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $63,000.00
+Asset_2: $126,000.00
+Asset_3: $189,000.00
+Asset_4: $252,000.00
+
+2026-01-12 18:22:04,264 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:04,264 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $75,600.00
+Asset_2: $-138,600.00
+Asset_3: $283,500.00
+Asset_4: $50,400.00
+
+2026-01-12 18:22:04,264 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $75,600.00
+Asset_2: $0.00
+Asset_3: $283,500.00
+Asset_4: $50,400.00
+
+2026-01-12 18:22:04,265 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $40,950.00
+Asset_2: $81,900.00
+Asset_3: $122,850.00
+Asset_4: $163,800.00
+
+2026-01-12 18:22:04,265 - Financial_Plan - DEBUG - Management Fee Value $6,300.00
+2026-01-12 18:22:04,265 - Financial_Plan - DEBUG - Distribution Value $16,300.00
+2026-01-12 18:22:04,265 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,630.00
+Asset_2: $3,260.00
+Asset_3: $4,890.00
+Asset_4: $6,520.00
+
+2026-01-12 18:22:04,265 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $39,320.00
+Asset_2: $78,640.00
+Asset_3: $117,960.00
+Asset_4: $157,280.00
+
+2026-01-12 18:22:04,265 - Financial_Plan - DEBUG - Initial Portfolio Value: $630,000.00
+2026-01-12 18:22:04,265 - Financial_Plan - DEBUG - Value after ROR: $270,900.00
+2026-01-12 18:22:04,266 - Financial_Plan - DEBUG - Value after clipping negative values: $409,500.00
+2026-01-12 18:22:04,266 - Financial_Plan - DEBUG - Value after rebalancing: $409,500.00
+2026-01-12 18:22:04,266 - Financial_Plan - DEBUG - Value after distribution: $393,200.00
+2026-01-12 18:22:04,266 - Financial_Plan - DEBUG - Portfolio Series after 2 years:
+Asset_1: $39,320.00
+Asset_2: $78,640.00
+Asset_3: $117,960.00
+Asset_4: $157,280.00
+
+2026-01-12 18:22:04,266 - Financial_Plan - DEBUG - Year: 2 - Portfolio Value: $393,200.00
+
+2026-01-12 18:22:04,266 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $39,320.00
+Asset_2: $78,640.00
+Asset_3: $117,960.00
+Asset_4: $157,280.00
+
+2026-01-12 18:22:04,267 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:04,267 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $47,184.00
+Asset_2: $-86,504.00
+Asset_3: $176,940.00
+Asset_4: $31,456.00
+
+2026-01-12 18:22:04,268 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $47,184.00
+Asset_2: $0.00
+Asset_3: $176,940.00
+Asset_4: $31,456.00
+
+2026-01-12 18:22:04,268 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $25,558.00
+Asset_2: $51,116.00
+Asset_3: $76,674.00
+Asset_4: $102,232.00
+
+2026-01-12 18:22:04,268 - Financial_Plan - DEBUG - Management Fee Value $3,932.00
+2026-01-12 18:22:04,268 - Financial_Plan - DEBUG - Distribution Value $13,932.00
+2026-01-12 18:22:04,268 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,393.20
+Asset_2: $2,786.40
+Asset_3: $4,179.60
+Asset_4: $5,572.80
+
+2026-01-12 18:22:04,268 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $24,164.80
+Asset_2: $48,329.60
+Asset_3: $72,494.40
+Asset_4: $96,659.20
+
+2026-01-12 18:22:04,269 - Financial_Plan - DEBUG - Initial Portfolio Value: $393,200.00
+2026-01-12 18:22:04,269 - Financial_Plan - DEBUG - Value after ROR: $169,076.00
+2026-01-12 18:22:04,269 - Financial_Plan - DEBUG - Value after clipping negative values: $255,580.00
+2026-01-12 18:22:04,269 - Financial_Plan - DEBUG - Value after rebalancing: $255,580.00
+2026-01-12 18:22:04,269 - Financial_Plan - DEBUG - Value after distribution: $241,648.00
+2026-01-12 18:22:04,269 - Financial_Plan - DEBUG - Portfolio Series after 3 years:
+Asset_1: $24,164.80
+Asset_2: $48,329.60
+Asset_3: $72,494.40
+Asset_4: $96,659.20
+
+2026-01-12 18:22:04,269 - Financial_Plan - DEBUG - Year: 3 - Portfolio Value: $241,648.00
+
+2026-01-12 18:22:04,269 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $24,164.80
+Asset_2: $48,329.60
+Asset_3: $72,494.40
+Asset_4: $96,659.20
+
+2026-01-12 18:22:04,270 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:04,270 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $28,997.76
+Asset_2: $-53,162.56
+Asset_3: $108,741.60
+Asset_4: $19,331.84
+
+2026-01-12 18:22:04,270 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $28,997.76
+Asset_2: $0.00
+Asset_3: $108,741.60
+Asset_4: $19,331.84
+
+2026-01-12 18:22:04,271 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $15,707.12
+Asset_2: $31,414.24
+Asset_3: $47,121.36
+Asset_4: $62,828.48
+
+2026-01-12 18:22:04,271 - Financial_Plan - DEBUG - Management Fee Value $2,416.48
+2026-01-12 18:22:04,271 - Financial_Plan - DEBUG - Distribution Value $12,416.48
+2026-01-12 18:22:04,271 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,241.65
+Asset_2: $2,483.30
+Asset_3: $3,724.94
+Asset_4: $4,966.59
+
+2026-01-12 18:22:04,272 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $14,465.47
+Asset_2: $28,930.94
+Asset_3: $43,396.42
+Asset_4: $57,861.89
+
+2026-01-12 18:22:04,272 - Financial_Plan - DEBUG - Initial Portfolio Value: $241,648.00
+2026-01-12 18:22:04,272 - Financial_Plan - DEBUG - Value after ROR: $103,908.64
+2026-01-12 18:22:04,272 - Financial_Plan - DEBUG - Value after clipping negative values: $157,071.20
+2026-01-12 18:22:04,272 - Financial_Plan - DEBUG - Value after rebalancing: $157,071.20
+2026-01-12 18:22:04,272 - Financial_Plan - DEBUG - Value after distribution: $144,654.72
+2026-01-12 18:22:04,272 - Financial_Plan - DEBUG - Portfolio Series after 4 years:
+Asset_1: $14,465.47
+Asset_2: $28,930.94
+Asset_3: $43,396.42
+Asset_4: $57,861.89
+
+2026-01-12 18:22:04,272 - Financial_Plan - DEBUG - Year: 4 - Portfolio Value: $144,654.72
+
+2026-01-12 18:22:04,272 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $14,465.47
+Asset_2: $28,930.94
+Asset_3: $43,396.42
+Asset_4: $57,861.89
+
+2026-01-12 18:22:04,273 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:04,273 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $17,358.57
+Asset_2: $-31,824.04
+Asset_3: $65,094.62
+Asset_4: $11,572.38
+
+2026-01-12 18:22:04,273 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $17,358.57
+Asset_2: $0.00
+Asset_3: $65,094.62
+Asset_4: $11,572.38
+
+2026-01-12 18:22:04,274 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $9,402.56
+Asset_2: $18,805.11
+Asset_3: $28,207.67
+Asset_4: $37,610.23
+
+2026-01-12 18:22:04,274 - Financial_Plan - DEBUG - Management Fee Value $1,446.55
+2026-01-12 18:22:04,274 - Financial_Plan - DEBUG - Distribution Value $11,446.55
+2026-01-12 18:22:04,274 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,144.65
+Asset_2: $2,289.31
+Asset_3: $3,433.96
+Asset_4: $4,578.62
+
+2026-01-12 18:22:04,274 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $8,257.90
+Asset_2: $16,515.80
+Asset_3: $24,773.71
+Asset_4: $33,031.61
+
+2026-01-12 18:22:04,274 - Financial_Plan - DEBUG - Initial Portfolio Value: $144,654.72
+2026-01-12 18:22:04,274 - Financial_Plan - DEBUG - Value after ROR: $62,201.53
+2026-01-12 18:22:04,274 - Financial_Plan - DEBUG - Value after clipping negative values: $94,025.57
+2026-01-12 18:22:04,274 - Financial_Plan - DEBUG - Value after rebalancing: $94,025.57
+2026-01-12 18:22:04,274 - Financial_Plan - DEBUG - Value after distribution: $82,579.02
+2026-01-12 18:22:04,274 - Financial_Plan - DEBUG - Portfolio Series after 5 years:
+Asset_1: $8,257.90
+Asset_2: $16,515.80
+Asset_3: $24,773.71
+Asset_4: $33,031.61
+
+2026-01-12 18:22:04,275 - Financial_Plan - DEBUG - Year: 5 - Portfolio Value: $82,579.02
+
+2026-01-12 18:22:04,275 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $8,257.90
+Asset_2: $16,515.80
+Asset_3: $24,773.71
+Asset_4: $33,031.61
+
+2026-01-12 18:22:04,275 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:04,275 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $9,909.48
+Asset_2: $-18,167.38
+Asset_3: $37,160.56
+Asset_4: $6,606.32
+
+2026-01-12 18:22:04,276 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $9,909.48
+Asset_2: $0.00
+Asset_3: $37,160.56
+Asset_4: $6,606.32
+
+2026-01-12 18:22:04,276 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $5,367.64
+Asset_2: $10,735.27
+Asset_3: $16,102.91
+Asset_4: $21,470.55
+
+2026-01-12 18:22:04,276 - Financial_Plan - DEBUG - Management Fee Value $825.79
+2026-01-12 18:22:04,276 - Financial_Plan - DEBUG - Distribution Value $10,825.79
+2026-01-12 18:22:04,276 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,082.58
+Asset_2: $2,165.16
+Asset_3: $3,247.74
+Asset_4: $4,330.32
+
+2026-01-12 18:22:04,276 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $4,285.06
+Asset_2: $8,570.11
+Asset_3: $12,855.17
+Asset_4: $17,140.23
+
+2026-01-12 18:22:04,277 - Financial_Plan - DEBUG - Initial Portfolio Value: $82,579.02
+2026-01-12 18:22:04,277 - Financial_Plan - DEBUG - Value after ROR: $35,508.98
+2026-01-12 18:22:04,277 - Financial_Plan - DEBUG - Value after clipping negative values: $53,676.36
+2026-01-12 18:22:04,277 - Financial_Plan - DEBUG - Value after rebalancing: $53,676.36
+2026-01-12 18:22:04,277 - Financial_Plan - DEBUG - Value after distribution: $42,850.57
+2026-01-12 18:22:04,277 - Financial_Plan - DEBUG - Portfolio Series after 6 years:
+Asset_1: $4,285.06
+Asset_2: $8,570.11
+Asset_3: $12,855.17
+Asset_4: $17,140.23
+
+2026-01-12 18:22:04,277 - Financial_Plan - DEBUG - Year: 6 - Portfolio Value: $42,850.57
+
+2026-01-12 18:22:04,277 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $4,285.06
+Asset_2: $8,570.11
+Asset_3: $12,855.17
+Asset_4: $17,140.23
+
+2026-01-12 18:22:04,277 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:04,278 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $5,142.07
+Asset_2: $-9,427.13
+Asset_3: $19,282.76
+Asset_4: $3,428.05
+
+2026-01-12 18:22:04,278 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $5,142.07
+Asset_2: $0.00
+Asset_3: $19,282.76
+Asset_4: $3,428.05
+
+2026-01-12 18:22:04,278 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $2,785.29
+Asset_2: $5,570.57
+Asset_3: $8,355.86
+Asset_4: $11,141.15
+
+2026-01-12 18:22:04,278 - Financial_Plan - DEBUG - Management Fee Value $428.51
+2026-01-12 18:22:04,279 - Financial_Plan - DEBUG - Distribution Value $10,428.51
+2026-01-12 18:22:04,279 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,042.85
+Asset_2: $2,085.70
+Asset_3: $3,128.55
+Asset_4: $4,171.40
+
+2026-01-12 18:22:04,279 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $1,742.44
+Asset_2: $3,484.87
+Asset_3: $5,227.31
+Asset_4: $6,969.75
+
+2026-01-12 18:22:04,279 - Financial_Plan - DEBUG - Initial Portfolio Value: $42,850.57
+2026-01-12 18:22:04,279 - Financial_Plan - DEBUG - Value after ROR: $18,425.75
+2026-01-12 18:22:04,279 - Financial_Plan - DEBUG - Value after clipping negative values: $27,852.87
+2026-01-12 18:22:04,279 - Financial_Plan - DEBUG - Value after rebalancing: $27,852.87
+2026-01-12 18:22:04,279 - Financial_Plan - DEBUG - Value after distribution: $17,424.37
+2026-01-12 18:22:04,279 - Financial_Plan - DEBUG - Portfolio Series after 7 years:
+Asset_1: $1,742.44
+Asset_2: $3,484.87
+Asset_3: $5,227.31
+Asset_4: $6,969.75
+
+2026-01-12 18:22:04,279 - Financial_Plan - DEBUG - Year: 7 - Portfolio Value: $17,424.37
+
+2026-01-12 18:22:04,280 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $1,742.44
+Asset_2: $3,484.87
+Asset_3: $5,227.31
+Asset_4: $6,969.75
+
+2026-01-12 18:22:04,280 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:04,280 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $2,090.92
+Asset_2: $-3,833.36
+Asset_3: $7,840.97
+Asset_4: $1,393.95
+
+2026-01-12 18:22:04,281 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $2,090.92
+Asset_2: $0.00
+Asset_3: $7,840.97
+Asset_4: $1,393.95
+
+2026-01-12 18:22:04,281 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $1,132.58
+Asset_2: $2,265.17
+Asset_3: $3,397.75
+Asset_4: $4,530.34
+
+2026-01-12 18:22:04,281 - Financial_Plan - DEBUG - Management Fee Value $174.24
+2026-01-12 18:22:04,281 - Financial_Plan - DEBUG - Distribution Value $10,174.24
+2026-01-12 18:22:04,281 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,017.42
+Asset_2: $2,034.85
+Asset_3: $3,052.27
+Asset_4: $4,069.70
+
+2026-01-12 18:22:04,282 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $115.16
+Asset_2: $230.32
+Asset_3: $345.48
+Asset_4: $460.64
+
+2026-01-12 18:22:04,282 - Financial_Plan - DEBUG - Initial Portfolio Value: $17,424.37
+2026-01-12 18:22:04,282 - Financial_Plan - DEBUG - Value after ROR: $7,492.48
+2026-01-12 18:22:04,282 - Financial_Plan - DEBUG - Value after clipping negative values: $11,325.84
+2026-01-12 18:22:04,282 - Financial_Plan - DEBUG - Value after rebalancing: $11,325.84
+2026-01-12 18:22:04,282 - Financial_Plan - DEBUG - Value after distribution: $1,151.59
+2026-01-12 18:22:04,282 - Financial_Plan - DEBUG - Portfolio Series after 8 years:
+Asset_1: $115.16
+Asset_2: $230.32
+Asset_3: $345.48
+Asset_4: $460.64
+
+2026-01-12 18:22:04,282 - Financial_Plan - DEBUG - Year: 8 - Portfolio Value: $1,151.59
+
+2026-01-12 18:22:04,282 - Financial_Plan - DEBUG - Portfolio busted at year 7
+2026-01-12 18:22:13,481 - Financial_Plan - DEBUG - ROR:
+Asset_1    1.2
+Asset_2   -1.1
+Asset_3    1.5
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:13,481 - Financial_Plan - DEBUG - Cashflow $10,000.00
+2026-01-12 18:22:13,481 - Financial_Plan - DEBUG - Management Fee: 1.00%
+2026-01-12 18:22:13,481 - Financial_Plan - DEBUG - Initial Portfolio Series:
+Asset_1: $100,000.00
+Asset_2: $200,000.00
+Asset_3: $300,000.00
+Asset_4: $400,000.00
+
+2026-01-12 18:22:13,482 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $100,000.00
+Asset_2: $200,000.00
+Asset_3: $300,000.00
+Asset_4: $400,000.00
+
+2026-01-12 18:22:13,482 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:13,482 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $120,000.00
+Asset_2: $-220,000.00
+Asset_3: $450,000.00
+Asset_4: $160,000.00
+
+2026-01-12 18:22:13,483 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $120,000.00
+Asset_2: $0.00
+Asset_3: $450,000.00
+Asset_4: $160,000.00
+
+2026-01-12 18:22:13,483 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $73,000.00
+Asset_2: $146,000.00
+Asset_3: $219,000.00
+Asset_4: $292,000.00
+
+2026-01-12 18:22:13,483 - Financial_Plan - DEBUG - Management Fee Value $10,000.00
+2026-01-12 18:22:13,483 - Financial_Plan - DEBUG - Distribution Value $20,000.00
+2026-01-12 18:22:13,484 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $2,000.00
+Asset_2: $4,000.00
+Asset_3: $6,000.00
+Asset_4: $8,000.00
+
+2026-01-12 18:22:13,484 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $71,000.00
+Asset_2: $142,000.00
+Asset_3: $213,000.00
+Asset_4: $284,000.00
+
+2026-01-12 18:22:13,484 - Financial_Plan - DEBUG - Initial Portfolio Value: $1,000,000.00
+2026-01-12 18:22:13,484 - Financial_Plan - DEBUG - Value after ROR: $510,000.00
+2026-01-12 18:22:13,484 - Financial_Plan - DEBUG - Value after clipping negative values: $730,000.00
+2026-01-12 18:22:13,484 - Financial_Plan - DEBUG - Value after rebalancing: $730,000.00
+2026-01-12 18:22:13,484 - Financial_Plan - DEBUG - Value after distribution: $710,000.00
+2026-01-12 18:22:13,484 - Financial_Plan - DEBUG - Portfolio Series after 1 years:
+Asset_1: $71,000.00
+Asset_2: $142,000.00
+Asset_3: $213,000.00
+Asset_4: $284,000.00
+
+2026-01-12 18:22:13,484 - Financial_Plan - DEBUG - Year: 1 - Portfolio Value: $710,000.00
+
+2026-01-12 18:22:13,484 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $71,000.00
+Asset_2: $142,000.00
+Asset_3: $213,000.00
+Asset_4: $284,000.00
+
+2026-01-12 18:22:13,485 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:13,485 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $85,200.00
+Asset_2: $-156,200.00
+Asset_3: $319,500.00
+Asset_4: $113,600.00
+
+2026-01-12 18:22:13,485 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $85,200.00
+Asset_2: $0.00
+Asset_3: $319,500.00
+Asset_4: $113,600.00
+
+2026-01-12 18:22:13,486 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $51,830.00
+Asset_2: $103,660.00
+Asset_3: $155,490.00
+Asset_4: $207,320.00
+
+2026-01-12 18:22:13,486 - Financial_Plan - DEBUG - Management Fee Value $7,100.00
+2026-01-12 18:22:13,486 - Financial_Plan - DEBUG - Distribution Value $17,100.00
+2026-01-12 18:22:13,486 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,710.00
+Asset_2: $3,420.00
+Asset_3: $5,130.00
+Asset_4: $6,840.00
+
+2026-01-12 18:22:13,486 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $50,120.00
+Asset_2: $100,240.00
+Asset_3: $150,360.00
+Asset_4: $200,480.00
+
+2026-01-12 18:22:13,486 - Financial_Plan - DEBUG - Initial Portfolio Value: $710,000.00
+2026-01-12 18:22:13,486 - Financial_Plan - DEBUG - Value after ROR: $362,100.00
+2026-01-12 18:22:13,486 - Financial_Plan - DEBUG - Value after clipping negative values: $518,300.00
+2026-01-12 18:22:13,486 - Financial_Plan - DEBUG - Value after rebalancing: $518,300.00
+2026-01-12 18:22:13,486 - Financial_Plan - DEBUG - Value after distribution: $501,200.00
+2026-01-12 18:22:13,487 - Financial_Plan - DEBUG - Portfolio Series after 2 years:
+Asset_1: $50,120.00
+Asset_2: $100,240.00
+Asset_3: $150,360.00
+Asset_4: $200,480.00
+
+2026-01-12 18:22:13,487 - Financial_Plan - DEBUG - Year: 2 - Portfolio Value: $501,200.00
+
+2026-01-12 18:22:13,487 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $50,120.00
+Asset_2: $100,240.00
+Asset_3: $150,360.00
+Asset_4: $200,480.00
+
+2026-01-12 18:22:13,487 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:13,487 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $60,144.00
+Asset_2: $-110,264.00
+Asset_3: $225,540.00
+Asset_4: $80,192.00
+
+2026-01-12 18:22:13,488 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $60,144.00
+Asset_2: $0.00
+Asset_3: $225,540.00
+Asset_4: $80,192.00
+
+2026-01-12 18:22:13,488 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $36,587.60
+Asset_2: $73,175.20
+Asset_3: $109,762.80
+Asset_4: $146,350.40
+
+2026-01-12 18:22:13,488 - Financial_Plan - DEBUG - Management Fee Value $5,012.00
+2026-01-12 18:22:13,488 - Financial_Plan - DEBUG - Distribution Value $15,012.00
+2026-01-12 18:22:13,488 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,501.20
+Asset_2: $3,002.40
+Asset_3: $4,503.60
+Asset_4: $6,004.80
+
+2026-01-12 18:22:13,489 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $35,086.40
+Asset_2: $70,172.80
+Asset_3: $105,259.20
+Asset_4: $140,345.60
+
+2026-01-12 18:22:13,489 - Financial_Plan - DEBUG - Initial Portfolio Value: $501,200.00
+2026-01-12 18:22:13,489 - Financial_Plan - DEBUG - Value after ROR: $255,612.00
+2026-01-12 18:22:13,489 - Financial_Plan - DEBUG - Value after clipping negative values: $365,876.00
+2026-01-12 18:22:13,489 - Financial_Plan - DEBUG - Value after rebalancing: $365,876.00
+2026-01-12 18:22:13,489 - Financial_Plan - DEBUG - Value after distribution: $350,864.00
+2026-01-12 18:22:13,489 - Financial_Plan - DEBUG - Portfolio Series after 3 years:
+Asset_1: $35,086.40
+Asset_2: $70,172.80
+Asset_3: $105,259.20
+Asset_4: $140,345.60
+
+2026-01-12 18:22:13,489 - Financial_Plan - DEBUG - Year: 3 - Portfolio Value: $350,864.00
+
+2026-01-12 18:22:13,489 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $35,086.40
+Asset_2: $70,172.80
+Asset_3: $105,259.20
+Asset_4: $140,345.60
+
+2026-01-12 18:22:13,490 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:13,490 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $42,103.68
+Asset_2: $-77,190.08
+Asset_3: $157,888.80
+Asset_4: $56,138.24
+
+2026-01-12 18:22:13,490 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $42,103.68
+Asset_2: $0.00
+Asset_3: $157,888.80
+Asset_4: $56,138.24
+
+2026-01-12 18:22:13,491 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $25,613.07
+Asset_2: $51,226.14
+Asset_3: $76,839.22
+Asset_4: $102,452.29
+
+2026-01-12 18:22:13,491 - Financial_Plan - DEBUG - Management Fee Value $3,508.64
+2026-01-12 18:22:13,491 - Financial_Plan - DEBUG - Distribution Value $13,508.64
+2026-01-12 18:22:13,491 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,350.86
+Asset_2: $2,701.73
+Asset_3: $4,052.59
+Asset_4: $5,403.46
+
+2026-01-12 18:22:13,491 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $24,262.21
+Asset_2: $48,524.42
+Asset_3: $72,786.62
+Asset_4: $97,048.83
+
+2026-01-12 18:22:13,491 - Financial_Plan - DEBUG - Initial Portfolio Value: $350,864.00
+2026-01-12 18:22:13,491 - Financial_Plan - DEBUG - Value after ROR: $178,940.64
+2026-01-12 18:22:13,491 - Financial_Plan - DEBUG - Value after clipping negative values: $256,130.72
+2026-01-12 18:22:13,491 - Financial_Plan - DEBUG - Value after rebalancing: $256,130.72
+2026-01-12 18:22:13,491 - Financial_Plan - DEBUG - Value after distribution: $242,622.08
+2026-01-12 18:22:13,491 - Financial_Plan - DEBUG - Portfolio Series after 4 years:
+Asset_1: $24,262.21
+Asset_2: $48,524.42
+Asset_3: $72,786.62
+Asset_4: $97,048.83
+
+2026-01-12 18:22:13,492 - Financial_Plan - DEBUG - Year: 4 - Portfolio Value: $242,622.08
+
+2026-01-12 18:22:13,492 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $24,262.21
+Asset_2: $48,524.42
+Asset_3: $72,786.62
+Asset_4: $97,048.83
+
+2026-01-12 18:22:13,492 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:13,492 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $29,114.65
+Asset_2: $-53,376.86
+Asset_3: $109,179.94
+Asset_4: $38,819.53
+
+2026-01-12 18:22:13,493 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $29,114.65
+Asset_2: $0.00
+Asset_3: $109,179.94
+Asset_4: $38,819.53
+
+2026-01-12 18:22:13,493 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $17,711.41
+Asset_2: $35,422.82
+Asset_3: $53,134.24
+Asset_4: $70,845.65
+
+2026-01-12 18:22:13,494 - Financial_Plan - DEBUG - Management Fee Value $2,426.22
+2026-01-12 18:22:13,494 - Financial_Plan - DEBUG - Distribution Value $12,426.22
+2026-01-12 18:22:13,494 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,242.62
+Asset_2: $2,485.24
+Asset_3: $3,727.87
+Asset_4: $4,970.49
+
+2026-01-12 18:22:13,494 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $16,468.79
+Asset_2: $32,937.58
+Asset_3: $49,406.37
+Asset_4: $65,875.16
+
+2026-01-12 18:22:13,494 - Financial_Plan - DEBUG - Initial Portfolio Value: $242,622.08
+2026-01-12 18:22:13,494 - Financial_Plan - DEBUG - Value after ROR: $123,737.26
+2026-01-12 18:22:13,494 - Financial_Plan - DEBUG - Value after clipping negative values: $177,114.12
+2026-01-12 18:22:13,494 - Financial_Plan - DEBUG - Value after rebalancing: $177,114.12
+2026-01-12 18:22:13,494 - Financial_Plan - DEBUG - Value after distribution: $164,687.90
+2026-01-12 18:22:13,495 - Financial_Plan - DEBUG - Portfolio Series after 5 years:
+Asset_1: $16,468.79
+Asset_2: $32,937.58
+Asset_3: $49,406.37
+Asset_4: $65,875.16
+
+2026-01-12 18:22:13,495 - Financial_Plan - DEBUG - Year: 5 - Portfolio Value: $164,687.90
+
+2026-01-12 18:22:13,495 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $16,468.79
+Asset_2: $32,937.58
+Asset_3: $49,406.37
+Asset_4: $65,875.16
+
+2026-01-12 18:22:13,495 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:13,495 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $19,762.55
+Asset_2: $-36,231.34
+Asset_3: $74,109.55
+Asset_4: $26,350.06
+
+2026-01-12 18:22:13,496 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $19,762.55
+Asset_2: $0.00
+Asset_3: $74,109.55
+Asset_4: $26,350.06
+
+2026-01-12 18:22:13,496 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $12,022.22
+Asset_2: $24,044.43
+Asset_3: $36,066.65
+Asset_4: $48,088.87
+
+2026-01-12 18:22:13,496 - Financial_Plan - DEBUG - Management Fee Value $1,646.88
+2026-01-12 18:22:13,496 - Financial_Plan - DEBUG - Distribution Value $11,646.88
+2026-01-12 18:22:13,497 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,164.69
+Asset_2: $2,329.38
+Asset_3: $3,494.06
+Asset_4: $4,658.75
+
+2026-01-12 18:22:13,497 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $10,857.53
+Asset_2: $21,715.06
+Asset_3: $32,572.59
+Asset_4: $43,430.11
+
+2026-01-12 18:22:13,497 - Financial_Plan - DEBUG - Initial Portfolio Value: $164,687.90
+2026-01-12 18:22:13,497 - Financial_Plan - DEBUG - Value after ROR: $83,990.83
+2026-01-12 18:22:13,497 - Financial_Plan - DEBUG - Value after clipping negative values: $120,222.17
+2026-01-12 18:22:13,497 - Financial_Plan - DEBUG - Value after rebalancing: $120,222.17
+2026-01-12 18:22:13,497 - Financial_Plan - DEBUG - Value after distribution: $108,575.29
+2026-01-12 18:22:13,497 - Financial_Plan - DEBUG - Portfolio Series after 6 years:
+Asset_1: $10,857.53
+Asset_2: $21,715.06
+Asset_3: $32,572.59
+Asset_4: $43,430.11
+
+2026-01-12 18:22:13,497 - Financial_Plan - DEBUG - Year: 6 - Portfolio Value: $108,575.29
+
+2026-01-12 18:22:13,498 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $10,857.53
+Asset_2: $21,715.06
+Asset_3: $32,572.59
+Asset_4: $43,430.11
+
+2026-01-12 18:22:13,498 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:13,498 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $13,029.03
+Asset_2: $-23,886.56
+Asset_3: $48,858.88
+Asset_4: $17,372.05
+
+2026-01-12 18:22:13,499 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $13,029.03
+Asset_2: $0.00
+Asset_3: $48,858.88
+Asset_4: $17,372.05
+
+2026-01-12 18:22:13,499 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $7,926.00
+Asset_2: $15,851.99
+Asset_3: $23,777.99
+Asset_4: $31,703.98
+
+2026-01-12 18:22:13,499 - Financial_Plan - DEBUG - Management Fee Value $1,085.75
+2026-01-12 18:22:13,499 - Financial_Plan - DEBUG - Distribution Value $11,085.75
+2026-01-12 18:22:13,500 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,108.58
+Asset_2: $2,217.15
+Asset_3: $3,325.73
+Asset_4: $4,434.30
+
+2026-01-12 18:22:13,500 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $6,817.42
+Asset_2: $13,634.84
+Asset_3: $20,452.26
+Asset_4: $27,269.68
+
+2026-01-12 18:22:13,500 - Financial_Plan - DEBUG - Initial Portfolio Value: $108,575.29
+2026-01-12 18:22:13,500 - Financial_Plan - DEBUG - Value after ROR: $55,373.40
+2026-01-12 18:22:13,501 - Financial_Plan - DEBUG - Value after clipping negative values: $79,259.96
+2026-01-12 18:22:13,501 - Financial_Plan - DEBUG - Value after rebalancing: $79,259.96
+2026-01-12 18:22:13,501 - Financial_Plan - DEBUG - Value after distribution: $68,174.21
+2026-01-12 18:22:13,501 - Financial_Plan - DEBUG - Portfolio Series after 7 years:
+Asset_1: $6,817.42
+Asset_2: $13,634.84
+Asset_3: $20,452.26
+Asset_4: $27,269.68
+
+2026-01-12 18:22:13,501 - Financial_Plan - DEBUG - Year: 7 - Portfolio Value: $68,174.21
+
+2026-01-12 18:22:13,501 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $6,817.42
+Asset_2: $13,634.84
+Asset_3: $20,452.26
+Asset_4: $27,269.68
+
+2026-01-12 18:22:13,502 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:13,503 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $8,180.90
+Asset_2: $-14,998.33
+Asset_3: $30,678.39
+Asset_4: $10,907.87
+
+2026-01-12 18:22:13,503 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $8,180.90
+Asset_2: $0.00
+Asset_3: $30,678.39
+Asset_4: $10,907.87
+
+2026-01-12 18:22:13,504 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $4,976.72
+Asset_2: $9,953.43
+Asset_3: $14,930.15
+Asset_4: $19,906.87
+
+2026-01-12 18:22:13,504 - Financial_Plan - DEBUG - Management Fee Value $681.74
+2026-01-12 18:22:13,504 - Financial_Plan - DEBUG - Distribution Value $10,681.74
+2026-01-12 18:22:13,504 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,068.17
+Asset_2: $2,136.35
+Asset_3: $3,204.52
+Asset_4: $4,272.70
+
+2026-01-12 18:22:13,504 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $3,908.54
+Asset_2: $7,817.09
+Asset_3: $11,725.63
+Asset_4: $15,634.17
+
+2026-01-12 18:22:13,504 - Financial_Plan - DEBUG - Initial Portfolio Value: $68,174.21
+2026-01-12 18:22:13,504 - Financial_Plan - DEBUG - Value after ROR: $34,768.85
+2026-01-12 18:22:13,504 - Financial_Plan - DEBUG - Value after clipping negative values: $49,767.17
+2026-01-12 18:22:13,504 - Financial_Plan - DEBUG - Value after rebalancing: $49,767.17
+2026-01-12 18:22:13,504 - Financial_Plan - DEBUG - Value after distribution: $39,085.43
+2026-01-12 18:22:13,505 - Financial_Plan - DEBUG - Portfolio Series after 8 years:
+Asset_1: $3,908.54
+Asset_2: $7,817.09
+Asset_3: $11,725.63
+Asset_4: $15,634.17
+
+2026-01-12 18:22:13,505 - Financial_Plan - DEBUG - Year: 8 - Portfolio Value: $39,085.43
+
+2026-01-12 18:22:13,505 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $3,908.54
+Asset_2: $7,817.09
+Asset_3: $11,725.63
+Asset_4: $15,634.17
+
+2026-01-12 18:22:13,505 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:13,506 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $4,690.25
+Asset_2: $-8,598.79
+Asset_3: $17,588.44
+Asset_4: $6,253.67
+
+2026-01-12 18:22:13,507 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $4,690.25
+Asset_2: $0.00
+Asset_3: $17,588.44
+Asset_4: $6,253.67
+
+2026-01-12 18:22:13,507 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $2,853.24
+Asset_2: $5,706.47
+Asset_3: $8,559.71
+Asset_4: $11,412.95
+
+2026-01-12 18:22:13,507 - Financial_Plan - DEBUG - Management Fee Value $390.85
+2026-01-12 18:22:13,507 - Financial_Plan - DEBUG - Distribution Value $10,390.85
+2026-01-12 18:22:13,508 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,039.09
+Asset_2: $2,078.17
+Asset_3: $3,117.26
+Asset_4: $4,156.34
+
+2026-01-12 18:22:13,508 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $1,814.15
+Asset_2: $3,628.30
+Asset_3: $5,442.45
+Asset_4: $7,256.60
+
+2026-01-12 18:22:13,508 - Financial_Plan - DEBUG - Initial Portfolio Value: $39,085.43
+2026-01-12 18:22:13,508 - Financial_Plan - DEBUG - Value after ROR: $19,933.57
+2026-01-12 18:22:13,508 - Financial_Plan - DEBUG - Value after clipping negative values: $28,532.36
+2026-01-12 18:22:13,508 - Financial_Plan - DEBUG - Value after rebalancing: $28,532.36
+2026-01-12 18:22:13,508 - Financial_Plan - DEBUG - Value after distribution: $18,141.51
+2026-01-12 18:22:13,508 - Financial_Plan - DEBUG - Portfolio Series after 9 years:
+Asset_1: $1,814.15
+Asset_2: $3,628.30
+Asset_3: $5,442.45
+Asset_4: $7,256.60
+
+2026-01-12 18:22:13,508 - Financial_Plan - DEBUG - Year: 9 - Portfolio Value: $18,141.51
+
+2026-01-12 18:22:13,509 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $1,814.15
+Asset_2: $3,628.30
+Asset_3: $5,442.45
+Asset_4: $7,256.60
+
+2026-01-12 18:22:13,509 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:22:13,509 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $2,176.98
+Asset_2: $-3,991.13
+Asset_3: $8,163.68
+Asset_4: $2,902.64
+
+2026-01-12 18:22:13,510 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $2,176.98
+Asset_2: $0.00
+Asset_3: $8,163.68
+Asset_4: $2,902.64
+
+2026-01-12 18:22:13,510 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $1,324.33
+Asset_2: $2,648.66
+Asset_3: $3,972.99
+Asset_4: $5,297.32
+
+2026-01-12 18:22:13,510 - Financial_Plan - DEBUG - Management Fee Value $181.42
+2026-01-12 18:22:13,510 - Financial_Plan - DEBUG - Distribution Value $10,181.42
+2026-01-12 18:22:13,510 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,018.14
+Asset_2: $2,036.28
+Asset_3: $3,054.42
+Asset_4: $4,072.57
+
+2026-01-12 18:22:13,511 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $306.19
+Asset_2: $612.38
+Asset_3: $918.57
+Asset_4: $1,224.75
+
+2026-01-12 18:22:13,511 - Financial_Plan - DEBUG - Initial Portfolio Value: $18,141.51
+2026-01-12 18:22:13,511 - Financial_Plan - DEBUG - Value after ROR: $9,252.17
+2026-01-12 18:22:13,511 - Financial_Plan - DEBUG - Value after clipping negative values: $13,243.30
+2026-01-12 18:22:13,511 - Financial_Plan - DEBUG - Value after rebalancing: $13,243.30
+2026-01-12 18:22:13,511 - Financial_Plan - DEBUG - Value after distribution: $3,061.89
+2026-01-12 18:22:13,511 - Financial_Plan - DEBUG - Portfolio Series after 10 years:
+Asset_1: $306.19
+Asset_2: $612.38
+Asset_3: $918.57
+Asset_4: $1,224.75
+
+2026-01-12 18:22:13,511 - Financial_Plan - DEBUG - Year: 10 - Portfolio Value: $3,061.89
+
+2026-01-12 18:22:13,511 - Financial_Plan - DEBUG - Portfolio busted at year 9
+2026-01-12 18:23:22,655 - Financial_Plan - DEBUG - ROR:
+Asset_1    1.2
+Asset_2   -1.1
+Asset_3    1.5
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:23:22,655 - Financial_Plan - DEBUG - Cashflow $10,000.00
+2026-01-12 18:23:22,655 - Financial_Plan - DEBUG - Management Fee: 1.00%
+2026-01-12 18:23:22,655 - Financial_Plan - DEBUG - Initial Portfolio Series:
+Asset_1: $100,000.00
+Asset_2: $200,000.00
+Asset_3: $300,000.00
+Asset_4: $400,000.00
+
+2026-01-12 18:23:22,655 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $100,000.00
+Asset_2: $200,000.00
+Asset_3: $300,000.00
+Asset_4: $400,000.00
+
+2026-01-12 18:23:22,656 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:23:22,656 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $120,000.00
+Asset_2: $-220,000.00
+Asset_3: $450,000.00
+Asset_4: $160,000.00
+
+2026-01-12 18:23:22,656 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $120,000.00
+Asset_2: $0.00
+Asset_3: $450,000.00
+Asset_4: $160,000.00
+
+2026-01-12 18:23:22,657 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $73,000.00
+Asset_2: $146,000.00
+Asset_3: $219,000.00
+Asset_4: $292,000.00
+
+2026-01-12 18:23:22,657 - Financial_Plan - DEBUG - Management Fee Value $10,000.00
+2026-01-12 18:23:22,657 - Financial_Plan - DEBUG - Distribution Value $20,000.00
+2026-01-12 18:23:22,657 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $2,000.00
+Asset_2: $4,000.00
+Asset_3: $6,000.00
+Asset_4: $8,000.00
+
+2026-01-12 18:23:22,657 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $71,000.00
+Asset_2: $142,000.00
+Asset_3: $213,000.00
+Asset_4: $284,000.00
+
+2026-01-12 18:23:22,658 - Financial_Plan - DEBUG - Initial Portfolio Value: $1,000,000.00
+2026-01-12 18:23:22,658 - Financial_Plan - DEBUG - Value after ROR: $510,000.00
+2026-01-12 18:23:22,658 - Financial_Plan - DEBUG - Value after clipping negative values: $730,000.00
+2026-01-12 18:23:22,658 - Financial_Plan - DEBUG - Value after rebalancing: $730,000.00
+2026-01-12 18:23:22,658 - Financial_Plan - DEBUG - Value after distribution: $710,000.00
+2026-01-12 18:23:22,658 - Financial_Plan - DEBUG - Portfolio Series after 1 years:
+Asset_1: $71,000.00
+Asset_2: $142,000.00
+Asset_3: $213,000.00
+Asset_4: $284,000.00
+
+2026-01-12 18:23:22,658 - Financial_Plan - DEBUG - Year: 1 - Portfolio Value: $710,000.00
+
+2026-01-12 18:23:22,658 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $71,000.00
+Asset_2: $142,000.00
+Asset_3: $213,000.00
+Asset_4: $284,000.00
+
+2026-01-12 18:23:22,659 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:23:22,659 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $85,200.00
+Asset_2: $-156,200.00
+Asset_3: $319,500.00
+Asset_4: $113,600.00
+
+2026-01-12 18:23:22,659 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $85,200.00
+Asset_2: $0.00
+Asset_3: $319,500.00
+Asset_4: $113,600.00
+
+2026-01-12 18:23:22,660 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $51,830.00
+Asset_2: $103,660.00
+Asset_3: $155,490.00
+Asset_4: $207,320.00
+
+2026-01-12 18:23:22,660 - Financial_Plan - DEBUG - Management Fee Value $7,100.00
+2026-01-12 18:23:22,660 - Financial_Plan - DEBUG - Distribution Value $17,100.00
+2026-01-12 18:23:22,660 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,710.00
+Asset_2: $3,420.00
+Asset_3: $5,130.00
+Asset_4: $6,840.00
+
+2026-01-12 18:23:22,660 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $50,120.00
+Asset_2: $100,240.00
+Asset_3: $150,360.00
+Asset_4: $200,480.00
+
+2026-01-12 18:23:22,660 - Financial_Plan - DEBUG - Initial Portfolio Value: $710,000.00
+2026-01-12 18:23:22,660 - Financial_Plan - DEBUG - Value after ROR: $362,100.00
+2026-01-12 18:23:22,660 - Financial_Plan - DEBUG - Value after clipping negative values: $518,300.00
+2026-01-12 18:23:22,660 - Financial_Plan - DEBUG - Value after rebalancing: $518,300.00
+2026-01-12 18:23:22,661 - Financial_Plan - DEBUG - Value after distribution: $501,200.00
+2026-01-12 18:23:22,661 - Financial_Plan - DEBUG - Portfolio Series after 2 years:
+Asset_1: $50,120.00
+Asset_2: $100,240.00
+Asset_3: $150,360.00
+Asset_4: $200,480.00
+
+2026-01-12 18:23:22,661 - Financial_Plan - DEBUG - Year: 2 - Portfolio Value: $501,200.00
+
+2026-01-12 18:23:22,661 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $50,120.00
+Asset_2: $100,240.00
+Asset_3: $150,360.00
+Asset_4: $200,480.00
+
+2026-01-12 18:23:22,662 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:23:22,662 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $60,144.00
+Asset_2: $-110,264.00
+Asset_3: $225,540.00
+Asset_4: $80,192.00
+
+2026-01-12 18:23:22,663 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $60,144.00
+Asset_2: $0.00
+Asset_3: $225,540.00
+Asset_4: $80,192.00
+
+2026-01-12 18:23:22,663 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $36,587.60
+Asset_2: $73,175.20
+Asset_3: $109,762.80
+Asset_4: $146,350.40
+
+2026-01-12 18:23:22,663 - Financial_Plan - DEBUG - Management Fee Value $5,012.00
+2026-01-12 18:23:22,663 - Financial_Plan - DEBUG - Distribution Value $15,012.00
+2026-01-12 18:23:22,663 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,501.20
+Asset_2: $3,002.40
+Asset_3: $4,503.60
+Asset_4: $6,004.80
+
+2026-01-12 18:23:22,664 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $35,086.40
+Asset_2: $70,172.80
+Asset_3: $105,259.20
+Asset_4: $140,345.60
+
+2026-01-12 18:23:22,664 - Financial_Plan - DEBUG - Initial Portfolio Value: $501,200.00
+2026-01-12 18:23:22,664 - Financial_Plan - DEBUG - Value after ROR: $255,612.00
+2026-01-12 18:23:22,664 - Financial_Plan - DEBUG - Value after clipping negative values: $365,876.00
+2026-01-12 18:23:22,664 - Financial_Plan - DEBUG - Value after rebalancing: $365,876.00
+2026-01-12 18:23:22,664 - Financial_Plan - DEBUG - Value after distribution: $350,864.00
+2026-01-12 18:23:22,664 - Financial_Plan - DEBUG - Portfolio Series after 3 years:
+Asset_1: $35,086.40
+Asset_2: $70,172.80
+Asset_3: $105,259.20
+Asset_4: $140,345.60
+
+2026-01-12 18:23:22,664 - Financial_Plan - DEBUG - Year: 3 - Portfolio Value: $350,864.00
+
+2026-01-12 18:23:22,664 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $35,086.40
+Asset_2: $70,172.80
+Asset_3: $105,259.20
+Asset_4: $140,345.60
+
+2026-01-12 18:23:22,665 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:23:22,665 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $42,103.68
+Asset_2: $-77,190.08
+Asset_3: $157,888.80
+Asset_4: $56,138.24
+
+2026-01-12 18:23:22,665 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $42,103.68
+Asset_2: $0.00
+Asset_3: $157,888.80
+Asset_4: $56,138.24
+
+2026-01-12 18:23:22,666 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $25,613.07
+Asset_2: $51,226.14
+Asset_3: $76,839.22
+Asset_4: $102,452.29
+
+2026-01-12 18:23:22,666 - Financial_Plan - DEBUG - Management Fee Value $3,508.64
+2026-01-12 18:23:22,666 - Financial_Plan - DEBUG - Distribution Value $13,508.64
+2026-01-12 18:23:22,666 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,350.86
+Asset_2: $2,701.73
+Asset_3: $4,052.59
+Asset_4: $5,403.46
+
+2026-01-12 18:23:22,666 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $24,262.21
+Asset_2: $48,524.42
+Asset_3: $72,786.62
+Asset_4: $97,048.83
+
+2026-01-12 18:23:22,666 - Financial_Plan - DEBUG - Initial Portfolio Value: $350,864.00
+2026-01-12 18:23:22,666 - Financial_Plan - DEBUG - Value after ROR: $178,940.64
+2026-01-12 18:23:22,667 - Financial_Plan - DEBUG - Value after clipping negative values: $256,130.72
+2026-01-12 18:23:22,667 - Financial_Plan - DEBUG - Value after rebalancing: $256,130.72
+2026-01-12 18:23:22,667 - Financial_Plan - DEBUG - Value after distribution: $242,622.08
+2026-01-12 18:23:22,667 - Financial_Plan - DEBUG - Portfolio Series after 4 years:
+Asset_1: $24,262.21
+Asset_2: $48,524.42
+Asset_3: $72,786.62
+Asset_4: $97,048.83
+
+2026-01-12 18:23:22,667 - Financial_Plan - DEBUG - Year: 4 - Portfolio Value: $242,622.08
+
+2026-01-12 18:23:22,667 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $24,262.21
+Asset_2: $48,524.42
+Asset_3: $72,786.62
+Asset_4: $97,048.83
+
+2026-01-12 18:23:22,668 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:23:22,668 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $29,114.65
+Asset_2: $-53,376.86
+Asset_3: $109,179.94
+Asset_4: $38,819.53
+
+2026-01-12 18:23:22,668 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $29,114.65
+Asset_2: $0.00
+Asset_3: $109,179.94
+Asset_4: $38,819.53
+
+2026-01-12 18:23:22,669 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $17,711.41
+Asset_2: $35,422.82
+Asset_3: $53,134.24
+Asset_4: $70,845.65
+
+2026-01-12 18:23:22,669 - Financial_Plan - DEBUG - Management Fee Value $2,426.22
+2026-01-12 18:23:22,669 - Financial_Plan - DEBUG - Distribution Value $12,426.22
+2026-01-12 18:23:22,669 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,242.62
+Asset_2: $2,485.24
+Asset_3: $3,727.87
+Asset_4: $4,970.49
+
+2026-01-12 18:23:22,669 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $16,468.79
+Asset_2: $32,937.58
+Asset_3: $49,406.37
+Asset_4: $65,875.16
+
+2026-01-12 18:23:22,669 - Financial_Plan - DEBUG - Initial Portfolio Value: $242,622.08
+2026-01-12 18:23:22,669 - Financial_Plan - DEBUG - Value after ROR: $123,737.26
+2026-01-12 18:23:22,669 - Financial_Plan - DEBUG - Value after clipping negative values: $177,114.12
+2026-01-12 18:23:22,669 - Financial_Plan - DEBUG - Value after rebalancing: $177,114.12
+2026-01-12 18:23:22,669 - Financial_Plan - DEBUG - Value after distribution: $164,687.90
+2026-01-12 18:23:22,669 - Financial_Plan - DEBUG - Portfolio Series after 5 years:
+Asset_1: $16,468.79
+Asset_2: $32,937.58
+Asset_3: $49,406.37
+Asset_4: $65,875.16
+
+2026-01-12 18:23:22,670 - Financial_Plan - DEBUG - Year: 5 - Portfolio Value: $164,687.90
+
+2026-01-12 18:23:22,670 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $16,468.79
+Asset_2: $32,937.58
+Asset_3: $49,406.37
+Asset_4: $65,875.16
+
+2026-01-12 18:23:22,670 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:23:22,670 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $19,762.55
+Asset_2: $-36,231.34
+Asset_3: $74,109.55
+Asset_4: $26,350.06
+
+2026-01-12 18:23:22,671 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $19,762.55
+Asset_2: $0.00
+Asset_3: $74,109.55
+Asset_4: $26,350.06
+
+2026-01-12 18:23:22,671 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $12,022.22
+Asset_2: $24,044.43
+Asset_3: $36,066.65
+Asset_4: $48,088.87
+
+2026-01-12 18:23:22,671 - Financial_Plan - DEBUG - Management Fee Value $1,646.88
+2026-01-12 18:23:22,671 - Financial_Plan - DEBUG - Distribution Value $11,646.88
+2026-01-12 18:23:22,671 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,164.69
+Asset_2: $2,329.38
+Asset_3: $3,494.06
+Asset_4: $4,658.75
+
+2026-01-12 18:23:22,672 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $10,857.53
+Asset_2: $21,715.06
+Asset_3: $32,572.59
+Asset_4: $43,430.11
+
+2026-01-12 18:23:22,672 - Financial_Plan - DEBUG - Initial Portfolio Value: $164,687.90
+2026-01-12 18:23:22,672 - Financial_Plan - DEBUG - Value after ROR: $83,990.83
+2026-01-12 18:23:22,672 - Financial_Plan - DEBUG - Value after clipping negative values: $120,222.17
+2026-01-12 18:23:22,672 - Financial_Plan - DEBUG - Value after rebalancing: $120,222.17
+2026-01-12 18:23:22,672 - Financial_Plan - DEBUG - Value after distribution: $108,575.29
+2026-01-12 18:23:22,672 - Financial_Plan - DEBUG - Portfolio Series after 6 years:
+Asset_1: $10,857.53
+Asset_2: $21,715.06
+Asset_3: $32,572.59
+Asset_4: $43,430.11
+
+2026-01-12 18:23:22,672 - Financial_Plan - DEBUG - Year: 6 - Portfolio Value: $108,575.29
+
+2026-01-12 18:23:22,672 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $10,857.53
+Asset_2: $21,715.06
+Asset_3: $32,572.59
+Asset_4: $43,430.11
+
+2026-01-12 18:23:22,673 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:23:22,673 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $13,029.03
+Asset_2: $-23,886.56
+Asset_3: $48,858.88
+Asset_4: $17,372.05
+
+2026-01-12 18:23:22,673 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $13,029.03
+Asset_2: $0.00
+Asset_3: $48,858.88
+Asset_4: $17,372.05
+
+2026-01-12 18:23:22,674 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $7,926.00
+Asset_2: $15,851.99
+Asset_3: $23,777.99
+Asset_4: $31,703.98
+
+2026-01-12 18:23:22,674 - Financial_Plan - DEBUG - Management Fee Value $1,085.75
+2026-01-12 18:23:22,674 - Financial_Plan - DEBUG - Distribution Value $11,085.75
+2026-01-12 18:23:22,674 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,108.58
+Asset_2: $2,217.15
+Asset_3: $3,325.73
+Asset_4: $4,434.30
+
+2026-01-12 18:23:22,674 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $6,817.42
+Asset_2: $13,634.84
+Asset_3: $20,452.26
+Asset_4: $27,269.68
+
+2026-01-12 18:23:22,674 - Financial_Plan - DEBUG - Initial Portfolio Value: $108,575.29
+2026-01-12 18:23:22,674 - Financial_Plan - DEBUG - Value after ROR: $55,373.40
+2026-01-12 18:23:22,674 - Financial_Plan - DEBUG - Value after clipping negative values: $79,259.96
+2026-01-12 18:23:22,674 - Financial_Plan - DEBUG - Value after rebalancing: $79,259.96
+2026-01-12 18:23:22,674 - Financial_Plan - DEBUG - Value after distribution: $68,174.21
+2026-01-12 18:23:22,675 - Financial_Plan - DEBUG - Portfolio Series after 7 years:
+Asset_1: $6,817.42
+Asset_2: $13,634.84
+Asset_3: $20,452.26
+Asset_4: $27,269.68
+
+2026-01-12 18:23:22,675 - Financial_Plan - DEBUG - Year: 7 - Portfolio Value: $68,174.21
+
+2026-01-12 18:23:22,675 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $6,817.42
+Asset_2: $13,634.84
+Asset_3: $20,452.26
+Asset_4: $27,269.68
+
+2026-01-12 18:23:22,675 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:23:22,675 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $8,180.90
+Asset_2: $-14,998.33
+Asset_3: $30,678.39
+Asset_4: $10,907.87
+
+2026-01-12 18:23:22,676 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $8,180.90
+Asset_2: $0.00
+Asset_3: $30,678.39
+Asset_4: $10,907.87
+
+2026-01-12 18:23:22,676 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $4,976.72
+Asset_2: $9,953.43
+Asset_3: $14,930.15
+Asset_4: $19,906.87
+
+2026-01-12 18:23:22,676 - Financial_Plan - DEBUG - Management Fee Value $681.74
+2026-01-12 18:23:22,676 - Financial_Plan - DEBUG - Distribution Value $10,681.74
+2026-01-12 18:23:22,677 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,068.17
+Asset_2: $2,136.35
+Asset_3: $3,204.52
+Asset_4: $4,272.70
+
+2026-01-12 18:23:22,677 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $3,908.54
+Asset_2: $7,817.09
+Asset_3: $11,725.63
+Asset_4: $15,634.17
+
+2026-01-12 18:23:22,677 - Financial_Plan - DEBUG - Initial Portfolio Value: $68,174.21
+2026-01-12 18:23:22,677 - Financial_Plan - DEBUG - Value after ROR: $34,768.85
+2026-01-12 18:23:22,677 - Financial_Plan - DEBUG - Value after clipping negative values: $49,767.17
+2026-01-12 18:23:22,677 - Financial_Plan - DEBUG - Value after rebalancing: $49,767.17
+2026-01-12 18:23:22,677 - Financial_Plan - DEBUG - Value after distribution: $39,085.43
+2026-01-12 18:23:22,678 - Financial_Plan - DEBUG - Portfolio Series after 8 years:
+Asset_1: $3,908.54
+Asset_2: $7,817.09
+Asset_3: $11,725.63
+Asset_4: $15,634.17
+
+2026-01-12 18:23:22,678 - Financial_Plan - DEBUG - Year: 8 - Portfolio Value: $39,085.43
+
+2026-01-12 18:23:22,678 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $3,908.54
+Asset_2: $7,817.09
+Asset_3: $11,725.63
+Asset_4: $15,634.17
+
+2026-01-12 18:23:22,679 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:23:22,679 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $4,690.25
+Asset_2: $-8,598.79
+Asset_3: $17,588.44
+Asset_4: $6,253.67
+
+2026-01-12 18:23:22,679 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $4,690.25
+Asset_2: $0.00
+Asset_3: $17,588.44
+Asset_4: $6,253.67
+
+2026-01-12 18:23:22,680 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $2,853.24
+Asset_2: $5,706.47
+Asset_3: $8,559.71
+Asset_4: $11,412.95
+
+2026-01-12 18:23:22,680 - Financial_Plan - DEBUG - Management Fee Value $390.85
+2026-01-12 18:23:22,680 - Financial_Plan - DEBUG - Distribution Value $10,390.85
+2026-01-12 18:23:22,680 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,039.09
+Asset_2: $2,078.17
+Asset_3: $3,117.26
+Asset_4: $4,156.34
+
+2026-01-12 18:23:22,680 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $1,814.15
+Asset_2: $3,628.30
+Asset_3: $5,442.45
+Asset_4: $7,256.60
+
+2026-01-12 18:23:22,680 - Financial_Plan - DEBUG - Initial Portfolio Value: $39,085.43
+2026-01-12 18:23:22,680 - Financial_Plan - DEBUG - Value after ROR: $19,933.57
+2026-01-12 18:23:22,680 - Financial_Plan - DEBUG - Value after clipping negative values: $28,532.36
+2026-01-12 18:23:22,680 - Financial_Plan - DEBUG - Value after rebalancing: $28,532.36
+2026-01-12 18:23:22,680 - Financial_Plan - DEBUG - Value after distribution: $18,141.51
+2026-01-12 18:23:22,680 - Financial_Plan - DEBUG - Portfolio Series after 9 years:
+Asset_1: $1,814.15
+Asset_2: $3,628.30
+Asset_3: $5,442.45
+Asset_4: $7,256.60
+
+2026-01-12 18:23:22,680 - Financial_Plan - DEBUG - Year: 9 - Portfolio Value: $18,141.51
+
+2026-01-12 18:23:22,681 - Financial_Plan - DEBUG - Portfolio Series:
+Asset_1: $1,814.15
+Asset_2: $3,628.30
+Asset_3: $5,442.45
+Asset_4: $7,256.60
+
+2026-01-12 18:23:22,681 - Financial_Plan - DEBUG - Target Asset Allocation:
+Asset_1    0.1
+Asset_2    0.2
+Asset_3    0.3
+Asset_4    0.4
+dtype: float64
+2026-01-12 18:23:22,681 - Financial_Plan - DEBUG - New Portfolio Series after ror:
+Asset_1: $2,176.98
+Asset_2: $-3,991.13
+Asset_3: $8,163.68
+Asset_4: $2,902.64
+
+2026-01-12 18:23:22,682 - Financial_Plan - DEBUG - New Portfolio Series after clipping negative values:
+Asset_1: $2,176.98
+Asset_2: $0.00
+Asset_3: $8,163.68
+Asset_4: $2,902.64
+
+2026-01-12 18:23:22,682 - Financial_Plan - DEBUG - New Portfolio Series after (optional) rebalancing:
+Asset_1: $1,324.33
+Asset_2: $2,648.66
+Asset_3: $3,972.99
+Asset_4: $5,297.32
+
+2026-01-12 18:23:22,682 - Financial_Plan - DEBUG - Management Fee Value $181.42
+2026-01-12 18:23:22,682 - Financial_Plan - DEBUG - Distribution Value $10,181.42
+2026-01-12 18:23:22,682 - Financial_Plan - DEBUG - Distribution Vector:
+Asset_1: $1,018.14
+Asset_2: $2,036.28
+Asset_3: $3,054.42
+Asset_4: $4,072.57
+
+2026-01-12 18:23:22,682 - Financial_Plan - DEBUG - New Portfolio Series after distribution:
+Asset_1: $306.19
+Asset_2: $612.38
+Asset_3: $918.57
+Asset_4: $1,224.75
+
+2026-01-12 18:23:22,683 - Financial_Plan - DEBUG - Initial Portfolio Value: $18,141.51
+2026-01-12 18:23:22,683 - Financial_Plan - DEBUG - Value after ROR: $9,252.17
+2026-01-12 18:23:22,683 - Financial_Plan - DEBUG - Value after clipping negative values: $13,243.30
+2026-01-12 18:23:22,683 - Financial_Plan - DEBUG - Value after rebalancing: $13,243.30
+2026-01-12 18:23:22,683 - Financial_Plan - DEBUG - Value after distribution: $3,061.89
+2026-01-12 18:23:22,683 - Financial_Plan - DEBUG - Portfolio Series after 10 years:
+Asset_1: $306.19
+Asset_2: $612.38
+Asset_3: $918.57
+Asset_4: $1,224.75
+
+2026-01-12 18:23:22,683 - Financial_Plan - DEBUG - Year: 10 - Portfolio Value: $3,061.89
+
+2026-01-12 18:23:22,683 - Financial_Plan - DEBUG - Portfolio busted at year 10

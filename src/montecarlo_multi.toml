@@ -1,32 +1,24 @@
 [default]
-run_cnt = 100
-Max_iter = 50
 BF_BDAY = '04/09/1958'
 End_age = 101
 Death_age = 95
 
-[MonteCarloMulti]
+[ConfigurationManager]
+PLT_STYLE = 'seaborn-v0_8-deep'
+
+[MontecarloSimulation]
+run_cnt = 100
+Max_iter = 50
+target_end_funds = 5e5
+target_success_rate = 80
 seed = 42
 re_alloc_error = 1e-6
 nb_cpu = 4
 Funds_step = 1e5
 Discret_step = 0.01
 Success_threshold = 1.0
+mgt_fee =  7e-3
 
-[ConfigurationManager]
-PLT_STYLE = 'seaborn-v0_8-deep'
-
-[Portfolio]
-start_funds = 4.0e6
-target_end_funds = 1e5
-default_inflation_rate = 0.03
-target_success_rate = 80
-
-[pfolio_alloc]
-Stocks = 0.80
-Bonds = 0.1
-TBills = 0.1
-Cash = 0.0
 
 [MorningstarStats]
 must_have_param = ['url_stats', 'url_corr', 'nb_smpl', 'model_file', 'xl_out_name']

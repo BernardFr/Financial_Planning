@@ -124,3 +124,137 @@ def linear_transform_fastest(M_in, slope, intercept):
         M.loc[i, :] += intercept[i]
     return M
 
+def non_zero_dict(dd):
+    """
+    Returns a subset of the input dict dd - by removing the items whose value is 0.0
+    @param dd:
+    @rtype: dict
+    @return: subset where all values are non-zero
+    """
+    return dict([x for x in dd.items() if x[1] != 0.0])  # x is a (key,value) tuple
+
+def to_dollar(x):
+    """Converts a number to a string prepended with '$", and with commas rounded 2 digits"""
+    return f'${x:,.2f}'
+
+
+def today_dollar(tomrw, nb_yr, inflation_rate):
+    """ Convert tomorrow's dollars into today's dollars based on inflation rate and number of years"""
+    # ToDo: handle nb_yr <= 0
+    return tomrw / pow(inflation_rate, nb_yr)
+
+
+def tick_format(x, pos):
+    """
+    Convert a floating number to a string showing a dollar value
+    Prepend with '$', add commas, 2 decimal points
+    Note: The unused 'pos' argument is necessary for FuncFormatter (see below)
+    """
+    # Reference: https://matplotlib.org/api/ticker_api.html#matplotlib.ticker.FuncFormatter
+    return f'{x:,.0f}'
+
+
+def tick_format_w_dollar(x, pos):
+    """
+    Convert a floating number to a string showing a dollar value
+    Prepend with '$', add commas, 2 decimal points
+    Note: The unused 'pos' argument is necessary for FuncFormatter (see below)
+    """
+    # Reference: https://matplotlib.org/api/ticker_api.html#matplotlib.ticker.FuncFormatter
+    return f'${x:,.0f}'
+
+
+def cashflow_item_2_string(lineitem, item_dict, age_dict):
+    """
+    Prints a cashflow line item nicely - 1 line per phase of each cashflow:
+    line_item: <start age> - <end_age> -> <amount>
+    @param lineitem: line item name (string)
+    @param item_dict: dictionary of cashflow items
+    @param age_dict: name - value pairs of significant ages
+    @return: string ready for print out
+    """
+    start_age = age_dict['start_age']
+    end_age = age_dict['end_age']
+    bf_end = age_dict['bf_end']
+    out_str = ''
+
+    if 'start' in list(item_dict.keys()):  # we have a single phase
+        dict_list = [item_dict]
+    else:  # we have multiple phases
+        # Make sure keys are sorted - Must convert to int to sort correctly - ky is int
+        dict_list = [item_dict[str(ky)] for ky in sorted(map(int, item_dict.keys()))]
+
+    # iterate over each phase and add the amounts
+    # We don't check if the phases overlap or are contiguous
+    end_idx = start_age  # initialize for when start == '"
+    for dd in dict_list:
+        if dd['start'] == '':
+            start_idx = 1 + end_idx  # 1 year after the end of previous segment
+        else:
+            start_idx = start_age if dd['start'] == 'start' else int(dd['start'])
+        if dd['end'] == 'bf_end':
+            end_idx = bf_end
+        else:
+            end_idx = end_age if dd['end'] == 'end' else int(dd['end'])
+        if start_idx < start_age or end_idx > end_age:
+            ut.print_out(outf, f'Data error - ages must be in start/end range: {start_age} - {end_age} ')
+            ut.print_out(outf, str(dd))
+            ut.print_out(outf, f'start_idx = {start_idx} - end_idx = {end_idx}')
+        amount = dd['amount']
+        out_str += f'{lineitem}: {start_idx} -> {end_idx}: {to_dollar(amount)}\n'
+    return out_str
+
+
+def cashflow_2_string(in_dict, age_dict):
+    """
+    Prints a cashflow stream nicely - 1 line per phase of each cashflow:
+    line_item: <start age> - <end_age> -> <amount>
+    @param in_dict: dictionary of cashflow items
+    @param age_dict: name - value pairs of significant ages
+    @return: string ready for print out
+    """
+    out_str = '\n'
+
+    # in_dict contains a series of line items - each line item can have 1 or more phases
+    for lineitem in in_dict.keys():
+        # Figure out if we have a single entry of multiple
+        out_str += cashflow_item_2_string(lineitem, in_dict[lineitem], age_dict)
+
+    return out_str
+
+
+def plot_with_rails(df, title=None, plt_file=None, rails=False, dollar=False):
+    """ Single line plot with rails: Average and +/- std dev"""
+    plt.figure(figsize=(8, 6))
+    ax = plt.gca()
+    x_tick = range(df.shape[0])
+    plt.plot(x_tick, df, color='steelblue')
+    if rails:  # Plot lines for mean & rails for stddev
+        # Build array of containing the mean value for all entries - as a Reference
+        df_mean = float(df.mean())  # to ensure the result is not a Series
+        df_stddev = float(df.std())
+        # Create horizontal lines showing mean, +/- stddev
+        ax.axhline(y=df_mean, color='red', ls='solid', alpha=0.5)
+        ax.axhline(y=df_mean + df_stddev, color='red', ls='dashed', alpha=0.5)
+        ax.axhline(y=df_mean - df_stddev, color='red', ls='dashed', alpha=0.5)
+
+    # Decorate plot w/ labels, title etc
+    plt.xticks(x_tick, list(df.index), rotation=0)
+    if dollar:
+        ax.yaxis.set_major_formatter(FuncFormatter(tick_format_w_dollar))
+    else:
+        ax.yaxis.set_major_formatter(FuncFormatter(tick_format))
+    ax.set_facecolor('#E6E6E6')
+    box = ax.get_position()
+    ax.set_position([box.x0 + 0.05, box.y0, box.width, box.height])
+    plt.grid(axis='y', which='both', color='darkgreen', linestyle='-', linewidth=1, alpha=0.5)
+    if title:
+        plt.title(title)
+    if plt_file:
+        # bbox_inches -> makes the legend fit
+        plt.savefig(plt_file, format='pdf', dpi=300, bbox_inches='tight')
+    if plot_flag:
+        plt.show()
+    return
+
+
