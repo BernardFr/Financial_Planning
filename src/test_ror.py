@@ -1,6 +1,13 @@
 #!/usr/local/bin/python3
 
+"""
+Test the RoR generator
+Run it RUN_CNT times
+Aggregate the results and compute the mean and stdv of the cumulative RoR and compare to the target mean and stdv
 
+NOTE that the Stocks asset class mean (and stdv) will be different from the target mean and stdv
+because the RoR is clipped at the ROR_CEILING
+"""
 import numpy as np
 import pandas as pd
 from logger import logger
@@ -12,24 +19,28 @@ ROR_CEILING = 1.40  # corresponds to a +40% RoR
 SEED = 42
 START_AGE = 65
 END_AGE = 101
-RUN_CNT = 10
-# Note values for stocks are set to test that the RoR is clipped to the  ceiling
+RUN_CNT = 10000
+# NOTE values for stocks are set to test that the RoR is clipped to the  ceiling
 ROR_STATS = [ (30.00, 9.00),(5.60, 7.70), (3.50, 0.90),  (-0.05, 0.0)]  # Stocks, Bonds, TBills, Cash
 ASSET_CLASSES = ['Stocks', 'Bonds', 'TBills', 'Cash']
+DEBUG_FLAG = True if RUN_CNT > 10 else False
+ITER_LOG_INTERVAL = 1000
 
 class ArrayRandGen:
-    def __init__(self, ages, stats):
-        self.nb = ages[1] - ages[0] + 1
-        self.mean = stats[0]
-        self.stdv = stats[1]
+    def __init__(self, start: int, end: int, mean: float, stdv: float):
+        self.nb = end - start + 1
+        self.mean = mean
+        self.stdv = stdv
 
     def __iter__(self):
         return self
 
     def __next__(self) -> list[float]:
-        # returns a list of nb random numbers based on mean and stddev
-        # numbers are: 1 + random_number/100  (interest rates)
-        # Note that the RoR is clipped to the floor and ceiling to account for historical data
+        """
+        returns a list of nb random numbers based on mean and stddev
+        numbers are: 1 + random_number/100  (interest rates)
+        NOTE that the RoR is clipped to the floor and ceiling to account for historical data
+        """
         random_values = np.random.normal(self.mean, self.stdv, size=self.nb)
         ror_values = 1 + 0.01 * random_values
         # Clip the final RoR values to historical bounds
@@ -52,8 +63,9 @@ def mk_ror_df(gen_list: list[ArrayRandGen], start: int, end: int, idx_name: list
         # generator returns a 1-element list which contains the list of values
         # ror_values.append(list(next(gener)))
         new_ror_values = list(next(gener))
-        logger.debug(f"New RoR values: {new_ror_values}")
-        logger.debug(f"mean: {np.mean(new_ror_values)} - ie. {100*(-1+np.mean(new_ror_values)):.2f}% , stdv: {100*np.std(new_ror_values):.2f} \n")
+        if DEBUG_FLAG:
+            logger.debug(f"New RoR values: {new_ror_values}")
+            logger.debug(f"mean: {np.mean(new_ror_values)} - ie. {100*(-1+np.mean(new_ror_values)):.2f}% , stdv: {100*np.std(new_ror_values):.2f} \n")
         ror_values.append(new_ror_values)
     # Convert the list of list of RoR values to a DataFrame
     return pd.DataFrame(ror_values, index=idx_name, columns=list(range(start, end + 1)))
@@ -63,34 +75,55 @@ def main()-> None:
     """
     Test the mk_ror_df function
     """
-    # print("run_mc_multi: pid: {}, cnt= {}, seed={}".format(os.getpid(), cnt, seed))
     np.random.seed(SEED)
-    age_col = list(range(START_AGE, END_AGE + 1))
-    ages = (START_AGE, END_AGE)  # start and end age
+    logger.info(f"Running {RUN_CNT} iterations - start age: {START_AGE} - end age: {END_AGE} -> {END_AGE - START_AGE + 1} ages")
+    logger.info(f"ROR statistics: {ROR_STATS}") 
+    logger.info(f"Asset classes: {ASSET_CLASSES}")
+    logger.info(f"ROR floor: {ROR_FLOOR} - ROR ceiling: {ROR_CEILING}")
     idx_name = ASSET_CLASSES
-    ror_gen_list = [ArrayRandGen(ages, a) for a in ROR_STATS]  # List of generators
+    ror_gen_list = [ArrayRandGen(START_AGE, END_AGE, a[0], a[1]) for a in ROR_STATS]  # List of generators
     # Make a DF of the target mean and stdv - rows are asset classes, columns are mean and stdv
     target_df = pd.DataFrame(index=idx_name, columns=['Mean', 'Stdv'], data=ROR_STATS)
+    cumulative_ror_df = pd.DataFrame(index=idx_name)
     for itr in range(RUN_CNT):
+        if itr % ITER_LOG_INTERVAL == 0:
+            logger.info(f"Progress: Iteration {itr} of {RUN_CNT}")
         # Generate a new array of rate of returns for all ages and each asset class
-        ror_df = mk_ror_df(ror_gen_list, ages[0], ages[1], idx_name)
-        # print the min and max of the whole DF
-        min_df = float(min(ror_df.values.flatten()))
-        max_df = float(max(ror_df.values.flatten()))
-        if min_df < ROR_FLOOR or max_df > ROR_CEILING:
-            logger.error(f"Min or Max of the whole DF is out of bounds: {min_df} - {max_df}")
-        if min_df== ROR_FLOOR or max_df == ROR_CEILING:
-            logger.info(f"Min or Max of the whole DF have reached the bounds:\n{min_df} - {max_df}")
-        logger.info(f"ROR DataFrame for iteration {itr}:\n{ror_df}")
-        # print mean and stdv of each row
-        mean_series = ror_df.mean(axis=1)
-        # Subtract 1 and multiply by 100 to get the percentage
-        mean_series = 100*(-1+mean_series)
-        stdv_series = 100*ror_df.std(axis=1)
-        # Make a DF of the mean and stdv of each row
-        mean_stdv_df = pd.DataFrame(index=idx_name, columns=['Mean', 'Stdv'], data=zip(mean_series, stdv_series))
-        logger.info(f"Mean and stdv of each row:\n{mean_stdv_df}")
-        logger.info(f"Target mean and stdv:\n{target_df}")
+        ror_df = mk_ror_df(ror_gen_list, START_AGE, END_AGE, idx_name)
+        # print the min and max of the whole DF]
+        if DEBUG_FLAG:
+            min_df = float(min(ror_df.values.flatten()))
+            max_df = float(max(ror_df.values.flatten()))
+            if min_df < ROR_FLOOR or max_df > ROR_CEILING:
+                logger.error(f"Min or Max of the whole DF is out of bounds: {min_df} - {max_df}")
+            if min_df== ROR_FLOOR or max_df == ROR_CEILING:
+                logger.debug(f"Min or Max of the whole DF have reached the bounds:\n{min_df} - {max_df}")
+        if DEBUG_FLAG:
+            logger.debug(f"ROR DataFrame for iteration {itr}:\n{ror_df}")
+            # print mean and stdv of each row
+            mean_series = ror_df.mean(axis=1)
+            # Subtract 1 and multiply by 100 to get the percentage
+            mean_series = 100*(-1+mean_series)
+            stdv_series = 100*ror_df.std(axis=1)
+            # Make a DF of the mean and stdv of each row
+            mean_stdv_df = pd.DataFrame(index=idx_name, columns=['Mean', 'Stdv'], data=zip(mean_series, stdv_series))
+            logger.debug(f"Target mean and stdv:\n{target_df}")
+            logger.debug(f"Mean and stdv of each row:\n{mean_stdv_df}")
+        # concatenate the ror_df to the cumulative_ror_df
+        cumulative_ror_df = pd.concat([cumulative_ror_df, ror_df], axis=1)
+
+    # compute the mean and stdv of the cumulative_ror_df
+    # print mean and stdv of each row
+    mean_series = cumulative_ror_df.mean(axis=1)
+    # Subtract 1 and multiply by 100 to get the percentage
+    mean_series = 100*(-1+mean_series)
+    stdv_series = 100*cumulative_ror_df.std(axis=1)
+    # Make a DF of the mean and stdv of each row
+    mean_stdv_df = pd.DataFrame(index=idx_name, columns=['Mean', 'Stdv'], data=zip(mean_series, stdv_series))
+    logger.info(f"Cumulative ROR DataFrame shape: {cumulative_ror_df.shape}")
+    logger.info(f"Mean and stdv of the cumulative_ror_df:\n{mean_stdv_df}")
+    logger.info(f"Target mean and stdv:\n{target_df}")
+
     return
 
 if __name__ == "__main__":
