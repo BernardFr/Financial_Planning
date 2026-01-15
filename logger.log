@@ -9366,3 +9366,26 @@ Cash    -0.05   0.0
 2026-01-13 10:57:31,556 - Financial_Plan - INFO - Asset classes: ['Stocks', 'Bonds', 'TBills', 'Cash']
 2026-01-13 10:57:31,556 - Financial_Plan - INFO - ROR floor: 0.6 - ROR ceiling: 1.4
 2026-01-13 10:57:31,557 - Financial_Plan - INFO - Progress: Iteration 0 of 10000
+2026-01-13 10:58:04,717 - Financial_Plan - INFO - Progress: Iteration 1000 of 10000
+2026-01-13 10:58:38,836 - Financial_Plan - INFO - Progress: Iteration 2000 of 10000
+2026-01-13 10:59:20,321 - Financial_Plan - INFO - Progress: Iteration 3000 of 10000
+2026-01-13 11:00:09,752 - Financial_Plan - INFO - Progress: Iteration 4000 of 10000
+2026-01-13 11:01:00,826 - Financial_Plan - INFO - Progress: Iteration 5000 of 10000
+2026-01-13 11:01:58,142 - Financial_Plan - INFO - Progress: Iteration 6000 of 10000
+2026-01-13 11:02:57,410 - Financial_Plan - INFO - Progress: Iteration 7000 of 10000
+2026-01-13 11:04:03,214 - Financial_Plan - INFO - Progress: Iteration 8000 of 10000
+2026-01-13 11:05:07,291 - Financial_Plan - INFO - Progress: Iteration 9000 of 10000
+2026-01-13 11:06:18,369 - Financial_Plan - INFO - Cumulative ROR DataFrame shape: (4, 370000)
+2026-01-13 11:06:18,371 - Financial_Plan - INFO - Mean and stdv of the cumulative_ror_df:
+             Mean      Stdv
+Stocks  29.380521  7.994769
+Bonds    5.589852  7.706408
+TBills   3.498993  0.900417
+Cash    -0.050000  0.000000
+2026-01-13 11:06:18,374 - Financial_Plan - INFO - Target mean and stdv:
+         Mean  Stdv
+Stocks  30.00   9.0
+Bonds    5.60   7.7
+TBills   3.50   0.9
+Cash    -0.05   0.0
+2026-01-15 15:40:17,150 - Financial_Plan - INFO - Starting Funds: $0.00
