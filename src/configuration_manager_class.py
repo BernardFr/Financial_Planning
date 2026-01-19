@@ -41,6 +41,8 @@ class ConfigurationManager:
         self.config = self.get_class_config(self.__class__.__name__)
         self.start_age = self._compute_age_today()
         self.end_age = self.config['End_age']
+        self.config['start_age'] = self.start_age
+        self.config['end_age'] = self.end_age
          # Initialize and start tick timer
         self.tick_timer = TickTimer(name=self.prog_name)
         self._start_timer()

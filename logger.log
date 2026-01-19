@@ -9389,3 +9389,1185 @@ Bonds    5.60   7.7
 TBills   3.50   0.9
 Cash    -0.05   0.0
 2026-01-15 15:40:17,150 - Financial_Plan - INFO - Starting Funds: $0.00
+2026-01-15 18:31:30,718 - Financial_Plan - INFO - Starting Funds: $0.00
+2026-01-15 18:33:48,572 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-15 18:33:48,573 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-16 09:56:20,684 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-16 09:56:20,685 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-16 17:15:56,544 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-16 17:15:56,545 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-17 16:30:09,871 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-17 16:30:09,872 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-17 16:39:32,549 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-17 16:39:32,549 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-17 16:39:58,931 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-17 16:39:58,932 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-17 16:40:46,241 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-17 16:40:46,242 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-17 16:42:18,676 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-17 16:42:18,677 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-17 16:43:45,840 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-17 16:43:45,841 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-17 16:44:07,936 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-17 16:44:07,937 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-17 16:44:36,979 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-17 16:44:36,980 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-17 16:45:15,393 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-17 16:45:15,394 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-17 16:47:45,490 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-17 16:47:45,491 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-17 16:49:56,010 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-17 16:49:56,011 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 10:27:16,768 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 10:27:16,769 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 10:28:05,654 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 10:28:05,655 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 10:28:17,308 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 10:28:17,309 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 10:28:44,873 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 10:28:44,874 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 11:21:03,015 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 11:21:03,016 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 11:29:26,755 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 11:29:26,755 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 11:33:39,613 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 11:33:39,614 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 11:36:41,061 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 11:36:41,062 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 11:43:53,999 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 11:43:54,001 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 11:58:55,802 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 11:58:55,803 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:00:52,974 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:00:52,975 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:03:11,804 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:03:11,805 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:03:12,062 - Financial_Plan - INFO - Final result  stats:
+count     4
+unique    1
+top       0
+freq      4
+dtype: int64
+2026-01-19 12:03:12,062 - Financial_Plan - INFO - Busted ages dict: {102: 350}
+2026-01-19 12:03:12,062 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 12:13:45,591 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:13:45,592 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:13:45,691 - Financial_Plan - INFO - Final result  stats:
+count    4.000000e+00
+mean     9.454544e+08
+std      7.804905e+08
+min      2.521212e+08
+25%      4.412120e+08
+50%      7.563635e+08
+75%      1.260606e+09
+max      2.016969e+09
+dtype: float64
+2026-01-19 12:13:45,691 - Financial_Plan - INFO - Busted ages dict: {102: 360}
+2026-01-19 12:13:45,691 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 12:13:45,691 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 12:16:20,000 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:16:20,001 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:16:20,132 - Financial_Plan - INFO - Final result  stats:
+count    4.000000e+00
+mean     9.454544e+08
+std      7.804905e+08
+min      2.521212e+08
+25%      4.412120e+08
+50%      7.563635e+08
+75%      1.260606e+09
+max      2.016969e+09
+dtype: float64
+2026-01-19 12:16:20,132 - Financial_Plan - INFO - Busted ages dict: {102: 360}
+2026-01-19 12:16:20,132 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 12:16:20,132 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 12:20:45,586 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:20:45,587 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:20:45,694 - Financial_Plan - INFO - Final result  stats:
+count    4.000000e+00
+mean     9.454544e+08
+std      7.804905e+08
+min      2.521212e+08
+25%      4.412120e+08
+50%      7.563635e+08
+75%      1.260606e+09
+max      2.016969e+09
+dtype: float64
+2026-01-19 12:20:45,695 - Financial_Plan - INFO - Busted ages dict: {102: 360}
+2026-01-19 12:20:45,695 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 12:20:45,695 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 12:43:14,135 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:43:14,136 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:43:14,242 - Financial_Plan - INFO - Final result  stats:
+count    4.000000e+00
+mean     9.454544e+08
+std      7.804905e+08
+min      2.521212e+08
+25%      4.412120e+08
+50%      7.563635e+08
+75%      1.260606e+09
+max      2.016969e+09
+dtype: float64
+2026-01-19 12:43:14,242 - Financial_Plan - INFO - Busted ages dict: {102: 360}
+2026-01-19 12:43:14,242 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 12:43:14,242 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 12:43:37,785 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:43:37,801 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:43:37,943 - Financial_Plan - INFO - Final result  stats:
+count    4.000000e+00
+mean     9.454544e+08
+std      7.804905e+08
+min      2.521212e+08
+25%      4.412120e+08
+50%      7.563635e+08
+75%      1.260606e+09
+max      2.016969e+09
+dtype: float64
+2026-01-19 12:43:37,944 - Financial_Plan - INFO - Busted ages dict: {102: 360}
+2026-01-19 12:43:37,944 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 12:43:37,944 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 12:44:28,065 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:44:28,066 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:44:28,178 - Financial_Plan - INFO - Final result  stats:
+count    4.000000e+00
+mean     9.454544e+08
+std      7.804905e+08
+min      2.521212e+08
+25%      4.412120e+08
+50%      7.563635e+08
+75%      1.260606e+09
+max      2.016969e+09
+dtype: float64
+2026-01-19 12:44:28,178 - Financial_Plan - INFO - Busted ages dict: {102: 360}
+2026-01-19 12:44:28,178 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 12:44:28,179 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 12:45:16,519 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:45:16,520 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:45:16,630 - Financial_Plan - INFO - Final result  stats:
+count    4.000000e+00
+mean     9.454544e+08
+std      7.804905e+08
+min      2.521212e+08
+25%      4.412120e+08
+50%      7.563635e+08
+75%      1.260606e+09
+max      2.016969e+09
+dtype: float64
+2026-01-19 12:45:16,630 - Financial_Plan - INFO - Busted ages dict: {102: 360}
+2026-01-19 12:45:16,630 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 12:45:16,630 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 12:46:12,125 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:46:12,126 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:46:12,227 - Financial_Plan - INFO - Final result  stats:
+count    4.000000e+00
+mean     9.454544e+08
+std      7.804905e+08
+min      2.521212e+08
+25%      4.412120e+08
+50%      7.563635e+08
+75%      1.260606e+09
+max      2.016969e+09
+dtype: float64
+2026-01-19 12:46:12,227 - Financial_Plan - INFO - Busted ages dict: {102: 10}
+2026-01-19 12:46:12,228 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 12:46:12,228 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 12:48:32,767 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:48:32,769 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:48:32,865 - Financial_Plan - INFO - Final result  stats:
+count    4.000000e+00
+mean     9.454544e+08
+std      7.804905e+08
+min      2.521212e+08
+25%      4.412120e+08
+50%      7.563635e+08
+75%      1.260606e+09
+max      2.016969e+09
+dtype: float64
+2026-01-19 12:48:32,865 - Financial_Plan - INFO - Busted ages dict: {102: 10}
+2026-01-19 12:48:32,865 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 12:48:32,865 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 12:49:06,473 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:49:06,474 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:49:06,558 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+01
+mean     3.781817e+08
+std      9.114302e+07
+min      2.497688e+08
+25%      2.947476e+08
+50%      3.879750e+08
+75%      4.357450e+08
+max      5.109478e+08
+dtype: float64
+2026-01-19 12:49:06,558 - Financial_Plan - INFO - Busted ages dict: {102: 10}
+2026-01-19 12:49:06,559 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 12:49:06,559 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 12:49:25,553 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:49:25,554 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:49:40,741 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:49:40,742 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:49:58,170 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:49:58,171 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:50:11,923 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:50:11,925 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:50:12,013 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+01
+mean     3.781817e+08
+std      9.114302e+07
+min      2.497688e+08
+25%      2.947476e+08
+50%      3.879750e+08
+75%      4.357450e+08
+max      5.109478e+08
+dtype: float64
+2026-01-19 12:50:12,013 - Financial_Plan - INFO - Busted ages dict: {102: 10}
+2026-01-19 12:50:12,013 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 12:50:12,013 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 12:51:00,304 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:51:00,305 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:51:00,399 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+01
+mean     3.781817e+08
+std      9.114302e+07
+min      2.497688e+08
+25%      2.947476e+08
+50%      3.879750e+08
+75%      4.357450e+08
+max      5.109478e+08
+dtype: float64
+2026-01-19 12:51:00,400 - Financial_Plan - INFO - Busted ages dict: {102: 10}
+2026-01-19 12:51:00,400 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 12:51:00,400 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 12:51:21,627 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:51:21,628 - Financial_Plan - INFO - Target Asset Allocation: Stocks    0.533333
+Bonds     0.266667
+TBills    0.133333
+Cash      0.066667
+Name: Market Value, dtype: float64
+2026-01-19 12:51:21,713 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+01
+mean     3.781817e+08
+std      9.114302e+07
+min      2.497688e+08
+25%      2.947476e+08
+50%      3.879750e+08
+75%      4.357450e+08
+max      5.109478e+08
+dtype: float64
+2026-01-19 12:51:21,713 - Financial_Plan - INFO - Busted ages dict: {102: 10}
+2026-01-19 12:51:21,713 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 12:51:21,713 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 12:53:41,314 - Financial_Plan - INFO - Starting Funds: $1,500,000.00
+2026-01-19 12:53:41,316 - Financial_Plan - INFO - Target Asset Allocation: Stocks    53.33%
+Bonds     26.67%
+TBills    13.33%
+Cash       6.67%
+Name: Market Value, dtype: object
+2026-01-19 12:53:41,400 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+01
+mean     3.781817e+08
+std      9.114302e+07
+min      2.497688e+08
+25%      2.947476e+08
+50%      3.879750e+08
+75%      4.357450e+08
+max      5.109478e+08
+dtype: float64
+2026-01-19 12:53:41,400 - Financial_Plan - INFO - Busted ages dict: {102: 10}
+2026-01-19 12:53:41,400 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 12:53:41,400 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 13:01:35,550 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:01:35,551 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:01:35,552 - Financial_Plan - INFO - Target Asset Allocation: Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:01:35,642 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+01
+mean     3.781817e+08
+std      9.114302e+07
+min      2.497688e+08
+25%      2.947476e+08
+50%      3.879750e+08
+75%      4.357450e+08
+max      5.109478e+08
+dtype: float64
+2026-01-19 13:01:35,642 - Financial_Plan - INFO - Busted ages dict: {102: 10}
+2026-01-19 13:01:35,642 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 13:01:35,642 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 13:02:36,493 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:02:36,493 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:02:36,494 - Financial_Plan - INFO - Target Asset Allocation: Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:02:36,596 - Financial_Plan - INFO - final_result_series:
+0    $ 249,768,790
+1    $ 420,434,644
+2    $ 440,848,440
+3    $ 280,620,887
+4    $ 406,350,879
+5    $ 284,078,487
+6    $ 492,413,483
+7    $ 510,947,774
+8    $ 369,599,198
+9    $ 326,754,876
+dtype: object
+2026-01-19 13:02:36,597 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 201,696,931
+Bonds     $ 100,848,466
+TBills     $ 50,424,233
+Cash       $ 25,212,116
+dtype: object
+2026-01-19 13:02:36,599 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+01
+mean     3.781817e+08
+std      9.114302e+07
+min      2.497688e+08
+25%      2.947476e+08
+50%      3.879750e+08
+75%      4.357450e+08
+max      5.109478e+08
+dtype: float64
+2026-01-19 13:02:36,599 - Financial_Plan - INFO - Busted ages dict: {102: 10}
+2026-01-19 13:02:36,599 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 13:02:36,599 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 13:04:57,236 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:04:57,236 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:04:57,237 - Financial_Plan - INFO - Target Asset Allocation: Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:04:57,337 - Financial_Plan - INFO - final_result_series:
+0    $ 249,768,790
+1    $ 420,434,644
+2    $ 440,848,440
+3    $ 280,620,887
+4    $ 406,350,879
+5    $ 284,078,487
+6    $ 492,413,483
+7    $ 510,947,774
+8    $ 369,599,198
+9    $ 326,754,876
+dtype: object
+2026-01-19 13:04:57,338 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 201,696,931
+Bonds     $ 100,848,466
+TBills     $ 50,424,233
+Cash       $ 25,212,116
+dtype: object
+2026-01-19 13:04:57,340 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+01
+mean     3.781817e+08
+std      9.114302e+07
+min      2.497688e+08
+25%      2.947476e+08
+50%      3.879750e+08
+75%      4.357450e+08
+max      5.109478e+08
+dtype: float64
+2026-01-19 13:04:57,340 - Financial_Plan - INFO - Busted ages dict: {102: 10}
+2026-01-19 13:04:57,340 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 13:04:57,340 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 13:05:46,829 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:05:46,830 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:05:46,831 - Financial_Plan - INFO - Target Asset Allocation: Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:06:28,745 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:06:28,746 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:06:28,746 - Financial_Plan - INFO - Target Asset Allocation: Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:07:00,847 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:07:00,847 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:07:00,848 - Financial_Plan - INFO - Target Asset Allocation: Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:11:08,139 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:11:08,139 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:11:08,140 - Financial_Plan - INFO - Target Asset Allocation: Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:11:08,229 - Financial_Plan - INFO - final_result_series:
+0    $ 249,768,790
+1    $ 420,434,644
+2    $ 440,848,440
+3    $ 280,620,887
+4    $ 406,350,879
+5    $ 284,078,487
+6    $ 492,413,483
+7    $ 510,947,774
+8    $ 369,599,198
+9    $ 326,754,876
+dtype: object
+2026-01-19 13:11:08,230 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 201,696,931
+Bonds     $ 100,848,466
+TBills     $ 50,424,233
+Cash       $ 25,212,116
+dtype: object
+2026-01-19 13:11:08,232 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+01
+mean     3.781817e+08
+std      9.114302e+07
+min      2.497688e+08
+25%      2.947476e+08
+50%      3.879750e+08
+75%      4.357450e+08
+max      5.109478e+08
+dtype: float64
+2026-01-19 13:11:08,232 - Financial_Plan - INFO - Busted ages dict: {102: 10}
+2026-01-19 13:11:08,232 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 13:11:08,232 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 13:11:25,759 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:11:25,759 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:11:25,760 - Financial_Plan - INFO - Target Asset Allocation: Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:11:34,832 - Financial_Plan - INFO - final_result_series:
+0      $ 249,768,790
+1      $ 420,434,644
+2      $ 440,848,440
+3      $ 280,620,887
+4      $ 406,350,879
+           ...      
+995    $ 302,309,777
+996    $ 257,051,959
+997    $ 439,655,362
+998    $ 338,524,878
+999    $ 386,319,808
+Length: 1000, dtype: object
+2026-01-19 13:11:34,835 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 177,202,826
+Bonds      $ 88,601,413
+TBills     $ 44,300,706
+Cash       $ 22,150,353
+dtype: object
+2026-01-19 13:11:34,837 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+03
+mean     3.322553e+08
+std      8.058565e+07
+min      1.527303e+08
+25%      2.741213e+08
+50%      3.232138e+08
+75%      3.818074e+08
+max      6.737858e+08
+dtype: float64
+2026-01-19 13:11:34,837 - Financial_Plan - INFO - Busted ages dict: {102: 1000}
+2026-01-19 13:11:34,837 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 13:11:34,837 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 13:13:13,333 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:13:13,334 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:13:13,335 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:13:22,179 - Financial_Plan - INFO - final_result_series:
+0      $ 2,117,122
+1      $ 3,940,418
+2      $ 4,213,802
+3      $ 2,586,759
+4      $ 3,949,312
+          ...     
+995    $ 2,757,192
+996    $ 2,215,904
+997    $ 4,619,715
+998    $ 3,098,393
+999    $ 3,657,889
+Length: 1000, dtype: object
+2026-01-19 13:13:22,182 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 1,654,093
+Bonds       $ 827,047
+TBills      $ 413,523
+Cash        $ 206,762
+dtype: object
+2026-01-19 13:13:22,184 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+03
+mean     3.101425e+06
+std      1.024648e+06
+min      1.074236e+06
+25%      2.368957e+06
+50%      2.937214e+06
+75%      3.700128e+06
+max      8.451315e+06
+dtype: float64
+2026-01-19 13:13:22,184 - Financial_Plan - INFO - Busted ages dict: {102: 1000}
+2026-01-19 13:13:22,184 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 13:13:22,184 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 13:14:16,354 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:14:16,354 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:14:16,355 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:14:25,312 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 1,230,483
+Bonds       $ 615,241
+TBills      $ 307,621
+Cash        $ 153,810
+dtype: object
+2026-01-19 13:14:25,313 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+03
+mean     2.307155e+06
+std      7.812466e+05
+min      7.635898e+05
+25%      1.748942e+06
+50%      2.181317e+06
+75%      2.761312e+06
+max      6.407272e+06
+dtype: float64
+2026-01-19 13:14:25,314 - Financial_Plan - INFO - Busted ages dict: {102: 1000}
+2026-01-19 13:14:25,314 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 13:14:25,314 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 13:14:40,461 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:14:40,461 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:14:40,461 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:14:58,211 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:14:58,211 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:14:58,212 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:15:06,837 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 1,230,483
+Bonds       $ 615,241
+TBills      $ 307,621
+Cash        $ 153,810
+dtype: object
+2026-01-19 13:15:06,839 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+03
+mean     2.307155e+06
+std      7.812466e+05
+min      7.635898e+05
+25%      1.748942e+06
+50%      2.181317e+06
+75%      2.761312e+06
+max      6.407272e+06
+dtype: float64
+2026-01-19 13:15:06,839 - Financial_Plan - INFO - Busted ages dict: {102: 1000}
+2026-01-19 13:15:06,840 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 13:15:06,840 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 13:15:14,481 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:15:14,482 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:15:14,482 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:16:08,056 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:16:08,057 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:16:08,058 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:16:16,575 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 975,113
+Bonds     $ 487,556
+TBills    $ 243,778
+Cash      $ 121,889
+dtype: object
+2026-01-19 13:16:16,578 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+03
+mean     1.828336e+06
+std      7.089378e+05
+min      4.173933e+05
+25%      1.327581e+06
+50%      1.696994e+06
+75%      2.247737e+06
+max      5.597853e+06
+dtype: float64
+2026-01-19 13:16:16,578 - Financial_Plan - INFO - Busted ages dict: {102: 1000}
+2026-01-19 13:16:16,578 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 13:16:16,578 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 13:16:28,406 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:16:28,407 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:16:28,408 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:18:00,673 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:18:00,673 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:18:00,674 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:18:06,374 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 23,349
+Bonds     $ 11,675
+TBills     $ 5,837
+Cash       $ 2,919
+dtype: object
+2026-01-19 13:18:06,375 - Financial_Plan - INFO - Final result  stats:
+count     1000.000000
+mean     43780.126262
+std      25224.281562
+min         89.552811
+25%      22267.155640
+50%      42934.300520
+75%      64775.784818
+max      99391.064009
+dtype: float64
+2026-01-19 13:18:06,376 - Financial_Plan - INFO - Busted ages dict: {86: 136, 88: 111, 89: 72, 90: 57, 87: 102, 84: 123, 92: 28, 94: 15, 85: 137, 83: 74, 91: 32, 81: 19, 82: 47, 95: 8, 101: 2, 93: 21, 99: 3, 97: 2, 80: 6, 102: 2, 98: 2, 96: 1}
+2026-01-19 13:18:06,376 - Financial_Plan - INFO - Busted count: 1996
+2026-01-19 13:18:06,376 - Financial_Plan - INFO - Confidence level: -99.60%
+2026-01-19 13:24:33,945 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:24:33,946 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:24:33,946 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:24:34,506 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 21,954
+Bonds     $ 10,977
+TBills     $ 5,489
+Cash       $ 2,744
+dtype: object
+2026-01-19 13:24:34,508 - Financial_Plan - INFO - Final result  stats:
+count      100.000000
+mean     41164.145831
+std      25824.557990
+min        869.802511
+25%      20550.285923
+50%      37860.149533
+75%      60946.519499
+max      86154.258243
+dtype: float64
+2026-01-19 13:24:34,508 - Financial_Plan - INFO - Busted ages dict: {90: 1}
+2026-01-19 13:24:34,508 - Financial_Plan - INFO - Busted count: 100
+2026-01-19 13:24:34,508 - Financial_Plan - INFO - Confidence level: 0.00%
+2026-01-19 13:25:00,139 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:25:00,139 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:25:00,140 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:25:05,869 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 23,349
+Bonds     $ 11,675
+TBills     $ 5,837
+Cash       $ 2,919
+dtype: object
+2026-01-19 13:25:05,871 - Financial_Plan - INFO - Final result  stats:
+count     1000.000000
+mean     43780.126262
+std      25224.281562
+min         89.552811
+25%      22267.155640
+50%      42934.300520
+75%      64775.784818
+max      99391.064009
+dtype: float64
+2026-01-19 13:25:05,872 - Financial_Plan - INFO - Busted ages dict: {87: 1}
+2026-01-19 13:25:05,872 - Financial_Plan - INFO - Busted count: 998
+2026-01-19 13:25:05,872 - Financial_Plan - INFO - Confidence level: 0.20%
+2026-01-19 13:26:38,037 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:26:38,038 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:26:38,038 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:26:43,637 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 23,349
+Bonds     $ 11,675
+TBills     $ 5,837
+Cash       $ 2,919
+dtype: object
+2026-01-19 13:26:43,640 - Financial_Plan - INFO - Final result  stats:
+count     1000.000000
+mean     43780.126262
+std      25224.281562
+min         89.552811
+25%      22267.155640
+50%      42934.300520
+75%      64775.784818
+max      99391.064009
+dtype: float64
+2026-01-19 13:26:43,640 - Financial_Plan - INFO - Busted ages dict: {86: 136, 88: 111, 89: 72, 90: 57, 87: 102, 84: 123, 92: 28, 94: 15, 85: 137, 83: 74, 91: 32, 81: 19, 82: 47, 95: 8, 101: 2, 93: 21, 99: 3, 97: 2, 80: 6, 98: 2, 96: 1}
+2026-01-19 13:26:43,640 - Financial_Plan - INFO - Busted count: 1996
+2026-01-19 13:26:43,640 - Financial_Plan - INFO - Confidence level: -99.60%
+2026-01-19 13:28:47,338 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:28:47,339 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:28:47,340 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:28:53,124 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 23,349
+Bonds     $ 11,675
+TBills     $ 5,837
+Cash       $ 2,919
+dtype: object
+2026-01-19 13:28:53,126 - Financial_Plan - INFO - Final result  stats:
+count     1000.000000
+mean     43780.126262
+std      25224.281562
+min         89.552811
+25%      22267.155640
+50%      42934.300520
+75%      64775.784818
+max      99391.064009
+dtype: float64
+2026-01-19 13:28:53,126 - Financial_Plan - INFO - Busted ages dict: {86: 136, 88: 111, 89: 72, 90: 57, 87: 102, 84: 123, 92: 28, 94: 15, 85: 137, 83: 74, 91: 32, 81: 19, 82: 47, 95: 8, 101: 2, 93: 21, 99: 3, 97: 2, 80: 6, 98: 2, 96: 1}
+2026-01-19 13:28:53,126 - Financial_Plan - INFO - Busted count: 998
+2026-01-19 13:29:10,013 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:29:10,014 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:29:10,015 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:29:15,844 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 23,349
+Bonds     $ 11,675
+TBills     $ 5,837
+Cash       $ 2,919
+dtype: object
+2026-01-19 13:29:15,846 - Financial_Plan - INFO - Final result  stats:
+count     1000.000000
+mean     43780.126262
+std      25224.281562
+min         89.552811
+25%      22267.155640
+50%      42934.300520
+75%      64775.784818
+max      99391.064009
+dtype: float64
+2026-01-19 13:29:15,846 - Financial_Plan - INFO - Busted ages dict: {86: 136, 88: 111, 89: 72, 90: 57, 87: 102, 84: 123, 92: 28, 94: 15, 85: 137, 83: 74, 91: 32, 81: 19, 82: 47, 95: 8, 101: 2, 93: 21, 99: 3, 97: 2, 80: 6, 98: 2, 96: 1}
+2026-01-19 13:29:15,846 - Financial_Plan - INFO - Busted count: 998
+2026-01-19 13:29:30,968 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:29:30,969 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:29:30,970 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:29:36,463 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 23,349
+Bonds     $ 11,675
+TBills     $ 5,837
+Cash       $ 2,919
+dtype: object
+2026-01-19 13:29:36,465 - Financial_Plan - INFO - Final result  stats:
+count     1000.000000
+mean     43780.126262
+std      25224.281562
+min         89.552811
+25%      22267.155640
+50%      42934.300520
+75%      64775.784818
+max      99391.064009
+dtype: float64
+2026-01-19 13:29:36,465 - Financial_Plan - INFO - Busted ages dict: {86: 136, 88: 111, 89: 72, 90: 57, 87: 102, 84: 123, 92: 28, 94: 15, 85: 137, 83: 74, 91: 32, 81: 19, 82: 47, 95: 8, 101: 2, 93: 21, 99: 3, 97: 2, 80: 6, 98: 2, 96: 1}
+2026-01-19 13:29:36,465 - Financial_Plan - INFO - Busted count: 998
+2026-01-19 13:29:36,465 - Financial_Plan - INFO - Busted count per dict: 998
+2026-01-19 13:29:36,465 - Financial_Plan - INFO - Confidence level: 0.20%
+2026-01-19 13:29:54,128 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:29:54,129 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:29:54,130 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:29:59,385 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 26,266
+Bonds     $ 13,133
+TBills     $ 6,566
+Cash       $ 3,283
+dtype: object
+2026-01-19 13:29:59,387 - Financial_Plan - INFO - Final result  stats:
+count      1000.000000
+mean      49248.302323
+std       28589.856570
+min          17.967064
+25%       25035.621654
+50%       48187.980950
+75%       73854.754808
+max      113594.184694
+dtype: float64
+2026-01-19 13:29:59,387 - Financial_Plan - INFO - Busted ages dict: {84: 149, 85: 130, 86: 104, 87: 65, 82: 135, 88: 45, 90: 25, 83: 170, 81: 81, 80: 41, 91: 8, 89: 26, 94: 2, 92: 1, 79: 7, 78: 2, 93: 6, 96: 2, 95: 1}
+2026-01-19 13:29:59,387 - Financial_Plan - INFO - Busted count: 1000
+2026-01-19 13:29:59,387 - Financial_Plan - INFO - Confidence level: 0.00%
+2026-01-19 13:30:06,431 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:30:06,431 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:30:06,432 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:30:12,615 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 23,850
+Bonds     $ 11,925
+TBills     $ 5,962
+Cash       $ 2,981
+dtype: object
+2026-01-19 13:30:12,618 - Financial_Plan - INFO - Final result  stats:
+count      1000.000000
+mean      44717.871267
+std       49557.555168
+min           3.749654
+25%       21344.350078
+50%       41573.781761
+75%       60850.932199
+max      741338.821061
+dtype: float64
+2026-01-19 13:30:12,618 - Financial_Plan - INFO - Busted ages dict: {88: 116, 91: 97, 93: 53, 90: 76, 87: 106, 98: 18, 100: 10, 89: 107, 85: 54, 95: 30, 92: 69, 83: 17, 86: 90, 84: 41, 94: 39, 101: 5, 97: 13, 96: 27, 82: 9, 99: 9, 81: 2}
+2026-01-19 13:30:12,618 - Financial_Plan - INFO - Busted count: 988
+2026-01-19 13:30:12,618 - Financial_Plan - INFO - Confidence level: 1.20%
+2026-01-19 13:30:20,739 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 13:30:20,740 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 13:30:20,741 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 13:30:29,172 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 235,351
+Bonds     $ 117,676
+TBills     $ 58,838
+Cash       $ 29,419
+dtype: object
+2026-01-19 13:30:29,174 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+03
+mean     4.412836e+05
+std      4.641882e+05
+min      4.166233e+01
+25%      4.581180e+04
+50%      3.011690e+05
+75%      6.751793e+05
+max      3.169596e+06
+dtype: float64
+2026-01-19 13:30:29,174 - Financial_Plan - INFO - Busted ages dict: {101: 42, 97: 25, 96: 22, 94: 14, 98: 19, 95: 13, 93: 5, 99: 35, 90: 5, 100: 35, 91: 3, 92: 6}
+2026-01-19 13:30:29,174 - Financial_Plan - INFO - Busted count: 224
+2026-01-19 13:30:29,175 - Financial_Plan - INFO - Confidence level: 77.60%

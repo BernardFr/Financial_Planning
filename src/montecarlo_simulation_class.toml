@@ -13,7 +13,7 @@ Ror_ceiling = 1.40  # corresponds to a +40% RoR
 
 
 [MontecarloSimulation]
-run_cnt = 10
+run_cnt = 1000
 target_end_funds = 5e5
 target_success_rate = 80
 seed = 42

@@ -8,22 +8,13 @@ from utilities import error_exit
 import collections
 import sys
 DEBUG_FLAG = False
-ROR_STATS = [ (3.00, 9.00),(2.60, 7.70), (1.50, 0.90),  (-0.05, 0.0)]  # Stocks, Bonds, TBills, Cash
+ROR_STATS = [ (30.00, 9.00),(5.60, 7.70), (3.50, 0.90),  (-0.05, 0.0)]  # Stocks, Bonds, TBills, Cash
 ASSET_CLASSES = {'Stocks': 800000,
                 'Bonds': 400000,
                 'TBills': 200000,
                 'Cash': 100000}
 INITIAL_HOLDINGS = pd.DataFrame({'Market Value': ASSET_CLASSES})
-CASHFLOW_SERIES = pd.Series(index=range(67, 102), data=[50000] * 35, name="Cashflows")
-
-def dollar_str(x: float) -> str:
-    """
-    Convert a float to a string prepended with '$', and with commas rounded 2 digits
-    :param x: float
-    :return: string
-    """
-    return f"$ {x:,.0f}"    
-
+CASHFLOW_SERIES = pd.Series(index=range(67, 102), data=[10000] * 35, name="Cashflows")
 
 class ArrayRandGen:
     def __init__(self,config_manager: ConfigurationManager, mean: float, stdv: float):
@@ -94,14 +85,12 @@ class MontecarloSimulation:
 
     def set_initial_holdings(self, initial_holdings: pd.DataFrame) -> None:
         """Set the initial holdings DataFrame and the target asset allocation"""
+        print(f"initial_holdings:\n{initial_holdings}")
         self.initial_holdings = initial_holdings
-        # Create a string representation of the initial holdings, with commas and 0 decimal points
-        logger.info(f"initial_holdings:\n{self.initial_holdings.map(dollar_str)}")
         self.start_funds = initial_holdings['Market Value'].sum()
-        logger.info(f"Starting Funds: ${self.start_funds:,.0f}")
+        logger.info(f"Starting Funds: ${self.start_funds:,.2f}")
         self.target_asset_allocation = initial_holdings['Market Value'] / self.start_funds
-        t_a_a_str = self.target_asset_allocation.map(lambda x: f"{100*x:.2f} %")
-        logger.info(f"Target Asset Allocation:\n{t_a_a_str}")
+        logger.info(f"Target Asset Allocation: {self.target_asset_allocation}")
         self.final_result_df = pd.DataFrame(index=self.initial_holdings.index, columns=range(self.run_cnt))  
 
         return None
@@ -151,8 +140,9 @@ class MontecarloSimulation:
         for age, ror_lst, cashflow_val in zip(self.age_lst, ror_df, self.cashflow_ser):
             ror_lst = list[float](ror_df[age])
             new_portfolio_ser, busted_flag = self.run_one_year(portfolio_ser, ror_lst, cashflow_val)
+            self.busted_ages.append(busted_age)
             if busted_flag:
-                busted_age = age
+                self.busted_cnt += 1
                 break  # Stop iterating over age when we bust out
             else:
                 portfolio_ser = new_portfolio_ser
@@ -170,47 +160,167 @@ class MontecarloSimulation:
         return the portfolio and the busted flag (false)
         """
         pfolio_ser = portfolio_ser.mul(ror_lst, axis=0)  # add the returns to the portfolio
-        pfolio_value = float(pfolio_ser.sum())  # always positive - RoR cannot be > 100%
+        pfolio_value = float(pfolio_ser.sum())   # always positive - RoR cannot be > 100%
         management_fee_value = pfolio_value * self.mgt_fee
         wdrwl_value = cashflow_val + management_fee_value  # money going out
         adjusted_pfolio_value = pfolio_value - wdrwl_value
 
         if adjusted_pfolio_value <= 0.0:  # withdrawls are greater than the portfolio value
-            pfolio_ser = pfolio_ser * adjusted_pfolio_value / pfolio_value
-            return pfolio_ser, True  # Busted - note pfolio_ser is not updated
+            pfolio_df = pfolio_df * adjusted_pfolio_value / pfolio_value
+            return pfolio_df, True  # Busted - note pfolio_df is not updated
         else:
             # Rebalance the portfolio based on rebalance flag
             if self.rebalance_flag:
-                pfolio_ser = self.target_asset_allocation * adjusted_pfolio_value
+                pfolio_df = self.target_asset_allocation * adjusted_pfolio_value
             else:
-                pfolio_ser = pfolio_ser * adjusted_pfolio_value / pfolio_value
-            return pfolio_ser, False
+                pfolio_df = pfolio_df * adjusted_pfolio_value / pfolio_value
+            return pfolio_df, False
 
+
+    def xx_rebalance(self, portfolio_df: pd.DataFrame, rebalance_flag: bool) -> (pd.DataFrame, bool):
+        """ Re-balance the portfolio based on the desired asset allocation
+        Re-balance the portfolio based on the desired asset allocation
+        :param portfolio_df: DataFrame of portfolio values
+        :param rebalance_flag: boolean flag to indicate if rebalancing is desired
+        :return: new values of portfolio
+
+        Note: this needs to be performed AFTER taking 
+        """
+        portfolio_value = portfolio_df['Market Value'].sum()
+        if portfolio_value <= 0.0:
+            return portfolio_df, True
+
+        # check that no values are negative
+        if any(portfolio_df['Market Value'] < 0.0):
+            error_exit(f"Negative portfolio value: {portfolio_value}")
+
+        if self.rebalance_flag:
+            # Re-allocate the portfolio based on the desired asset allocation
+            new_portfolio_df = portfolio_value * self.target_asset_allocation
+            return new_portfolio_df, False
+        else:
+            return portfolio_df, False
+
+   
+    def xx_re_allocate(asset, alloc, re_alloc_error):
+        """
+        Re-allocate assets based on desired asset allocation "alloc" - when asset amounts are negative
+        :param asset: Series of assets
+        :param alloc: Target allocation
+        :return: new values of asset
+        """
+        if all(asset >= 0.0):  # all good, all amounts are positive or zero
+            return asset, alloc  # done
+        if asset.sum() <= 0.0:  # Busted - sum of amounts are negative or 0 -> return all 0s
+            return pd.Series(0, index=np.arange(len(asset))), alloc
+
+        # Need to make adjustments
+        n_asset = asset.copy(deep=True)
+        n_alloc = alloc.copy(deep=True)
+        # Need to iterate until all asset classes are positive or zero
+        neg_flag = n_asset < 0.0
+        while any(neg_flag):  # While one asset category is negative
+            # Some = but not all - assets have negative amount
+            to_re_allocate = n_asset[neg_flag].sum()  # sum of all negative amounts
+            n_asset[neg_flag] = 0.0  # zero out assets that have no money
+            n_alloc[neg_flag] = 0.0  # zero out allocation of asset that have no money
+            tot = n_alloc.sum()  # will be < 1.0
+            n_alloc = (n_alloc / tot)  # rebalance allocations for classes that have positive amount
+            assert (abs(n_alloc.sum() - 1.0) < re_alloc_error),\
+                "n_alloc adds up to {:,.4f} - not 1.0 - n_alloc:\n".format(n_alloc.sum()) + str(n_alloc)
+            adjust = (n_alloc * to_re_allocate)  # distribute amount to re-allocate among assets still active
+            n_asset += adjust
+            neg_flag = (n_asset < 0.0)  # Re-test - some asset classes may have become negative after rebalancing
+            if abs(asset.sum() - n_asset.sum()) > re_alloc_error:
+                logger.info(
+                            "Asset {:,.4f} and re-allocated assets {:,.4f} don't add up - delta = {:,.8f}".format(asset.sum(),
+                                n_asset.sum(), asset.sum() - n_asset.sum()))
+        return n_asset, n_alloc
+    
+    def xx_run_mc_multi(init_asset, big_ror_df, cashflow_df, mgt_fee, rebal_flag, cnt, offset, test_param=None):
+        """
+        Run Montecarlo simulation
+        @param init_asset: (N,) SERIES of assets allocated by asset class
+        @param big_ror_df: Large array of rates of returns (ror) for each kind of asset - pseudo-random based on each asset's stats
+        @param cashflow_df: Series of yearly withdrawals [or income] for each consecutive age
+        @param cnt: Nb of iterations to run the simulation
+        @param offset: offset in big_ror_df from which to extract ror for each iteration - used in parallel processing
+        @return: [N, cnt] DF with 2-uple (DF of ending amount by asset class for each simulation run, end age]
+        """
+        # print('run_mc_multi: pid: {}, cnt= {}, offset={}'.format(os.getpid(), cnt, offset))
+        age_col = list(map(int, cashflow_df.index))
+        ages = (int(age_col[0]), int(age_col[-1]))  # start and end age
+        nb_ages = ages[1] - ages[0] + 1  # We keep both start and end age
+        idx_name = init_asset.index
+        # Create dataframe for results - rows are asset classes, columns are iterations
+        asset_df = pd.DataFrame(index=idx_name, dtype=float, columns=range(cnt))
+        # Create final_age series [N] - initialized to 0
+        final_age_ser = pd.Series([0] * cnt, index=range(cnt), dtype=int)
+        # Compute asset allocation - and use it for rebalancing
+        asset_alloc = init_asset / init_asset.sum()  # Fraction
+        # assert asset_alloc.sum() == 1.0, f'Asset allocation (= {asset_alloc.sum():,.6f}) must add up to 1.0'
+        assert abs(asset_alloc.sum() - 1.0) < 1e-6, f'Asset allocation (= {asset_alloc.sum():,.6f}) must add up to 1.0'
+        # Convert cashflow_df from DF with 1 column of label 0 to Series
+        cashflow_ser = pd.Series(cashflow_df[0])
+
+        # set straight_distribution_flag if we are in test mode
+        straight_distribution_flag = False
+        if test_param:
+            if test_param['straight_distribution']:
+                straight_distribution_flag = True
+
+        # Select the function for asset update
+        if not straight_distribution_flag:
+            if rebal_flag:
+                update_asset_val = update_asset_val_w_rebalance
+            else:
+                update_asset_val = update_asset_val_no_rebalance
+        else:  # straight_distribution - NO rebalance
+            update_asset_val = update_asset_val_straight
+
+        # Run nb_iter simulations
+        for nb_iter in range(cnt):
+            asset_val = init_asset.copy(deep=True)  # initialize
+            # Generate a new array of rate of returns for all ages and each asset class
+            ror_df = mk_ror_df(big_ror_df, nb_iter, ages, offset)
+
+            # Update asset values at each age
+            busted_age = 200
+            for age in age_col:
+                asset_val = update_asset_val(asset_val, ror_df[age], cashflow_ser[age], asset_alloc, mgt_fee)
+                if asset_val.sum() < 0.0:  # Busted
+                    # print('Busted! @iter: {:d} - age {:d}'.format(nb_iter, int(age)))
+                    busted_age = age
+                    break  # Stop iterating over age
+            # store final result of this simulation run
+            asset_df[nb_iter] = asset_val
+            final_age_ser[nb_iter] = busted_age
+
+        return asset_df, final_age_ser
 
     def run(self) -> None:
         # print("run_mc_multi: pid: {}, cnt= {}, seed={}".format(os.getpid(), cnt, seed))
         np.random.seed(self.seed)
-        self.busted_ages = []
-        self.busted_cnt = 0
         for itr in range(self.run_cnt):
+            print(f"Iteration {itr}")
             final_portfolio_df, busted_flag, busted_age = self.run_one_iter()
             self.final_result_df[itr] = final_portfolio_df
+            self.busted_ages.append(busted_age)
             if busted_flag:
                 self.busted_cnt += 1
-                self.busted_ages.append(busted_age)
 
         # create a series for the final portfolio values
-        final_result_series = self.final_result_df.sum(axis=0)
-        logger.debug(f"final_result_series:\n{final_result_series.map(dollar_str)}")
-        # compute the average by asset class (rows  )
-        average_by_asset_class = self.final_result_df.mean(axis=1)
-        logger.info(f"average_by_asset_class:\n{average_by_asset_class.map(dollar_str)}")
+        print(f"final_result_df: {self.final_result_df}")
+        print(f"self.busted_ages: {self.busted_ages}")
+        final_result_series = self.final_result_df.sum(axis=1)
         # Compute statistics on the final portfolio values
         final_result_series_stats = final_result_series.describe()
         logger.info(f"Final result  stats:\n{final_result_series_stats}")
 
         # Create a dict that counts the number of busted ages
         busted_ages_dict = dict(collections.Counter(self.busted_ages))
+        print(f"busted_ages_dict: {busted_ages_dict}")
+        print(f"busted_cnt: {self.busted_cnt}")
         logger.info(f"Busted ages dict: {busted_ages_dict}")
         logger.info(f"Busted count: {self.busted_cnt}")
         # Compute confidence level
