@@ -5,11 +5,7 @@ Compute cashflow by year based on goals file
 """
 
 from typing import Any
-
-
 import sys
-import os
-import re
 import datetime as dt
 
 
@@ -19,7 +15,7 @@ import pandas as pd
 from numpy.linalg import norm as matrix_norm
 from asset_stats_util import get_asset_stats, correlated_rvs, make_ben_model
 from configuration_manager_class import ConfigurationManager
-from utilities import my_age
+from utilities import my_age, display_series
 # Use helper functions from Color_Map
 sys.path.insert(0, '../Color_Map/')  # Add path to the directory containing plot_color_matrix
 from plot_color_matrix import plot_color_matrix as pcm
@@ -133,23 +129,6 @@ class Cashflow:
         return pd.concat([self. goals_df.drop('Amount', axis=1), new_amount_ser], axis=1)
 
 
-def display_series(in_seri: pd.Series, dcml: int = 2) -> str:
-    """
-    Compact display of a series as a string in the form of ... index: value; ...
-    @param in_seri: input Series
-    @param dcml: (optional) decimal - default to 2
-    @return: string  "index[0]: rounded(in_seri[0], dcml); index[1]: rounded(in_seri[1], dcml); ..."
-    """
-    if not dcml:
-        dcml = 2
-    if dcml == 0:
-        return "; ".join([f"{idx}: {round(x,dcml):,.0f}" for idx, x in zip(in_seri.index, in_seri)])
-    elif dcml <= 2:
-        return "; ".join([f"{idx}: {round(x,dcml):,.2f}" for idx, x in zip(in_seri.index, in_seri)])
-    elif dcml <= 4:
-        return "; ".join([f"{idx}: {round(x,dcml):,.4f}" for idx, x in zip(in_seri.index, in_seri)])
-    else:
-        return "; ".join([f"{idx}: {round(x,dcml):,.f}" for idx, x in zip(in_seri.index, in_seri)])
 
 
 def linear_transform_fastest(M_in, slope, intercept):

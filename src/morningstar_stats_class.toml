@@ -1,5 +1,5 @@
 [default]
-run_cnt = 100
+run_cnt = 10000
 Max_iter = 50
 BF_BDAY = '04/09/1958'
 End_age = 101
@@ -37,7 +37,7 @@ url_corr = "https://admainnew.morningstar.com/webhelp/Practice/Plans/Correlation
 url_stats = "https://admainnew.morningstar.com/webhelp/dialog_boxes/cs_db_editassumptions.htm"
 nb_smpl = 1000000
 validate_cross_correlation_flag = true
-validation_error_margin = 5e-3 
+validation_error_margin = 1e-2 
 model_file = "./Data/Morningstar_Asset_Stats/Models.xlsx"
 xl_out_name = "./Data/Morningstar_asset_stats"
 

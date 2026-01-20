@@ -10,6 +10,10 @@
 
 # Release Notes
 
+### 1/29/2026
+
+* working version of `montecarlo_simulation_class`
+
 ### 1/12/2026
 
 * ``test_ror.py`: test creating the ror array

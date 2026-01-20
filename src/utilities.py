@@ -88,6 +88,32 @@ def print_df(df: pd.DataFrame, msg: str = None) -> None:
     print('/* --------- */')
     return
 
+def display_series(in_seri: pd.Series, dcml: int = 2) -> str:
+    """
+    Compact display of a series as a string in the form of ... index: value; ...
+    @param in_seri: input Series
+    @param dcml: (optional) decimal - default to 2
+    @return: string  "index[0]: rounded(in_seri[0], dcml); index[1]: rounded(in_seri[1], dcml); ..."
+    """
+    if not dcml:
+        dcml = 2
+    if dcml == 0:
+        return "; ".join([f"{idx}: {round(x,dcml):,.0f}" for idx, x in zip(in_seri.index, in_seri)])
+    elif dcml <= 2:
+        return "; ".join([f"{idx}: {round(x,dcml):,.2f}" for idx, x in zip(in_seri.index, in_seri)])
+    elif dcml <= 4:
+        return "; ".join([f"{idx}: {round(x,dcml):,.4f}" for idx, x in zip(in_seri.index, in_seri)])
+    else:
+        return "; ".join([f"{idx}: {round(x,dcml):,.f}" for idx, x in zip(in_seri.index, in_seri)])
+
+def dollar_str(x: float) -> str:
+    """
+    Convert a float to a string prepended with '$', and with commas rounded 2 digits
+    :param x: float
+    :return: string
+    """
+    return f"$ {x:,.0f}"    
+
 
 def print_out(outfile, msg='\n'):
     """ Prints message to both outfile and terminal

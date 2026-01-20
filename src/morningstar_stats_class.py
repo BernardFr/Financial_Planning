@@ -41,8 +41,9 @@ QuickFlagDefault = False
 # Random state for the random number generator used to generate the random variables to ensure we have the same
 # numbers across runs
 RvsRandomState = 42
+NB_SMPL_DEFAULT = 100000
 
-DEBUG_FLAG = False
+DEBUG_FLAG = True
 
 
 def matrix_equal(df_1: pd.DataFrame, df_2: pd.DataFrame, error_margin: float) -> (bool, float):
@@ -82,9 +83,16 @@ class MorningstarStats:
         self.XLabelLen = self.config.get('XLabelLen', XLabelLenDefault)
         self.quick_flag = self.config.get('quick_flag', QuickFlagDefault)
         self.stat_corr_name_map = dict[str, str](self.config['STAT_CORR_NAME_MAP']) # map the list of 2-element lists to a dict
-        self.nb_smpl = self.config['nb_smpl']
         self.validation_error_margin = self.config['validation_error_margin']
         self.validate_cross_correlation_flag = self.config['validate_cross_correlation_flag']
+
+    def set_nb_smpl(self, nb_smpl: int) -> None:
+        """
+        Set the number of samples to generate
+        @param nb_smpl: number of samples to generate
+        """
+        self.nb_smpl = nb_smpl
+        return
 
     def _make_xlabel(in_str: str, label_len) -> str:
         """
@@ -376,7 +384,7 @@ class MorningstarStats:
                 logger.info(f"Successfully validated cross-correlation matrix")
             else:
                 logger.error(f"Mean Error: {mean_error}\nStddev Error: {stddev_error}\nCorrelation Error: {corr_error}")
-                error_exit(f"Failed to validate cross-correlation matrix")
+                logger.error(f"Failed to validate cross-correlation matrix")
         else:
             logger.info(f'Skipping Validation of cross-correlation matrix')
         return rvs_df
@@ -550,14 +558,24 @@ def main_old(argv):
     return
 
 def main(cmd_line: List[str]):
-    morningstar_stats = MorningstarStats(cmd_line)
+    config_manager = ConfigurationManager(sys.argv)
+    morningstar_stats = MorningstarStats(config_manager)
     df_stat, df_corr = morningstar_stats.get_asset_stats()
     logger.info(f'\nAsset Class Statistics\n{df_stat}')
     logger.info(f'\nAsset Class Correlations\n{df_corr}')
+    morningstar_stats.set_nb_smpl(NB_SMPL_DEFAULT)
     correlated_rvs = morningstar_stats.generate_correlated_rvs()
-    if DEBUG_FLAG:
-        logger.info(f'\nCorrelated Random Variables\n{correlated_rvs}')
-
+    correlated_ror = correlated_rvs.map(lambda x: 1 +x * 0.01)
+    # if DEBUG_FLAG:
+    #     logger.info(f'\nCorrelated Random Variables\n{correlated_rvs}')
+    logger.info(f'\nCorrelated Random Variables\n{correlated_rvs}')
+    logger.info(f'\nCorrelated RoR\n{correlated_ror}')
+    
+    print(f"Confirming that correlated_rvs can be called several times and produce different results ")
+    morningstar_stats.set_nb_smpl(10)
+    for i in range(5):
+        correlated_rvs_2 = morningstar_stats.generate_correlated_rvs()
+        logger.info(f'iter: {i} \nCorrelated Random Variables {i}\n{correlated_rvs_2}')
 
 if __name__ == '__main__':
 

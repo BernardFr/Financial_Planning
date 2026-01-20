@@ -8,10 +8,17 @@ Financial Plan
 * Load Morningstar stats
 * Load holdings - map to Morningstar asset classes -> generate portfolio with assets, %, Morninstar stats
   * Option: load other stat sources ... and corresponding holding <-> asset class matcher
+* From the Morningstar stats, generate either the sequence of RoR -- see `cross_correlated_rvs_flag` for options
 * Run simulation with cashflows and portfolio
 * Show results
 
 ## Montecarlo_Simulation
+
+### Options / Flags
+
+* `rebalance_flag` if True, assets are rebalanced to initial allocation each year
+* `cross_correlated_rvs_flag` Determines whether we use Morningstar stats as is (false) or if we create cross-correlated RoR
+* "make it work": i.e. adjust spending in down years
 
 ### Inputs
 
@@ -28,10 +35,9 @@ Financial Plan
 * Detects if the portfolio busted
 * Rebalances the holdings to `target_asset_alloc`
 
-### Options
+### To Fix
 
-* "make it work": i.e. adjust spending in down years
-* Rebalancing each year
+* `Morningstar - cross_correlated_rvs`: should use a generator rather than computing all the RoR at once
 
 # Programs
 
@@ -87,3 +93,9 @@ The S&P 500's biggest yearly gain was over **+40%** (with some sources citing ov
 [5] [https://www.sofi.com/learn/content/average-stock-market-return/](https://www.sofi.com/learn/content/average-stock-market-return/#:~:text=Over the past 25 years%2C from 1998,is precisely 10% in any given year.)
 
 [6] https://carry.com/learn/average-stock-market-returns
+
+
+
+# References
+
+* [Cholesky Decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition) - see "Applications/Monte Carlo" simulation section	

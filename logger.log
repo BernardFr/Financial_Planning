@@ -10571,3 +10571,2401 @@ dtype: float64
 2026-01-19 13:30:29,174 - Financial_Plan - INFO - Busted ages dict: {101: 42, 97: 25, 96: 22, 94: 14, 98: 19, 95: 13, 93: 5, 99: 35, 90: 5, 100: 35, 91: 3, 92: 6}
 2026-01-19 13:30:29,174 - Financial_Plan - INFO - Busted count: 224
 2026-01-19 13:30:29,175 - Financial_Plan - INFO - Confidence level: 77.60%
+2026-01-19 16:56:22,659 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-19 16:56:22,660 - Financial_Plan - INFO - My age today: 67
+2026-01-19 16:56:22,719 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 16:56:22,720 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 16:56:22,720 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 16:56:22,812 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 7,096,506
+Bonds     $ 3,548,253
+TBills    $ 1,774,127
+Cash        $ 887,063
+dtype: object
+2026-01-19 16:56:22,819 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+01
+mean     1.330595e+07
+std      3.059607e+06
+min      9.609287e+06
+25%      1.097378e+07
+50%      1.312271e+07
+75%      1.481507e+07
+max      1.890988e+07
+dtype: float64
+2026-01-19 16:56:22,819 - Financial_Plan - INFO - Busted ages dict: {}
+2026-01-19 16:56:22,819 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 16:56:22,819 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 16:57:50,325 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-19 16:57:50,326 - Financial_Plan - INFO - My age today: 67
+2026-01-19 16:57:50,380 - Financial_Plan - INFO - initial_holdings:
+       Market Value
+Stocks    $ 800,000
+Bonds     $ 400,000
+TBills    $ 200,000
+Cash      $ 100,000
+2026-01-19 16:57:50,380 - Financial_Plan - INFO - Starting Funds: $1,500,000
+2026-01-19 16:57:50,382 - Financial_Plan - INFO - Target Asset Allocation:
+Stocks    53.33 %
+Bonds     26.67 %
+TBills    13.33 %
+Cash       6.67 %
+Name: Market Value, dtype: object
+2026-01-19 16:57:50,477 - Financial_Plan - INFO - average_by_asset_class:
+Stocks    $ 7,096,506
+Bonds     $ 3,548,253
+TBills    $ 1,774,127
+Cash        $ 887,063
+dtype: object
+2026-01-19 16:57:50,479 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+01
+mean     1.330595e+07
+std      3.059607e+06
+min      9.609287e+06
+25%      1.097378e+07
+50%      1.312271e+07
+75%      1.481507e+07
+max      1.890988e+07
+dtype: float64
+2026-01-19 16:57:50,479 - Financial_Plan - INFO - Busted ages dict: {}
+2026-01-19 16:57:50,479 - Financial_Plan - INFO - Busted count: 0
+2026-01-19 16:57:50,479 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-19 18:05:06,165 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-19 18:05:06,165 - Financial_Plan - INFO - My age today: 67
+2026-01-19 18:05:06,217 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 13
+2026-01-19 18:06:09,537 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-19 18:06:09,537 - Financial_Plan - INFO - My age today: 67
+2026-01-19 18:06:09,589 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 13
+2026-01-19 18:06:09,617 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-19 18:06:09,618 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-19 18:06:09,635 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-19 18:06:36,780 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-19 18:06:36,781 - Financial_Plan - INFO - My age today: 67
+2026-01-19 18:06:36,839 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 13
+2026-01-19 18:06:36,872 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-19 18:06:36,874 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-19 18:06:36,889 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-19 18:09:25,926 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-19 18:09:25,926 - Financial_Plan - INFO - My age today: 67
+2026-01-19 18:09:25,984 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 13
+2026-01-19 18:09:26,018 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-19 18:09:26,019 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-19 18:09:46,076 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-19 18:09:46,076 - Financial_Plan - INFO - My age today: 67
+2026-01-19 18:09:46,128 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 13
+2026-01-19 18:09:46,157 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-19 18:09:46,158 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-19 18:09:46,173 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-19 18:09:46,178 - Financial_Plan - INFO - initial_holdings:
+                                   Market Value
+Asset Class                                    
+ Emerging Mkts Stks                   $ 303,137
+ Foreign Industrialzed Mkts Stocks    $ 785,895
+ Non-U.S. Bonds                        $ 82,780
+ U.S. High Yield Bonds                $ 110,601
+ U.S. Investment Grade Bonds          $ 493,991
+ U.S. Lg Cap Growth                   $ 581,260
+ U.S. Lg Cap Val                      $ 544,757
+ U.S. Mid Cap Growth                  $ 248,724
+ U.S. Sm Cap Growth                   $ 181,994
+ U.S. Sm Cap Val                      $ 165,121
+Commodities                            $ 78,325
+Inflation-Protected Bond               $ 63,973
+Non-US Bond                            $ 38,168
+Non-US Small Cap Stock                $ 117,260
+Real Estate                            $ 25,313
+US Short-Term Bond                     $ 15,704
+2026-01-19 18:09:46,179 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-19 18:09:46,179 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+ Emerging Mkts Stks                    7.90 %
+ Foreign Industrialzed Mkts Stocks    20.48 %
+ Non-U.S. Bonds                        2.16 %
+ U.S. High Yield Bonds                 2.88 %
+ U.S. Investment Grade Bonds          12.87 %
+ U.S. Lg Cap Growth                   15.15 %
+ U.S. Lg Cap Val                      14.20 %
+ U.S. Mid Cap Growth                   6.48 %
+ U.S. Sm Cap Growth                    4.74 %
+ U.S. Sm Cap Val                       4.30 %
+Commodities                            2.04 %
+Inflation-Protected Bond               1.67 %
+Non-US Bond                            0.99 %
+Non-US Small Cap Stock                 3.06 %
+Real Estate                            0.66 %
+US Short-Term Bond                     0.41 %
+Name: Market Value, dtype: object
+2026-01-20 10:47:45,079 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 10:47:45,512 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 10:47:45,539 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 10:47:49,000 - Financial_Plan - INFO - Validating cross-correlation matrix
+2026-01-20 10:47:49,662 - Financial_Plan - ERROR - Mean Error: 0.008065110941019174
+Stddev Error: 0.005247362652600506
+Correlation Error: 0.000177048392745772
+2026-01-20 10:47:49,662 - Financial_Plan - ERROR - Failed to validate cross-correlation matrix
+2026-01-20 10:48:39,809 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 10:48:40,247 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 10:48:40,268 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 10:48:44,005 - Financial_Plan - INFO - Validating cross-correlation matrix
+2026-01-20 10:48:44,653 - Financial_Plan - ERROR - Mean Error: 0.021001440430372217
+Stddev Error: 0.006191411544734585
+Correlation Error: 0.00011718478616962266
+2026-01-20 10:48:44,653 - Financial_Plan - ERROR - Failed to validate cross-correlation matrix
+2026-01-20 10:49:48,941 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 10:49:49,380 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 10:49:49,395 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 10:49:53,158 - Financial_Plan - INFO - Validating cross-correlation matrix
+2026-01-20 10:49:53,742 - Financial_Plan - ERROR - Mean Error: 0.006784135587683016
+Stddev Error: 0.0067484616258110305
+Correlation Error: 0.0001737393942182677
+2026-01-20 10:49:53,742 - Financial_Plan - ERROR - Failed to validate cross-correlation matrix
+2026-01-20 10:51:39,544 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 10:51:39,965 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 10:51:39,979 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 10:51:43,503 - Financial_Plan - INFO - Validating cross-correlation matrix
+2026-01-20 10:51:44,086 - Financial_Plan - ERROR - Mean Error: 0.006958580783967853
+Stddev Error: 0.01304186360134946
+Correlation Error: 0.00017478211343738848
+2026-01-20 10:51:44,086 - Financial_Plan - ERROR - Failed to validate cross-correlation matrix
+2026-01-20 10:53:12,221 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 10:53:12,648 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 10:53:12,664 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 10:53:16,919 - Financial_Plan - INFO - Validating cross-correlation matrix
+2026-01-20 10:53:17,662 - Financial_Plan - ERROR - Mean Error: 0.013813196735062153
+Stddev Error: 0.016261965844357396
+Correlation Error: 0.0001876485720179844
+2026-01-20 10:53:17,662 - Financial_Plan - ERROR - Failed to validate cross-correlation matrix
+2026-01-20 10:53:17,737 - Financial_Plan - INFO - 
+Correlated Random Variables
+                                       0          1          2      ...      99997      99998      99999
+Asset Class                                                         ...                                 
+U.S. Lg Cap Growth                -32.538199 -22.050329   2.991067  ...  10.346387  31.463021  17.097205
+U.S. Lg Cap Val                   -20.079689 -20.014078   1.365932  ...   9.359584  34.361522   4.489974
+U.S. Mid Cap Growth               -37.646781 -29.988259   3.765441  ...    9.97845  22.697949  10.347897
+U.S. Mid Cap Val                  -17.050238  -6.499675 -12.416873  ...   9.656234  31.450818   3.049914
+U.S. Sm Cap Growth                -38.963725 -36.339715   3.198574  ...  11.521152  22.647909   14.36309
+U.S. Sm Cap Val                   -27.626889  -13.19288  -8.210377  ...    7.88421  33.998939   7.366531
+Foreign Industrialzed Mkts Stocks -12.642052   4.619005  19.930093  ...  21.323378   0.540719   4.344285
+Emerging Mkts Stks                 -8.891135   7.135931     7.0002  ...   0.558689   6.545999 -17.569271
+U.S. Investment Grade Bonds        14.496735   0.776755   3.898772  ...     8.5956  14.705345  -6.597595
+U.S. High Yield Bonds               1.022669  -9.528223  -0.183817  ...   7.352646   3.607245   2.634506
+Non-U.S. Bonds                      9.486192  10.585527   13.30723  ...   8.773904  -0.550975   8.745189
+Cash                                3.317867   1.327485    1.23957  ...   1.487998   5.323354  -1.181358
+Commodities                       -12.214695  -6.994397    1.06624  ...   7.073916  15.955315 -23.240538
+Real Estate                        -2.764395  -4.662301  -16.33522  ...  18.471636   0.517606  -2.425359
+
+[14 rows x 100000 columns]
+2026-01-20 10:55:02,028 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 10:55:02,596 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 10:55:02,617 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 10:55:06,998 - Financial_Plan - INFO - Validating cross-correlation matrix
+2026-01-20 10:55:07,639 - Financial_Plan - ERROR - Mean Error: 0.018839401235583284
+Stddev Error: 0.011253447357115086
+Correlation Error: 0.00014614838149087502
+2026-01-20 10:55:07,639 - Financial_Plan - ERROR - Failed to validate cross-correlation matrix
+2026-01-20 10:55:11,795 - Financial_Plan - INFO - 
+Correlated Random Variables
+                                       0          1          2      ...      99997      99998      99999
+Asset Class                                                         ...                                 
+U.S. Lg Cap Growth                   19.9159  17.657328   2.542297  ...  -12.60937  -22.35019   -8.55941
+U.S. Lg Cap Val                    22.371407  13.946229   15.63305  ... -16.075924 -19.264621  -2.676115
+U.S. Mid Cap Growth                 36.33305  14.726021   1.130128  ... -30.247386  -7.375384   0.454934
+U.S. Mid Cap Val                   24.484933  17.699148  19.119702  ... -25.165713 -14.421849  21.433493
+U.S. Sm Cap Growth                 35.591381   7.603171   -1.49305  ... -45.356429  -2.261769   0.298629
+U.S. Sm Cap Val                    27.785171  21.169246  11.439936  ... -34.849558 -11.743383  23.569952
+Foreign Industrialzed Mkts Stocks   3.329407  13.726174   7.076096  ...   7.042189 -23.896385  29.497838
+Emerging Mkts Stks                  40.69928  14.390384   6.833404  ...   0.434494  14.889449  17.186827
+U.S. Investment Grade Bonds        -7.902172  -3.469788   7.617083  ... -14.229973   1.680725  -0.915819
+U.S. High Yield Bonds              12.572665   6.036834  17.547385  ... -22.648378   1.034963  18.394337
+Non-U.S. Bonds                    -16.174217  -5.994926  -7.780637  ... -12.357241   2.121228  -1.697669
+Cash                               -0.405813   1.059488  -1.526078  ...  -0.695947   1.611657    1.95342
+Commodities                        -3.949145  32.344728 -31.564252  ... -17.386154 -28.383099  32.371392
+Real Estate                        23.126792  -6.300912  38.745679  ... -33.051579  -8.374615  34.803965
+
+[14 rows x 100000 columns]
+2026-01-20 10:55:11,894 - Financial_Plan - INFO - 
+Correlated RoR
+                                      0         1         2         3      ...     99996     99997     99998     99999
+Asset Class                                                                ...                                        
+U.S. Lg Cap Growth                 1.199159  1.176573  1.025423  1.115432  ...  0.858094  0.873906  0.776498  0.914406
+U.S. Lg Cap Val                    1.223714  1.139462  1.156331  1.177655  ...  0.831329  0.839241  0.807354  0.973239
+U.S. Mid Cap Growth                1.363331  1.147260  1.011301  1.252950  ...  0.830022  0.697526  0.926246  1.004549
+U.S. Mid Cap Val                   1.244849  1.176991  1.191197  1.262259  ...  0.905526  0.748343  0.855782  1.214335
+U.S. Sm Cap Growth                 1.355914  1.076032  0.985069  1.321228  ...  0.896757  0.546436  0.977382  1.002986
+U.S. Sm Cap Val                    1.277852  1.211692  1.114399  1.367319  ...  0.999330  0.651504  0.882566  1.235700
+Foreign Industrialzed Mkts Stocks  1.033294  1.137262  1.070761  1.061151  ...  0.845858  1.070422  0.761036  1.294978
+Emerging Mkts Stks                 1.406993  1.143904  1.068334  1.349649  ...  1.198389  1.004345  1.148894  1.171868
+U.S. Investment Grade Bonds        0.920978  0.965302  1.076171  1.003582  ...  0.946720  0.857700  1.016807  0.990842
+U.S. High Yield Bonds              1.125727  1.060368  1.175474  1.176101  ...  0.970960  0.773516  1.010350  1.183943
+Non-U.S. Bonds                     0.838258  0.940051  0.922194  0.902147  ...  0.919041  0.876428  1.021212  0.983023
+Cash                               0.995942  1.010595  0.984739  1.003516  ...  1.016701  0.993041  1.016117  1.019534
+Commodities                        0.960509  1.323447  0.684357  1.246313  ...  0.928248  0.826138  0.716169  1.323714
+Real Estate                        1.231268  0.936991  1.387457  1.570641  ...  0.875316  0.669484  0.916254  1.348040
+
+[14 rows x 100000 columns]
+2026-01-20 11:08:54,625 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 11:08:55,094 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 11:08:55,107 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 11:08:58,845 - Financial_Plan - INFO - Validating cross-correlation matrix
+2026-01-20 11:08:59,483 - Financial_Plan - ERROR - Mean Error: 0.017182061928336587
+Stddev Error: 0.007899582880272517
+Correlation Error: 0.00017918049224075586
+2026-01-20 11:08:59,483 - Financial_Plan - ERROR - Failed to validate cross-correlation matrix
+2026-01-20 11:09:03,284 - Financial_Plan - INFO - 
+Correlated Random Variables
+                                       0          1          2      ...      99997      99998      99999
+Asset Class                                                         ...                                 
+U.S. Lg Cap Growth                  17.90433  17.474995  -0.221657  ...   3.409824  -8.061096  29.962541
+U.S. Lg Cap Val                    18.922568  22.593832   8.962088  ...  -1.478109    2.62805  28.915128
+U.S. Mid Cap Growth                21.553364  24.932389   3.442693  ...  22.425665  -3.920816  60.009161
+U.S. Mid Cap Val                   29.164355  30.150923  10.867821  ...   0.754445   -8.97816  29.399717
+U.S. Sm Cap Growth                 27.932369  23.202719   -3.47813  ...   20.75351 -16.543098  62.771945
+U.S. Sm Cap Val                    35.333623   35.88054   1.023807  ...   0.238698  -9.072832  36.989752
+Foreign Industrialzed Mkts Stocks   9.876246  16.386853  29.931437  ...   6.132873  13.185569   9.963723
+Emerging Mkts Stks                  6.410178   22.93247  16.325368  ...    7.43377  14.468641  57.071544
+U.S. Investment Grade Bonds          1.39578  -3.349541   2.019285  ...  -0.004615    3.96846   7.467513
+U.S. High Yield Bonds              15.230447   9.557055  -1.442412  ...   4.980685  -2.109745  25.984172
+Non-U.S. Bonds                     12.898803  -7.060505  -6.381938  ...  -1.177166   2.581152  10.572046
+Cash                                3.589622  -0.917448   3.011753  ...   1.641657   2.199275   5.269649
+Commodities                        -7.655206  14.598827  36.868592  ...  28.371707   3.910946  52.230017
+Real Estate                        33.214644  55.382893 -17.798905  ... -27.225839 -23.440413  26.217646
+
+[14 rows x 100000 columns]
+2026-01-20 11:09:03,377 - Financial_Plan - INFO - 
+Correlated RoR
+                                      0         1         2         3      ...     99996     99997     99998     99999
+Asset Class                                                                ...                                        
+U.S. Lg Cap Growth                 1.179043  1.174750  0.997783  1.169588  ...  0.757430  1.034098  0.919389  1.299625
+U.S. Lg Cap Val                    1.189226  1.225938  1.089621  1.178720  ...  0.786865  0.985219  1.026280  1.289151
+U.S. Mid Cap Growth                1.215534  1.249324  1.034427  0.943058  ...  0.799492  1.224257  0.960792  1.600092
+U.S. Mid Cap Val                   1.291644  1.301509  1.108678  1.085078  ...  0.851003  1.007544  0.910218  1.293997
+U.S. Sm Cap Growth                 1.279324  1.232027  0.965219  0.849053  ...  0.760848  1.207535  0.834569  1.627719
+U.S. Sm Cap Val                    1.353336  1.358805  1.010238  0.972426  ...  0.937623  1.002387  0.909272  1.369898
+Foreign Industrialzed Mkts Stocks  1.098762  1.163869  1.299314  1.121418  ...  0.730101  1.061329  1.131856  1.099637
+Emerging Mkts Stks                 1.064102  1.229325  1.163254  0.967359  ...  0.991888  1.074338  1.144686  1.570715
+U.S. Investment Grade Bonds        1.013958  0.966505  1.020193  1.037567  ...  0.917333  0.999954  1.039685  1.074675
+U.S. High Yield Bonds              1.152304  1.095571  0.985576  1.004534  ...  0.946581  1.049807  0.978903  1.259842
+Non-U.S. Bonds                     1.128988  0.929395  0.936181  0.935610  ...  0.965349  0.988228  1.025812  1.105720
+Cash                               1.035896  0.990826  1.030118  1.025447  ...  0.997931  1.016417  1.021993  1.052696
+Commodities                        0.923448  1.145988  1.368686  1.189916  ...  0.975500  1.283717  1.039109  1.522300
+Real Estate                        1.332146  1.553829  0.822011  0.862229  ...  0.847771  0.727742  0.765596  1.262176
+
+[14 rows x 100000 columns]
+2026-01-20 11:09:03,387 - Financial_Plan - INFO - Validating cross-correlation matrix
+2026-01-20 11:09:03,391 - Financial_Plan - ERROR - Mean Error: 1.7138661023348567
+Stddev Error: 0.8115590808380071
+Correlation Error: 0.015113828117189117
+2026-01-20 11:09:03,391 - Financial_Plan - ERROR - Failed to validate cross-correlation matrix
+2026-01-20 11:09:03,399 - Financial_Plan - INFO - iter: 0 
+Correlated Random Variables 0
+                                           0          1          2  ...          7          8          9
+Asset Class                                                         ...                                 
+U.S. Lg Cap Growth                 23.259592  12.778416   8.594514  ...  52.301229  10.315582  26.581448
+U.S. Lg Cap Val                     19.82807   6.700534  12.457508  ...  51.907576  11.368698  21.991628
+U.S. Mid Cap Growth                31.690933   32.73614  12.659623  ...  57.212011  23.071568   22.89182
+U.S. Mid Cap Val                   12.291365  18.941498  17.568723  ...  52.274803  17.372979  28.633851
+U.S. Sm Cap Growth                  30.98348   28.04935   2.786797  ...  55.149552  23.470253  26.824004
+U.S. Sm Cap Val                    15.802793  20.749586   11.54263  ...  59.544657  23.277043   28.98555
+Foreign Industrialzed Mkts Stocks  13.624247   8.310235  23.445135  ...  18.332145   5.770107  22.882391
+Emerging Mkts Stks                 -4.668002  27.418991  46.305838  ...  25.746922  10.383463  40.126783
+U.S. Investment Grade Bonds         0.851814   9.209033   2.691091  ...  16.818845   5.397241   5.806728
+U.S. High Yield Bonds               1.648784   10.64796  -1.510977  ...  25.735718  24.666497  36.101227
+Non-U.S. Bonds                     -3.930319  10.704878  -2.414052  ...  13.307155   8.727383  10.480627
+Cash                                0.342863   3.472084  -0.169289  ...   3.301431   0.891852   2.499594
+Commodities                        -1.076248  23.595518 -11.687958  ... -13.423636 -15.670893 -14.684186
+Real Estate                        21.017604  -0.019684 -35.922177  ...  25.109481   4.759072  29.668269
+
+[14 rows x 10 columns]
+2026-01-20 11:09:03,409 - Financial_Plan - INFO - Validating cross-correlation matrix
+2026-01-20 11:09:03,413 - Financial_Plan - ERROR - Mean Error: 1.7809059340774849
+Stddev Error: 1.4605152346911332
+Correlation Error: 0.018801175473834884
+2026-01-20 11:09:03,413 - Financial_Plan - ERROR - Failed to validate cross-correlation matrix
+2026-01-20 11:09:03,421 - Financial_Plan - INFO - iter: 1 
+Correlated Random Variables 1
+                                           0          1          2  ...          7          8          9
+Asset Class                                                         ...                                 
+U.S. Lg Cap Growth                 15.910742  12.992328 -11.551591  ... -12.740938 -10.716184  13.836344
+U.S. Lg Cap Val                    24.454696  23.135713  -1.351098  ...  -3.148434   6.629988  27.484864
+U.S. Mid Cap Growth                 5.944684  27.900005  -8.380383  ...  -8.280675    0.81468  20.474373
+U.S. Mid Cap Val                   23.096648  23.897805   2.932091  ...  13.280625   6.901162  17.897093
+U.S. Sm Cap Growth                  0.459576  29.147491  -9.835694  ...  -13.79531  -1.948443  17.521083
+U.S. Sm Cap Val                    26.198043  35.530954   6.389044  ...    15.4165   9.522473  25.688794
+Foreign Industrialzed Mkts Stocks  18.437256  37.281207 -12.562138  ...  20.501528  -1.629083  26.394057
+Emerging Mkts Stks                -32.703751   26.66975   7.602339  ... -31.063274  27.850772  46.509126
+U.S. Investment Grade Bonds        18.422227   0.145981  -2.768373  ...  10.569138  16.470437   0.269609
+U.S. High Yield Bonds              13.605956     6.4805  -3.386735  ...   2.727721  -1.912451  11.851363
+Non-U.S. Bonds                     11.903217    8.37415  -2.839669  ...   7.396342  10.313102  -3.271335
+Cash                                4.933149  -0.194146   3.037658  ...   2.963043   5.386194   0.312642
+Commodities                        16.424302  51.846208  29.457198  ...  -4.526601  17.983765  20.720664
+Real Estate                        36.137397  54.838089 -32.290842  ...  17.792404   14.66674  -2.826156
+
+[14 rows x 10 columns]
+2026-01-20 11:09:03,432 - Financial_Plan - INFO - Validating cross-correlation matrix
+2026-01-20 11:09:03,435 - Financial_Plan - ERROR - Mean Error: 0.9677381280964328
+Stddev Error: 0.7792400322394213
+Correlation Error: 0.015042304721564455
+2026-01-20 11:09:03,435 - Financial_Plan - ERROR - Failed to validate cross-correlation matrix
+2026-01-20 11:09:03,443 - Financial_Plan - INFO - iter: 2 
+Correlated Random Variables 2
+                                           0          1          2  ...          7          8          9
+Asset Class                                                         ...                                 
+U.S. Lg Cap Growth                 10.822944   26.35811  -5.518857  ... -10.949048  -2.634357   0.482362
+U.S. Lg Cap Val                     8.609342  18.307235 -17.397096  ... -12.904869 -15.666345  -1.038186
+U.S. Mid Cap Growth                10.977895  46.768643  -9.103294  ...  -2.110825  -9.214522   -7.33727
+U.S. Mid Cap Val                    5.479615  20.434668 -13.701935  ... -12.808277 -21.218242  -4.760959
+U.S. Sm Cap Growth                   9.41179  51.080862 -10.362227  ...   0.274171 -18.238058  -5.681224
+U.S. Sm Cap Val                    10.599865  29.016974 -13.216448  ... -13.372489 -23.959582  -9.191172
+Foreign Industrialzed Mkts Stocks   23.08015   8.121071 -16.088852  ...   5.759843   6.612808   7.160147
+Emerging Mkts Stks                  24.01698  53.944439 -32.426094  ... -20.185203 -17.491662  24.262199
+U.S. Investment Grade Bonds        11.958773  -6.391534  -6.513514  ...   7.698362   5.423883   4.094308
+U.S. High Yield Bonds               8.052296   9.541331 -15.793005  ...  -0.353273  -3.718169  -6.954785
+Non-U.S. Bonds                     27.822603   -8.27897  -2.731884  ...  10.321973  10.046874   3.629226
+Cash                                3.605417   4.621606   1.761838  ...  -1.049192   6.920675    1.78074
+Commodities                        43.277742  42.520722 -37.173845  ...  18.620077 -46.463756   7.919571
+Real Estate                          3.28525  30.731162 -13.013934  ... -20.481141 -32.236632   1.490752
+
+[14 rows x 10 columns]
+2026-01-20 11:09:03,453 - Financial_Plan - INFO - Validating cross-correlation matrix
+2026-01-20 11:09:03,456 - Financial_Plan - ERROR - Mean Error: 0.714205634782411
+Stddev Error: 0.7947727821457125
+Correlation Error: 0.01901677062992054
+2026-01-20 11:09:03,456 - Financial_Plan - ERROR - Failed to validate cross-correlation matrix
+2026-01-20 11:09:03,464 - Financial_Plan - INFO - iter: 3 
+Correlated Random Variables 3
+                                           0          1          2  ...          7          8          9
+Asset Class                                                         ...                                 
+U.S. Lg Cap Growth                 31.828053  12.214283 -19.900737  ...   4.595306  12.403613  -6.411779
+U.S. Lg Cap Val                    21.042411  26.535211 -22.285598  ...  -4.545177   7.835231  -1.438015
+U.S. Mid Cap Growth                42.304877  10.105833 -14.862663  ...  10.563739   3.331859  12.771514
+U.S. Mid Cap Val                   19.276593  28.808452 -11.960609  ...  -7.353416  12.961172  14.196407
+U.S. Sm Cap Growth                 44.105879   5.025885 -16.443274  ...   5.381752   9.341607  14.067538
+U.S. Sm Cap Val                    21.893049  26.475492 -17.273536  ...  -6.115255  14.486255  14.180138
+Foreign Industrialzed Mkts Stocks  20.960163  40.584813 -11.277918  ...   -2.27776  -3.057492 -14.010687
+Emerging Mkts Stks                 58.033489  57.576961 -11.881824  ...  -7.015506  -3.534048  -5.183996
+U.S. Investment Grade Bonds         0.519777  -9.442635  -1.077078  ...   0.749455   4.237069   3.464929
+U.S. High Yield Bonds              12.836881   8.829052    8.43508  ...   4.924059   3.097723    8.99541
+Non-U.S. Bonds                      1.915206   4.434105    4.34727  ...   6.281459  -3.839669  12.891641
+Cash                                1.380933   2.531594  -1.856595  ...   1.526063   2.480276   3.472715
+Commodities                         1.353316  72.675899   1.176269  ...  -0.019547     34.787   1.330248
+Real Estate                        -1.406453  12.910474  -33.22569  ...  -38.50507  25.721244  27.425446
+
+[14 rows x 10 columns]
+2026-01-20 11:09:03,473 - Financial_Plan - INFO - Validating cross-correlation matrix
+2026-01-20 11:09:03,476 - Financial_Plan - ERROR - Mean Error: 1.1953897720329614
+Stddev Error: 0.7006523714122924
+Correlation Error: 0.02005543463107176
+2026-01-20 11:09:03,476 - Financial_Plan - ERROR - Failed to validate cross-correlation matrix
+2026-01-20 11:09:03,484 - Financial_Plan - INFO - iter: 4 
+Correlated Random Variables 4
+                                           0          1          2  ...          7          8          9
+Asset Class                                                         ...                                 
+U.S. Lg Cap Growth                 -8.807938  -9.030752  21.419613  ...  25.083542  25.556104 -15.678404
+U.S. Lg Cap Val                     0.182521 -21.452792  13.004858  ...   3.142966  21.219928 -15.519228
+U.S. Mid Cap Growth               -11.454757   4.731141   13.52405  ...   10.02814  31.788447  -0.983355
+U.S. Mid Cap Val                  -10.922619 -14.665245   9.938355  ...    6.89184  18.473199  -4.263344
+U.S. Sm Cap Growth                -15.686638    15.7729  14.621772  ...   9.733467  37.503523  11.351054
+U.S. Sm Cap Val                    -8.988702 -13.498126  11.735271  ...  -2.367368  14.555872    7.04232
+Foreign Industrialzed Mkts Stocks -16.668127   1.843892  31.515652  ...  -2.487438  28.271722  13.009868
+Emerging Mkts Stks                 24.444993  32.495327   3.855103  ...   5.375333  24.230902  -3.112145
+U.S. Investment Grade Bonds         1.700896  11.223032   4.372616  ...    4.81063  12.208536   7.405796
+U.S. High Yield Bonds               5.936027   7.962738   6.807725  ...   7.759263  21.946813  15.380205
+Non-U.S. Bonds                     -2.630364  25.341746   9.464785  ...  -4.748527   4.815217   2.674637
+Cash                                  4.1768   2.398867   2.390826  ...   2.856196   4.419788   0.375617
+Commodities                        -0.779628   0.294645  16.258793  ...  10.133751  21.865027  20.469241
+Real Estate                       -35.718221  -3.332014  12.245333  ...  12.927112  39.069022  35.246746
+
+[14 rows x 10 columns]
+2026-01-20 11:27:50,050 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 11:27:50,050 - Financial_Plan - INFO - My age today: 67
+2026-01-20 11:27:50,100 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 11:27:50,127 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 11:27:50,129 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:27:50,146 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:27:50,151 - Financial_Plan - INFO - initial_holdings:
+                                   Market Value
+Asset Class                                    
+ Emerging Mkts Stks                   $ 303,137
+ Foreign Industrialzed Mkts Stocks    $ 785,895
+ Non-U.S. Bonds                        $ 82,780
+ U.S. High Yield Bonds                $ 110,601
+ U.S. Investment Grade Bonds          $ 493,991
+ U.S. Lg Cap Growth                   $ 581,260
+ U.S. Lg Cap Val                      $ 544,757
+ U.S. Mid Cap Growth                  $ 248,724
+ U.S. Sm Cap Growth                   $ 181,994
+ U.S. Sm Cap Val                      $ 165,121
+Commodities                            $ 78,325
+Inflation-Protected Bond               $ 63,973
+Non-US Bond                            $ 38,168
+Non-US Small Cap Stock                $ 117,260
+Real Estate                            $ 25,313
+US Short-Term Bond                     $ 15,704
+2026-01-20 11:27:50,151 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 11:27:50,152 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+ Emerging Mkts Stks                    7.90 %
+ Foreign Industrialzed Mkts Stocks    20.48 %
+ Non-U.S. Bonds                        2.16 %
+ U.S. High Yield Bonds                 2.88 %
+ U.S. Investment Grade Bonds          12.87 %
+ U.S. Lg Cap Growth                   15.15 %
+ U.S. Lg Cap Val                      14.20 %
+ U.S. Mid Cap Growth                   6.48 %
+ U.S. Sm Cap Growth                    4.74 %
+ U.S. Sm Cap Val                       4.30 %
+Commodities                            2.04 %
+Inflation-Protected Bond               1.67 %
+Non-US Bond                            0.99 %
+Non-US Small Cap Stock                 3.06 %
+Real Estate                            0.66 %
+US Short-Term Bond                     0.41 %
+Name: Market Value, dtype: object
+2026-01-20 11:27:50,913 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 11:27:51,402 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 11:27:51,414 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 11:27:51,415 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 11:27:51,415 - Financial_Plan - INFO - ROR Generator List:
+[<__main__.ArrayRandGen object at 0x118c44ad0>, <__main__.ArrayRandGen object at 0x118ad6d50>, <__main__.ArrayRandGen object at 0x118c06710>, <__main__.ArrayRandGen object at 0x118c14c30>, <__main__.ArrayRandGen object at 0x118c15940>, <__main__.ArrayRandGen object at 0x118bf8710>, <__main__.ArrayRandGen object at 0x118c508d0>, <__main__.ArrayRandGen object at 0x118c509e0>, <__main__.ArrayRandGen object at 0x118ca2550>, <__main__.ArrayRandGen object at 0x118dd3950>, <__main__.ArrayRandGen object at 0x118afac60>, <__main__.ArrayRandGen object at 0x118afab70>, <__main__.ArrayRandGen object at 0x118c0eeb0>, <__main__.ArrayRandGen object at 0x118c0d8d0>]
+2026-01-20 11:29:01,868 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 11:29:01,868 - Financial_Plan - INFO - My age today: 67
+2026-01-20 11:29:01,930 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 11:29:01,960 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 11:29:01,961 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:29:01,975 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:29:01,980 - Financial_Plan - INFO - initial_holdings:
+                                   Market Value
+Asset Class                                    
+ Emerging Mkts Stks                   $ 303,137
+ Foreign Industrialzed Mkts Stocks    $ 785,895
+ Non-U.S. Bonds                        $ 82,780
+ U.S. High Yield Bonds                $ 110,601
+ U.S. Investment Grade Bonds          $ 493,991
+ U.S. Lg Cap Growth                   $ 581,260
+ U.S. Lg Cap Val                      $ 544,757
+ U.S. Mid Cap Growth                  $ 248,724
+ U.S. Sm Cap Growth                   $ 181,994
+ U.S. Sm Cap Val                      $ 165,121
+Commodities                            $ 78,325
+Inflation-Protected Bond               $ 63,973
+Non-US Bond                            $ 38,168
+Non-US Small Cap Stock                $ 117,260
+Real Estate                            $ 25,313
+US Short-Term Bond                     $ 15,704
+2026-01-20 11:29:01,980 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 11:29:01,981 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+ Emerging Mkts Stks                    7.90 %
+ Foreign Industrialzed Mkts Stocks    20.48 %
+ Non-U.S. Bonds                        2.16 %
+ U.S. High Yield Bonds                 2.88 %
+ U.S. Investment Grade Bonds          12.87 %
+ U.S. Lg Cap Growth                   15.15 %
+ U.S. Lg Cap Val                      14.20 %
+ U.S. Mid Cap Growth                   6.48 %
+ U.S. Sm Cap Growth                    4.74 %
+ U.S. Sm Cap Val                       4.30 %
+Commodities                            2.04 %
+Inflation-Protected Bond               1.67 %
+Non-US Bond                            0.99 %
+Non-US Small Cap Stock                 3.06 %
+Real Estate                            0.66 %
+US Short-Term Bond                     0.41 %
+Name: Market Value, dtype: object
+2026-01-20 11:29:02,482 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 11:29:02,910 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 11:29:02,923 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 11:29:02,924 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 11:31:05,931 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 11:31:05,931 - Financial_Plan - INFO - My age today: 67
+2026-01-20 11:31:05,979 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 11:31:06,006 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 11:31:06,006 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:31:06,022 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:31:06,028 - Financial_Plan - INFO - initial_holdings:
+                                   Market Value
+Asset Class                                    
+ Emerging Mkts Stks                   $ 303,137
+ Foreign Industrialzed Mkts Stocks    $ 785,895
+ Non-U.S. Bonds                        $ 82,780
+ U.S. High Yield Bonds                $ 110,601
+ U.S. Investment Grade Bonds          $ 493,991
+ U.S. Lg Cap Growth                   $ 581,260
+ U.S. Lg Cap Val                      $ 544,757
+ U.S. Mid Cap Growth                  $ 248,724
+ U.S. Sm Cap Growth                   $ 181,994
+ U.S. Sm Cap Val                      $ 165,121
+Commodities                            $ 78,325
+Inflation-Protected Bond               $ 63,973
+Non-US Bond                            $ 38,168
+Non-US Small Cap Stock                $ 117,260
+Real Estate                            $ 25,313
+US Short-Term Bond                     $ 15,704
+2026-01-20 11:31:06,028 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 11:31:06,029 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+ Emerging Mkts Stks                    7.90 %
+ Foreign Industrialzed Mkts Stocks    20.48 %
+ Non-U.S. Bonds                        2.16 %
+ U.S. High Yield Bonds                 2.88 %
+ U.S. Investment Grade Bonds          12.87 %
+ U.S. Lg Cap Growth                   15.15 %
+ U.S. Lg Cap Val                      14.20 %
+ U.S. Mid Cap Growth                   6.48 %
+ U.S. Sm Cap Growth                    4.74 %
+ U.S. Sm Cap Val                       4.30 %
+Commodities                            2.04 %
+Inflation-Protected Bond               1.67 %
+Non-US Bond                            0.99 %
+Non-US Small Cap Stock                 3.06 %
+Real Estate                            0.66 %
+US Short-Term Bond                     0.41 %
+Name: Market Value, dtype: object
+2026-01-20 11:31:06,640 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 11:31:08,120 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 11:31:08,133 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 11:31:08,133 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 11:31:08,133 - Financial_Plan - INFO - ROR Generator List:
+[<__main__.ArrayRandGen object at 0x10d1bc980>, <__main__.ArrayRandGen object at 0x10d072c10>, <__main__.ArrayRandGen object at 0x10d17e5d0>, <__main__.ArrayRandGen object at 0x10d18cd60>, <__main__.ArrayRandGen object at 0x10d18da70>, <__main__.ArrayRandGen object at 0x10d198830>, <__main__.ArrayRandGen object at 0x10d1c0af0>, <__main__.ArrayRandGen object at 0x10d1c0c00>, <__main__.ArrayRandGen object at 0x10d21a450>, <__main__.ArrayRandGen object at 0x10d34b850>, <__main__.ArrayRandGen object at 0x10d06ee40>, <__main__.ArrayRandGen object at 0x10d06ed50>, <__main__.ArrayRandGen object at 0x10d186f90>, <__main__.ArrayRandGen object at 0x10d1859b0>]
+2026-01-20 11:31:27,564 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 11:31:27,565 - Financial_Plan - INFO - My age today: 67
+2026-01-20 11:31:27,626 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 11:31:27,661 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 11:31:27,662 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:31:27,676 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:31:27,682 - Financial_Plan - INFO - initial_holdings:
+                                   Market Value
+Asset Class                                    
+ Emerging Mkts Stks                   $ 303,137
+ Foreign Industrialzed Mkts Stocks    $ 785,895
+ Non-U.S. Bonds                        $ 82,780
+ U.S. High Yield Bonds                $ 110,601
+ U.S. Investment Grade Bonds          $ 493,991
+ U.S. Lg Cap Growth                   $ 581,260
+ U.S. Lg Cap Val                      $ 544,757
+ U.S. Mid Cap Growth                  $ 248,724
+ U.S. Sm Cap Growth                   $ 181,994
+ U.S. Sm Cap Val                      $ 165,121
+Commodities                            $ 78,325
+Inflation-Protected Bond               $ 63,973
+Non-US Bond                            $ 38,168
+Non-US Small Cap Stock                $ 117,260
+Real Estate                            $ 25,313
+US Short-Term Bond                     $ 15,704
+2026-01-20 11:31:27,683 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 11:31:27,684 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+ Emerging Mkts Stks                    7.90 %
+ Foreign Industrialzed Mkts Stocks    20.48 %
+ Non-U.S. Bonds                        2.16 %
+ U.S. High Yield Bonds                 2.88 %
+ U.S. Investment Grade Bonds          12.87 %
+ U.S. Lg Cap Growth                   15.15 %
+ U.S. Lg Cap Val                      14.20 %
+ U.S. Mid Cap Growth                   6.48 %
+ U.S. Sm Cap Growth                    4.74 %
+ U.S. Sm Cap Val                       4.30 %
+Commodities                            2.04 %
+Inflation-Protected Bond               1.67 %
+Non-US Bond                            0.99 %
+Non-US Small Cap Stock                 3.06 %
+Real Estate                            0.66 %
+US Short-Term Bond                     0.41 %
+Name: Market Value, dtype: object
+2026-01-20 11:31:28,151 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 11:31:28,781 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 11:31:28,802 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 11:31:28,802 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 11:31:28,803 - Financial_Plan - INFO - ROR Generator List:
+[<__main__.ArrayRandGen object at 0x113830980>, <__main__.ArrayRandGen object at 0x1136e6c10>, <__main__.ArrayRandGen object at 0x1137fa5d0>, <__main__.ArrayRandGen object at 0x11380cd60>, <__main__.ArrayRandGen object at 0x11380da70>, <__main__.ArrayRandGen object at 0x1137e4710>, <__main__.ArrayRandGen object at 0x113834c00>, <__main__.ArrayRandGen object at 0x113834d10>, <__main__.ArrayRandGen object at 0x11388e450>, <__main__.ArrayRandGen object at 0x1139bf850>, <__main__.ArrayRandGen object at 0x1136e2e40>, <__main__.ArrayRandGen object at 0x1136e2d50>, <__main__.ArrayRandGen object at 0x113802f90>, <__main__.ArrayRandGen object at 0x1138019b0>]
+2026-01-20 11:37:21,859 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 11:37:21,859 - Financial_Plan - INFO - My age today: 67
+2026-01-20 11:37:21,918 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 11:37:21,956 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 11:37:21,957 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:37:21,970 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:37:21,975 - Financial_Plan - INFO - initial_holdings:
+                                   Market Value
+Asset Class                                    
+ Emerging Mkts Stks                   $ 303,137
+ Foreign Industrialzed Mkts Stocks    $ 785,895
+ Non-U.S. Bonds                        $ 82,780
+ U.S. High Yield Bonds                $ 110,601
+ U.S. Investment Grade Bonds          $ 493,991
+ U.S. Lg Cap Growth                   $ 581,260
+ U.S. Lg Cap Val                      $ 544,757
+ U.S. Mid Cap Growth                  $ 248,724
+ U.S. Sm Cap Growth                   $ 181,994
+ U.S. Sm Cap Val                      $ 165,121
+Commodities                            $ 78,325
+Inflation-Protected Bond               $ 63,973
+Non-US Bond                            $ 38,168
+Non-US Small Cap Stock                $ 117,260
+Real Estate                            $ 25,313
+US Short-Term Bond                     $ 15,704
+2026-01-20 11:37:21,975 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 11:37:21,976 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+ Emerging Mkts Stks                    7.90 %
+ Foreign Industrialzed Mkts Stocks    20.48 %
+ Non-U.S. Bonds                        2.16 %
+ U.S. High Yield Bonds                 2.88 %
+ U.S. Investment Grade Bonds          12.87 %
+ U.S. Lg Cap Growth                   15.15 %
+ U.S. Lg Cap Val                      14.20 %
+ U.S. Mid Cap Growth                   6.48 %
+ U.S. Sm Cap Growth                    4.74 %
+ U.S. Sm Cap Val                       4.30 %
+Commodities                            2.04 %
+Inflation-Protected Bond               1.67 %
+Non-US Bond                            0.99 %
+Non-US Small Cap Stock                 3.06 %
+Real Estate                            0.66 %
+US Short-Term Bond                     0.41 %
+Name: Market Value, dtype: object
+2026-01-20 11:37:22,783 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 11:37:23,217 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 11:37:23,230 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 11:37:23,231 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 11:49:55,448 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 11:49:55,449 - Financial_Plan - INFO - My age today: 67
+2026-01-20 11:49:55,504 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 11:49:55,530 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 11:49:55,530 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:49:55,548 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:49:55,553 - Financial_Plan - INFO - initial_holdings:
+                                   Market Value
+Asset Class                                    
+ Emerging Mkts Stks                   $ 303,137
+ Foreign Industrialzed Mkts Stocks    $ 785,895
+ Non-U.S. Bonds                        $ 82,780
+ U.S. High Yield Bonds                $ 110,601
+ U.S. Investment Grade Bonds          $ 493,991
+ U.S. Lg Cap Growth                   $ 581,260
+ U.S. Lg Cap Val                      $ 544,757
+ U.S. Mid Cap Growth                  $ 248,724
+ U.S. Sm Cap Growth                   $ 181,994
+ U.S. Sm Cap Val                      $ 165,121
+Commodities                            $ 78,325
+Inflation-Protected Bond               $ 63,973
+Non-US Bond                            $ 38,168
+Non-US Small Cap Stock                $ 117,260
+Real Estate                            $ 25,313
+US Short-Term Bond                     $ 15,704
+2026-01-20 11:49:55,554 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 11:49:55,554 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+ Emerging Mkts Stks                    7.90 %
+ Foreign Industrialzed Mkts Stocks    20.48 %
+ Non-U.S. Bonds                        2.16 %
+ U.S. High Yield Bonds                 2.88 %
+ U.S. Investment Grade Bonds          12.87 %
+ U.S. Lg Cap Growth                   15.15 %
+ U.S. Lg Cap Val                      14.20 %
+ U.S. Mid Cap Growth                   6.48 %
+ U.S. Sm Cap Growth                    4.74 %
+ U.S. Sm Cap Val                       4.30 %
+Commodities                            2.04 %
+Inflation-Protected Bond               1.67 %
+Non-US Bond                            0.99 %
+Non-US Small Cap Stock                 3.06 %
+Real Estate                            0.66 %
+US Short-Term Bond                     0.41 %
+Name: Market Value, dtype: object
+2026-01-20 11:49:56,565 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 11:49:56,985 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 11:49:57,003 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 11:49:57,003 - Financial_Plan - ERROR - Asset classes list and initial holdings are different: {(8.67, 17.43), (7.89, 15.44), (7.93, 21.65), (4.47, 27.25), (10.09, 16.6), (6.81, 23.29), (6.03, 17.05), (3.6, 6.05), (7.6, 23.12), (10.86, 18.9), (11.87, 28.73), (6.58, 9.61), (3.44, 9.4), (1.94, 1.89)}
+2026-01-20 11:49:57,003 - Financial_Plan - ERROR - Asset classes list and initial holdings are different
+2026-01-20 11:52:18,444 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 11:52:18,444 - Financial_Plan - INFO - My age today: 67
+2026-01-20 11:52:18,499 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 11:52:18,528 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 11:52:18,529 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:52:18,545 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:52:18,551 - Financial_Plan - INFO - initial_holdings:
+                                   Market Value
+Asset Class                                    
+ Emerging Mkts Stks                   $ 303,137
+ Foreign Industrialzed Mkts Stocks    $ 785,895
+ Non-U.S. Bonds                        $ 82,780
+ U.S. High Yield Bonds                $ 110,601
+ U.S. Investment Grade Bonds          $ 493,991
+ U.S. Lg Cap Growth                   $ 581,260
+ U.S. Lg Cap Val                      $ 544,757
+ U.S. Mid Cap Growth                  $ 248,724
+ U.S. Sm Cap Growth                   $ 181,994
+ U.S. Sm Cap Val                      $ 165,121
+Commodities                            $ 78,325
+Inflation-Protected Bond               $ 63,973
+Non-US Bond                            $ 38,168
+Non-US Small Cap Stock                $ 117,260
+Real Estate                            $ 25,313
+US Short-Term Bond                     $ 15,704
+2026-01-20 11:52:18,552 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 11:52:18,553 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+ Emerging Mkts Stks                    7.90 %
+ Foreign Industrialzed Mkts Stocks    20.48 %
+ Non-U.S. Bonds                        2.16 %
+ U.S. High Yield Bonds                 2.88 %
+ U.S. Investment Grade Bonds          12.87 %
+ U.S. Lg Cap Growth                   15.15 %
+ U.S. Lg Cap Val                      14.20 %
+ U.S. Mid Cap Growth                   6.48 %
+ U.S. Sm Cap Growth                    4.74 %
+ U.S. Sm Cap Val                       4.30 %
+Commodities                            2.04 %
+Inflation-Protected Bond               1.67 %
+Non-US Bond                            0.99 %
+Non-US Small Cap Stock                 3.06 %
+Real Estate                            0.66 %
+US Short-Term Bond                     0.41 %
+Name: Market Value, dtype: object
+2026-01-20 11:52:19,447 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 11:52:19,870 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 11:52:19,884 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 11:52:19,884 - Financial_Plan - ERROR - Asset classes list and initial holdings are different: 14 != 16
+2026-01-20 11:52:19,884 - Financial_Plan - ERROR - Asset classes list and initial holdings are different
+2026-01-20 11:52:51,410 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 11:52:51,411 - Financial_Plan - INFO - My age today: 67
+2026-01-20 11:52:51,554 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 11:52:51,632 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 11:52:51,634 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:52:51,686 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:52:51,696 - Financial_Plan - INFO - initial_holdings:
+                                   Market Value
+Asset Class                                    
+ Emerging Mkts Stks                   $ 303,137
+ Foreign Industrialzed Mkts Stocks    $ 785,895
+ Non-U.S. Bonds                        $ 82,780
+ U.S. High Yield Bonds                $ 110,601
+ U.S. Investment Grade Bonds          $ 493,991
+ U.S. Lg Cap Growth                   $ 581,260
+ U.S. Lg Cap Val                      $ 544,757
+ U.S. Mid Cap Growth                  $ 248,724
+ U.S. Sm Cap Growth                   $ 181,994
+ U.S. Sm Cap Val                      $ 165,121
+Commodities                            $ 78,325
+Inflation-Protected Bond               $ 63,973
+Non-US Bond                            $ 38,168
+Non-US Small Cap Stock                $ 117,260
+Real Estate                            $ 25,313
+US Short-Term Bond                     $ 15,704
+2026-01-20 11:52:51,697 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 11:52:51,699 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+ Emerging Mkts Stks                    7.90 %
+ Foreign Industrialzed Mkts Stocks    20.48 %
+ Non-U.S. Bonds                        2.16 %
+ U.S. High Yield Bonds                 2.88 %
+ U.S. Investment Grade Bonds          12.87 %
+ U.S. Lg Cap Growth                   15.15 %
+ U.S. Lg Cap Val                      14.20 %
+ U.S. Mid Cap Growth                   6.48 %
+ U.S. Sm Cap Growth                    4.74 %
+ U.S. Sm Cap Val                       4.30 %
+Commodities                            2.04 %
+Inflation-Protected Bond               1.67 %
+Non-US Bond                            0.99 %
+Non-US Small Cap Stock                 3.06 %
+Real Estate                            0.66 %
+US Short-Term Bond                     0.41 %
+Name: Market Value, dtype: object
+2026-01-20 11:52:52,268 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 11:52:52,741 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 11:52:52,772 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 11:52:52,773 - Financial_Plan - ERROR - Asset classes list and initial holdings are different: 14 != 16
+2026-01-20 11:52:52,773 - Financial_Plan - ERROR - Difference: {'U.S. Sm Cap Val', 'Non-U.S. Bonds', 'U.S. Lg Cap Growth', 'U.S. Investment Grade Bonds', 'U.S. Lg Cap Val', 'U.S. Sm Cap Growth', 'U.S. Mid Cap Val', 'Emerging Mkts Stks', 'Foreign Industrialzed Mkts Stocks', 'U.S. High Yield Bonds', 'Cash', 'U.S. Mid Cap Growth'}
+2026-01-20 11:52:52,773 - Financial_Plan - ERROR - Asset classes list and initial holdings are different
+2026-01-20 11:54:02,796 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 11:54:02,797 - Financial_Plan - INFO - My age today: 67
+2026-01-20 11:54:02,861 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 11:54:02,894 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 11:54:02,895 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:54:02,915 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 11:54:02,921 - Financial_Plan - INFO - initial_holdings:
+                                   Market Value
+Asset Class                                    
+ Emerging Mkts Stks                   $ 303,137
+ Foreign Industrialzed Mkts Stocks    $ 785,895
+ Non-U.S. Bonds                        $ 82,780
+ U.S. High Yield Bonds                $ 110,601
+ U.S. Investment Grade Bonds          $ 493,991
+ U.S. Lg Cap Growth                   $ 581,260
+ U.S. Lg Cap Val                      $ 544,757
+ U.S. Mid Cap Growth                  $ 248,724
+ U.S. Sm Cap Growth                   $ 181,994
+ U.S. Sm Cap Val                      $ 165,121
+Commodities                            $ 78,325
+Inflation-Protected Bond               $ 63,973
+Non-US Bond                            $ 38,168
+Non-US Small Cap Stock                $ 117,260
+Real Estate                            $ 25,313
+US Short-Term Bond                     $ 15,704
+2026-01-20 11:54:02,921 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 11:54:02,922 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+ Emerging Mkts Stks                    7.90 %
+ Foreign Industrialzed Mkts Stocks    20.48 %
+ Non-U.S. Bonds                        2.16 %
+ U.S. High Yield Bonds                 2.88 %
+ U.S. Investment Grade Bonds          12.87 %
+ U.S. Lg Cap Growth                   15.15 %
+ U.S. Lg Cap Val                      14.20 %
+ U.S. Mid Cap Growth                   6.48 %
+ U.S. Sm Cap Growth                    4.74 %
+ U.S. Sm Cap Val                       4.30 %
+Commodities                            2.04 %
+Inflation-Protected Bond               1.67 %
+Non-US Bond                            0.99 %
+Non-US Small Cap Stock                 3.06 %
+Real Estate                            0.66 %
+US Short-Term Bond                     0.41 %
+Name: Market Value, dtype: object
+2026-01-20 11:54:03,483 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 11:54:03,878 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 11:54:03,894 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 11:54:03,894 - Financial_Plan - ERROR - Asset classes list and initial holdings are different: 14 != 16
+2026-01-20 11:54:03,894 - Financial_Plan - ERROR - Asset classes list: ['Cash', 'Commodities', 'Emerging Mkts Stks', 'Foreign Industrialzed Mkts Stocks', 'Non-U.S. Bonds', 'Real Estate', 'U.S. High Yield Bonds', 'U.S. Investment Grade Bonds', 'U.S. Lg Cap Growth', 'U.S. Lg Cap Val', 'U.S. Mid Cap Growth', 'U.S. Mid Cap Val', 'U.S. Sm Cap Growth', 'U.S. Sm Cap Val']
+2026-01-20 11:54:03,894 - Financial_Plan - ERROR - Initial holdings: [' Emerging Mkts Stks', ' Foreign Industrialzed Mkts Stocks', ' Non-U.S. Bonds', ' U.S. High Yield Bonds', ' U.S. Investment Grade Bonds', ' U.S. Lg Cap Growth', ' U.S. Lg Cap Val', ' U.S. Mid Cap Growth', ' U.S. Sm Cap Growth', ' U.S. Sm Cap Val', 'Commodities', 'Inflation-Protected Bond', 'Non-US Bond', 'Non-US Small Cap Stock', 'Real Estate', 'US Short-Term Bond']
+2026-01-20 11:54:03,894 - Financial_Plan - ERROR - Asset classes list and initial holdings are different
+2026-01-20 12:10:01,773 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 12:10:01,774 - Financial_Plan - INFO - My age today: 67
+2026-01-20 12:10:01,825 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 12:10:01,857 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 12:10:01,858 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:10:01,874 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:10:01,880 - Financial_Plan - INFO - initial_holdings:
+                                   Market Value
+Asset Class                                    
+ Emerging Mkts Stks                   $ 303,137
+ Foreign Industrialzed Mkts Stocks    $ 785,895
+ Non-U.S. Bonds                        $ 82,780
+ U.S. High Yield Bonds                $ 110,601
+ U.S. Investment Grade Bonds          $ 493,991
+ U.S. Lg Cap Growth                   $ 581,260
+ U.S. Lg Cap Val                      $ 544,757
+ U.S. Mid Cap Growth                  $ 248,724
+ U.S. Sm Cap Growth                   $ 181,994
+ U.S. Sm Cap Val                      $ 165,121
+Commodities                            $ 78,325
+Inflation-Protected Bond               $ 63,973
+Non-US Bond                            $ 38,168
+Non-US Small Cap Stock                $ 117,260
+Real Estate                            $ 25,313
+US Short-Term Bond                     $ 15,704
+2026-01-20 12:10:01,880 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 12:10:01,880 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+ Emerging Mkts Stks                    7.90 %
+ Foreign Industrialzed Mkts Stocks    20.48 %
+ Non-U.S. Bonds                        2.16 %
+ U.S. High Yield Bonds                 2.88 %
+ U.S. Investment Grade Bonds          12.87 %
+ U.S. Lg Cap Growth                   15.15 %
+ U.S. Lg Cap Val                      14.20 %
+ U.S. Mid Cap Growth                   6.48 %
+ U.S. Sm Cap Growth                    4.74 %
+ U.S. Sm Cap Val                       4.30 %
+Commodities                            2.04 %
+Inflation-Protected Bond               1.67 %
+Non-US Bond                            0.99 %
+Non-US Small Cap Stock                 3.06 %
+Real Estate                            0.66 %
+US Short-Term Bond                     0.41 %
+Name: Market Value, dtype: object
+2026-01-20 12:10:02,604 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 12:10:03,044 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 12:10:03,059 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 12:10:59,668 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 12:10:59,668 - Financial_Plan - INFO - My age today: 67
+2026-01-20 12:10:59,724 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 12:10:59,752 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 12:10:59,753 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:10:59,767 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:10:59,772 - Financial_Plan - INFO - initial_holdings:
+                                   Market Value
+Asset Class                                    
+ Emerging Mkts Stks                   $ 303,137
+ Foreign Industrialzed Mkts Stocks    $ 785,895
+ Non-U.S. Bonds                        $ 82,780
+ U.S. High Yield Bonds                $ 110,601
+ U.S. Investment Grade Bonds          $ 493,991
+ U.S. Lg Cap Growth                   $ 581,260
+ U.S. Lg Cap Val                      $ 544,757
+ U.S. Mid Cap Growth                  $ 248,724
+ U.S. Sm Cap Growth                   $ 181,994
+ U.S. Sm Cap Val                      $ 165,121
+Commodities                            $ 78,325
+Inflation-Protected Bond               $ 63,973
+Non-US Bond                            $ 38,168
+Non-US Small Cap Stock                $ 117,260
+Real Estate                            $ 25,313
+US Short-Term Bond                     $ 15,704
+2026-01-20 12:10:59,772 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 12:10:59,773 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+ Emerging Mkts Stks                    7.90 %
+ Foreign Industrialzed Mkts Stocks    20.48 %
+ Non-U.S. Bonds                        2.16 %
+ U.S. High Yield Bonds                 2.88 %
+ U.S. Investment Grade Bonds          12.87 %
+ U.S. Lg Cap Growth                   15.15 %
+ U.S. Lg Cap Val                      14.20 %
+ U.S. Mid Cap Growth                   6.48 %
+ U.S. Sm Cap Growth                    4.74 %
+ U.S. Sm Cap Val                       4.30 %
+Commodities                            2.04 %
+Inflation-Protected Bond               1.67 %
+Non-US Bond                            0.99 %
+Non-US Small Cap Stock                 3.06 %
+Real Estate                            0.66 %
+US Short-Term Bond                     0.41 %
+Name: Market Value, dtype: object
+2026-01-20 12:11:01,348 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 12:11:02,326 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 12:11:02,342 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 12:11:02,342 - Financial_Plan - ERROR - Some Holding are Not in Morningstart asset classes: ['Inflation-Protected Bond', ' U.S. Lg Cap Val', ' U.S. Lg Cap Growth', 'US Short-Term Bond', 'Non-US Bond', ' U.S. Investment Grade Bonds', ' U.S. Sm Cap Growth', ' U.S. Mid Cap Growth', ' U.S. Sm Cap Val', 'Non-US Small Cap Stock', ' Emerging Mkts Stks', ' Foreign Industrialzed Mkts Stocks', ' Non-U.S. Bonds', ' U.S. High Yield Bonds']
+2026-01-20 12:17:56,726 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 12:17:56,726 - Financial_Plan - INFO - My age today: 67
+2026-01-20 12:17:56,778 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 12:17:56,806 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 12:17:56,807 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:17:56,820 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:17:56,824 - Financial_Plan - INFO - initial_holdings:
+                                  Market Value
+Asset Class                                   
+ Emerging Mkts Stks                  $ 223,679
+Commodities                           $ 78,325
+Emerging Mkts Stks                    $ 79,459
+Foreign Industrialzed Mkts Stocks    $ 785,895
+Inflation-Protected Bond              $ 63,973
+Non-U.S. Bonds                        $ 82,780
+Non-US Bond                           $ 38,168
+Non-US Small Cap Stock               $ 117,260
+Real Estate                           $ 25,313
+U.S. High Yield Bonds                $ 110,601
+U.S. Investment Grade Bonds          $ 493,991
+U.S. Lg Cap Growth                   $ 581,260
+U.S. Lg Cap Val                      $ 544,757
+U.S. Mid Cap Growth                  $ 248,724
+U.S. Sm Cap Growth                   $ 181,994
+U.S. Sm Cap Val                      $ 165,121
+US Short-Term Bond                    $ 15,704
+2026-01-20 12:17:56,825 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 12:17:56,826 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+ Emerging Mkts Stks                   5.83 %
+Commodities                           2.04 %
+Emerging Mkts Stks                    2.07 %
+Foreign Industrialzed Mkts Stocks    20.48 %
+Inflation-Protected Bond              1.67 %
+Non-U.S. Bonds                        2.16 %
+Non-US Bond                           0.99 %
+Non-US Small Cap Stock                3.06 %
+Real Estate                           0.66 %
+U.S. High Yield Bonds                 2.88 %
+U.S. Investment Grade Bonds          12.87 %
+U.S. Lg Cap Growth                   15.15 %
+U.S. Lg Cap Val                      14.20 %
+U.S. Mid Cap Growth                   6.48 %
+U.S. Sm Cap Growth                    4.74 %
+U.S. Sm Cap Val                       4.30 %
+US Short-Term Bond                    0.41 %
+Name: Market Value, dtype: object
+2026-01-20 12:17:57,458 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 12:17:57,881 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 12:17:57,895 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 12:17:57,895 - Financial_Plan - ERROR - Some Holding are Not in Morningstart asset classes: ['Non-US Bond', ' Emerging Mkts Stks', 'US Short-Term Bond', 'Inflation-Protected Bond', 'Non-US Small Cap Stock']
+2026-01-20 12:24:26,238 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 12:24:26,238 - Financial_Plan - INFO - My age today: 67
+2026-01-20 12:24:26,289 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 12:24:26,315 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 12:24:26,316 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:24:26,331 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:24:26,335 - Financial_Plan - INFO - initial_holdings:
+                                  Market Value
+Asset Class                                   
+Commodities                           $ 78,325
+Emerging Mkts Stks                   $ 420,398
+Foreign Industrialzed Mkts Stocks    $ 785,895
+Non-U.S. Bonds                       $ 120,949
+Real Estate                           $ 25,313
+U.S. High Yield Bonds                $ 110,601
+U.S. Investment Grade Bonds          $ 573,668
+U.S. Lg Cap Growth                   $ 581,260
+U.S. Lg Cap Val                      $ 544,757
+U.S. Mid Cap Growth                  $ 248,724
+U.S. Sm Cap Growth                   $ 181,994
+U.S. Sm Cap Val                      $ 165,121
+2026-01-20 12:24:26,335 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 12:24:26,336 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+Commodities                           2.04 %
+Emerging Mkts Stks                   10.96 %
+Foreign Industrialzed Mkts Stocks    20.48 %
+Non-U.S. Bonds                        3.15 %
+Real Estate                           0.66 %
+U.S. High Yield Bonds                 2.88 %
+U.S. Investment Grade Bonds          14.95 %
+U.S. Lg Cap Growth                   15.15 %
+U.S. Lg Cap Val                      14.20 %
+U.S. Mid Cap Growth                   6.48 %
+U.S. Sm Cap Growth                    4.74 %
+U.S. Sm Cap Val                       4.30 %
+Name: Market Value, dtype: object
+2026-01-20 12:24:26,937 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 12:24:27,359 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 12:24:27,374 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 12:24:27,374 - Financial_Plan - INFO - Some Morningstar asset classes are not in the holdings: ['U.S. Mid Cap Val', 'Cash']
+2026-01-20 12:24:27,374 - Financial_Plan - INFO - Taking them out of the stats and correlation dataframes
+2026-01-20 12:24:27,374 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 12:24:27,375 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 12:34:06,999 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 12:34:07,000 - Financial_Plan - INFO - My age today: 67
+2026-01-20 12:34:07,061 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 12:34:07,088 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 12:34:07,089 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:34:07,102 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:34:07,107 - Financial_Plan - INFO - initial_holdings:
+                                  Market Value
+Asset Class                                   
+Commodities                           $ 78,325
+Emerging Mkts Stks                   $ 420,398
+Foreign Industrialzed Mkts Stocks    $ 785,895
+Non-U.S. Bonds                       $ 120,949
+Real Estate                           $ 25,313
+U.S. High Yield Bonds                $ 110,601
+U.S. Investment Grade Bonds          $ 573,668
+U.S. Lg Cap Growth                   $ 581,260
+U.S. Lg Cap Val                      $ 544,757
+U.S. Mid Cap Growth                  $ 248,724
+U.S. Sm Cap Growth                   $ 181,994
+U.S. Sm Cap Val                      $ 165,121
+2026-01-20 12:34:07,107 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 12:34:07,108 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+Commodities                           2.04 %
+Emerging Mkts Stks                   10.96 %
+Foreign Industrialzed Mkts Stocks    20.48 %
+Non-U.S. Bonds                        3.15 %
+Real Estate                           0.66 %
+U.S. High Yield Bonds                 2.88 %
+U.S. Investment Grade Bonds          14.95 %
+U.S. Lg Cap Growth                   15.15 %
+U.S. Lg Cap Val                      14.20 %
+U.S. Mid Cap Growth                   6.48 %
+U.S. Sm Cap Growth                    4.74 %
+U.S. Sm Cap Val                       4.30 %
+Name: Market Value, dtype: object
+2026-01-20 12:34:08,187 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 12:34:08,774 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 12:34:08,791 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 12:34:08,791 - Financial_Plan - INFO - Some Morningstar asset classes are not in the holdings: ['U.S. Mid Cap Val', 'Cash']
+2026-01-20 12:34:08,791 - Financial_Plan - INFO - Taking the extra asset classes out of the stats and correlation dataframes
+2026-01-20 12:35:10,842 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 12:35:10,842 - Financial_Plan - INFO - My age today: 67
+2026-01-20 12:35:10,905 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 12:35:10,942 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 12:35:10,944 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:35:10,967 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:35:10,972 - Financial_Plan - INFO - initial_holdings:
+                                  Market Value
+Asset Class                                   
+Commodities                           $ 78,325
+Emerging Mkts Stks                   $ 420,398
+Foreign Industrialzed Mkts Stocks    $ 785,895
+Non-U.S. Bonds                       $ 120,949
+Real Estate                           $ 25,313
+U.S. High Yield Bonds                $ 110,601
+U.S. Investment Grade Bonds          $ 573,668
+U.S. Lg Cap Growth                   $ 581,260
+U.S. Lg Cap Val                      $ 544,757
+U.S. Mid Cap Growth                  $ 248,724
+U.S. Sm Cap Growth                   $ 181,994
+U.S. Sm Cap Val                      $ 165,121
+2026-01-20 12:35:10,973 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 12:35:10,973 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+Commodities                           2.04 %
+Emerging Mkts Stks                   10.96 %
+Foreign Industrialzed Mkts Stocks    20.48 %
+Non-U.S. Bonds                        3.15 %
+Real Estate                           0.66 %
+U.S. High Yield Bonds                 2.88 %
+U.S. Investment Grade Bonds          14.95 %
+U.S. Lg Cap Growth                   15.15 %
+U.S. Lg Cap Val                      14.20 %
+U.S. Mid Cap Growth                   6.48 %
+U.S. Sm Cap Growth                    4.74 %
+U.S. Sm Cap Val                       4.30 %
+Name: Market Value, dtype: object
+2026-01-20 12:35:11,496 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 12:35:12,000 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 12:35:12,015 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 12:35:12,015 - Financial_Plan - INFO - Some Morningstar asset classes are not in the holdings: ['Cash', 'U.S. Mid Cap Val']
+2026-01-20 12:35:12,015 - Financial_Plan - INFO - Taking the extra asset classes out of the stats and correlation dataframes
+2026-01-20 12:35:12,016 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 12:35:12,017 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 12:35:12,112 - Financial_Plan - INFO - average_by_asset_class:
+Asset Class
+Commodities                            $ 960,176
+Emerging Mkts Stks                   $ 5,153,577
+Foreign Industrialzed Mkts Stocks    $ 9,634,138
+Non-U.S. Bonds                       $ 1,482,686
+Real Estate                            $ 310,310
+U.S. High Yield Bonds                $ 1,355,842
+U.S. Investment Grade Bonds          $ 7,032,490
+U.S. Lg Cap Growth                   $ 7,125,560
+U.S. Lg Cap Val                      $ 6,678,075
+U.S. Mid Cap Growth                  $ 3,049,059
+U.S. Sm Cap Growth                   $ 2,231,036
+U.S. Sm Cap Val                      $ 2,024,184
+dtype: object
+2026-01-20 12:35:12,114 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+01
+mean     4.703713e+07
+std      1.456899e+07
+min      2.378161e+07
+25%      3.489210e+07
+50%      4.985400e+07
+75%      5.659762e+07
+max      6.994119e+07
+dtype: float64
+2026-01-20 12:35:12,114 - Financial_Plan - INFO - Busted ages dict: {}
+2026-01-20 12:35:12,114 - Financial_Plan - INFO - Busted count: 0
+2026-01-20 12:35:12,114 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-20 12:36:06,617 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 12:36:06,617 - Financial_Plan - INFO - My age today: 67
+2026-01-20 12:36:06,663 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 12:36:06,689 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 12:36:06,690 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:36:06,702 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:36:06,707 - Financial_Plan - INFO - initial_holdings:
+                                  Market Value
+Asset Class                                   
+Commodities                           $ 78,325
+Emerging Mkts Stks                   $ 420,398
+Foreign Industrialzed Mkts Stocks    $ 785,895
+Non-U.S. Bonds                       $ 120,949
+Real Estate                           $ 25,313
+U.S. High Yield Bonds                $ 110,601
+U.S. Investment Grade Bonds          $ 573,668
+U.S. Lg Cap Growth                   $ 581,260
+U.S. Lg Cap Val                      $ 544,757
+U.S. Mid Cap Growth                  $ 248,724
+U.S. Sm Cap Growth                   $ 181,994
+U.S. Sm Cap Val                      $ 165,121
+2026-01-20 12:36:06,708 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 12:36:06,708 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+Commodities                           2.04 %
+Emerging Mkts Stks                   10.96 %
+Foreign Industrialzed Mkts Stocks    20.48 %
+Non-U.S. Bonds                        3.15 %
+Real Estate                           0.66 %
+U.S. High Yield Bonds                 2.88 %
+U.S. Investment Grade Bonds          14.95 %
+U.S. Lg Cap Growth                   15.15 %
+U.S. Lg Cap Val                      14.20 %
+U.S. Mid Cap Growth                   6.48 %
+U.S. Sm Cap Growth                    4.74 %
+U.S. Sm Cap Val                       4.30 %
+Name: Market Value, dtype: object
+2026-01-20 12:36:07,316 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 12:36:07,742 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 12:36:07,757 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 12:36:07,757 - Financial_Plan - INFO - Some Morningstar asset classes are not in the holdings: ['U.S. Mid Cap Val', 'Cash']
+2026-01-20 12:36:07,757 - Financial_Plan - INFO - Taking the extra asset classes out of the stats and correlation dataframes
+2026-01-20 12:36:07,758 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 12:36:07,758 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 12:36:07,865 - Financial_Plan - INFO - average_by_asset_class:
+Asset Class
+Commodities                            $ 960,176
+Emerging Mkts Stks                   $ 5,153,577
+Foreign Industrialzed Mkts Stocks    $ 9,634,138
+Non-U.S. Bonds                       $ 1,482,686
+Real Estate                            $ 310,310
+U.S. High Yield Bonds                $ 1,355,842
+U.S. Investment Grade Bonds          $ 7,032,490
+U.S. Lg Cap Growth                   $ 7,125,560
+U.S. Lg Cap Val                      $ 6,678,075
+U.S. Mid Cap Growth                  $ 3,049,059
+U.S. Sm Cap Growth                   $ 2,231,036
+U.S. Sm Cap Val                      $ 2,024,184
+dtype: object
+2026-01-20 12:36:07,867 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+01
+mean     4.703713e+07
+std      1.456899e+07
+min      2.378161e+07
+25%      3.489210e+07
+50%      4.985400e+07
+75%      5.659762e+07
+max      6.994119e+07
+dtype: float64
+2026-01-20 12:36:07,867 - Financial_Plan - INFO - Busted ages dict: {}
+2026-01-20 12:36:07,867 - Financial_Plan - INFO - Busted count: 0
+2026-01-20 12:36:07,867 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-20 12:36:33,896 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 12:36:33,896 - Financial_Plan - INFO - My age today: 67
+2026-01-20 12:36:33,969 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 12:36:33,997 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 12:36:33,998 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:36:34,023 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:36:34,028 - Financial_Plan - INFO - initial_holdings:
+                                  Market Value
+Asset Class                                   
+Commodities                           $ 78,325
+Emerging Mkts Stks                   $ 420,398
+Foreign Industrialzed Mkts Stocks    $ 785,895
+Non-U.S. Bonds                       $ 120,949
+Real Estate                           $ 25,313
+U.S. High Yield Bonds                $ 110,601
+U.S. Investment Grade Bonds          $ 573,668
+U.S. Lg Cap Growth                   $ 581,260
+U.S. Lg Cap Val                      $ 544,757
+U.S. Mid Cap Growth                  $ 248,724
+U.S. Sm Cap Growth                   $ 181,994
+U.S. Sm Cap Val                      $ 165,121
+2026-01-20 12:36:34,028 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 12:36:34,029 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+Commodities                           2.04 %
+Emerging Mkts Stks                   10.96 %
+Foreign Industrialzed Mkts Stocks    20.48 %
+Non-U.S. Bonds                        3.15 %
+Real Estate                           0.66 %
+U.S. High Yield Bonds                 2.88 %
+U.S. Investment Grade Bonds          14.95 %
+U.S. Lg Cap Growth                   15.15 %
+U.S. Lg Cap Val                      14.20 %
+U.S. Mid Cap Growth                   6.48 %
+U.S. Sm Cap Growth                    4.74 %
+U.S. Sm Cap Val                       4.30 %
+Name: Market Value, dtype: object
+2026-01-20 12:36:34,425 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 12:36:34,946 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 12:36:34,969 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 12:36:34,969 - Financial_Plan - INFO - Some Morningstar asset classes are not in the holdings: ['U.S. Mid Cap Val', 'Cash']
+2026-01-20 12:36:34,969 - Financial_Plan - INFO - Taking the extra asset classes out of the stats and correlation dataframes
+2026-01-20 12:36:34,971 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 12:36:34,971 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 12:36:35,082 - Financial_Plan - INFO - average_by_asset_class:
+Asset Class
+Commodities                            $ 960,176
+Emerging Mkts Stks                   $ 5,153,577
+Foreign Industrialzed Mkts Stocks    $ 9,634,138
+Non-U.S. Bonds                       $ 1,482,686
+Real Estate                            $ 310,310
+U.S. High Yield Bonds                $ 1,355,842
+U.S. Investment Grade Bonds          $ 7,032,490
+U.S. Lg Cap Growth                   $ 7,125,560
+U.S. Lg Cap Val                      $ 6,678,075
+U.S. Mid Cap Growth                  $ 3,049,059
+U.S. Sm Cap Growth                   $ 2,231,036
+U.S. Sm Cap Val                      $ 2,024,184
+dtype: object
+2026-01-20 12:36:35,084 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+01
+mean     4.703713e+07
+std      1.456899e+07
+min      2.378161e+07
+25%      3.489210e+07
+50%      4.985400e+07
+75%      5.659762e+07
+max      6.994119e+07
+dtype: float64
+2026-01-20 12:36:35,084 - Financial_Plan - INFO - Busted ages dict: {}
+2026-01-20 12:36:35,084 - Financial_Plan - INFO - Busted count: 0
+2026-01-20 12:36:35,084 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-20 12:36:56,439 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 12:36:56,439 - Financial_Plan - INFO - My age today: 67
+2026-01-20 12:36:56,500 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 12:36:56,532 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 12:36:56,533 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:36:56,549 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:36:56,557 - Financial_Plan - INFO - initial_holdings:
+                                  Market Value
+Asset Class                                   
+Commodities                           $ 78,325
+Emerging Mkts Stks                   $ 420,398
+Foreign Industrialzed Mkts Stocks    $ 785,895
+Non-U.S. Bonds                       $ 120,949
+Real Estate                           $ 25,313
+U.S. High Yield Bonds                $ 110,601
+U.S. Investment Grade Bonds          $ 573,668
+U.S. Lg Cap Growth                   $ 581,260
+U.S. Lg Cap Val                      $ 544,757
+U.S. Mid Cap Growth                  $ 248,724
+U.S. Sm Cap Growth                   $ 181,994
+U.S. Sm Cap Val                      $ 165,121
+2026-01-20 12:36:56,557 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 12:36:56,558 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+Commodities                           2.04 %
+Emerging Mkts Stks                   10.96 %
+Foreign Industrialzed Mkts Stocks    20.48 %
+Non-U.S. Bonds                        3.15 %
+Real Estate                           0.66 %
+U.S. High Yield Bonds                 2.88 %
+U.S. Investment Grade Bonds          14.95 %
+U.S. Lg Cap Growth                   15.15 %
+U.S. Lg Cap Val                      14.20 %
+U.S. Mid Cap Growth                   6.48 %
+U.S. Sm Cap Growth                    4.74 %
+U.S. Sm Cap Val                       4.30 %
+Name: Market Value, dtype: object
+2026-01-20 12:36:57,038 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 12:36:57,481 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 12:36:57,496 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 12:36:57,497 - Financial_Plan - INFO - Some Morningstar asset classes are not in the holdings: ['Cash', 'U.S. Mid Cap Val']
+2026-01-20 12:36:57,497 - Financial_Plan - INFO - Taking the extra asset classes out of the stats and correlation dataframes
+2026-01-20 12:36:57,498 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 12:36:57,498 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 12:36:57,597 - Financial_Plan - INFO - average_by_asset_class:
+Asset Class
+Commodities                            $ 960,176
+Emerging Mkts Stks                   $ 5,153,577
+Foreign Industrialzed Mkts Stocks    $ 9,634,138
+Non-U.S. Bonds                       $ 1,482,686
+Real Estate                            $ 310,310
+U.S. High Yield Bonds                $ 1,355,842
+U.S. Investment Grade Bonds          $ 7,032,490
+U.S. Lg Cap Growth                   $ 7,125,560
+U.S. Lg Cap Val                      $ 6,678,075
+U.S. Mid Cap Growth                  $ 3,049,059
+U.S. Sm Cap Growth                   $ 2,231,036
+U.S. Sm Cap Val                      $ 2,024,184
+dtype: object
+2026-01-20 12:36:57,599 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+01
+mean     4.703713e+07
+std      1.456899e+07
+min      2.378161e+07
+25%      3.489210e+07
+50%      4.985400e+07
+75%      5.659762e+07
+max      6.994119e+07
+dtype: float64
+2026-01-20 12:36:57,599 - Financial_Plan - INFO - Busted ages dict: {}
+2026-01-20 12:36:57,599 - Financial_Plan - INFO - Busted count: 0
+2026-01-20 12:36:57,599 - Financial_Plan - INFO - Confidence level: 100.00%
+2026-01-20 12:37:23,356 - Financial_Plan - INFO - Read goals file: ./Data/Envision_Goals.xlsx
+2026-01-20 12:37:23,356 - Financial_Plan - INFO - My age today: 67
+2026-01-20 12:37:23,405 - Financial_Plan - INFO - Holdings file: WFA_Portfolio_Positions_010626_1323.xls - Holdings date: 2026-01-06 - days old: 14
+2026-01-20 12:37:23,435 - Financial_Plan - INFO - Adding new row SHY for cash: $15,703.51
+2026-01-20 12:37:23,436 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:37:23,453 - Financial_Plan - INFO - Total Portfolio Market Value: $3,837,005.01
+2026-01-20 12:37:23,459 - Financial_Plan - INFO - initial_holdings:
+                                  Market Value
+Asset Class                                   
+Commodities                           $ 78,325
+Emerging Mkts Stks                   $ 420,398
+Foreign Industrialzed Mkts Stocks    $ 785,895
+Non-U.S. Bonds                       $ 120,949
+Real Estate                           $ 25,313
+U.S. High Yield Bonds                $ 110,601
+U.S. Investment Grade Bonds          $ 573,668
+U.S. Lg Cap Growth                   $ 581,260
+U.S. Lg Cap Val                      $ 544,757
+U.S. Mid Cap Growth                  $ 248,724
+U.S. Sm Cap Growth                   $ 181,994
+U.S. Sm Cap Val                      $ 165,121
+2026-01-20 12:37:23,459 - Financial_Plan - INFO - Starting Funds: $3,837,005
+2026-01-20 12:37:23,459 - Financial_Plan - INFO - Target Asset Allocation:
+Asset Class
+Commodities                           2.04 %
+Emerging Mkts Stks                   10.96 %
+Foreign Industrialzed Mkts Stocks    20.48 %
+Non-U.S. Bonds                        3.15 %
+Real Estate                           0.66 %
+U.S. High Yield Bonds                 2.88 %
+U.S. Investment Grade Bonds          14.95 %
+U.S. Lg Cap Growth                   15.15 %
+U.S. Lg Cap Val                      14.20 %
+U.S. Mid Cap Growth                   6.48 %
+U.S. Sm Cap Growth                    4.74 %
+U.S. Sm Cap Val                       4.30 %
+Name: Market Value, dtype: object
+2026-01-20 12:37:23,878 - Financial_Plan - INFO - Removing Inflation from Stats
+2026-01-20 12:37:24,495 - Financial_Plan - INFO - 
+Asset Class Statistics
+                                   Expected Return  Standard Deviation  Yield
+Asset Class                                                                  
+U.S. Lg Cap Growth                            6.03               17.05   1.91
+U.S. Lg Cap Val                               7.89               15.44   2.80
+U.S. Mid Cap Growth                           7.93               21.65   1.15
+U.S. Mid Cap Val                             10.09               16.60   2.48
+U.S. Sm Cap Growth                            6.81               23.29   0.70
+U.S. Sm Cap Val                              10.86               18.90   2.19
+Foreign Industrialzed Mkts Stocks             8.67               17.43   3.27
+Emerging Mkts Stks                           11.87               28.73   2.78
+U.S. Investment Grade Bonds                   3.60                6.05   4.05
+U.S. High Yield Bonds                         6.58                9.61   9.48
+Non-U.S. Bonds                                3.44                9.40   2.73
+Cash                                          1.94                1.89   2.04
+Commodities                                   4.47               27.25   2.04
+Real Estate                                   7.60               23.12   4.20
+2026-01-20 12:37:24,509 - Financial_Plan - INFO - 
+Asset Class Correlations
+Asset Class                        U.S. Lg Cap Growth  U.S. Lg Cap Val  ...  Commodities  Real Estate
+Asset Class                                                             ...                          
+U.S. Lg Cap Growth                              1.000            0.848  ...        0.124        0.444
+U.S. Lg Cap Val                                 0.848            1.000  ...        0.141        0.588
+U.S. Mid Cap Growth                             0.896            0.778  ...        0.162        0.515
+U.S. Mid Cap Val                                0.740            0.899  ...        0.150        0.678
+U.S. Sm Cap Growth                              0.856            0.743  ...        0.161        0.541
+U.S. Sm Cap Val                                 0.718            0.844  ...        0.157        0.701
+Foreign Industrialzed Mkts Stocks               0.582            0.586  ...        0.181        0.389
+Emerging Mkts Stks                              0.517            0.537  ...        0.201        0.343
+U.S. Investment Grade Bonds                     0.189            0.230  ...       -0.107        0.157
+U.S. High Yield Bonds                           0.528            0.577  ...        0.039        0.499
+Non-U.S. Bonds                                  0.005           -0.008  ...       -0.076       -0.001
+Cash                                            0.023            0.052  ...       -0.163       -0.050
+Commodities                                     0.124            0.141  ...        1.000        0.159
+Real Estate                                     0.444            0.588  ...        0.159        1.000
+
+[14 rows x 14 columns]
+2026-01-20 12:37:24,509 - Financial_Plan - INFO - Some Morningstar asset classes are not in the holdings: ['Cash', 'U.S. Mid Cap Val']
+2026-01-20 12:37:24,509 - Financial_Plan - INFO - Taking the extra asset classes out of the stats and correlation dataframes
+2026-01-20 12:37:24,511 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 12:37:24,511 - Financial_Plan - INFO - Using Morningstar stats as is
+2026-01-20 12:37:33,813 - Financial_Plan - INFO - average_by_asset_class:
+Asset Class
+Commodities                           $ 1,037,120
+Emerging Mkts Stks                    $ 5,566,563
+Foreign Industrialzed Mkts Stocks    $ 10,406,178
+Non-U.S. Bonds                        $ 1,601,502
+Real Estate                             $ 335,177
+U.S. High Yield Bonds                 $ 1,464,494
+U.S. Investment Grade Bonds           $ 7,596,045
+U.S. Lg Cap Growth                    $ 7,696,572
+U.S. Lg Cap Val                       $ 7,213,228
+U.S. Mid Cap Growth                   $ 3,293,398
+U.S. Sm Cap Growth                    $ 2,409,822
+U.S. Sm Cap Val                       $ 2,186,394
+dtype: object
+2026-01-20 12:37:33,815 - Financial_Plan - INFO - Final result  stats:
+count    1.000000e+03
+mean     5.080649e+07
+std      1.538841e+07
+min      1.390996e+07
+25%      3.973521e+07
+50%      4.886583e+07
+75%      5.902465e+07
+max      1.217612e+08
+dtype: float64
+2026-01-20 12:37:33,815 - Financial_Plan - INFO - Busted ages dict: {}
+2026-01-20 12:37:33,815 - Financial_Plan - INFO - Busted count: 0
+2026-01-20 12:37:33,815 - Financial_Plan - INFO - Confidence level: 100.00%

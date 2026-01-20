@@ -25,8 +25,6 @@ See: https://bbabenko.github.io/multiprocessing-and-seeded-RNGs/
 # ToDo: Add Readme - including syntax for TOML file
 # ToDo: add loop to find value for retirement_spend that meets goal and/or optimal asset allocation
 
-import getopt
-import logging
 import sys, os
 import traceback
 import numpy as np
@@ -46,6 +44,7 @@ from cashflow_class import Cashflow
 from morningstar_stats_class import MorningstarStats
 from holdings_class import Holdings
 from montecarlo_simulation_class import MontecarloSimulation
+from holdings_class import Holdings
 from typing import List
 # import itertools
 

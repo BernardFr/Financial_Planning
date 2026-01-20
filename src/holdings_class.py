@@ -18,13 +18,11 @@ import datetime as dt
 import os
 import re
 import sys
-import traceback
 from typing import List
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pathlib import Path
                             
 from utilities import error_exit
 from configuration_manager_class import ConfigurationManager
@@ -188,7 +186,7 @@ class Holdings:
         asset_class_df = self.holdings_df.groupby('Asset Class')['Market Value'].sum().reset_index()
         # Sort the dataframe by Asset Class
         asset_class_df = asset_class_df.sort_values(by='Asset Class')
-        asset_class_df.reset_index(drop=True, inplace=True)
+        asset_class_df.set_index('Asset Class', drop=True, inplace=True)
         self.portfolio_assets_df = asset_class_df
         logger.info(f"Total Portfolio Market Value: ${asset_class_df['Market Value'].sum():,.2f}")
         return asset_class_df
