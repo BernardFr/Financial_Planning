@@ -131,13 +131,18 @@ class MontecarloSimulation:
             logger.info("Taking the extra asset classes out of the stats and correlation dataframes")
             df_stat = df_stat.drop(index=missing_holdings)
             df_corr = df_corr.drop(index=missing_holdings, columns=missing_holdings)
+            # print(f"df_stat shape: {df_stat.shape} - df_corr shape: {df_corr.shape}")
+            # Update the montecarlo_simulation.df_stat and df_corr with the matched stats and correlations
+            self.df_stat = df_stat
+            self.df_corr = df_corr
         return df_stat, df_corr
 
 
-    def set_correlated_rvs(self, correlated_rvs: pd.DataFrame) -> None:
+    def set_correlated_ror(self, correlated_rvs: pd.DataFrame) -> None:
         """Set the correlated RoR series when generated from Morningstar stats
-        Rows are asset classes and columns are nb_ages * run_cnt """
-        self.correlated_rvs = correlated_rvs
+        Rows are asset classes and columns are nb_ages * run_cnt 
+        Transform numbers from % to multipliers 15% -> 1.15, etc. """
+        self.correlated_ror = correlated_rvs.map(lambda x: 1 + 0.01 * x)
         return None
 
     def set_ror_generator_list(self, ror_gen_list: list[ArrayRandGen]) -> None:
@@ -157,11 +162,11 @@ class MontecarloSimulation:
         """
         if self.cross_correlated_rvs_flag:
             # Make sure the correlated_rvs dataframe exists has at least nb_ages columns
-            if self.correlated_rvs.shape[1] < self.nb_ages:
-                error_exit(f"correlated_rvs dataframe has less than nb_ages columns: {self.correlated_rvs.shape[1]} < {self.nb_ages}")
+            if self.correlated_ror.shape[1] < self.nb_ages:
+                error_exit(f"correlated_ror dataframe has less than nb_ages columns: {self.correlated_ror.shape[1]} < {self.nb_ages}")
             # return the first nb_ages columns of the correlated_rvs dataframe and strip them from the self.correlated_rvs dataframe
-            ror_df = self.correlated_rvs.iloc[:, :self.nb_ages]
-            self.correlated_rvs = self.correlated_rvs.iloc[:, self.nb_ages:].copy(deep=True)
+            ror_df = self.correlated_ror.iloc[:, :self.nb_ages]
+            self.correlated_ror = self.correlated_ror.iloc[:, self.nb_ages:].copy(deep=True)
             return ror_df
         else:  # Use ArrayRandGen to generate the RoR series
             ror_lst_lst = []  # list of lists of RoR values for each asset class. Each has nb_ages * run_cnt values
@@ -186,6 +191,7 @@ class MontecarloSimulation:
         busted_age = self.end_age + 1
         # Generate a new array of rate of returns for all ages and each asset class
         ror_df = self.mk_ror_df()
+        ror_df.columns = self.age_lst  # needed for when we precompute the ror_df for all iterations
 
         for age, ror_lst, cashflow_val in zip(self.age_lst, ror_df, self.cashflow_ser):
             ror_lst = list[float](ror_df[age])
@@ -208,6 +214,8 @@ class MontecarloSimulation:
         5. If the portfolio is not busted, rebalance the portfolio based on rebalance flag, and
         return the portfolio and the busted flag (false)
         """
+        # print(f"ror_lst: {len(ror_lst)}")
+        # print(f"portfolio_ser: {portfolio_ser}")
         pfolio_ser = portfolio_ser.mul(ror_lst, axis=0)  # add the returns to the portfolio
         pfolio_value = float(pfolio_ser.sum())  # always positive - RoR cannot be > 100%
         management_fee_value = pfolio_value * self.mgt_fee
@@ -289,9 +297,11 @@ if __name__ == "__main__":
     df_stat, df_corr = morningstar_stats.get_asset_stats()
     logger.info(f'\nAsset Class Statistics\n{df_stat}')
     logger.info(f'\nAsset Class Correlations\n{df_corr}')
-    # Match the stats and holdings
+    # Match the stats and holdings (updates montecarlo_simulation.df_stat and df_corr)
     df_stat, df_corr = montecarlo_simulation.match_stats_vs_holdings(df_stat, df_corr)
-
+    # Update df_stat and df_corr in morningstar_stats
+    morningstar_stats.set_df_stat_and_corr(df_stat, df_corr)
+    print(f"\nmontecarlo_simulation.df_stat shape: {montecarlo_simulation.df_stat.shape} montecarlo_simulation.df_corr shape: {montecarlo_simulation.df_corr.shape}") 
 
     if montecarlo_simulation.cross_correlated_rvs_flag: # Create the cross-correlated RoR series
         logger.info(f"Using cross-correlated RoR series")
@@ -299,7 +309,7 @@ if __name__ == "__main__":
         correlated_rvs = morningstar_stats.generate_correlated_rvs()
         logger.info(f"Correlated returns Series (%):\n{correlated_rvs}")
         # Set the correlated RoR series
-        montecarlo_simulation.set_correlated_rvs(correlated_rvs)
+        montecarlo_simulation.set_correlated_ror(correlated_rvs)
     else:          # Use Morningstar stats as is  
         logger.info(f"Using Morningstar stats as is")
         # Make list of asset classes stats and correlations

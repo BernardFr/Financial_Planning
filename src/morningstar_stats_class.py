@@ -43,7 +43,7 @@ QuickFlagDefault = False
 RvsRandomState = 42
 NB_SMPL_DEFAULT = 100000
 
-DEBUG_FLAG = True
+DEBUG_FLAG = False
 
 
 def matrix_equal(df_1: pd.DataFrame, df_2: pd.DataFrame, error_margin: float) -> (bool, float):
@@ -92,6 +92,16 @@ class MorningstarStats:
         @param nb_smpl: number of samples to generate
         """
         self.nb_smpl = nb_smpl
+        return
+
+    def set_df_stat_and_corr(self, df_stat: pd.DataFrame, df_corr: pd.DataFrame) -> None:
+        """
+        Set the asset statistics and correlation matrix -- needed for when we match stats and holdings
+        @param df_stat: asset statistics
+        @param df_corr: asset correlation matrix
+        """
+        self.df_stat = df_stat
+        self.df_corr = df_corr
         return
 
     def _make_xlabel(in_str: str, label_len) -> str:
@@ -301,8 +311,6 @@ class MorningstarStats:
         return True if all(positive_eigen) else False
 
 
-
-
     def _make_random_correlation_matrix(self, labels: [str], seed=None) -> pd.DataFrame:
         """
         Generates a cross correlation matrix with labels as labels for index and columns
@@ -373,9 +381,10 @@ class MorningstarStats:
         for rw, mn, stdv in zip(data_df.index, return_list, stddev_list):
             rvs_df.loc[rw] = data_df.loc[rw].map(mk_lin_interp(mn, stdv))
         if DEBUG_FLAG:
+            print(f"\nDEBUG: comparing target stats vs generated stats ")
             for nn,idx in enumerate(self.df_stat.index):
-                print(f'{idx} {return_list[nn]} -  {data_df.loc[idx].mean()} - {rvs_df.loc[idx].mean()}')
-                print(f'{idx} {stddev_list[nn]} -  {data_df.loc[idx].std()} - {rvs_df.loc[idx].std()}')
+                print(f'{idx}  Expected Return: {return_list[nn]} -  Generated Return: {rvs_df.loc[idx].mean()}')
+                print(f'{idx}  Expected Stddev: {stddev_list[nn]} -  Generated Stddev:  {rvs_df.loc[idx].std()}')
 
         if self.validate_cross_correlation_flag or DEBUG_FLAG:
             logger.info(f'Validating cross-correlation matrix')
@@ -436,7 +445,7 @@ class MorningstarStats:
 
 
 
-    def _make_ben_model(alloc_df):
+    def _xx_make_ben_model(alloc_df):
         # Create the list of allocation choices  %stock/%bond
         allocation_choices = []
         for stock in range(20, 81, 5):

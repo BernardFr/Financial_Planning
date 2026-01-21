@@ -7,10 +7,18 @@
 * Find another source for historical asset statistics - Morningstar seems to be dated 2023
   * See JP [Morgan	](https://am.jpmorgan.com/us/en/asset-management/liq/insights/portfolio-insights/ltcma/interactive-assumptions-matrices/)	
   * See [Guggenheim Investments](https://www.guggenheiminvestments.com/advisor-resources/interactive-tools/asset-class-correlation-map) (2024)
+* `Morningstar - cross_correlated_rvs`: should use a generator rather than computing all the RoR at once
+* Use different capital models (WF, JPMC) - which required remapping the holdings to the models.
+  * Note most models don't have the cross-correlation matrix
+
 
 # Release Notes
 
-### 1/29/2026
+### 1/20/2026
+
+* working version of `montecarlo_simulation_class`
+
+### 1/19/2026
 
 * working version of `montecarlo_simulation_class`
 
