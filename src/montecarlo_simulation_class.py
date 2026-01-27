@@ -7,6 +7,7 @@ from configuration_manager_class import ConfigurationManager
 from cashflow_class import Cashflow 
 from holdings_class import Holdings
 from morningstar_stats_class import MorningstarStats
+from arrayrandgen_class import ArrayRandGen
 from utilities import error_exit, display_series, dollar_str
 import collections
 import sys
@@ -18,34 +19,6 @@ ASSET_CLASSES = {'Stocks': 800000,
                 'Cash': 100000}
 INITIAL_HOLDINGS = pd.DataFrame({'Market Value': ASSET_CLASSES})
 # CASHFLOW_SERIES = pd.Series(index=range(67, 102), data=[50000] * 35, name="Cashflows")
-
-
-
-class ArrayRandGen:
-    def __init__(self,config_manager: ConfigurationManager, mean: float, stdv: float):
-        self.config_manager = config_manager
-        self.config = self.config_manager.get_class_config(self.__class__.__name__)
-        self.run_cnt = self.config['run_cnt']
-        self.nb_rv = self.config['end_age'] - self.config['start_age'] + 1  # number of random values to generate
-        self.mean = mean
-        self.stdv = stdv
-        self.ror_floor = self.config['RoR_floor']
-        self.ror_ceiling = self.config['Ror_ceiling']
-
-    def __iter__(self):
-        return self
-
-    def __next__(self) -> list[float]:
-        """
-        returns a list of nb random numbers based on mean and stddev
-        numbers are: 1 + random_number/100  (interest rates)
-        NOTE that the RoR is clipped to the floor and ceiling to account for historical data
-        """
-        random_values = np.random.normal(self.mean, self.stdv, size=self.nb_rv)
-        ror_values = 1 + 0.01 * random_values
-        # Clip the final RoR values to historical bounds
-        ror_values = np.clip(ror_values, self.ror_floor, self.ror_ceiling)
-        return ror_values.tolist()
 
 
 class MontecarloSimulation:
@@ -76,7 +49,6 @@ class MontecarloSimulation:
         self.seed = self.config['seed']
         self.run_cnt = self.config['run_cnt']
         self.re_alloc_error = self.config['re_alloc_error']
-        self.nb_cpu = self.config['nb_cpu']
         self.Funds_step = self.config['Funds_step']
         self.Discret_step = self.config['Discret_step']
         self.Success_threshold = self.config['Success_threshold']
@@ -87,6 +59,10 @@ class MontecarloSimulation:
         self.cross_correlated_rvs_flag = self.config['cross_correlated_rvs_flag']
         return None
 
+    def set_run_cnt(self, run_cnt: int) -> None:
+        """Set the number of iterations to run the simulation"""
+        self.run_cnt = run_cnt
+        return None
 
     def set_initial_holdings(self, initial_holdings: pd.DataFrame) -> None:
         """Set the initial holdings DataFrame and the target asset allocation"""
@@ -110,32 +86,6 @@ class MontecarloSimulation:
         self.end_age = self.age_lst[-1]
         self.nb_ages = len(self.age_lst)
         return None
-
-    def match_stats_vs_holdings(self, df_stat: pd.DataFrame,df_corr: pd.DataFrame) -> (pd.DataFrame, pd.DataFrame):
-        """Check if the asset classes list and the initial holdings are the same
-        If Holdings do not have all the asset classes in df_stat, df_corr - strip the unused asset classes from df_stat, df_corr
-        If df_stat, df_corr do not have all the asset classes in Holdings - Error & exit
-        Return the stripped df_stat, df_corr
-        """
-        holdings_set = set(self.initial_holdings.index)
-        stats_set = set(df_stat.index)
-        missing_stats = [x for x in holdings_set if x not in stats_set]
-        if len(missing_stats) > 0:
-            # Exit we are missing stats for some holdings
-            error_exit(f"Some Holding are Not in Morningstart asset classes: {missing_stats}")
-
-        # Now drop the stats that are not in the holdings
-        missing_holdings = [x for x in stats_set if x not in holdings_set]
-        if len(missing_holdings) > 0:  # Some Morningstar asset classes are not in the holdings
-            logger.info(f"Some Morningstar asset classes are not in the holdings: {missing_holdings}")
-            logger.info("Taking the extra asset classes out of the stats and correlation dataframes")
-            df_stat = df_stat.drop(index=missing_holdings)
-            df_corr = df_corr.drop(index=missing_holdings, columns=missing_holdings)
-            # print(f"df_stat shape: {df_stat.shape} - df_corr shape: {df_corr.shape}")
-            # Update the montecarlo_simulation.df_stat and df_corr with the matched stats and correlations
-            self.df_stat = df_stat
-            self.df_corr = df_corr
-        return df_stat, df_corr
 
 
     def set_correlated_ror(self, correlated_rvs: pd.DataFrame) -> None:
@@ -266,8 +216,8 @@ class MontecarloSimulation:
 
         return
 
-if __name__ == "__main__":
-    config_manager = ConfigurationManager(sys.argv)
+def main(cmd_line: list[str]) -> None:
+    config_manager = ConfigurationManager(cmd_line)
     montecarlo_simulation = MontecarloSimulation(config_manager)
 
     # Load the cashflow and set the cashflow series
@@ -298,7 +248,7 @@ if __name__ == "__main__":
     logger.info(f'\nAsset Class Statistics\n{df_stat}')
     logger.info(f'\nAsset Class Correlations\n{df_corr}')
     # Match the stats and holdings (updates montecarlo_simulation.df_stat and df_corr)
-    df_stat, df_corr = montecarlo_simulation.match_stats_vs_holdings(df_stat, df_corr)
+    df_stat, df_corr = morningstar_stats.match_stats_vs_holdings(holdings_df)
     # Update df_stat and df_corr in morningstar_stats
     morningstar_stats.set_df_stat_and_corr(df_stat, df_corr)
     print(f"\nmontecarlo_simulation.df_stat shape: {montecarlo_simulation.df_stat.shape} montecarlo_simulation.df_corr shape: {montecarlo_simulation.df_corr.shape}") 
@@ -317,8 +267,13 @@ if __name__ == "__main__":
         print(f"Asset Classes List:\n{asset_classes_list}")
         logger.info(f"Using Morningstar stats as is")
         # Create and setthe list of generators
-        ror_gen_list = [ArrayRandGen(config_manager, mean, stdv) for mean, stdv in asset_classes_list]
+        seed = config_manager.get_param('seed')
+        ror_gen_list = [ArrayRandGen(config_manager, mean, stdv, seed) for mean, stdv in asset_classes_list]
         montecarlo_simulation.set_ror_generator_list(ror_gen_list)
 
     montecarlo_simulation.run()
+    return None
+
+if __name__ == "__main__":
+    main(sys.argv)
     sys.exit("---\nDone!")

@@ -133,6 +133,33 @@ class MorningstarStats:
         return self.df_stat, self.df_corr
 
 
+    def match_stats_vs_holdings(self, holdings: pd.DataFrame) -> (pd.DataFrame, pd.DataFrame):
+        """
+        Match the asset statistics and correlation matrix to the holdings
+        @param holdings: holdings DataFrame
+        @return: (df_stat, df_corr)        
+        Check if the asset classes list and the initial holdings are the same
+        If Holdings do not have all the asset classes in df_stat, df_corr - strip the unused asset classes from df_stat, df_corr
+        If df_stat, df_corr do not have all the asset classes in Holdings - Error & exit
+        Return the stripped df_stat, df_corr
+        """
+        holdings_set = set(holdings.index)  
+        stats_set = set(self.df_stat.index)
+        missing_stats = [x for x in holdings_set if x not in stats_set]
+        if len(missing_stats) > 0:
+            # Exit we are missing stats for some holdings
+            error_exit(f"Some Holding are Not in Morningstart asset classes: {missing_stats}")
+
+        # Now drop the stats that are not in the holdings
+        missing_holdings = [x for x in stats_set if x not in holdings_set]
+        if len(missing_holdings) > 0:  # Some Morningstar asset classes are not in the holdings
+            logger.info(f"Some Morningstar asset classes are not in the holdings: {missing_holdings}")
+            logger.info("Taking the extra asset classes out of the stats and correlation dataframes")
+            self.df_stat = self.df_stat.drop(index=missing_holdings)
+            self.df_corr = self.df_corr.drop(index=missing_holdings, columns=missing_holdings).copy(deep=True)
+        return self.df_stat, self.df_corr
+
+
     def _remap_names(self) -> None:
         """
         Remap the names in names according to the mapping of old_names new_names
@@ -347,8 +374,7 @@ class MorningstarStats:
         df_corr is the cross-correlation matrix of the variables
         Must have df_stat.index == df_corr.index == df_corr.columns
         nb_smpl is the number of samples that are generated
-        Returns an list of  'nb_asset" lists - each list is nb_smpl long
-        nb_asset = len(df_stat.index)
+        Returns a DF with the index as the asset classes and the columns as the samples
         """
 
         # Compute eigen values to make sure none is negative - otherwise, cholesky will fail

@@ -1,0 +1,76 @@
+[default]
+BF_BDAY = '04/09/1958'
+End_age = 101
+Death_age = 95
+
+[RunMontecarloSimulation]
+run_cnt = 1000
+nb_cpu = 4
+multi_cpu_threshold = 100  # Use multiple cpus if the run_cnt is above (>=) this threshold
+
+[ConfigurationManager]
+PLT_STYLE = 'seaborn-v0_8-deep'
+
+[ArrayRandGen]
+# See ReadMe - historically, S&P 500 has a floor of -47% and a ceiling of 53% - we will use a max of +/- 40% for RoR
+RoR_floor = 0.60  # corresponds to a -40% RoR
+Ror_ceiling = 1.40  # corresponds to a +40% RoR
+
+
+[MontecarloSimulation]
+target_end_funds = 5e5
+target_success_rate = 80
+seed = 42
+re_alloc_error = 1e-6 
+Funds_step = 1e5
+Discret_step = 0.01
+Success_threshold = 1.0
+mgt_fee =  7e-3
+rebalance_flag = true
+cross_correlated_rvs_flag = true  # determines whether we use Morningstar stats as is (false) or if we create cross-correlated RoR
+
+
+[MorningstarStats]
+must_have_param = ['url_stats', 'url_corr', 'nb_smpl', 'model_file', 'xl_out_name']
+XLabelLen = 5  # Length of the X axis labels
+quick_flag = false
+url_corr = "https://admainnew.morningstar.com/webhelp/Practice/Plans/Correlation_Matrix_of_the_14_Asset_Classes.htm"
+url_stats = "https://admainnew.morningstar.com/webhelp/dialog_boxes/cs_db_editassumptions.htm"
+validate_cross_correlation_flag = true
+validation_error_margin = 5e-3 
+model_file = "./Data/Morningstar_Asset_Stats/Models.xlsx"
+xl_out_name = "./Data/Morningstar_asset_stats"
+
+# Dict to map the Morningstar asset statistics labels to those of Morningstar Correlations
+STAT_CORR_NAME_MAP = [
+        ["US Large Cap Growth", "U.S. Lg Cap Growth"],
+        ["US Large Cap Value", "U.S. Lg Cap Val"],
+        ["US Mid Cap Growth", "U.S. Mid Cap Growth"],
+        ["US Mid Cap Value",  "U.S. Mid Cap Val"],
+        ["US Small Cap Growth", "U.S. Sm Cap Growth"],
+        ["US Small Cap Value", "U.S. Sm Cap Val"],
+        ["Non-US Dev Stk", "Foreign Industrialzed Mkts Stocks"],
+        ["Non-US Emrg Stk", "Emerging Mkts Stks"], 
+        ["US Inv Grade Bonds", "U.S. Investment Grade Bonds"],
+        ["US High Yield Bonds", "U.S. High Yield Bonds"],
+        ["Non-US Dev Bonds", "Non-U.S. Bonds"],
+        ["Cash", "Cash"],
+        ["Commodities", "Commodities"],
+        ["Real Estate", "Real Estate"]
+]
+
+
+[Cashflow]
+Goals_file = "./Data/Envision_Goals.xlsx"
+Default_inflation_rate = 2.5e-2  # 2.5 %
+
+[Holdings]
+DATA_DIR = '/Users/bfraenkel/Documents/Code/BenPlan/Holdings/'
+Cols_2_Keep = ['Symbol', 'Account Number','Shares', 'Market Value' , 'Tax Term']
+ETF_for_cash = "SHY"
+ETF_Asset_Class_Map_File = '/Users/bfraenkel/Documents/Code/Financial_Plan/Morningstar_Asset_Stats/etf_to_asset_class_map.xlsx'
+DIR_DATE_FORMAT = "%Y-%m-%d"
+FILE_NAME_PATTERN = 'WFA_Portfolio_Positions_\d{6}_\d{4}'
+Detail_Columns = ['Account Number', 'Tax Term']
+Cash_Amount_String = "Total Cash/Cash Alternatives & Margin"  # this is the string to find the cash amount
+

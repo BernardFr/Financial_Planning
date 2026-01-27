@@ -112,7 +112,19 @@ def dollar_str(x: float) -> str:
     :param x: float
     :return: string
     """
-    return f"$ {x:,.0f}"    
+    return f"$ {x:,.0f}" 
+    
+
+def pct_str(pct: float, decml: int = 2) -> str:
+    """ Convert a decimal number that represents a percentage to a printable string
+     e.g.  pct_s(0.2) -> "20.00%"
+     pct(0.2423436, 4) -> "24.2344%"
+     @param pct: float number representing a percent 01. for 10%
+     @param decml: number of decimals in the string - default 2
+     """
+    return f"{round(100 * pct, decml):,f}%"
+
+
 
 
 def print_out(outfile, msg='\n'):

@@ -1,0 +1,17 @@
+[default]
+BF_BDAY = '04/09/1958'
+End_age = 101
+Death_age = 95
+
+[RunMontecarloSimulation]
+run_cnt = 1000
+nb_cpu = 4
+multi_cpu_threshold = 100  # Use multiple cpus if the run_cnt is above (>=) this threshold
+
+[ConfigurationManager]
+PLT_STYLE = 'seaborn-v0_8-deep'
+
+[ArrayRandGen]
+# See ReadMe - historically, S&P 500 has a floor of -47% and a ceiling of 53% - we will use a max of +/- 40% for RoR
+RoR_floor = 0.60  # corresponds to a -40% RoR
+Ror_ceiling = 1.40  # corresponds to a +40% RoR
