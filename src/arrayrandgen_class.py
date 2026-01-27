@@ -50,7 +50,6 @@ class ArrayRandGen:
         return ror_values.tolist()
 
 
-
 def main(cmd_line: list[str]) -> None:
     config_manager = ConfigurationManager(cmd_line)
     start_age = config_manager.config['start_age']
