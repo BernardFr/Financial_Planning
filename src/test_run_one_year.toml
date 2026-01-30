@@ -3,11 +3,11 @@ BDAY = '04/09/1958'
 End_age = 101
 Death_age = 95
 
-[RunMontecarloSimulation]
+[TestRunOneYear]
 multi_cpu_threshold = 100  # Use multiple cpus if the run_cnt is above (>=) this threshold
 cross_correlated_rvs_flag = false  # determines whether we use Morningstar stats as is (false) or if we create cross-correlated RoR
 run_cnt = 10
-nb_cpu = 4
+nb_cpu = 1
 seed = 42
 
 [ConfigurationManager]
@@ -26,8 +26,8 @@ re_alloc_error = 1e-6
 Funds_step = 1e5
 Discret_step = 0.01
 Success_threshold = 1.0
-mgt_fee =  7e-3
-rebalance_flag = true
+mgt_fee =  0
+rebalance_flag = false
 
 
 [MorningstarStats]

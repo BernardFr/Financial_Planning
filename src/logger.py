@@ -20,7 +20,7 @@ if not logger.handlers:
     # Console handler (displays on terminal)
     ch = logging.StreamHandler()
     ch.setLevel(LOG_LEVEL)
-    console_formatter = logging.Formatter('%(levelname)s - %(message)s')
+    console_formatter = logging.Formatter('%(levelname)s - %(funcName)s - %(message)s')
     ch.setFormatter(console_formatter)
     logger.addHandler(ch)
 

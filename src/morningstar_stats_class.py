@@ -148,7 +148,7 @@ class MorningstarStats:
         missing_stats = [x for x in holdings_set if x not in stats_set]
         if len(missing_stats) > 0:
             # Exit we are missing stats for some holdings
-            error_exit(f"Some Holding are Not in Morningstart asset classes: {missing_stats}")
+            error_exit(f"Some Holding are Not in Morningstar asset classes: {missing_stats}")
 
         # Now drop the stats that are not in the holdings
         missing_holdings = [x for x in stats_set if x not in holdings_set]
@@ -422,6 +422,7 @@ class MorningstarStats:
                 logger.error(f"Failed to validate cross-correlation matrix")
         else:
             logger.info(f'Skipping Validation of cross-correlation matrix')
+        # FIXME: Figure out how to clip the rvs_df - like ArrayRandGen class
         return rvs_df
 
 

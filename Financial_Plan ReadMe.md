@@ -38,6 +38,7 @@ Financial Plan
 ### To Fix
 
 * `Morningstar - cross_correlated_rvs`: should use a generator rather than computing all the RoR at once
+*  `MorningstarStats - generate_correlated_rvs`   Figure out how to clip the rvs_df - like `ArrayRandGen` class
 
 # Programs
 

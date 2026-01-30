@@ -71,7 +71,7 @@ class ConfigurationManager:
 
         Assume dob has format mm/dd/YYYY
         """
-        dob = self.config['BF_BDAY']
+        dob = self.config['BDAY']
         dob_mo, dob_dy, dob_yr = map(int, dob.split('/'))  # extract month, day, year as int
         dob_dt = dt.datetime(dob_yr, dob_mo, dob_dy)
         today_dt =dt.datetime.now()

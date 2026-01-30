@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 from matplotlib.backends.backend_pdf import PdfPages
 from logger import logger
-
+import inspect
 Money_format = '$#,##0.00_);[Red]($#,##0.00)'  # Excel cell number format for dollar values
 Zoom_level = 110
 XL_col_width = 11  # Width of a column for $ in Excel
@@ -46,7 +46,9 @@ def my_age(dob: str) -> int:
 
 def error_exit(error_message: str) -> None:
     """ Exit the program with an error message """
-    logger.error(error_message)
+    # Find the function name that called this function  
+    calling_function = inspect.currentframe().f_back.f_code.co_name
+    logger.error(f"{calling_function} - {error_message}")
     exit(-1)
 
 def make_date_string() -> str:
@@ -123,8 +125,6 @@ def pct_str(pct: float, decml: int = 2) -> str:
      @param decml: number of decimals in the string - default 2
      """
     return f"{round(100 * pct, decml):,f}%"
-
-
 
 
 def print_out(outfile, msg='\n'):

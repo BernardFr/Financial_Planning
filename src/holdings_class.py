@@ -64,6 +64,8 @@ class Holdings:
 
     def _get_holdings_file(self) -> tuple[str, str]:
         """Get Holdings file to process """
+        # get path to the current directory so that we can get back to it later
+        current_dir = os.getcwd()
         os.chdir(self.data_dir)
 
         def _remap_date(date_str: str) -> str:
@@ -87,6 +89,7 @@ class Holdings:
         latest_file, latest_date = holdings_files_lst[0][0], holdings_files_lst[0][1]
         # TODO: there may be multiple files with the same date - need to check the last 4 digits
         #  of the file name to determine which one to use
+        os.chdir(current_dir)  # IMPORTANT: get back to the original directory
         return latest_file, latest_date
 
     def _get_cash_amount(self, in_df: pd.DataFrame) -> float:
@@ -158,6 +161,8 @@ class Holdings:
             # Sort the dataframe by Symbol
             working_df = working_df.sort_values(by='Symbol')
             working_df.reset_index(drop=True, inplace=True)
+            # Set Symbol as the index
+            working_df.set_index('Symbol', drop=True, inplace=True)
         logger.info(f"Total Portfolio Market Value: ${working_df['Market Value'].sum():,.2f}")
         return working_df
 
@@ -176,9 +181,9 @@ class Holdings:
         etf_asset_class_map_dict = etf_asset_class_df.set_index(etf_asset_class_df.columns[0])[etf_asset_class_df.columns[1]].to_dict()
         
         # map the ETFs to the asset classes - using the dictionary and assign "Not_Found" if the ETF is not found
-        self.holdings_df['Asset Class'] = self.holdings_df['Symbol'].map(etf_asset_class_map_dict).fillna('Not_Found')
+        self.holdings_df['Asset Class'] = self.holdings_df.index.map(etf_asset_class_map_dict).fillna('Not_Found')
         # Create a list of ETFs that were not found
-        not_found_etfs = self.holdings_df[self.holdings_df['Asset Class'] == 'Not_Found']['Symbol'].values
+        not_found_etfs = self.holdings_df[self.holdings_df['Asset Class'] == 'Not_Found'].index.values
         if len(not_found_etfs) > 0:
             error_exit(f"The following ETFs were not found in the mapping file: {not_found_etfs}")
 

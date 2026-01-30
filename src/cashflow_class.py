@@ -20,6 +20,7 @@ from utilities import my_age, display_series
 sys.path.insert(0, '../Color_Map/')  # Add path to the directory containing plot_color_matrix
 from plot_color_matrix import plot_color_matrix as pcm
 from logger import logger
+from pathlib import Path
 
 XLabelLenDefault = 5  # Length of the X axis labels
 QuickFlagDefault = False
@@ -33,11 +34,32 @@ class Cashflow:
         self.config_manager = config_manager
         self.config = self.config_manager.get_class_config(self.__class__.__name__)
         self.goals_file = self.config['Goals_file']
-        self.dob = self.config['BF_BDAY']
+        self.dob = self.config['BDAY']
         self.death_age = int(self.config['Death_age'])
         self.end_age = int(self.config['End_age'])
         self.default_inflation_rate = float(self.config['Default_inflation_rate'])
         self.age_today = my_age(self.dob)
+
+
+    def load_goals_data(self):
+        # 1. Convert the string path to a Path object and make it absolute
+        file_path = Path(self.goals_file).resolve()
+        
+        # 2. Safety Check
+        if not file_path.exists():
+            raise FileNotFoundError(
+                f"Could not find the goals file.\n"
+                f"Attempted Path: {file_path}\n"
+                f"Current Working Directory: {Path.cwd()}"
+            )
+        
+        # 3. Read the data
+        try:
+            with pd.ExcelFile(file_path, engine='openpyxl') as xl_file:
+                return pd.read_excel(xl_file, sheet_name='Goals', index_col=0)
+        except Exception as e:
+            print(f"An error occurred while reading the Excel file: {e}")
+            return None
 
 
     def process_goals_file(self) -> pd.DataFrame:
@@ -45,7 +67,10 @@ class Cashflow:
         Reads the file containing goals, cleans it up to handle Death, End strings as well as inflation
         @return: DF: rows are cashflows column are (1) age at which cashflow starts (2) cashflow ends (3) inflation rate
         """
-        df_in = pd.read_excel(self.goals_file, sheet_name='Goals', index_col=0)
+        # with pd.ExcelFile(self.goals_file, engine='openpyxl') as xl_file:
+        #     df_in = pd.read_excel(xl_file, sheet_name='Goals', index_col=0)
+        df_in = self.load_goals_data()
+
         logger.info(f"Read goals file: {self.goals_file}")
         logger.info(f"My age today: {self.age_today}")
         # Replace strings Death and End with numeric values
