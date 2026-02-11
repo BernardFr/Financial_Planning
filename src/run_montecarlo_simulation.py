@@ -30,6 +30,7 @@ import datetime as dt
 from pprint import pformat
 from multiprocessing import Pool
 import numpy as np
+from numpy._core import fromnumeric
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
@@ -38,7 +39,8 @@ from configuration_manager_class import ConfigurationManager
 from cashflow_class import Cashflow 
 from holdings_class import Holdings
 from morningstar_stats_class import MorningstarStats
-from montecarlo_simulation_class import MontecarloSimulation, ArrayRandGen
+from arrayrandgen_class import ArrayRandGen
+from montecarlo_simulation_class import MontecarloSimulation, MontecarloSimulationDataLoader
 from utilities import error_exit, display_series, dollar_str, pct_str, write_nice_df_2_xl, print_df, my_age
 from collections import Counter
 from functools import reduce
@@ -168,13 +170,14 @@ class RunMontecarloSimulation():
 
 def main(cmd_line: list[str]) -> None:
     config_manager = ConfigurationManager(cmd_line)
+    mc_data_loader = MontecarloSimulationDataLoader(config_manager)
     assets_multiplier = 1.0
     delta_assets_multiplier = 0.05  # +/- 5%
     keep_running = True
     target_confidence_level = 80  # %
     prev_confidence_level = 0.0
     while keep_running:
-        run_montecarlo_simulation = RunMontecarloSimulation(config_manager, assets_multiplier)
+        run_montecarlo_simulation = RunMontecarloSimulation(config_manager, mc_data_loader)
         final_result_series, busted_ages_dict, busted_cnt = run_montecarlo_simulation.run()
         confidence_level = 100.0 * (run_montecarlo_simulation.run_cnt - busted_cnt) / run_montecarlo_simulation.run_cnt
         delta_confidence_level = confidence_level - target_confidence_level

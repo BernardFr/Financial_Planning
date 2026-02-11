@@ -14,13 +14,14 @@
 
 # Release Notes
 
-<<<<<<< HEAD
+### 2/10/2026
+
+* Added various tests to validate RoR generation
+
 ### 1/21/2026
 
 * added option to use `correlated_rvs` to `montecarlo_simulation_class`
 
-=======
->>>>>>> 59cf39683db3cfc7e3e8f3e4f8b400ad576487df
 ### 1/20/2026
 
 * working version of `montecarlo_simulation_class`

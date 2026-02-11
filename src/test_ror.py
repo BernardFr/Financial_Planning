@@ -85,6 +85,7 @@ def main()-> None:
     # Make a DF of the target mean and stdv - rows are asset classes, columns are mean and stdv
     target_df = pd.DataFrame(index=idx_name, columns=['Mean', 'Stdv'], data=ROR_STATS)
     cumulative_ror_df = pd.DataFrame(index=idx_name)
+    # FIXME: make sure the generators list matches the idx_name
     for itr in range(RUN_CNT):
         if itr % ITER_LOG_INTERVAL == 0:
             logger.info(f"Progress: Iteration {itr} of {RUN_CNT}")
