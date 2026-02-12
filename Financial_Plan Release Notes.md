@@ -14,6 +14,11 @@
 
 # Release Notes
 
+### 2/11/2026
+
+* Created `test_rng.py` to validate the proper way to run the random number generator - including w/ multiple CPUs
+  * Removed the tests in `arrayrandgen_class.py`
+
 ### 2/10/2026
 
 * Added various tests to validate RoR generation
