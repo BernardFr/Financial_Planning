@@ -34,6 +34,7 @@ class ArrayRandGen:
     mean: float - the mean of the random numbers
     stdv: float - the stddev of the random numbers
     seed: int - the seed for the random number generator
+    clip_flag: bool - whether to clip the random numbers to the floor and ceiling ... set it to False for testing
     """
     def __init__(self,config_manager: ConfigurationManager, name: str, mean: float, stdv: float, seed) -> None:
         self.config_manager = config_manager
@@ -41,11 +42,16 @@ class ArrayRandGen:
         self.nb_rv = self.config['end_age'] - self.config['start_age'] + 1  # number of random values to generate
         self.mean = mean
         self.stdv = stdv
-        self.ror_floor = self.config['RoR_floor']
-        self.ror_ceiling = self.config['Ror_ceiling']
         self.seed = seed
         self.rng = np.random.default_rng(self.seed)
         self.name = name
+        self.clip_flag = self.config['clip_flag']
+        if self.clip_flag:
+            self.ror_floor = self.config['RoR_floor']
+            self.ror_ceiling = self.config['Ror_ceiling']
+        else:
+            self.ror_floor = None
+            self.ror_ceiling = None
 
     def __iter__(self):
         return self
@@ -59,7 +65,8 @@ class ArrayRandGen:
         random_values = self.rng.normal(self.mean, self.stdv, size=self.nb_rv)
         ror_values = 1 + 0.01 * random_values
         # Clip the final RoR values to historical bounds
-        ror_values = np.clip(ror_values, self.ror_floor, self.ror_ceiling)
+        if self.clip_flag:
+            ror_values = np.clip(ror_values, self.ror_floor, self.ror_ceiling)
         return ror_values.tolist()
 
 
@@ -73,16 +80,18 @@ def main(cmd_line: list[str]) -> None:
     nb_assets = len(ASSET_CLASSES.keys())
     print(f"ROR Stats:\n{ror_stats}")
     stats_df = pd.DataFrame(ROR_STATS, index=ASSET_CLASSES.keys(), columns=['Mean', 'Std'])
+    stats_lst = [(name, mean, stdv) for name, mean, stdv in zip(stats_df.index, stats_df['Mean'], stats_df['Std'])]
     print(f"Stats DF:\n{stats_df}")
-    for name, ror_tuple in zip(ASSET_CLASSES.keys(), ROR_STATS):
-        stats_df.loc[name] = [ror_tuple[0], ror_tuple[1]]
+    print(f"Stats List:\n{stats_lst}")
+    for name, mean, stdv in stats_lst:
+        stats_df.loc[name] = [mean, stdv]
     logger.info(f"Using Morningstar stats as is")
     # Create a sequence of pseudo-random seeds for the random number generators for each CPU
     master_seed_sequence = np.random.SeedSequence(MASTER_SEED)
     seed_sequence = master_seed_sequence.spawn(NB_CPU)
     ror_gen_list = []
-    for ror_tuple, name, seed in zip(ROR_STATS, ASSET_CLASSES.keys(), seed_sequence):
-        array_rand_gen = ArrayRandGen(config_manager, name, ror_tuple[0], ror_tuple[1], seed)
+    for (name, mean, stdv), seed in zip(stats_lst, seed_sequence):
+        array_rand_gen = ArrayRandGen(config_manager, name, mean, stdv, seed)
         ror_gen_list.append(array_rand_gen)
     # ror_lst_lst = []  # list of lists of RoR values for each asset class. Each has nb_ages * run_cnt values
     # ror_lst_lst = list([]*nb_assets) # create a list of nb_assets lists
@@ -96,12 +105,6 @@ def main(cmd_line: list[str]) -> None:
             new_ror_values = list(next(gener))
             ror_lst_lst[nb].extend(new_ror_values) 
         ror_df.loc[name] = pd.Series(ror_lst_lst[nb])
-    # print(f"Length of ror_lst_lst[0][0]: {len(ror_lst_lst[0][0])}")
-    # # merge the lists in ror_lst_lst into RUN_CNT single lists
-    # ror_lst_lst = [item for sublist in ror_lst_lst for item in sublist]
-    # print(f"Length of ror_lst_lst: {len(ror_lst_lst)}")
-    # print(f"Length of ror_lst_lst[0]: {len(ror_lst_lst[0])}")
-    # ror_df = pd.DataFrame(ror_lst_lst, index = ASSET_CLASSES.keys())
     ror_df = ror_df.apply(lambda x: (x-1) * 100)
     print(f"ROR DF shape:\n{ror_df.shape}")
     ror_mean = ror_df.mean(axis=1)
@@ -156,14 +159,68 @@ def main(cmd_line: list[str]) -> None:
 
     # Validate that if we use 4 CPUs, the 4 RoR dfs are different
     print("-----------------")
-    print(f"Validating that if we use 4 CPUs, the 4 RoR dfs are different\n")
-    nb_cpu = 4
-    ror_gen_list = []
-    for ror_tuple, name, seed in zip(ROR_STATS, ASSET_CLASSES.keys(), seed_sequence):
-        array_rand_gen = ArrayRandGen(config_manager, name, ror_tuple[0], ror_tuple[1], seed)
-        ror_gen_list.append(array_rand_gen)
-    ror_df_list = []
-    for gener in ror_gen_list:
+    print(f"Validating that if we use {NB_CPU} CPUs, the {NB_CPU} RoR dfs are different\n")
+    run_cnt = 1000
+    nb_ages = 35
+    config_manager.config['nb_ages'] = nb_ages
+    config_manager.config['run_cnt'] = run_cnt
+    print(f"NB_CPU: {NB_CPU} - nb_ages: {nb_ages} - run_cnt: {run_cnt}")
+    # Create a sequence of pseudo-random seeds for the random number generators for each CPU
+    master_seed_sequence = np.random.SeedSequence(MASTER_SEED)
+    seed_sequence = master_seed_sequence.spawn(NB_CPU)
+    print(f"Seed sequence:\n{seed_sequence}")
+    print(f"the ror_df should be different for each seed, but the mean and std should be the same, but not exactly")
+    print(f"... and equal to the values of stats_df (first 2 columns)")
+    results_df = stats_df.copy(deep=True)
+    for seed_nb, seed in enumerate(seed_sequence):
+        ror_df = pd.DataFrame(columns=range(run_cnt*nb_ages))  # need to specify the number of columns
+        for name, mean, stdv in stats_lst:
+            array_rand_gen = ArrayRandGen(config_manager, name, mean, stdv, seed)
+            ror_df.loc[name] = pd.Series(list(next(array_rand_gen)))
+        ror_df = ror_df.apply(lambda x: (x-1) * 100)
+        # print the first 12 columns of the ror_df
+        print(f"ror_df shape: {ror_df.shape}")
+        print(f"First 12 columns of ROR DF for seed {seed_nb}:\n{ror_df.iloc[:, :12]}")
+        ror_mean = ror_df.mean(axis=1)
+        ror_std = ror_df.std(axis=1)
+        ror_mean = ror_mean.reindex(stats_df.index)
+        ror_std = ror_std.reindex(stats_df.index)
+        results_df[f'Mean Computed-{seed_nb}'] = ror_mean
+        results_df[f'Std Computed-{seed_nb}'] = ror_std
+    print(f"Validation Results DF:\n{results_df}")
+
+    # Calling one set of ArrayRandGen - NB_CPU times - to generate the RoR series - initialized with one seed should produce
+    # results with similar statistics 
+    print("-----------------")
+    run_cnt = 1000
+    nb_ages = 35
+    config_manager.config['nb_ages'] = nb_ages
+    config_manager.config['run_cnt'] = run_cnt
+    print(f"nb_ages: {nb_ages} - run_cnt: {run_cnt}")
+    print(f"Calling one set of ArrayRandGen - nb_cpu times - to generate the RoR series - initialized with one seed should produce")
+    print(f"results with similar statistics\n")
+    results_df = stats_df.copy(deep=True)
+    # Create the list of generators - once and for all for this test
+    ror_gen_list = [ArrayRandGen(config_manager, name, mean, stdv, MASTER_SEED) for name, mean, stdv in stats_lst]
+
+    # Call the generators NB_CPU times - to generate NB_CPU RoR series
+    for cpu_nb in range(10):
+        ror_df = pd.DataFrame(columns=range(run_cnt*nb_ages))  # need to specify the number of columns
+        for gener in ror_gen_list:
+            name = gener.name  # get the asset class name from the generator
+            ror_df.loc[name] = pd.Series(list(next(gener)))
+        ror_df = ror_df.apply(lambda x: (x-1) * 100)
+        # print the first 12 columns of the ror_df
+        print(f"ror_df shape: {ror_df.shape}")
+        print(f"First 12 columns of ROR DF for seed {cpu_nb}:\n{ror_df.iloc[:, :12]}")
+        ror_mean = ror_df.mean(axis=1)
+        ror_std = ror_df.std(axis=1)
+        ror_mean = ror_mean.reindex(stats_df.index)
+        ror_std = ror_std.reindex(stats_df.index)
+        results_df[f'Mean Computed-{cpu_nb}'] = ror_mean
+        results_df[f'Std Computed-{cpu_nb}'] = ror_std
+    print(f"Validation Results DF:\n{results_df}")
+
 
 
     return None

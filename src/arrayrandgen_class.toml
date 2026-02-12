@@ -15,3 +15,4 @@ PLT_STYLE = 'seaborn-v0_8-deep'
 # See ReadMe - historically, S&P 500 has a floor of -47% and a ceiling of 53% - we will use a max of +/- 40% for RoR
 RoR_floor = 0.60  # corresponds to a -40% RoR
 Ror_ceiling = 1.40  # corresponds to a +40% RoR
+clip_flag = false
