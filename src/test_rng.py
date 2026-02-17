@@ -162,20 +162,6 @@ class TestRng:
         """
         Validate that if we use 4 CPUs, the 4 RoR dfs are different, but have similar statistics and similar to the target stats_df
         Also validate that combining the 4 RoR dfs into one large RoR df gives the same statistics as generating the RoR df with one CPU
-
-        ChatGPT:
-        def worker(child_seedseq, n):
-            rng = np.random.default_rng(child_seedseq)
-            return rng.normal(size=n).mean()
-
-        if __name__ == "__main__":
-            root = np.random.SeedSequence(12345)
-            child_seqs = root.spawn(8)  # one per process/task
-
-            with Pool(8) as p:
-                results = p.starmap(worker, [(child_seqs[i], 1_000_000) for i in range(8)])
-
-            print(results)
         """
         logger.info(f"Validating that if we use {NB_CPU} CPUs, the {NB_CPU} RoR dfs are different\n")
         run_cnt_cpu = int(run_cnt / NB_CPU)
