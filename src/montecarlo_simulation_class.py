@@ -212,6 +212,7 @@ class MontecarloSimulation:
         """Reinitialize the data for the next simulation"""
         # Scale the initial asset classes by the assets_multiplier
         self.asset_class_df = self.initial_asset_class_df.mul(assets_multiplier, axis=0)
+        logger.info(f"portfolio value after reinitialization: {self.asset_class_df.sum().item():,.2f}")
         self.final_result_df = pd.DataFrame(index=self.asset_class_df.index, columns=range(self.run_cnt))
         self.busted_ages = []
         self.busted_cnt = 0
@@ -251,6 +252,8 @@ class MontecarloSimulation:
         Calls mk_ror_df() to generate a new RoR series
         """
         portfolio_ser = self.asset_class_df.copy(deep=True)
+        logger.info(f"portfolio value at start of iteration: {portfolio_ser.sum().item():,.2f}")
+
         busted_flag = False
         busted_age = self.end_age + 1
         # Generate a new array of rate of returns for all ages and each asset class
@@ -288,6 +291,7 @@ class MontecarloSimulation:
         """
         pfolio_ser = portfolio_ser.mul(ror_lst, axis=0)  # add the returns to the portfolio
         pfolio_value = pfolio_ser.sum().item()  # always positive - RoR cannot be > 100%
+        logger.info(f"portfolio value: {pfolio_value:,.2f}")
         management_fee_value = pfolio_value * self.mgt_fee
         wdrwl_value = cashflow_val + management_fee_value  # money going out
         adjusted_pfolio_value = pfolio_value - wdrwl_value
@@ -323,9 +327,6 @@ class MontecarloSimulation:
         # compute the average by asset class (rows  )
         average_by_asset_class = self.final_result_df.mean(axis=1)
         logger.info(f"result average_by_asset_class:\n{average_by_asset_class.map(dollar_str)}")
-        # Compute statistics on the final portfolio values
-        final_result_series_stats = final_result_series.describe()
-        # logger.info(f"Final result  stats:\n{final_result_series_stats}")
 
         # Create a dict that counts the number of busted ages
         busted_ages_dict = dict(collections.Counter(self.busted_ages))

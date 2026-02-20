@@ -1,0 +1,27 @@
+﻿Asset Class,Ticker,MG 80/20
+Short-term US Government,VGSH,4%
+Intermediate-term US Government,VGIT,4%
+Long-term US Government,VGLT,4%
+Inflation-protected US Government,SCHP,2%
+International (Hedged),BNDX,2%
+US Corporate,VCIT,2%
+Preferreds,PGX,2%
+Convertibles,CWB,
+,,
+,,
+Large US Growth,VUG,11%
+US Megacap,MGC,11%
+Large US Value,VTV,11%
+Midcap,VO,4%
+Small US Growth,VBK,3%
+Small US Value,VBR,3%
+"US Mid, Small & Microcap",VXF,3%
+US Raw Materials & Miners,VAW,2%
+US Energy Sector,VDE,2%
+US Residential Real Estate,ITB,2%
+,,
+,,
+Developed Market All Cap,VEA,14%
+Developed Market All Cap (Hedged),DBEF,6%
+Emerging Market All Cap,VWO,5%
+Emerging Market All Cap (Hedged),DBEM,3%

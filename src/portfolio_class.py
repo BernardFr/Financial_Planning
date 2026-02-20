@@ -21,9 +21,7 @@ import re
 import sys
 from typing import List
 
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
                             
 from utilities import error_exit
 from configuration_manager_class import ConfigurationManager
@@ -42,9 +40,11 @@ class Portfolio:
         self.cols_2_keep = self.config['Cols_2_Keep']
         self.detail_columns = self.config['Detail_Columns']
         self.etf_asset_class_map_file = self.config['ETF_Asset_Class_Map_File']
+        self.holdings_df = pd.DataFrame()
+        self.asset_class_df = pd.DataFrame()
 
 
-    def load_holdings_data(self) -> tuple[pd.DataFrame, List[str], float]:
+    def load_holdings_data(self) -> tuple[pd.DataFrame, float]:
         """Load all transaction data from holdings file."""
         # Get the latest Holdings file from Holdings directory
         holdings_file, holdings_date = self._get_holdings_file()
@@ -81,20 +81,18 @@ class Portfolio:
         h_tuples = [(f, f.split('_')[3]) for f in holdings_files]
         # apply remap_date to all values of h_tuples   
         holdings_files_lst = [(f[0], _remap_date(f[1])) for f in h_tuples]
-        # sort the list of tuples by date - latest first
-        holdings_files_lst = sorted(holdings_files_lst, key=lambda item: item[1], reverse=True)
-        # Get the one with the latest date
+        # sort the list of tuples by date - latest first, then by filename to catch the sequence number
+        holdings_files_lst = sorted(holdings_files_lst, key=lambda item: (item[1], item[0]), reverse=True)
+        # Get the one with the latest date and highest sequence number
         latest_file, latest_date = holdings_files_lst[0][0], holdings_files_lst[0][1]
-        # TODO: there may be multiple files with the same date - need to check the last 4 digits
-        #  of the file name to determine which one to use
         os.chdir(current_dir)  # IMPORTANT: get back to the original directory
         return latest_file, latest_date
 
     def _get_cash_amount(self, in_df: pd.DataFrame) -> float:
-        """ Match the Cash_Amount_String in the input dataframe in the first column and return
-        the value in the third
-         column"""
-        return float(in_df[in_df.iloc[:, 0] == self.cash_amount_string].iloc[:, 2].values[0])
+        """ Get the index of the rows where the values in the first column of in_df  match 
+        cash_amount_string - and return the first value in the second column of the rows where 
+        the index match - as float """
+        return float(in_df[in_df.iloc[:, 0] == self.cash_amount_string].iloc[:, 1].values[0])
 
     def _read_holdings_data(self, holdings_file: str) -> tuple[pd.DataFrame, float]:
         """Load the holdings data from the file"""
@@ -195,18 +193,17 @@ class Portfolio:
 
     def get_total_portfolio_market_value(self) -> float:
         """ Get the total portfolio market value """
-        return self.portfolio_assets_df['Market Value'].sum()
+        return self.asset_class_df['Market Value'].sum()
 
-    def asset_alloc_pct(self) -> pd.series:
+    def asset_alloc_pct(self) -> pd.Series:
         """ Get the asset allocation percentages - as a percentage of the total portfolio market value (pct - not ratio)"""
-        return 100.0 * self.portfolio_assets_df['Market Value'] / self.get_total_portfolio_market_value()
+        return 100.0 * self.asset_class_df['Market Value'] / self.get_total_portfolio_market_value()
 
 
 def main(cmd_line: List[str]):
-    """Main entry point for BenPlan.
-    processor_kill_flag: if True, async processes will be killed by the cleanup function
-    """
-    portfolio = Portfolio(cmd_line)
+    """Main entry point for BenPlan."""
+    config_manager = ConfigurationManager(cmd_line)
+    portfolio = Portfolio(config_manager)
     holdings_df, cash_amount = portfolio.load_holdings_data()
     print(f"Holdings DataFrame:\n{holdings_df}")
     print(f"Cash amount: ${cash_amount:,.2f}")

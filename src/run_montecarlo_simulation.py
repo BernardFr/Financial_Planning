@@ -20,25 +20,20 @@ Classes:  Asset_Model, Cashflow and Monte_Carlo
 #  run_{one_year, one_iter}[_one_asset][_make_it_work]
 
 import sys
-import datetime as dt
 from multiprocessing import Pool
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_pdf import PdfPages
 from logger import logger
 from configuration_manager_class import ConfigurationManager
 from cashflow_class import Cashflow 
 from portfolio_class import Portfolio
-import montecarlo_simulation_class
 from morningstar_stats_class import MorningstarStats
 from arrayrandgen_class import ArrayRandGen
 from montecarlo_simulation_class import MontecarloSimulation, MontecarloSimulationDataLoader
-from utilities import error_exit, display_series, dollar_str, pct_str, write_nice_df_2_xl, my_age
+from utilities import error_exit, display_series, dollar_str, my_age
 from collections import Counter
-from functools import reduce
 
-global outf
 DEBUG = False
 # Configuration
 plt.style.use('seaborn-v0_8-deep')
@@ -49,7 +44,7 @@ CONFIDENCE_LEVEL_TOLERANCE = 5.0  # +/- 5%
 MAX_ITER = 20
 pd.options.display.float_format = '{:,.2f}'.format  # Display 2 decimal places and commas for floats
 
-class RunMontecarloSimulation():
+class RunMontecarloSimulation:
     """Run the Montecarlo simulation"""
     def __init__(self, config_manager: ConfigurationManager) -> None:
         self.config_manager = config_manager
@@ -81,9 +76,8 @@ class RunMontecarloSimulation():
         mc_data_loader = MontecarloSimulationDataLoader(self.config_manager)
         mc_data_loader.load_data()
         self.montecarlo_simulation_list = [MontecarloSimulation(self.config_manager, mc_data_loader) for _ in range(self.nb_cpu)]
-        return None
+        return
 
-        return None
 
 
     def load_initial_data(self) -> None:
@@ -130,7 +124,7 @@ class RunMontecarloSimulation():
         # Match the stats and holdings (updates montecarlo_simulation.df_stat and df_corr)
         self.df_stat, self.df_corr = self.morningstar_stats.match_stats_vs_assets(self.asset_class_df)
         logger.info(f"montecarlo_simulation.df_stat shape: {self.df_stat.shape} montecarlo_simulation.df_corr shape: {self.df_corr.shape}") 
-        self.morningstar_stats.set_df_stat_and_corr(self.df_stat, self.df_corr)
+        self.morningstar_stats.set_stat_df_and_corr_df(self.df_stat, self.df_corr)
 
         # Generate the RoR series for the Montecarlo simulations
         if self.cross_correlated_rvs_flag: # Create the cross-correlated RoR series
@@ -185,7 +179,7 @@ class RunMontecarloSimulation():
         else:    # Multi-CPU case
             # FIXME: handle multi-cpu case
             error_exit(f"Multi-CPU case not implemented yet")
-            # Create a pool of workers
+            nb = 0 # FIXME: define nb
             with Pool(processes=self.nb_cpu) as pool:
                 result_obj = pool.map_async(self.montecarlo_simulation_list[nb].run, range(self.simul_run_cnt))
                 result_list = result_obj.get()
@@ -201,14 +195,13 @@ class RunMontecarloSimulation():
 
         return None
 
-    def analyze_results(self) -> None:
+    def analyze_results(self) -> tuple[bool, float]:
         """Analyze the results of the Montecarlo simulation and adjust the assets multiplier"""
         confidence_level = 100.0 *  (self.run_cnt - self.busted_cnt) / self.run_cnt
         delta_confidence_level = confidence_level - self.target_confidence_level
         logger.info(f"Busted Count: {self.busted_cnt} - Confidence Level: {confidence_level:.2f}%")
         if self.busted_cnt > 0:
             logger.info(f"Busted Ages Dict:\n{self.busted_ages_dict}")
-        logger.info(f"Final result  stats:\n{self.final_result_series.describe()}")
         logger.info(f"Final result series MEAN: ${self.final_result_series.mean():,.2f}")
         if abs(delta_confidence_level) <= CONFIDENCE_LEVEL_TOLERANCE:
             keep_running = False
@@ -236,15 +229,16 @@ class RunMontecarloSimulation():
     def display_results(self) -> None:
         """Display the results of the Montecarlo simulation"""
         logger.info(f"Assets multiplier: {self.assets_multiplier:.2f}")
-        logger.info(f"Final result series:\n{self.final_result_series.map(dollar_str)}")
         logger.info(f"Busted Ages Dict:\n{self.busted_ages_dict}")
         logger.info(f"Busted Count: {self.busted_cnt}")
+        logger.info(f"Final result series:\n{self.final_result_series.map(dollar_str)}")
+        logger.info(f"Final result  stats:\n{self.final_result_series.describe()}")
         return None
 
 def main(cmd_line: list[str]) -> None:
     config_manager = ConfigurationManager(cmd_line)
     simulation_runner = RunMontecarloSimulation(config_manager)
-    # FIXME: Move this to RunMontecarloSimulation class / load intial data
+    # FIXME: Move this to RunMontecarloSimulation class / load initial data
     # simulation_runner.load_initial_data()
 
     nb_iter = 0
