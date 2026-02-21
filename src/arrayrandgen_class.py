@@ -72,7 +72,7 @@ class ArrayRandGen:
 
 
 def main(cmd_line: list[str]) -> None:
-    print("Use test_rng.py to test the ArrayRandGen class")
+    logger.info("Use test_rng.py to test the ArrayRandGen class")
     return None
 
 if __name__ == "__main__":

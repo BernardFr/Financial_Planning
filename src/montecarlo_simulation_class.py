@@ -38,7 +38,6 @@ class MontecarloSimulationDataLoader:
         self.config = self.config_manager.get_class_config("MontecarloSimulation")
         self.target_end_funds = self.config['target_end_funds']
         self.target_success_rate = self.config['target_success_rate']
-        self.seed = self.config['seed']
         self.run_cnt = self.config['run_cnt']
         self.nb_cpu = self.config['nb_cpu']
         self.re_alloc_error = self.config['re_alloc_error']
@@ -48,9 +47,11 @@ class MontecarloSimulationDataLoader:
         self.mgt_fee = self.config['mgt_fee']
         self.rebalance_flag = self.config['rebalance_flag']
         self.cross_correlated_rvs_flag = self.config['cross_correlated_rvs_flag']
+        self.seed = self.config['seed']
         # Create a sequence of pseudo-random seeds for the random number generators for each CPU
         self.master_seed_sequence = np.random.SeedSequence(self.seed)    
-        self.data_loaded_flag = False
+        self.load_data()
+        logger.info(f"MontecarloSimulationDataLoader initialized - data loaded")
 
         return None
 
@@ -64,17 +65,9 @@ class MontecarloSimulationDataLoader:
         return None
 
 
-    def set_correlated_ror(self, correlated_rvs: pd.DataFrame) -> None:
-        """Set the correlated RoR series when generated from Morningstar stats
-        Rows are asset classes and columns are nb_ages * run_cnt 
-        Transform numbers from % to multipliers 15% -> 1.15, etc. """
-        self.correlated_ror = correlated_rvs.map(lambda x: 1 + 0.01 * x)
-        return None
-
-
     def load_data(self) -> None:
         """
-        Load the initial data:
+        Load the necessary data for the Montecarlo simulation:
         - goals
         - generate cashflow series from goals
         - load holdings 
@@ -100,7 +93,6 @@ class MontecarloSimulationDataLoader:
         logger.info(f"Holdings DataFrame after reassigning cash to ETF_for_cash:\n{holdings_df}")
         portfolio.set_holdings_df(holdings_df)
         self.asset_class_df = portfolio.map_etf_to_asset_class()
-        self.initial_asset_class_df = self.asset_class_df.copy(deep=True)  # Used when we iterate over starting funds values
         logger.info(f"Asset Class DataFrame:\n{self.asset_class_df}")
 
         # Get the Morningstar Asset Stats and create the asset allocation model
@@ -115,13 +107,11 @@ class MontecarloSimulationDataLoader:
         logger.info(f"\nstats_df shape: {self.stats_df.shape} corr_df shape: {self.corr_df.shape}") 
 
         if self.cross_correlated_rvs_flag: # Create the cross-correlated RoR series
-            # FIXME:
+            # FIXME: Values are too large
             logger.info(f"Using cross-correlated RoR series")
             morningstar_stats.set_nb_smpl(self.run_cnt * self.nb_ages)
-            self.correlated_rvs = morningstar_stats.generate_correlated_rvs()
-            logger.info(f"Correlated returns Series (%):\n{self.correlated_rvs}")
-            # Set the correlated RoR series
-            self.set_correlated_ror(self.correlated_rvs)
+            self.correlated_ror = morningstar_stats.generate_correlated_ror()
+            logger.info(f"Correlated RoR multipliers Series (%):\n{self.correlated_ror}")
 
         else:          # Use Morningstar stats as is  
             logger.info(f"Using Morningstar stats as is")
@@ -141,6 +131,19 @@ class MontecarloSimulationDataLoader:
                 ror_gen_list.append(array_rand_gen)
             logger.debug(f"ror_gen_list (names): {[gen.name for gen in ror_gen_list]}")
             self.ror_gen_list = ror_gen_list
+
+        # Compute the weighted expected return across all asset classes
+        summary_df = pd.DataFrame(index=self.stats_df.index, columns=['Market Value', 'Weight', 'Expected Return', 'Weighted Expected Return'])
+        summary_df['Market Value'] = self.asset_class_df['Market Value']
+        total_asset_value = float(summary_df['Market Value'].sum().item())
+        summary_df['Weight'] = summary_df['Market Value'].map(lambda x: float(x) / total_asset_value)
+        assert summary_df['Weight'].sum().item() == 1.0, f"Weights do not sum to 1.0: {summary_df['Weight'].sum().item()}"  
+        summary_df['Expected Return'] = self.stats_df['Expected Return']
+        # Multiply the expected return by the weights
+        summary_df['Weighted Expected Return'] = summary_df['Expected Return'].mul(summary_df['Weight'], axis=0)
+        logger.info(f"Summary of Asssets and Returns:\n{summary_df}")
+        overall_weighted_expected_return = summary_df['Weighted Expected Return'].sum().item()
+        logger.info(f"Total Asset Value: ${total_asset_value:,.0f} - Weighted Expected Return: {overall_weighted_expected_return:,.2f}%\n")
 
         self.data_loaded_flag = True
         return None
@@ -177,30 +180,27 @@ class MontecarloSimulation:
         self.age_lst = mc_data_loader.age_lst
         self.nb_ages = mc_data_loader.nb_ages
         self.run_cnt = mc_data_loader.run_cnt
-        self.seed = mc_data_loader.seed
         self.re_alloc_error = mc_data_loader.re_alloc_error
         self.Funds_step = mc_data_loader.Funds_step
         self.Discreet_step = mc_data_loader.Discreet_step
         self.Success_threshold = mc_data_loader.Success_threshold
         self.mgt_fee = mc_data_loader.mgt_fee
         self.rebalance_flag = mc_data_loader.rebalance_flag
-        self.cross_correlated_rvs_flag = mc_data_loader.cross_correlated_rvs_flag
         self.busted_ages = []
         self.busted_cnt = 0
 
         # Load the data from the data loader
-        # if the DataLoader has not been loaded, load the data
-        if not mc_data_loader.data_loaded_flag:
-            mc_data_loader.load_data()
+        mc_data_loader.load_data()
+
         if self.cross_correlated_rvs_flag:
-            self.correlated_ror = mc_data_loader.correlated_rvs
+            self.correlated_ror = mc_data_loader.correlated_ror
         else:
             self.ror_gen_list = mc_data_loader.ror_gen_list
-        print(f"ror_gen_list: {[gen.name for gen in self.ror_gen_list]}")
-        self.asset_class_df = mc_data_loader.asset_class_df
-        self.initial_asset_class_df = mc_data_loader.initial_asset_class_df
-        self.initial_pfolio_value = self.initial_asset_class_df.sum().item()
+            print(f"ror_gen_list: {[gen.name for gen in self.ror_gen_list]}")
         self.cashflow_ser = mc_data_loader.cashflow_ser
+        self.asset_class_df = mc_data_loader.asset_class_df
+        self.initial_asset_class_df = self.asset_class_df.copy(deep=True)  # Used when we iterate over starting funds values
+        self.initial_pfolio_value = self.initial_asset_class_df.sum().item()
         return None
 
     def set_run_cnt(self, run_cnt: int) -> None:
@@ -208,8 +208,9 @@ class MontecarloSimulation:
         self.run_cnt = run_cnt
         return None
 
+
     def reinitialize_data(self, assets_multiplier: float) -> None:
-        """Reinitialize the data for the next simulation"""
+        """Reinitialize the data for a new simulation run"""
         # Scale the initial asset classes by the assets_multiplier
         self.asset_class_df = self.initial_asset_class_df.mul(assets_multiplier, axis=0)
         logger.info(f"portfolio value after reinitialization: {self.asset_class_df.sum().item():,.2f}")
@@ -220,16 +221,19 @@ class MontecarloSimulation:
 
     def mk_ror_df(self) -> pd.DataFrame:
         """
-        Generate a dataframe where columns are integers in range(start_age, end_age) - where the rates of return are 
-        generated by the generators in gen_list
+        Generate a new dataframe of RoR for one iteration
+        generated by the generators in self.ror_gen_list or by a slice of the correlated_ror dataframe
         :return: pd.DataFrame with row as asset classes and columns as ages - indexed to the initial asset_class_df index
 
+        Note: ArrayRandGen returns multipliers - ie. (1 + 0.01 * ror)
         """
-        if self.cross_correlated_rvs_flag:  # FIXME
-            # Make sure the correlated_rvs dataframe exists has at least nb_ages columns
+        # FIXME ... make this a generator so as to preserve correlated_ror for a new simulation run without having to create a copy
+        # FIXME ... or just use the correlated_ror dataframe directly, but need to have a static pointer for each iteration
+        if self.cross_correlated_rvs_flag:  # Use the correlated_ror dataframe directly
+            # Make sure the correlated_ror dataframe exists has at least nb_ages columns
             if self.correlated_ror.shape[1] < self.nb_ages:
                 error_exit(f"correlated_ror dataframe has less than nb_ages columns: {self.correlated_ror.shape[1]} < {self.nb_ages}")
-            # return the first nb_ages columns of the correlated_rvs dataframe and strip them from the self.correlated_rvs dataframe
+            # return the first nb_ages columns of the correlated_ror dataframe and strip them from the self.correlated_ror dataframe
             ror_df = self.correlated_ror.iloc[:, :self.nb_ages]
             self.correlated_ror = self.correlated_ror.iloc[:, self.nb_ages:].copy(deep=True)
             return self.correlated_ror
@@ -239,10 +243,9 @@ class MontecarloSimulation:
                 # generator returns a list which contains the list of values for each age
                 name = gener.name  # get the asset class name from the generator
                 # generator returns a list of ror values for each age - total nb_ages values
-                new_ror_values = list[Any](next(gener))
+                new_ror_values = list[float](next(gener))
                 logger.debug(f"name: {name}:\n{new_ror_values}")
                 ror_df.loc[name] = pd.Series(new_ror_values, index=self.age_lst)  # ror_lst has nb_ages for this asset class
-            ror_df = ror_df.apply(lambda x: 1 + 0.01 * x)  # Convert to multipliers
             return ror_df  # DF with row as asset classes and columns as ages
 
 
@@ -252,7 +255,7 @@ class MontecarloSimulation:
         Calls mk_ror_df() to generate a new RoR series
         """
         portfolio_ser = self.asset_class_df.copy(deep=True)
-        logger.info(f"portfolio value at start of iteration: {portfolio_ser.sum().item():,.2f}")
+        # logger.info(f"portfolio value at start of iteration: {portfolio_ser.sum().item():,.2f}")
 
         busted_flag = False
         busted_age = self.end_age + 1
@@ -262,9 +265,14 @@ class MontecarloSimulation:
             ror_df = self.correlated_ror.copy(deep=True)
         else:
             ror_df = self.mk_ror_df()
+            if DEBUG_FLAG:
+                # Compute the mean and stddev of the ror_df
+                summary_df = pd.DataFrame(index=ror_df.index, columns=['Mean', 'StdDev'])
+                summary_df['Mean'] = 100*(-1+ror_df.mean(axis=1))
+                summary_df['StdDev'] = 100*ror_df.std(axis=1)
+                logger.info(f"RoR summary_df:\n{summary_df}")
         for age, cashflow_val in zip(self.age_lst, self.cashflow_ser):
             ror_lst = list[float](ror_df[age])
-            # print(f"age: {age} - ror_lst: {ror_lst} - cashflow_val: {cashflow_val}")
             # print(f"portfolio_ser: {portfolio_ser}")
             new_portfolio_ser, busted_flag = self.run_one_year(portfolio_ser, ror_lst, cashflow_val)
             if busted_flag:
@@ -291,7 +299,6 @@ class MontecarloSimulation:
         """
         pfolio_ser = portfolio_ser.mul(ror_lst, axis=0)  # add the returns to the portfolio
         pfolio_value = pfolio_ser.sum().item()  # always positive - RoR cannot be > 100%
-        logger.info(f"portfolio value: {pfolio_value:,.2f}")
         management_fee_value = pfolio_value * self.mgt_fee
         wdrwl_value = cashflow_val + management_fee_value  # money going out
         adjusted_pfolio_value = pfolio_value - wdrwl_value
@@ -309,8 +316,6 @@ class MontecarloSimulation:
 
 
     def run(self) -> (pd.Series, dict, int):
-        # print("run_mc_multi: pid: {}, cnt= {}, seed={}".format(os.getpid(), cnt, seed))
-        np.random.seed(self.seed)
         self.busted_ages = []
         self.busted_cnt = 0
         self.final_result_df = pd.DataFrame(index=self.asset_class_df.index, columns=range(self.run_cnt))
@@ -334,13 +339,17 @@ class MontecarloSimulation:
 
 def main(cmd_line: list[str]) -> None:
     config_manager = ConfigurationManager(cmd_line)
-    montecarlo_simulation = MontecarloSimulation(config_manager)
+    mc_data_loader = MontecarloSimulationDataLoader(config_manager)
+    montecarlo_simulation = MontecarloSimulation(config_manager, mc_data_loader)
 
-    montecarlo_simulation.load_initial_data()
     final_result_series, busted_ages_dict, busted_cnt = montecarlo_simulation.run()
-    logger.info(f"Final Result Series:\n{final_result_series.map(dollar_str)}")
-    logger.info(f"Busted Ages Dict:\n{busted_ages_dict}")
-    logger.info(f"Busted Count:\n{busted_cnt}")
+    if montecarlo_simulation.run_cnt <= 50:
+        logger.info(f"Final Result Series:\n{final_result_series.map(dollar_str)}")
+    else:
+        logger.info(f"Final Result Series stats: {final_result_series.describe()}")
+    logger.info(f"Busted Count: {busted_cnt} - Confidence Level: {100.0 * (montecarlo_simulation.run_cnt - busted_cnt) / montecarlo_simulation.run_cnt:.2f}%")
+    if busted_cnt > 0:
+        logger.info(f"Busted Ages Dict:\n{busted_ages_dict}")
     return None
 
 if __name__ == "__main__":

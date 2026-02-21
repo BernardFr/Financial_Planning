@@ -50,7 +50,6 @@ class TestMkRorDf:
         # Run the test for uncorrelated RoR
         # Need to initialize the config manager and MontecarloSimulation class with the relevant rvs_flag
         for rvs_flag in [False, True]:
-            logger.info(f"rvs_flag: {rvs_flag}")
             self.config_manager.config['cross_correlated_rvs_flag'] = rvs_flag
             mc_data_loader = MontecarloSimulationDataLoader(self.config_manager)
             mc_data_loader.load_data()
@@ -58,10 +57,8 @@ class TestMkRorDf:
             montecarlo_simulation.set_run_cnt(RUN_CNT)
 
             # Modify data for this test
-            logger.info(f"run_cnt: {montecarlo_simulation.run_cnt} - nb_ages: {montecarlo_simulation.nb_ages} - age_lst: {montecarlo_simulation.age_lst}")
-
             montecarlo_simulation.cross_correlated_rvs_flag = rvs_flag
-            logger.info(f"\ncorrelated_rvs_flag: {montecarlo_simulation.cross_correlated_rvs_flag}")
+            logger.warning(f"\ncorrelated_rvs_flag: {montecarlo_simulation.cross_correlated_rvs_flag} - run_cnt: {montecarlo_simulation.run_cnt} - nb_ages: {montecarlo_simulation.nb_ages}")
             all_ror_df = pd.DataFrame()
             for _ in range(RUN_CNT):
                 ror_df = montecarlo_simulation.mk_ror_df()
@@ -79,23 +76,19 @@ class TestMkRorDf:
         # apply the index to the avg_regular and avg_cross_correlated
         avg_regular = avg_regular.reindex(result_index)
         avg_cross_correlated = avg_cross_correlated.reindex(result_index)
-        logger.warning(f"avg_regular:\n{avg_regular}")
-        logger.warning(f"std_regular:\n{std_regular}")
-        logger.warning(f"avg_cross_correlated:\n{avg_cross_correlated}")
-        logger.warning(f"std_cross_correlated:\n{std_cross_correlated}")
         result_df = pd.DataFrame(index=result_index)
-        result_df['Expected Return'] = mc_data_loader.df_stat.loc[result_index, 'Expected Return']
+        result_df['Expected Return'] = mc_data_loader.stats_df.loc[result_index, 'Expected Return']
         result_df['Avg Regular'] = avg_regular
         result_df['Avg Cross-Correlated'] = avg_cross_correlated
-        result_df['Standard Deviation'] = mc_data_loader.df_stat.loc[result_index, 'Standard Deviation']
+        result_df['Standard Deviation'] = mc_data_loader.stats_df.loc[result_index, 'Standard Deviation']
         result_df['Std Regular'] = std_regular
         result_df['Std Cross-Correlated'] = std_cross_correlated
-        logger.warning(f"result_df: {result_df}")
-        return None
+
+        return result_df
 
 if __name__ == "__main__":
     config_manager = ConfigurationManager(sys.argv)
     test_mk_ror = TestMkRorDf(config_manager)
     result_df = test_mk_ror.run()
-    logger.info(f"result_df: {result_df}")
+    logger.warning(f"result_df: {result_df}")
     sys.exit("---\nDone!")

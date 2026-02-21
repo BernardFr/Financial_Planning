@@ -24,7 +24,7 @@ target_end_funds = 5e5
 target_success_rate = 80
 re_alloc_error = 1e-6 
 Funds_step = 1e5
-Discret_step = 0.01
+Discreet_step = 0.01
 Success_threshold = 1.0
 mgt_fee =  0
 rebalance_flag = false
@@ -40,6 +40,7 @@ validate_cross_correlation_flag = false
 validation_error_margin = 5e-3 
 model_file = "./Data/Morningstar_Asset_Stats/Models.xlsx"
 xl_out_name = "./Data/Morningstar_asset_stats"
+clip_flag = false
 
 # Dict to map the Morningstar asset statistics labels to those of Morningstar Correlations
 STAT_CORR_NAME_MAP = [
@@ -64,7 +65,7 @@ STAT_CORR_NAME_MAP = [
 Goals_file = "./Data/Envision_Goals.xlsx"
 Default_inflation_rate = 2.5e-2  # 2.5 %
 
-[Holdings]
+[Portfolio]
 DATA_DIR = '/Users/bfraenkel/Documents/Code/BenPlan/Holdings/'
 Cols_2_Keep = ['Symbol', 'Account Number','Shares', 'Market Value' , 'Tax Term']
 ETF_for_cash = "SHY"

@@ -372,23 +372,24 @@ class MorningstarStats:
         return self.corr_df
 
 
-    def generate_correlated_rvs(self) -> pd.DataFrame:
+    def generate_correlated_ror(self) -> pd.DataFrame:
         """ Generate nb_smpl of Random Variable which are cross-correlated
         stat_df contains 2 columns: "Expected Return" i.e. mean and "Standard Deviation"
         corr_df is the cross-correlation matrix of the variables
         Must have stat_df.index == corr_df.index == corr_df.columns
         nb_smpl is the number of samples that are generated
         Returns a DF with the index as the asset classes and the columns as the samples
+        The values are the RoR multipliers - ie. 1.18 (<- 18%) -- 1 + 0.01 * rvs ...  
         """
 
         # Compute eigen values to make sure none is negative - otherwise, cholesky will fail
         try:
             eigen_values = np.linalg.eigvals(self.corr_df.astype(float))
         except np.linalg.LinAlgError as e:
-            error_exit(f"correlated_rvs could not converge on eigen value decomposition: {e}")
+            error_exit(f"correlated_ror could not converge on eigen value decomposition: {e}")
         negative_eigen = [eigen < 0 for eigen in eigen_values ]
         if any(negative_eigen):
-            error_exit(f"correlated_rvs cannot handle matrices with negative eigen values:\n{eigen_values}")
+            error_exit(f"correlated_ror cannot handle matrices with negative eigen values:\n{eigen_values}")
 
 
         data_series_list = []  # list of nb_asset data series
@@ -427,7 +428,11 @@ class MorningstarStats:
         else:
             logger.info(f'Skipping Validation of cross-correlation matrix')
         # FIXME: Figure out how to clip the rvs_df - like ArrayRandGen class
-        return rvs_df
+        
+        # Transform numbers from % to multipliers 15% -> 1.15, etc.
+        ror_df = rvs_df.map(lambda x: 1 + 0.01 * x)
+        return ror_df
+
 
 
     def _validate_cross_correlation(self,data_df: pd.DataFrame) -> [bool, float, bool, float, bool, float]:
@@ -604,18 +609,17 @@ def main(cmd_line: List[str]):
     logger.info(f'\nAsset Class Statistics\n{stat_df}')
     logger.info(f'\nAsset Class Correlations\n{corr_df}')
     morningstar_stats.set_nb_smpl(NB_SMPL_DEFAULT)
-    correlated_rvs = morningstar_stats.generate_correlated_rvs()
-    correlated_ror = correlated_rvs.map(lambda x: 1 +x * 0.01)
-    # if DEBUG_FLAG:
-    #     logger.info(f'\nCorrelated Random Variables\n{correlated_rvs}')
-    logger.info(f'\nCorrelated Random Variables\n{correlated_rvs}')
+    correlated_ror = morningstar_stats.generate_correlated_ror()
+    logger.info(f'\nCorrelated RoR multipliers\n{correlated_ror}')
     logger.info(f'\nCorrelated RoR\n{correlated_ror}')
     
-    print(f"Confirming that correlated_rvs can be called several times and produce different results ")
+    print(f"\nConfirming that correlated_rvs can be called several times and produce different results ")
     morningstar_stats.set_nb_smpl(10)
     for i in range(5):
-        correlated_rvs_2 = morningstar_stats.generate_correlated_rvs()
-        logger.info(f'iter: {i} \nCorrelated Random Variables {i}\n{correlated_rvs_2}')
+        correlated_ror_2 = morningstar_stats.generate_correlated_ror()
+        # print(f"correlated_ror_2.mean(): {100*(-1+correlated_ror_2.mean(axis=1))}")
+        # print(f"correlated_ror_2.std(): {100*correlated_ror_2.std(axis=1)}")
+        logger.info(f'iter: {i} \nCorrelated RoR multipliers {i}\n{correlated_ror_2}')
 
 if __name__ == '__main__':
 

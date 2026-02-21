@@ -18,7 +18,7 @@ import numpy as np
 import pandas as pd
 from logger import logger
 from configuration_manager_class import ConfigurationManager
-from montecarlo_simulation_class import MontecarloSimulation
+from montecarlo_simulation_class import MontecarloSimulation, MontecarloSimulationDataLoader
 from utilities import error_exit, display_series, dollar_str
 import sys
 DEBUG_FLAG = False
@@ -55,13 +55,13 @@ class TestRunOneYear:
         self.run_cnt = self.config['run_cnt']
         self.nb_cpu = self.config['nb_cpu']
         self.seed = self.config['seed']
+        self.data_loader = MontecarloSimulationDataLoader(self.config_manager)
         return None
 
 
     def run(self) -> None:
-        montecarlo_simulation = MontecarloSimulation(self.config_manager)
-        montecarlo_simulation.set_run_cnt(self.config_manager.config['run_cnt'])
-        montecarlo_simulation.load_initial_data()  # we override a lot
+        montecarlo_simulation = MontecarloSimulation(self.config_manager, self.data_loader)
+        montecarlo_simulation.set_run_cnt(self.config['run_cnt'])
 
         ror_lst = ROR_LST
         print(f"ror_lst: {ror_lst}")
@@ -77,9 +77,11 @@ class TestRunOneYear:
         """ 
         for iter_cnt in range(MAX_ITER_CNT):  # make sure we don't run forever
             portfolio_ser = INITIAL_HOLDINGS['Market Value'].copy(deep=True)
+            busted_flag = False
+            print(f"--\nIter: {iter_cnt} - Portfolio value: {portfolio_ser.sum():,.0f} - cashflow_val: {cashflow_val:,.0f}")
             for yr in range(NB_AGES):
                 portfolio_ser, busted_flag = montecarlo_simulation.run_one_year(portfolio_ser, ror_lst, cashflow_val)
-                # print(f"Year: {yr} - Busted: {busted_flag} - Portfolio:\n{portfolio_ser.map(dollar_str)} ")
+                print(f"Year: {yr} - Busted: {busted_flag} - Portfolio value: {portfolio_ser.sum():,.0f}")
                 if busted_flag:
                     break
                 # print(f"portfolio_value: {portfolio_value:,.2f} - previous_portfolio_value: {previous_portfolio_value:,.2f}")
@@ -93,9 +95,10 @@ class TestRunOneYear:
             prev_cashflow_val = cashflow_val
             if busted_flag:  # diminished cashflow_val
                 cashflow_val = cashflow_val / CASHFLOW_MULTIPLIER
+                print(f"Diminished cashflow_val: {cashflow_val:,.2f}")
             else:
                 cashflow_val = cashflow_val * CASHFLOW_MULTIPLIER
-            print(f"Next cashflow_val: {cashflow_val:,.2f}\n")
+                print(f"Increased cashflow_val: {cashflow_val:,.2f}")
             previous_busted_flag = busted_flag
         return None
 

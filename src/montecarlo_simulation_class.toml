@@ -1,5 +1,5 @@
 [default]
-BF_BDAY = '04/09/1958'
+BDAY = '04/09/1958'
 End_age = 101
 Death_age = 95
 
@@ -10,21 +10,22 @@ PLT_STYLE = 'seaborn-v0_8-deep'
 # See ReadMe - historically, S&P 500 has a floor of -47% and a ceiling of 53% - we will use a max of +/- 40% for RoR
 RoR_floor = 0.60  # corresponds to a -40% RoR
 Ror_ceiling = 1.40  # corresponds to a +40% RoR
+clip_flag = true
 
 
 [MontecarloSimulation]
-run_cnt = 1000
+run_cnt = 10_000
 target_end_funds = 5e5
 target_success_rate = 80
 seed = 42
 re_alloc_error = 1e-6 
-nb_cpu = 4
+nb_cpu = 1
 Funds_step = 1e5
 Discreet_step = 0.01
 Success_threshold = 1.0
 mgt_fee =  7e-3
 rebalance_flag = true
-cross_correlated_rvs_flag = true  # determines whether we use Morningstar stats as is (false) or if we create cross-correlated RoR
+cross_correlated_rvs_flag = false  # determines whether we use Morningstar stats as is (false) or if we create cross-correlated RoR
 
 
 [MorningstarStats]
@@ -61,7 +62,7 @@ STAT_CORR_NAME_MAP = [
 Goals_file = "./Data/Envision_Goals.xlsx"
 Default_inflation_rate = 2.5e-2  # 2.5 %
 
-[Holdings]
+[Portfolio]
 DATA_DIR = '/Users/bfraenkel/Documents/Code/BenPlan/Holdings/'
 Cols_2_Keep = ['Symbol', 'Account Number','Shares', 'Market Value' , 'Tax Term']
 ETF_for_cash = "SHY"
