@@ -2,8 +2,10 @@
 
 ## ToDo
 
+* Fix seed - so that we get same RoR DF when we re_initialize funds
 * **Fix cross_correlated_rvs**
-  * RoR Numbers are too high
+  * Seed initialization does not work (i.e. does not produce same ror each run)
+  * Std in final result stats is very high
   * `Morningstar - cross_correlated_rvs`: should use a generator rather than computing all the RoR at once
 
 * Fix `nb_cpu > 1`: need to handle the seed for each instance of `montecarlo_simulation`
@@ -19,6 +21,8 @@
 
 ### 2/20/2026
 
+* Working version of `run_montecarlo_simulation` - including with `cross_correlated_rvs` 
+  * `correlated_rvs_flag` true works ... but likely bugs in `mk_ror_df`
 * WIP - montecarlo_simiulation_class is probably good - run_montecarlo_simulation Not good
 * WIP - structure is correct - calculations are wrong
 

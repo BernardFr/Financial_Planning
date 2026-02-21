@@ -119,7 +119,7 @@ class RunMontecarloSimulation:
         if self.busted_cnt > 0:
             logger.info(f"Busted Ages Dict:\n{self.busted_ages_dict}")
         logger.info(f"Final result series MEAN: ${self.final_result_series.mean():,.2f}")
-        if abs(delta_confidence_level) <= CONFIDENCE_LEVEL_TOLERANCE:
+        if confidence_level <= self.target_confidence_level or abs(delta_confidence_level) <= CONFIDENCE_LEVEL_TOLERANCE:
             keep_running = False
         elif self.prev_confidence_level * confidence_level < 0: # Sign of confidence level has changed - and is not zero (first iteration)
             keep_running = False
@@ -139,7 +139,8 @@ class RunMontecarloSimulation:
     def display_results(self) -> None:
         """Display the results of the Montecarlo simulation"""
         logger.info(f"--\n Final Assets multiplier: {self.assets_multiplier:.2f}")
-        logger.info(f"Busted Count: {self.busted_cnt} -Busted Ages Dict:\n{self.busted_ages_dict}")
+        confidence_level = 100.0 *  (self.run_cnt - self.busted_cnt) / self.run_cnt
+        logger.info(f"Confidence Level: {confidence_level:.2f}% - Busted Count: {self.busted_cnt} - Busted Ages Dict:\n{self.busted_ages_dict}")
         logger.info(f"Adjusted starting portfolio value: ${self.mc_sim.initial_pfolio_value * self.assets_multiplier:,.0f}")
         logger.info(f"Final result series MEAN: ${self.final_result_series.mean():,.2f}")
         logger.info(f"Final result  stats:\n{self.final_result_series.describe()}")

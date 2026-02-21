@@ -144,9 +144,8 @@ class MontecarloSimulationDataLoader:
         summary_df['Weighted Expected Return'] = summary_df['Expected Return'].mul(summary_df['Weight'], axis=0)
         logger.info(f"Summary of Asssets and Returns:\n{summary_df}")
         overall_weighted_expected_return = summary_df['Weighted Expected Return'].sum().item()
-        logger.info(f"Total Asset Value: ${total_asset_value:,.0f} - Weighted Expected Return: {overall_weighted_expected_return:,.2f}%\n")
-
-        self.data_loaded_flag = True
+        logger.info(f"Total Asset Value: ${total_asset_value:,.0f} - Weighted Expected Return: {overall_weighted_expected_return:,.2f}%")
+        logger.info(f"---- Done loading Initial Data for Montecarlo Simulation ----\n")
         return None
 
 
@@ -195,8 +194,10 @@ class MontecarloSimulation:
 
         if self.cross_correlated_rvs_flag:
             self.correlated_ror = mc_data_loader.correlated_ror
+            self.correlated_ror_cursor = 0
         else:
             self.ror_gen_list = mc_data_loader.ror_gen_list
+            self.initial_ror_gen_list = self.ror_gen_list.copy(deep=True)
         self.cashflow_ser = mc_data_loader.cashflow_ser
         self.asset_class_ser = mc_data_loader.asset_class_ser
         self.initial_asset_class_ser = self.asset_class_ser.copy(deep=True)  # Used when we iterate over starting funds values
@@ -219,6 +220,10 @@ class MontecarloSimulation:
         assert abs(self.asset_class_ser.sum().item() - self.initial_pfolio_value * assets_multiplier) < ROUNDING_ERROR, \
             f"Asset class df sum does not match initial portfolio value: {self.asset_class_ser.sum().item():,.2f} != {self.initial_pfolio_value * assets_multiplier:,.2f}"
         self.final_result_df = pd.DataFrame(index=self.asset_class_ser.index, columns=range(self.run_cnt))
+        if self.cross_correlated_rvs_flag:
+            self.correlated_ror_cursor = 0
+        else:
+            self.ror_gen_list = self.initial_ror_gen_list
         self.busted_ages = []
         self.busted_cnt = 0
 
@@ -233,15 +238,18 @@ class MontecarloSimulation:
         Note: ArrayRandGen returns multipliers - ie. (1 + 0.01 * ror)
         """
         # FIXME ... make this a generator so as to preserve correlated_ror for a new simulation run without having to create a copy
-        # FIXME ... or just use the correlated_ror dataframe directly, but need to have a static pointer for each iteration
         if self.cross_correlated_rvs_flag:  # Use the correlated_ror dataframe directly
             # Make sure the correlated_ror dataframe exists has at least nb_ages columns
-            if self.correlated_ror.shape[1] < self.nb_ages:
-                error_exit(f"correlated_ror dataframe has less than nb_ages columns: {self.correlated_ror.shape[1]} < {self.nb_ages}")
+            col_start = self.correlated_ror_cursor
+            col_end = col_start + self.nb_ages  
+            if self.correlated_ror.shape[1] < col_end:
+                error_exit(f"correlated_ror dataframe has less than nb_ages columns: {self.correlated_ror.shape[1]} < {col_end}")
             # return the first nb_ages columns of the correlated_ror dataframe and strip them from the self.correlated_ror dataframe
-            ror_df = self.correlated_ror.iloc[:, :self.nb_ages]
-            self.correlated_ror = self.correlated_ror.iloc[:, self.nb_ages:].copy(deep=True)
-            return self.correlated_ror
+            ror_df = self.correlated_ror.iloc[:, col_start:col_end].copy(deep=True)
+            # set the columns to the age_lst 
+            ror_df.columns = self.age_lst
+            self.correlated_ror_cursor = col_end
+            return ror_df
         else:  # Use ArrayRandGen to generate the RoR series
             ror_df = pd.DataFrame(index=self.initial_asset_class_ser.index, columns=self.age_lst)
             for gener in  self.ror_gen_list:
@@ -266,16 +274,13 @@ class MontecarloSimulation:
         busted_age = self.end_age + 1
         # Generate a new array of rate of returns for all ages and each asset class
 
-        if self.cross_correlated_rvs_flag:  # FIXME
-            ror_df = self.correlated_ror.copy(deep=True)
-        else:
-            ror_df = self.mk_ror_df()
-            if DEBUG_FLAG:
-                # Compute the mean and stddev of the ror_df
-                summary_df = pd.DataFrame(index=ror_df.index, columns=['Mean', 'StdDev'])
-                summary_df['Mean'] = 100*(-1+ror_df.mean(axis=1))
-                summary_df['StdDev'] = 100*ror_df.std(axis=1)
-                logger.info(f"RoR summary_df:\n{summary_df}")
+        ror_df = self.mk_ror_df()
+        if DEBUG_FLAG:
+            # Compute the mean and stddev of the ror_df
+            summary_df = pd.DataFrame(index=ror_df.index, columns=['Mean', 'StdDev'])
+            summary_df['Mean'] = 100*(-1+ror_df.mean(axis=1))
+            summary_df['StdDev'] = 100*ror_df.std(axis=1)
+            logger.info(f"RoR summary_df:\n{summary_df}")
 
         for age, cashflow_val in zip(self.age_lst, self.cashflow_ser):
             ror_lst = list[float](ror_df[age])
