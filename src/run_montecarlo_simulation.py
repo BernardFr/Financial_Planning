@@ -147,24 +147,20 @@ class RunMontecarloSimulation:
 
 def main(cmd_line: list[str]) -> None:
     config_manager = ConfigurationManager(cmd_line)
-    # FIXME: Move this to RunMontecarloSimulation class / load initial data
-    # simulation_runner.load_initial_data()
+    simulation_runner = RunMontecarloSimulation(config_manager)
 
     nb_iter = 0
     keep_running = True
     assets_multiplier = 1.0
-    prev_assets_multiplier = 1.0    
     while keep_running:
-        logger.setLevel(logging.WARNING)
-        simulation_runner = RunMontecarloSimulation(config_manager)
-        logger.setLevel(logging.INFO)
-        simulation_runner.reinitialize_data(assets_multiplier)
         simulation_runner.run()
         keep_running, assets_multiplier = simulation_runner.analyze_results()
         logger.info(f"Assets multiplier: {assets_multiplier:.2f}")
         nb_iter += 1
         if nb_iter >= MAX_ITER:
             keep_running = False
+        simulation_runner.reinitialize_data(assets_multiplier)
+
     # Done
     simulation_runner.display_results()
 
