@@ -167,8 +167,9 @@ class Portfolio:
         self.holdings_df = in_df
         return 
 
-    def map_etf_to_asset_class(self) -> pd.DataFrame:
-        """ Map the ETF holdings to the broad asset classes for which we have Morningstar stats """
+    def map_etf_to_asset_class(self) -> pd.Series:
+        """ Map the ETF holdings to the broad asset classes for which we have Morningstar stats 
+        Returns a Series of the asset class market values"""
         # read the mapping file ETF -> Asset Class
         # Read into a dictionary - where ETF is the key and Asset Class is the value
         etf_asset_class_df = pd.read_excel(self.etf_asset_class_map_file, sheet_name='ETF - Asset Class', dtype=str, engine='openpyxl')
@@ -187,17 +188,17 @@ class Portfolio:
         # Sort the dataframe by Asset Class
         asset_class_df = asset_class_df.sort_values(by='Asset Class')
         asset_class_df.set_index('Asset Class', drop=True, inplace=True)
-        self.asset_class_df = asset_class_df
-        logger.info(f"Total Portfolio Market Value: ${asset_class_df['Market Value'].sum():,.2f}")
-        return asset_class_df
+        self.asset_class_ser = pd.Series(asset_class_df['Market Value'])
+        logger.info(f"Total Portfolio Market Value: ${self.asset_class_ser.sum().item():,.2f}")
+        return self.asset_class_ser
 
     def get_total_portfolio_market_value(self) -> float:
         """ Get the total portfolio market value """
-        return self.asset_class_df['Market Value'].sum()
+        return self.asset_class_ser.sum()
 
     def asset_alloc_pct(self) -> pd.Series:
         """ Get the asset allocation percentages - as a percentage of the total portfolio market value (pct - not ratio)"""
-        return 100.0 * self.asset_class_df['Market Value'] / self.get_total_portfolio_market_value()
+        return 100.0 * self.asset_class_ser / self.get_total_portfolio_market_value()
 
 
 def main(cmd_line: List[str]):

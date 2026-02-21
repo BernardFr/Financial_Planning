@@ -3,7 +3,7 @@ BDAY = '04/09/1958'
 End_age = 101
 Death_age = 95
 cross_correlated_rvs_flag = false  # determines whether we use Morningstar stats as is (false) or if we create cross-correlated RoR
-run_cnt = 10
+run_cnt = 1000
 nb_cpu = 1
 seed = 42
 

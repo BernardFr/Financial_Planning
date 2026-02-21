@@ -20,6 +20,7 @@ from multiprocessing import Pool
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import logging
 from logger import logger
 from configuration_manager_class import ConfigurationManager
 from cashflow_class import Cashflow 
@@ -67,23 +68,30 @@ class RunMontecarloSimulation:
             self.simul_run_cnt = self.run_cnt
         
         logger.info(f"Run count: {self.run_cnt} - Number of CPUs: {self.nb_cpu} - Number of simulations to run on each CPU: {self.simul_run_cnt}")
-        for _ in range(self.nb_cpu):
-            self.montecarlo_simulation_list.append(MontecarloSimulation(self.config_manager, self.data_loader))
+        if self.nb_cpu > 1:
+            for _ in range(self.nb_cpu):
+                self.montecarlo_simulation_list.append(MontecarloSimulation(self.config_manager, self.data_loader))
+        else:
+            self.mc_sim = MontecarloSimulation(self.config_manager, self.data_loader)
 
         return
 
 
-    def reinitialize_data(self) -> None:
+    def reinitialize_data(self, assets_multiplier: float) -> None:
         # FIXME: handle add seed sequence as a parameter
-        for mc_sim in self.montecarlo_simulation_list:
-            mc_sim.reinitialize_data(self.assets_multiplier)
+        self.assets_multiplier = assets_multiplier
+        if self.nb_cpu == 1:
+            self.mc_sim.reinitialize_data(assets_multiplier)
+        else: # FIXME: handle multi-cpu case
+            for mc_sim in self.montecarlo_simulation_list:
+                mc_sim.reinitialize_data(assets_multiplier)
         return None
 
     def run(self) -> None:
         """Run the Montecarlo simulation"""
 
         if self.nb_cpu == 1:    # Single CPU case
-            self.final_result_series, self.busted_ages_dict, self.busted_cnt = self.montecarlo_simulation_list[0].run()
+            self.final_result_series, self.busted_ages_dict, self.busted_cnt = self.mc_sim.run()
         else:    # Multi-CPU case
             # FIXME: handle multi-cpu case
             error_exit(f"Multi-CPU case not implemented yet")
@@ -128,34 +136,32 @@ class RunMontecarloSimulation:
 
         return keep_running, self.assets_multiplier
 
-    def reset_data(self, assets_multiplier: float) -> None:
-        """Reset the data for the next simulation"""
-        self.assets_multiplier = assets_multiplier
-        self.montecarlo_simulation.reinitialize_data(self.assets_multiplier)
-        return None
-
     def display_results(self) -> None:
         """Display the results of the Montecarlo simulation"""
-        logger.info(f"Assets multiplier: {self.assets_multiplier:.2f}")
-        logger.info(f"Busted Ages Dict:\n{self.busted_ages_dict}")
-        logger.info(f"Busted Count: {self.busted_cnt}")
-        logger.info(f"Final result series:\n{self.final_result_series.map(dollar_str)}")
+        logger.info(f"--\n Final Assets multiplier: {self.assets_multiplier:.2f}")
+        logger.info(f"Busted Count: {self.busted_cnt} -Busted Ages Dict:\n{self.busted_ages_dict}")
+        logger.info(f"Adjusted starting portfolio value: ${self.mc_sim.initial_pfolio_value * self.assets_multiplier:,.0f}")
+        logger.info(f"Final result series MEAN: ${self.final_result_series.mean():,.2f}")
         logger.info(f"Final result  stats:\n{self.final_result_series.describe()}")
         return None
 
 def main(cmd_line: list[str]) -> None:
     config_manager = ConfigurationManager(cmd_line)
-    simulation_runner = RunMontecarloSimulation(config_manager)
     # FIXME: Move this to RunMontecarloSimulation class / load initial data
     # simulation_runner.load_initial_data()
 
     nb_iter = 0
     keep_running = True
+    assets_multiplier = 1.0
+    prev_assets_multiplier = 1.0    
     while keep_running:
+        logger.setLevel(logging.WARNING)
+        simulation_runner = RunMontecarloSimulation(config_manager)
+        logger.setLevel(logging.INFO)
+        simulation_runner.reinitialize_data(assets_multiplier)
         simulation_runner.run()
         keep_running, assets_multiplier = simulation_runner.analyze_results()
         logger.info(f"Assets multiplier: {assets_multiplier:.2f}")
-        simulation_runner.reinitialize_data()
         nb_iter += 1
         if nb_iter >= MAX_ITER:
             keep_running = False
