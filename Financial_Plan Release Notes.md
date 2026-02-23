@@ -19,6 +19,10 @@
 
 # Release Notes
 
+### 2/23/2026
+
+* In `montecarlo_simulation_class`, added `initialize_data_for_riskless_ror` to run the simulation with a single asset that has a fixed interest rate as parameter (`stddev = 0`)
+
 ### 2/20/2026
 
 * Working version of `run_montecarlo_simulation` - including with `cross_correlated_rvs` 

@@ -136,15 +136,15 @@ class MontecarloSimulationDataLoader:
         # Compute the weighted expected return across all asset classes
         summary_df = pd.DataFrame(index=self.stats_df.index, columns=['Market Value', 'Weight', 'Expected Return', 'Weighted Expected Return'])
         summary_df['Market Value'] = self.asset_class_ser
-        total_asset_value = float(summary_df['Market Value'].sum().item())
-        summary_df['Weight'] = summary_df['Market Value'].map(lambda x: float(x) / total_asset_value)
+        self.initial_pfolio_value = float(summary_df['Market Value'].sum().item())
+        summary_df['Weight'] = summary_df['Market Value'].map(lambda x: float(x) / self.initial_pfolio_value)
         assert summary_df['Weight'].sum().item() == 1.0, f"Weights do not sum to 1.0: {summary_df['Weight'].sum().item()}"  
         summary_df['Expected Return'] = self.stats_df['Expected Return']
         # Multiply the expected return by the weights
         summary_df['Weighted Expected Return'] = summary_df['Expected Return'].mul(summary_df['Weight'], axis=0)
         logger.info(f"Summary of Asssets and Returns:\n{summary_df}")
-        overall_weighted_expected_return = summary_df['Weighted Expected Return'].sum().item()
-        logger.info(f"Total Asset Value: ${total_asset_value:,.0f} - Weighted Expected Return: {overall_weighted_expected_return:,.2f}%")
+        self.overall_weighted_expected_return = summary_df['Weighted Expected Return'].sum().item()
+        logger.info(f"Total Asset Value: ${self.initial_pfolio_value:,.0f} - Weighted Expected Return: {self.overall_weighted_expected_return:,.2f}%")
         logger.info(f"---- Done loading Initial Data for Montecarlo Simulation ----\n")
         return None
 
@@ -189,6 +189,7 @@ class MontecarloSimulation:
         self.busted_ages = []
         self.busted_cnt = 0
         self.assets_multiplier = 1.0
+        self.seed_sequence = mc_data_loader.seed_sequence
         # Load the data from the data loader
         mc_data_loader.load_data()
 
@@ -197,11 +198,12 @@ class MontecarloSimulation:
             self.correlated_ror_cursor = 0
         else:
             self.ror_gen_list = mc_data_loader.ror_gen_list
-            self.initial_ror_gen_list = self.ror_gen_list.copy(deep=True)
+            self.initial_ror_gen_list = self.ror_gen_list.copy()
         self.cashflow_ser = mc_data_loader.cashflow_ser
         self.asset_class_ser = mc_data_loader.asset_class_ser
         self.initial_asset_class_ser = self.asset_class_ser.copy(deep=True)  # Used when we iterate over starting funds values
-        self.initial_pfolio_value = self.initial_asset_class_ser.sum().item()
+        self.initial_pfolio_value = mc_data_loader.initial_pfolio_value
+        self.overall_weighted_expected_return = mc_data_loader.overall_weighted_expected_return
         return None
 
     def set_run_cnt(self, run_cnt: int) -> None:
@@ -210,7 +212,7 @@ class MontecarloSimulation:
         return None
 
 
-    def reinitialize_data(self, assets_multiplier: float) -> None:
+    def reinitialize_data(self, mc_data_loader: MontecarloSimulationDataLoader, assets_multiplier: float) -> None:
         """Reinitialize the data for a new simulation run
         FIXME: re-initialize the ror_gen_list/correlated_ror with the original seed sequence
         """
@@ -220,6 +222,10 @@ class MontecarloSimulation:
         assert abs(self.asset_class_ser.sum().item() - self.initial_pfolio_value * assets_multiplier) < ROUNDING_ERROR, \
             f"Asset class df sum does not match initial portfolio value: {self.asset_class_ser.sum().item():,.2f} != {self.initial_pfolio_value * assets_multiplier:,.2f}"
         self.final_result_df = pd.DataFrame(index=self.asset_class_ser.index, columns=range(self.run_cnt))
+        self.seed_sequence = mc_data_loader.seed_sequence
+        self.cross_correlated_rvs_flag = mc_data_loader.cross_correlated_rvs_flag
+        self.rebalance_flag = mc_data_loader.rebalance_flag
+
         if self.cross_correlated_rvs_flag:
             self.correlated_ror_cursor = 0
         else:
@@ -227,6 +233,25 @@ class MontecarloSimulation:
         self.busted_ages = []
         self.busted_cnt = 0
 
+        return None
+
+    def initialize_data_for_riskless_ror(self, riskless_ror: float) -> None:
+        """Initialize the data for a new simulation run with a riskless RoR - ie. all asset classes have the same RoR with stddev = 0
+        This estabilishes a baseline of how well the portfolio will perform since it is not subject to market volatility
+        @param riskless_ror: the riskless RoR - ie. the RoR of the single asset
+        @return: None
+        """
+        self.riskless_ror = riskless_ror
+        # Only 1 asset with Market Value equal to the total portfolio value
+        self.asset_class_ser = pd.Series([self.initial_pfolio_value], index=["Single Asset"], name="Market Value")
+        self.rebalance_flag = False  # needed so that we don't use initial_asset_class_ser for rebalancing
+        self.cross_correlated_rvs_flag = False
+        self.run_cnt = 1  # since stddev = 0, we only need to run 1 iteration
+        self.ror_gen_list = [ArrayRandGen(self.config_manager, "Single Asset", riskless_ror, 0.0, self.seed_sequence[0])]
+        logger.info(f"initialize_data_for_riskless_ror:length of ror_gen_list: {len(self.ror_gen_list)}")
+        self.busted_ages = []
+        self.busted_cnt = 0
+        self.final_result_df = pd.DataFrame(index=self.asset_class_ser.index, columns=range(self.run_cnt))
         return None
 
     def mk_ror_df(self) -> pd.DataFrame:
@@ -251,7 +276,7 @@ class MontecarloSimulation:
             self.correlated_ror_cursor = col_end
             return ror_df
         else:  # Use ArrayRandGen to generate the RoR series
-            ror_df = pd.DataFrame(index=self.initial_asset_class_ser.index, columns=self.age_lst)
+            ror_df = pd.DataFrame(index=self.asset_class_ser.index, columns=self.age_lst)
             for gener in  self.ror_gen_list:
                 # generator returns a list which contains the list of values for each age
                 name = gener.name  # get the asset class name from the generator
@@ -351,6 +376,57 @@ def main(cmd_line: list[str]) -> None:
     config_manager = ConfigurationManager(cmd_line)
     mc_data_loader = MontecarloSimulationDataLoader(config_manager)
     montecarlo_simulation = MontecarloSimulation(config_manager, mc_data_loader)
+
+    # Run the simulation with a riskless RoR -> find the minimum portfolio value that will still be successful
+    keep_running_flag = True 
+    initial_funds = montecarlo_simulation.initial_pfolio_value
+    new_pfolio_value = initial_funds
+    pfolio_value_step_mult = 5e-2  # 5% 
+    successfull_pfolio_value = initial_funds
+    while keep_running_flag:
+        montecarlo_simulation.initialize_data_for_riskless_ror(montecarlo_simulation.overall_weighted_expected_return)
+        final_result_series, busted_ages_dict, busted_cnt = montecarlo_simulation.run()
+        logger.info(f"Riskless RoR - seeking minimum portfolio value: Final Result Series:\n{final_result_series.map(dollar_str).values.item()}")
+        # logger.info(f"Busted Count: {busted_cnt} - Confidence Level: {100.0 * (montecarlo_simulation.run_cnt - busted_cnt) / montecarlo_simulation.run_cnt:.2f}%")
+        if busted_cnt > 0: # there is only one iteration
+            logger.info(f"Busted Ages Dict:\n{busted_ages_dict}")
+            keep_running_flag = False  
+        else:
+            successfull_pfolio_value = new_pfolio_value
+            new_pfolio_value -= pfolio_value_step_mult * initial_funds  # decrease the portfolio value by the step multiplier
+            montecarlo_simulation.initial_pfolio_value = new_pfolio_value
+            logger.info(f"New portfolio value: ${new_pfolio_value:,.0f}\n")
+    logger.info(f"Riskless RoR: Portfolio Weighted RoR: {montecarlo_simulation.overall_weighted_expected_return:,.2f}% - Original portfolio value: ${initial_funds:,.0f} - Minimal portfolio value: ${successfull_pfolio_value:,.0f}")
+    
+    # Reset the portfolio value to the initial value
+    montecarlo_simulation.initial_pfolio_value = initial_funds
+    logger.info(f"Resetting portfolio value to initial value: ${montecarlo_simulation.initial_pfolio_value:,.0f}\n")
+
+    # Run the simulation with a riskless RoR -> find the minimum RoR value that will still be successful, with the portfolio value held constant
+    keep_running_flag = True 
+    initial_ror = montecarlo_simulation.overall_weighted_expected_return
+    montecarlo_simulation.initial_pfolio_value = initial_funds
+    new_ror = initial_ror
+    ror_step = 1e-2  # 1% 
+    successfull_ror = initial_ror
+    while keep_running_flag:
+        montecarlo_simulation.initialize_data_for_riskless_ror(new_ror)
+        final_result_series, busted_ages_dict, busted_cnt = montecarlo_simulation.run()
+        logger.info(f"Riskless RoR - seeking minimum RoR: Final Result Series:\n{final_result_series.map(dollar_str).values.item()}")
+        # logger.info(f"Busted Count: {busted_cnt} - Confidence Level: {100.0 * (montecarlo_simulation.run_cnt - busted_cnt) / montecarlo_simulation.run_cnt:.2f}%")
+        if busted_cnt > 0: # there is only one iteration
+            logger.info(f"Busted Ages Dict:\n{busted_ages_dict}")
+            keep_running_flag = False  
+        else:
+            successfull_ror = new_ror
+            new_ror -= ror_step * initial_ror  # decrease the RoR by the step
+            logger.info(f"New RoR: {new_ror:,.2f}%\n")
+    logger.info(f"Riskless RoR: Initial portfolio value: ${montecarlo_simulation.initial_pfolio_value:,.0f} - Portfolio Weighted RoR: {montecarlo_simulation.overall_weighted_expected_return:,.2f}% - Successfull RoR: {successfull_ror:,.2f}%")
+
+
+    return None
+
+    # FIXME Need to properly reinitialize the data for the test below
 
     final_result_series, busted_ages_dict, busted_cnt = montecarlo_simulation.run()
     if montecarlo_simulation.run_cnt <= 50:
