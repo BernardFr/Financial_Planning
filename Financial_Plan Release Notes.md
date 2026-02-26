@@ -2,6 +2,7 @@
 
 ## ToDo
 
+* in `ArrayRandGen` replace`np.random.default_rng.normal` with `spipy.stats.norm.rvs`  - per the results of `default_rng_vs_rvs` 
 * Fix seed - so that we get same RoR DF when we re_initialize funds
 * **Fix cross_correlated_rvs**
   * Seed initialization does not work (i.e. does not produce same ror each run)
@@ -16,8 +17,20 @@
   * Using different capital models (WF, JPMC) - will require remapping the holdings to the selected model
     * Note most models don't have the cross-correlation matrix
 
+## Other Models
+
+* [Vanguard](https://corporate.vanguard.com/content/corporatesite/us/en/corp/vemo/vemo-return-forecasts.html)
+* 
 
 # Release Notes
+
+### 2/25/2026
+
+* eplaced `default_rng` with `scipy.stats.norm.rvs` as random number generator in `ArrayRandGen`
+
+### 2/24/2026
+
+* Added `default_rng_vs_rvs.py` which shows that `spipy.stats.norm.rvs`  is better than `np.random.default_rng.normal`  used in `ArrayRandGen`
 
 ### 2/23/2026
 

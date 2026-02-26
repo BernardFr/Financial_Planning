@@ -12,6 +12,7 @@ from configuration_manager_class import ConfigurationManager
 from utilities import error_exit, display_series, dollar_str
 import sys
 DEBUG_FLAG = False
+from scipy.stats import norm as scipy_norm
 
 # For Testing
 ROR_STATS = [ (3.00, 9.00),(2.60, 7.70), (1.50, 0.90),  (-0.05, 0.0)]  # Stocks, Bonds, TBills, Cash
@@ -44,7 +45,6 @@ class ArrayRandGen:
         self.mean = mean
         self.stdv = stdv
         self.seed = seed
-        self.rng = np.random.default_rng(self.seed)
         self.name = name
         self.clip_flag = self.config['clip_flag']
         if self.clip_flag:
@@ -63,7 +63,8 @@ class ArrayRandGen:
         numbers are: 1 + random_number/100  (interest rates)
         NOTE that the RoR is clipped to the floor and ceiling to account for historical data
         """
-        random_values = self.rng.normal(self.mean, self.stdv, size=self.nb_rv)
+        # random_values = self.rng.normal(self.mean, self.stdv, size=self.nb_rv)
+        random_values = scipy_norm.rvs(loc=self.mean, scale=self.stdv, size=self.nb_rv, random_state=self.seed)
         ror_values = 1 + 0.01 * random_values
         # Clip the final RoR values to historical bounds
         if self.clip_flag:

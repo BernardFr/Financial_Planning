@@ -13,7 +13,7 @@ if not logger.handlers:
     # File handler for INFO and above (saves to log file)
     fh = logging.FileHandler(log_filename)
     fh.setLevel(LOG_LEVEL)
-    file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    file_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(funcName)s - %(message)s')
     fh.setFormatter(file_formatter)
     logger.addHandler(fh)
     

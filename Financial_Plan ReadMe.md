@@ -97,6 +97,10 @@ The S&P 500's biggest yearly gain was over **+40%** (with some sources citing ov
 
 
 
+# Random Number Generator
+
+* `spipy.stats.norm.rvs`  is better than `np.random.default_rng.normal` - see test in `default_rng_vs_rvs.py`
+
 # References
 
 * [Cholesky Decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition) - see "Applications/Monte Carlo" simulation section	
