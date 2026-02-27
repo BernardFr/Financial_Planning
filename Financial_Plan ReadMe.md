@@ -101,6 +101,30 @@ The S&P 500's biggest yearly gain was over **+40%** (with some sources citing ov
 
 * `spipy.stats.norm.rvs`  is better than `np.random.default_rng.normal` - see test in `default_rng_vs_rvs.py`
 
+# Managing Seeds for RNGs for Multi-CPU
+
+Assuming we need X random number generators (# of assets) and running N (4) CPUs
+
+**NOTE**: **we use the seed sequence to generate rngs, which in turn are passed to `spipy.stats.norm.rvs` as `random_state` arguments**
+
+```python
+import numpy as np
+
+master = np.random.SeedSequence(seed)
+
+cpu_seqs = master.spawn(N)  *# one per CPU*
+
+rngs_by_cpu = []  # random number generators
+
+for cpu_seq in cpu_seqs:
+
+​    child_seqs = cpu_seq.spawn(X)          # one per RNG on that CPU*
+
+​    rngs = [np.random.default_rng(s) for s in child_seqs]
+
+​    rngs_by_cpu.append(rngs) # these are fed to the scipy.stats.norm.rvs as randow_state
+```
+
 # References
 
 * [Cholesky Decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition) - see "Applications/Monte Carlo" simulation section	

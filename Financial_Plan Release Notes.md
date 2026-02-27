@@ -24,6 +24,10 @@
 
 # Release Notes
 
+### 2/27/2026
+
+* Updated code for multi-cpu - use case: 1-CPU with `correlated_rvs = false` works 
+
 ### 2/25/2026
 
 * eplaced `default_rng` with `scipy.stats.norm.rvs` as random number generator in `ArrayRandGen`

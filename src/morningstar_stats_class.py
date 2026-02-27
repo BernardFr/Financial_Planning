@@ -21,6 +21,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from numpy.linalg import norm as matrix_norm
+from numpy.random import default_rng
+
 from scipy.stats import norm
 from scipy.linalg import cholesky
 from sklearn.datasets import make_spd_matrix
@@ -372,7 +374,7 @@ class MorningstarStats:
         return self.corr_df
 
 
-    def generate_correlated_ror(self) -> pd.DataFrame:
+    def generate_correlated_ror(self, seed_sequence: np.random.SeedSequence) -> pd.DataFrame:
         """ Generate nb_smpl of Random Variable which are cross-correlated
         stat_df contains 2 columns: "Expected Return" i.e. mean and "Standard Deviation"
         corr_df is the cross-correlation matrix of the variables
@@ -395,9 +397,11 @@ class MorningstarStats:
         data_series_list = []  # list of nb_asset data series
         return_list = list[float](self.stat_df['Expected Return'].values)
         stddev_list = list[float](self.stat_df['Standard Deviation'].values)
+        seed_list = seed_sequence.spawn(len(self.stat_df.index))
         # Create nb_asset lists of nb_smpl random variables
-        for _ in range(len(self.stat_df.index)):
-            x1 = norm.rvs(size=self.nb_smpl, loc=0.0, scale=1.0)  # create a series w/ the desired stats
+        for seed in seed_list:
+            rng = default_rng(seed)   # ← key line
+            x1 = norm.rvs(size=self.nb_smpl, loc=0.0, scale=1.0, random_state=rng)  # create a series w/ the desired stats
             data_series_list.append(x1)  # add data series list to list of lists
         
         c_matrix = cholesky(self.corr_df, lower=True)

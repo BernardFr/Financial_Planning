@@ -69,10 +69,10 @@ class RunMontecarloSimulation:
         
         logger.info(f"Run count: {self.run_cnt} - Number of CPUs: {self.nb_cpu} - Number of simulations to run on each CPU: {self.simul_run_cnt}")
         if self.nb_cpu > 1:
-            for _ in range(self.nb_cpu):
-                self.montecarlo_simulation_list.append(MontecarloSimulation(self.config_manager, self.data_loader))
+            for cpu_idx in range(self.nb_cpu):
+                self.montecarlo_simulation_list.append(MontecarloSimulation(self.config_manager, self.data_loader, cpu_idx  ))
         else:
-            self.mc_sim = MontecarloSimulation(self.config_manager, self.data_loader)
+            self.mc_sim = MontecarloSimulation(self.config_manager, self.data_loader, 0)
 
         return
 
@@ -81,10 +81,11 @@ class RunMontecarloSimulation:
         # FIXME: handle add seed sequence as a parameter
         self.assets_multiplier = assets_multiplier
         if self.nb_cpu == 1:
-            self.mc_sim.reinitialize_data(assets_multiplier)
+            print(f"Reinitializing data for single CPU case: assets_multiplier: {assets_multiplier}")
+            self.mc_sim.initialize_data(assets_multiplier)
         else: # FIXME: handle multi-cpu case
             for mc_sim in self.montecarlo_simulation_list:
-                mc_sim.reinitialize_data(assets_multiplier)
+                mc_sim.initialize_data(assets_multiplier)
         return None
 
     def run(self) -> None:
