@@ -26,6 +26,7 @@
 
 ### 2/27/2026
 
+* Updated code for multi-cpu: all use cases work: {1, multi-CPU} x `correlated_rvs`= {false, true}
 * Updated code for multi-cpu - use case: 1-CPU with `correlated_rvs = false` works 
 
 ### 2/25/2026

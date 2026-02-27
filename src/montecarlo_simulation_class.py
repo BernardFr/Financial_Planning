@@ -89,7 +89,7 @@ class MontecarloSimulationDataLoader:
         if self.cross_correlated_rvs_flag: # Create the cross-correlated RoR series
             logger.info(f"Using cross-correlated RoR series")
             self.morningstar_stats.set_nb_smpl(self.run_cnt * self.nb_ages)
-            self.correlated_ror = self.morningstar_stats.generate_correlated_ror(self.rng_sequence)  # FIXME - mult-CPU support
+            self.correlated_ror = self.morningstar_stats.generate_correlated_ror(self.rng_sequence) 
             logger.info(f"Correlated RoR multipliers Series (%):\n{self.correlated_ror}")
 
         else:          # Use Morningstar stats as is  
@@ -211,6 +211,7 @@ class MontecarloSimulation:
         self.rng_sequence = mc_data_loader.rng_sequence
         self.cross_correlated_rvs_flag = mc_data_loader.cross_correlated_rvs_flag
         self.rebalance_flag = mc_data_loader.rebalance_flag
+        self.initial_pfolio_value = mc_data_loader.initial_pfolio_value
         
         # Load the data from the data loader
         mc_data_loader.load_data()
@@ -221,7 +222,6 @@ class MontecarloSimulation:
         self.initial_pfolio_value = mc_data_loader.initial_pfolio_value
         self.overall_weighted_expected_return = mc_data_loader.overall_weighted_expected_return
         if self.cross_correlated_rvs_flag:
-            # FIXME for mult-CPU support
             self.correlated_ror = mc_data_loader.correlated_ror
         else:
             self.initial_ror_gen_list_list =  mc_data_loader.ror_gen_list_list
@@ -233,7 +233,6 @@ class MontecarloSimulation:
 
     def initialize_data(self, assets_multiplier: float) -> None:
         """Reinitialize the data for a new simulation run
-        FIXME: re-initialize the ror_gen_list/correlated_ror with the original seed sequence
         """
         # Scale the initial asset classes by the assets_multiplier
         self.busted_ages = []
@@ -245,7 +244,6 @@ class MontecarloSimulation:
         self.final_result_df = pd.DataFrame(index=self.asset_class_ser.index, columns=range(self.run_cnt))
 
         if self.cross_correlated_rvs_flag:
-            # FIXME for mult-CPU support
             self.correlated_ror_cursor = 0
         else:
             self.ror_gen_list_list = self.initial_ror_gen_list_list.copy()
@@ -286,7 +284,6 @@ class MontecarloSimulation:
         Note: ArrayRandGen returns multipliers - ie. (1 + 0.01 * ror)
         """
         if self.cross_correlated_rvs_flag:  # Use the correlated_ror dataframe directly
-            # FIXME for mult-CPU support
             # Make sure the correlated_ror dataframe exists has at least nb_ages columns
             col_start = self.correlated_ror_cursor
             col_end = col_start + self.nb_ages  

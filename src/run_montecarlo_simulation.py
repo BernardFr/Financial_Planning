@@ -31,6 +31,11 @@ from montecarlo_simulation_class import MontecarloSimulation, MontecarloSimulati
 from utilities import error_exit, display_series, dollar_str, my_age
 from collections import Counter
 
+def _run_mc_simulation(simulation):
+    """ calls the run method of the Montecarlo simulation object - used for parallel processing
+    """
+    return simulation.run()
+
 DEBUG = False
 # Configuration
 plt.style.use('seaborn-v0_8-deep')
@@ -62,29 +67,30 @@ class RunMontecarloSimulation:
         self.prev_confidence_level = 0.0
         self.montecarlo_simulation_list = []
         if self.nb_cpu > 1:
-            self.simul_run_cnt = int(round(self.run_cnt / self.nb_cpu, 0))
-            self.run_cnt = self.simul_run_cnt * self.nb_cpu
-        else:
-            self.simul_run_cnt = self.run_cnt
-        
-        logger.info(f"Run count: {self.run_cnt} - Number of CPUs: {self.nb_cpu} - Number of simulations to run on each CPU: {self.simul_run_cnt}")
-        if self.nb_cpu > 1:
+            self.simul_run_cnt = int(round(self.run_cnt / self.nb_cpu, 0))  # number of simulations to run on each CPU
+            self.run_cnt = self.simul_run_cnt * self.nb_cpu  # total number of simulations to run
             for cpu_idx in range(self.nb_cpu):
-                self.montecarlo_simulation_list.append(MontecarloSimulation(self.config_manager, self.data_loader, cpu_idx  ))
-        else:
+                mc_sim = MontecarloSimulation(self.config_manager, self.data_loader, cpu_idx)
+                mc_sim.set_run_cnt(self.simul_run_cnt)
+                self.montecarlo_simulation_list.append(mc_sim)
+            self.initial_pfolio_value = self.montecarlo_simulation_list[0].initial_pfolio_value
+        else: # 1 CPU case
             self.mc_sim = MontecarloSimulation(self.config_manager, self.data_loader, 0)
+            self.simul_run_cnt = self.run_cnt
+            self.initial_pfolio_value = self.mc_sim.initial_pfolio_value
+        logger.info(f"Run count: {self.run_cnt} - Number of CPUs: {self.nb_cpu} - Number of simulations to run on each CPU: {self.simul_run_cnt}")
 
         return
 
 
     def reinitialize_data(self, assets_multiplier: float) -> None:
-        # FIXME: handle add seed sequence as a parameter
         self.assets_multiplier = assets_multiplier
         if self.nb_cpu == 1:
             print(f"Reinitializing data for single CPU case: assets_multiplier: {assets_multiplier}")
             self.mc_sim.initialize_data(assets_multiplier)
-        else: # FIXME: handle multi-cpu case
+        else: # Multi-CPU case
             for mc_sim in self.montecarlo_simulation_list:
+                print(f"Reinitializing data for CPU {mc_sim.cpu_idx}: assets_multiplier: {assets_multiplier}")
                 mc_sim.initialize_data(assets_multiplier)
         return None
 
@@ -94,21 +100,19 @@ class RunMontecarloSimulation:
         if self.nb_cpu == 1:    # Single CPU case
             self.final_result_series, self.busted_ages_dict, self.busted_cnt = self.mc_sim.run()
         else:    # Multi-CPU case
-            # FIXME: handle multi-cpu case
-            error_exit(f"Multi-CPU case not implemented yet")
-            nb = 0 # FIXME: define nb
             with Pool(processes=self.nb_cpu) as pool:
-                result_obj = pool.map_async(self.montecarlo_simulation_list[nb].run, range(self.simul_run_cnt))
+                # Run each of the Montecarlo simulations on a different CPU in parallel
+                result_obj = pool.map_async(_run_mc_simulation, self.montecarlo_simulation_list)
                 result_list = result_obj.get()
                 # Each simulation run produces (1) a [m, N] DF of resulting assets DF and (2) a [N,] series of final ages
-                final_result_series = [x[0] for x in result_list]
+                final_result_series_list = [x[0] for x in result_list]
                 busted_ages_dict_list = [x[1] for x in result_list]
-                busted_cnt = [x[2] for x in result_list]
+                busted_cnt_list = [x[2] for x in result_list]
                 # Concatenate the final result series into a single series
-                self.final_result_series = pd.concat(final_result_series, ignore_index=True)
+                self.final_result_series = pd.concat(final_result_series_list, ignore_index=True)
                 # Aggregate the busted ages dict into a single dict
                 self.busted_ages_dict = sum((Counter(d) for d in busted_ages_dict_list), Counter())
-                self.busted_cnt = sum(busted_cnt)
+                self.busted_cnt = sum(busted_cnt_list)
 
         return None
 
@@ -142,14 +146,18 @@ class RunMontecarloSimulation:
         logger.info(f"--\n Final Assets multiplier: {self.assets_multiplier:.2f}")
         confidence_level = 100.0 *  (self.run_cnt - self.busted_cnt) / self.run_cnt
         logger.info(f"Confidence Level: {confidence_level:.2f}% - Busted Count: {self.busted_cnt} - Busted Ages Dict:\n{self.busted_ages_dict}")
-        logger.info(f"Adjusted starting portfolio value: ${self.mc_sim.initial_pfolio_value * self.assets_multiplier:,.0f}")
+        logger.info(f"Adjusted starting portfolio value: ${self.initial_pfolio_value * self.assets_multiplier:,.0f}")
         logger.info(f"Final result series MEAN: ${self.final_result_series.mean():,.2f}")
         logger.info(f"Final result  stats:\n{self.final_result_series.describe()}")
         return None
 
 def main(cmd_line: list[str]) -> None:
     config_manager = ConfigurationManager(cmd_line)
+    # change logger level to WARNING
+    logger.setLevel(logging.WARNING)
     simulation_runner = RunMontecarloSimulation(config_manager)
+    logger.setLevel(logging.INFO)
+    logger.info(f"Initialization done: Initial portfolio value: ${simulation_runner.initial_pfolio_value:,.0f}")
 
     nb_iter = 0
     keep_running = True
