@@ -374,7 +374,7 @@ class MorningstarStats:
         return self.corr_df
 
 
-    def generate_correlated_ror(self, seed_sequence: np.random.SeedSequence) -> pd.DataFrame:
+    def generate_correlated_ror(self, rng_sequence: np.random.SeedSequence) -> pd.DataFrame:
         """ Generate nb_smpl of Random Variable which are cross-correlated
         stat_df contains 2 columns: "Expected Return" i.e. mean and "Standard Deviation"
         corr_df is the cross-correlation matrix of the variables
@@ -397,16 +397,13 @@ class MorningstarStats:
         data_series_list = []  # list of nb_asset data series
         return_list = list[float](self.stat_df['Expected Return'].values)
         stddev_list = list[float](self.stat_df['Standard Deviation'].values)
-        seed_list = seed_sequence.spawn(len(self.stat_df.index))
-        # Create nb_asset lists of nb_smpl random variables
-        for seed in seed_list:
-            rng = default_rng(seed)   # ← key line
+        # FIXME for mult-CPU support
+        rng_list = rng_sequence[0]
+        for rng in rng_list:
             x1 = norm.rvs(size=self.nb_smpl, loc=0.0, scale=1.0, random_state=rng)  # create a series w/ the desired stats
             data_series_list.append(x1)  # add data series list to list of lists
-        
         c_matrix = cholesky(self.corr_df, lower=True)
         data_df = pd.DataFrame(np.dot(c_matrix, data_series_list), index=self.stat_df.index)
-        
         # Assign the desired mean and std_dev to each row
         def mk_lin_interp(mean_val, std_val):
             def f(x):
