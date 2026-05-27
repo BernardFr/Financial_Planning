@@ -3,22 +3,32 @@ Financial Plan
 
 # Synopsis
 
-* Load Config
-* Load goals and compute cashflow by year
-* Load Morningstar stats
-* Load holdings - map to Morningstar asset classes -> generate portfolio with assets, %, Morninstar stats
-  * Option: load other stat sources ... and corresponding holding <-> asset class matcher
-* From the Morningstar stats, generate either the sequence of RoR -- see `cross_correlated_rvs_flag` for options
-* Run simulation with cashflows and portfolio
-* Show results
-
-## Montecarlo_Simulation
+1. Holdings to Asset Classes
+   1. Optionally manually update the holdings file in `/Users/bfraenkel/Documents/Code/BenPlan/Holdings` - format: `WFA_Portfolio_Positions_mmddyy_nnnn.xlsx`
+   2. Optionally: manually update asset statistics / add new models
+   3. `WFA_to_positions.py`: Find the most recent holdings file, and aggregate positions by ETF ticker - save in `positions.xlsx`: 1 row per ticker with number of shares and market value (computed at the time when the holdings file was downloaded)
+   4. ... if mapping to asset classes is obsolete 
+      1. Map each holding to an asset class for each of the available sets of Asset Class Statistics Models. Save the mappings in a file and only map new ETF holdings
+         So far
+         1. Morningstar
+         2. JP Morgan
+         3. WF
+2. Load expected cashflow from latest Envision/Money file - don't recompute if the cashflow data  has not changed. `/Users/bfraenkel/Documents/Home/Finances/WFAdvisors/Envision_and_Performance` - format: `fraenkel.davis.life.plan.mm.dd.yy.pdf`
+3. 
+4. Load config
+5. Generate N portfolios of asset class, $_amount for each of the Asset Class Statistics Models
+6. For each of the Asset Class Statistics Models, generat sequences of RoR - Use `cross_correlated_rvs_flag` , if asset cross correlations are available (unless command line disables it)
+7. Run simulation with cashflows and portfolio for each model
+8. Show results for each model
 
 ### Options / Flags
 
-* `rebalance_flag` if True, assets are rebalanced to initial allocation each year
-* `cross_correlated_rvs_flag` Determines whether we use Morningstar stats as is (false) or if we create cross-correlated RoR
+* `rebalance_flag` if True [default **??**], assets are rebalanced to initial allocation each year
+* `cross_correlated_rvs_flag` Determines whether we use Morningstar stats as is (false) or if we create cross-correlated RoR ===> **modify** so that by default we use cross correlation for the models that have it with option to disable it
+* Asset_class_model: only run the specified Asset Class Statistics Model
 * "make it work": i.e. adjust spending in down years
+
+## Montecarlo_Simulation
 
 ### Inputs
 

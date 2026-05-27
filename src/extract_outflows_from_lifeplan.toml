@@ -1,0 +1,20 @@
+[default]
+BDAY = '04/09/1958'
+End_age = 101
+
+[ConfigurationManager]
+PLT_STYLE = 'seaborn-v0_8-deep'
+
+[ExtractorClass]
+input_directory = '/Users/bfraenkel/Documents/Home/Finances/WFAdvisors/Envision_and_Performance'
+output_directory = '.'
+
+# 1 or 2 digits for month - 1 or 2 digits for day - exactly 2 digits for year
+pdf_filename_pattern = 'fraenkel\.davis\.life\.plan\.(\d{1,2})\.(\d{1,2})\.(\d{2})\.pdf'
+output_file_prefix = 'WFA_life_plan'
+
+section_title = 'Detailed Withdrawals'
+section_subtitle = 'Base Facts from First Year to Last Year'
+table_header = 'YEARS (AGES)'
+table_row_name = 'Total Withdrawals'
+year_col_pattern = '(\d{4})\s*\([^)]+\)'

@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple, cast
 import os
 import re
 import string
@@ -36,11 +36,11 @@ class ConfigurationManager:
     """
    
     def __init__(self,  cmd_line: List[str]):
-        self.prog_name = Path(cmd_line[0]).stem
-        self.full_config = self._get_config(cmd_line[1:])
-        self.config = self.get_class_config(self.__class__.__name__)
-        self.start_age = self._compute_age_today()
-        self.end_age = self.config['End_age']
+        self.prog_name: str = Path(cmd_line[0]).stem
+        self.full_config: dict[str, Any] = self._get_config(cmd_line[1:])
+        self.config: dict[str, Any] = self.get_class_config(self.__class__.__name__)
+        self.start_age: int = self._compute_age_today()
+        self.end_age: int = int(self.config['End_age'])
         self.config['start_age'] = self.start_age
         self.config['end_age'] = self.end_age
          # Initialize and start tick timer
@@ -96,24 +96,24 @@ class ConfigurationManager:
         return paths_dict
 
 
-    def _read_config_file(self) -> dict:
+    def _read_config_file(self) -> dict[str, Any]:
         this_dir = os.path.dirname(os.path.abspath(__file__))
         config_file = os.path.join(this_dir, self.prog_name + '.toml')
         with open(config_file, mode="rb") as fp:
             config = tomli.load(fp)
-        return config
+        return cast(dict[str, Any], config)
 
 
-    def _get_config(self, cmd_line: List[str]) -> dict:
+    def _get_config(self, cmd_line: List[str]) -> dict[str, Any]:
         """Get the config for the given program name
         Updates the default config with the command line arguments
         """
-        config_dict = self._read_config_file()
-        default_config = config_dict['default']
+        config_dict: dict[str, Any] = self._read_config_file()
+        default_config: dict[str, Any] = cast(dict[str, Any], config_dict['default'])
         prog_name = self.prog_name
 
         # Check if any of the parameters are overridden by command-line flags
-        cmd_line_param = {}
+        cmd_line_param: dict[str, Any] = {}
         # Handle command line options
         Usage = f"{prog_name} -p plot_flag -u nb_cpu -c run_count -o {'s','d'}\n"
         try:
@@ -159,15 +159,15 @@ class ConfigurationManager:
 
         return config_dict
 
-    def get_class_config(self, class_name: str) -> dict:
+    def get_class_config(self, class_name: str) -> dict[str, Any]:
         """ 
         Get the config for the given class name 
         It combines the default section and the section under the class name 
         """
         # get the default config
-        config = self.full_config.get('default', {})
+        config = cast(dict[str, Any], dict(self.full_config.get('default', {})))
         # get the class config
-        class_config = self.full_config.get(class_name, {})
+        class_config = cast(dict[str, Any], self.full_config.get(class_name, {}))
         # combine the default and class configs
         config.update(class_config)    
         # return the combined config
