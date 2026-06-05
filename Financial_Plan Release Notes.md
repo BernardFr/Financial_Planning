@@ -24,6 +24,10 @@
 
 # Release Notes
 
+### 5/26/2026
+
+* Added `extract_outflows_from_lifeplan.py`to handle the new file formats for Envision_New from WFA
+
 ### 2/27/2026
 
 * Updated code for multi-cpu: all use cases work: {1, multi-CPU} x `correlated_rvs`= {false, true}
