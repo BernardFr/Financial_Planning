@@ -1,8 +1,6 @@
 [default]
 run_cnt = 100
 Max_iter = 50
-BF_BDAY = '04/09/1958'
-End_age = 101
 PLT_STYLE = 'seaborn-v0_8-deep'
 
 [Portfolio]

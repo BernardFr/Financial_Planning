@@ -1,0 +1,758 @@
+#!/usr/local/bin/python3
+"""
+map_etf_asset_class.py
+
+Maps a list of ETFs to Morningstar Expanded asset classes using:
+  1. ETF category from etfdb.com  (fast path — name-similarity match via Claude)
+  2. ETF Database Themes table     (fallback if category alone is ambiguous)
+
+Matching is delegated to Claude (model/prompt configured in etf_classifier.toml).
+Results are written to a CSV file.
+
+Requirements:
+    pip install playwright anthropic openpyxl
+    playwright install chromium
+
+Usage:
+    python map_etf_asset_class.py                     # uses etf_classifier.toml
+    python map_etf_asset_class.py --config my.toml
+    python map_etf_asset_class.py --tickers SPY QQQ   # override ticker list
+"""
+
+import argparse
+import json
+import re
+import sys
+import time
+import tomllib
+from dataclasses import dataclass, field, asdict
+from pathlib import Path
+import pandas as pd
+import anthropic
+from openpyxl import Workbook, load_workbook
+from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
+from configuration_manager_class import ConfigurationManager
+from find_most_recent import find_most_recent
+from logger import logger
+from claude_model_manager import ClaudeModelManager, ModelSelectionError
+
+BASE_RESULT_FIELDS = [ "ticker", "category", "asset_class", "confidence", "reasoning", "match_step" ]
+
+# ── Data classes ─────────────────────────────────────────────────────────────
+
+@dataclass
+class ETFData:
+    ticker:   str
+    category: str = ""
+    themes:   dict[str, str] = field(default_factory=dict)
+    error:    str = ""
+
+
+@dataclass
+class ClassificationResult:
+    ticker:       str
+    category:     str
+    themes:       dict[str, str]
+    asset_class:  str | None
+    confidence:   str
+    reasoning:    str
+    match_step:   str   # "rules" | "category" | "themes" | "unmatched"
+
+
+def get_claude_model(config_manager: ConfigurationManager) -> str:
+    """Helper to resolve the Claude model to use from config, with error handling."""
+    model_manager = ClaudeModelManager(config_manager)
+    try:
+        selected_model = model_manager.resolve_model()
+        logger.info(f"Using Claude model: {selected_model}")
+        return selected_model
+    except ModelSelectionError as e:
+        logger.error(f"[error] {e}")
+        sys.exit(1)
+
+
+class MapETFToAssetClass:
+    """ MAP ETF positions to Asset Classes."""
+    def __init__(self, config_manager: ConfigurationManager) -> None:
+        self.config_manager = config_manager
+        self.config = self.config_manager.get_class_config(self.__class__.__name__)
+        self.script_directory = Path(__file__).resolve().parent
+        self.input_directory = self.config["input_directory"]
+        self.output_directory = self.config["output_directory"]
+        self.output_file_prefix = self.config["output_file_prefix"]
+        self.maps_date_format = self.config["maps_date_format"]
+
+        self.positions_file_prefix = str(self.config["positions_file_prefix"])
+        self.positions_date_format = str(self.config["positions_date_format"])
+        # Read the existing mapped tickers to avoid re-processing
+        self.mapped_file, self.mapped_date_str = find_most_recent(
+            self.output_directory,
+            filename_prefix=self.output_file_prefix,
+            date_format=self.maps_date_format,
+        )
+        if self.mapped_file:
+            logger.info(f"Most recent mapped file: {self.mapped_file} (date: {self.mapped_date_str})")
+        else:
+            logger.info(f"No existing mapped file found with prefix '{self.output_file_prefix}' in {self.output_directory}")
+        return None
+    
+
+    # ── Find unmapped tickers in Positions ──────────────────────────────────────────
+
+    def get_tickers(self) -> list[str]:
+                
+        positions_file, date_str = find_most_recent(
+            self.input_directory,
+            filename_prefix=self.positions_file_prefix.rstrip("*."),
+            date_format=self.positions_date_format,
+        )
+        logger.info(f"Most recent positions file: {positions_file} (date: {date_str})")
+        if not positions_file:
+            logger.error(f"No positions file found with prefix '{self.positions_file_prefix}' in {self.input_directory}")
+            sys.exit(1)
+
+        # Load tickers from positions file
+        try:
+            df = pd.read_excel(positions_file, header=0, usecols=["Ticker"])
+            position_tickers = df["Ticker"].dropna().astype(str).str.strip().tolist()
+            position_tickers = [t for t in position_tickers if t.lower() not in ['total', 'cash']]
+            logger.info(f"Loaded position tickers:\n{position_tickers}")
+        except Exception as e:        
+            logger.info(f"Error loading tickers from {positions_file}: {e}")
+            sys.exit(1)
+        
+        # Load mapped tickers from the existing results file to avoid re-mapping them.
+        try:
+            if self.mapped_file:
+                self.df_mapped = pd.read_excel(self.mapped_file, header=0)
+                # Mapped tickers are those already present in the results file, where the 'asset_class' column is not empty.
+                mapped_tickers = self.df_mapped[self.df_mapped["asset_class"].notna()]["ticker"].str.strip().tolist()
+                logger.info(f"Loaded mapped tickers:\n{mapped_tickers}")
+            else:
+                mapped_tickers = []
+            tickers_to_map = [t for t in position_tickers if t not in mapped_tickers]
+        except Exception as e:
+            logger.info(f"Error loading mapped tickers from {self.mapped_file}: {e}")
+            sys.exit(1)
+
+        if not tickers_to_map:  # All tickers in positions file are already mapped.
+            logger.info(f"No unmapped tickers found in {positions_file} - {len(position_tickers)} total.")
+        else:
+            logger.info(f"Found {len(tickers_to_map)} unmapped tickers in {positions_file} (out of {len(position_tickers)} total).")
+        return tickers_to_map  
+
+
+    def save_results(self, results: list[ClassificationResult]) -> None:
+        """ Save classification results to an Excel file, appending to existing file if it exists.
+         If save_results is called, it means there are new mappings to save, so we create a new mappings file, with today's date. """
+        if not results:
+            logger.info("No new results to save.")
+            return
+        previous_map_flag = True if self.mapped_file else False
+
+        # Create new mapped file with today's date 
+        date_str = time.strftime(self.maps_date_format)  # Today's date
+        result_file  = str(Path(self.output_directory) / f"{self.output_file_prefix}_{date_str}.xlsx")
+        logger.info(f"No existing mapped file found. Will create new file: {result_file}")
+
+        out_path = Path(result_file) 
+
+        new_results_df = pd.DataFrame([asdict(r) for r in results])
+        # Make sure that new_results_df has the same columns as the existing mapped file, if it exists, to avoid issues when appending.
+        if previous_map_flag:
+                missing_cols = set(self.df_mapped.columns) - set(new_results_df.columns)
+                for col in missing_cols:
+                    new_results_df[col] = ""  # Add missing columns with empty values
+                new_results_df = new_results_df[self.df_mapped.columns]  # Reorder columns to match existing file
+                new_results_df = pd.concat([self.df_mapped, new_results_df], ignore_index=True)
+        
+        try:
+            new_results_df.to_excel(result_file, index=False)
+            logger.info(f"Results saved → {result_file} (new file created with today's date: {date_str})")
+        except Exception as e:
+            logger.error(f"Error saving results to {result_file}: {e}")  
+
+        return None
+
+        # core_fields = ["ticker", "category", "asset_class", "confidence", "reasoning", "match_step"]
+
+        # if out_path.exists():
+        #     wb = load_workbook(out_path)
+        #     ws = wb.active
+        # else:
+        #     wb = Workbook()
+        #     ws = wb.active
+        # if ws is None:
+        #     logger.info(f"Error: could not access active worksheet in {out_path}")
+        #     return
+        
+        # ws.title = "ETF Mappings"
+
+        # # Build or read current header.
+        # existing_header = [
+        #     str(c.value).strip() for c in ws[1]
+        #     if c.value is not None and str(c.value).strip()
+        # ] if ws.max_row >= 1 else []
+
+        # if not existing_header:
+        #     header_fields: list[str] = core_fields.copy()
+        #     for idx, field in enumerate(header_fields, start=1):
+        #         ws.cell(row=1, column=idx, value=field)
+        # else:
+        #     header_fields = existing_header
+
+        # # Add any new theme keys as new columns.
+        # new_theme_keys: list[str] = []
+        # seen_new_theme_keys: set[str] = set()
+        # for r in results:
+        #     for k in r.themes.keys():
+        #         if k not in header_fields and k not in seen_new_theme_keys:
+        #             seen_new_theme_keys.add(k)
+        #             new_theme_keys.append(k)
+
+        # if new_theme_keys:
+        #     header_fields = header_fields + new_theme_keys
+        #     for idx, field in enumerate(header_fields, start=1):
+        #         ws.cell(row=1, column=idx, value=field)
+
+        # field_index = {name: i for i, name in enumerate(header_fields, start=1)}
+
+        # # Append only tickers not already present in the file.
+        # existing_tickers: set[str] = set()
+        # ticker_col = field_index.get("ticker")
+        # if ticker_col:
+        #     for row_idx in range(2, ws.max_row + 1):
+        #         cell_value = ws.cell(row=row_idx, column=ticker_col).value
+        #         if cell_value is not None:
+        #             existing_tickers.add(str(cell_value).strip().upper())
+
+        # appended = 0
+        # skipped_existing = 0
+        # for r in results:
+        #     ticker_key = (r.ticker or "").strip().upper()
+        #     if ticker_key and ticker_key in existing_tickers:
+        #         skipped_existing += 1
+        #         continue
+
+        #     row_map = {
+        #         "ticker": r.ticker,
+        #         "category": r.category,
+        #         "asset_class": r.asset_class,
+        #         "confidence": r.confidence,
+        #         "reasoning": r.reasoning,
+        #         "match_step": r.match_step,
+        #     }
+        #     for k, v in r.themes.items():
+        #         row_map[k] = v
+
+        #     row_values = [""] * len(header_fields)
+        #     for field, value in row_map.items():
+        #         col = field_index.get(field)
+        #         if col:
+        #             row_values[col - 1] = value
+
+        #     ws.append(row_values)
+        #     if ticker_key:
+        #         existing_tickers.add(ticker_key)
+        #     appended += 1
+
+        # wb.save(out_path)
+        # logger.info(f"\nResults appended → {out_path} (added {appended}, skipped existing {skipped_existing})")
+        return None
+
+
+# ── Scraper ───────────────────────────────────────────────────────────────────
+class ETFDataScraper:
+
+    def __init__(self, config_manager: ConfigurationManager) -> None:
+        self.config_manager = config_manager
+        self.config = self.config_manager.get_class_config(self.__class__.__name__)   
+        self.url_template = self.config["etfdb_url_template"]     
+        self.wait_s    = self.config["page_load_wait_s"]
+        self.timeout   = self.config["timeout_ms"]
+        self.headless  = self.config["headless"]        
+        return None
+    
+
+    def scrape_etf(self, ticker: str) -> ETFData:
+        """Use Playwright to fetch category and themes from etfdb.com."""
+        ticker_url  = self.url_template.replace("{ticker}", ticker.upper())
+
+        data = ETFData(ticker=ticker)
+
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=self.headless)
+            context = browser.new_context(
+                user_agent=(
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/124.0.0.0 Safari/537.36"
+                ),
+                viewport={"width": 1440, "height": 900},
+            )
+            page = context.new_page()
+            themes: dict[str, str] = {}
+
+            try:
+                page.goto(ticker_url, wait_until="domcontentloaded", timeout=self.timeout)
+                time.sleep(self.wait_s)
+
+                # ── Category (top profile section) ──────────────────────────────
+                # etfdb renders "ETF Database Category" as a labeled field in the
+                # vitals / profile table near the top of the page.
+                category = ""
+
+                def extract_category_value(text: str) -> str:
+                    """Return only the category value, not the 'Category:' label."""
+                    if not text:
+                        return ""
+                    t = " ".join(text.split()).strip()
+                    m = re.search(r"(?:ETF\s+Database\s+)?Category\s*:\s*(.+)$", t, re.IGNORECASE)
+                    if m:
+                        return m.group(1).strip()
+                    return "" if t.lower() in {"category", "category:", "etf database category", "etf database category:"} else t
+
+                for sel in [
+                    "td:has-text('ETF Database Category') + td",
+                    "th:has-text('Category') + td",
+                    "[data-th='Category']",
+                    "span:has-text('Category')",
+                ]:
+                    try:
+                        loc = page.locator(sel).first
+                        if loc.count() > 0:
+                            raw = (loc.text_content(timeout=3000) or "").strip()
+                            category = extract_category_value(raw)
+
+                            # If selector matched only the label (e.g., "Category:"),
+                            # parse the nearest row/container where value appears on same line.
+                            if not category:
+                                for container_xpath in [
+                                    "xpath=ancestor::tr[1]",
+                                    "xpath=ancestor::li[1]",
+                                    "xpath=ancestor::div[1]",
+                                ]:
+                                    container = loc.locator(container_xpath).first
+                                    if container.count() == 0:
+                                        continue
+                                    container_text = (container.inner_text() or "").strip()
+                                    category = extract_category_value(container_text)
+                                    if category:
+                                        break
+
+                            if category:
+                                break
+                    except Exception:
+                        pass
+
+                # Broader fallback: scan all table cells for a "Category" label
+                if not category:
+                    rows = page.locator("tr").all()
+                    for row in rows:
+                        cells = row.locator("td,th").all_text_contents()
+                        if len(cells) >= 2 and "category" in cells[0].lower():
+                            category = cells[1].strip()
+                            break
+
+                data.category = category
+
+                # ── ETF Database Themes table ────────────────────────────────────
+
+                # The "ETF Database Themes" section has a table/list of theme tags.
+                # Common patterns: a <table> or <ul> following an h* "ETF Database Themes".
+                try:
+                    # Find the section header
+                    section = page.locator(
+                        "h2:has-text('ETF Database Themes'), "
+                        "h3:has-text('ETF Database Themes'), "
+                        "h4:has-text('ETF Database Themes'), "
+                        "th:has-text('ETF Database Themes')"
+                    ).first
+
+                    if section.count() > 0:
+                        # Grab the next sibling table or list
+                        parent = section.locator("xpath=..").first
+                        # Preferred: parse row-wise key/value pairs.
+                        for tr in parent.locator("tr").all():
+                            cells = [c.strip() for c in tr.locator("td,th").all_text_contents() if c.strip()]
+                            if len(cells) >= 2:
+                                key = cells[0].rstrip(":").strip()
+                                value = cells[1].strip()
+                                if key and value:
+                                    themes[key] = value
+
+                        # Fallback: parse flat sequence as key/value pairs.
+                        if not themes:
+                            flat = [t.strip() for t in parent.locator("td, li").all_text_contents() if t.strip()]
+                            for i in range(0, len(flat) - 1, 2):
+                                themes[flat[i].rstrip(":").strip()] = flat[i + 1].strip()
+
+                    # Fallback: find any table row that mentions "Theme"
+                    if not themes:
+                        for row in page.locator("tr").all():
+                            cells = row.locator("td,th").all_text_contents()
+                            if len(cells) >= 2 and "theme" in cells[0].lower():
+                                clean = [c.strip() for c in cells if c.strip()]
+                                for i in range(0, len(clean) - 1, 2):
+                                    key = clean[i].rstrip(":").strip()
+                                    value = clean[i + 1].strip()
+                                    if key and value:
+                                        themes[key] = value
+                                break
+                        
+
+                    # Second fallback: look for links/tags inside a themes-labelled div
+                    if not themes:
+                        div = page.locator(
+                            "div:has-text('ETF Database Themes')"
+                        ).last
+                        if div.count() > 0:
+                            raw_text = [
+                                a.strip()
+                                for a in div.locator("a, span, td").all_text_contents()
+                                if a.strip() and "ETF Database Themes" not in a
+                            ]
+
+                            # Preferred path: each entry may contain a full line
+                            # where first/second text elements are key/value.
+                            for line in raw_text:
+                                parts = [p.strip() for p in line.splitlines() if p.strip()]
+                                if len(parts) >= 2:
+                                    themes[parts[0].rstrip(":").strip()] = parts[1].strip()
+
+                            # Fallback: flat list interpreted as key/value/value triplets.
+                            # In this block, the value is repeated; keep only the first value.
+                            if not themes:
+                                for i in range(0, len(raw_text) - 2, 3):
+                                    key = raw_text[i].rstrip(":").strip()
+                                    value = raw_text[i + 1].strip()
+                                    if key and value:
+                                        themes[key] = value
+
+                except Exception as e:
+                    data.error = f"themes scrape error: {e}"
+
+            except PlaywrightTimeout:
+                data.error = f"Timeout loading {ticker_url}"
+            except Exception as e:
+                data.error = str(e)
+            finally:
+                browser.close()
+
+                # Cap to avoid noise
+                data.themes = dict(list(themes.items())[:20])
+
+            return data
+
+
+
+# ── Claude classifier ─────────────────────────────────────────────────────────
+
+class ClaudeClassifier:
+    """
+    Use Claude to classify ETFs to Morningstar asset classes based on category and themes.    
+    Returns (asset_class, confidence, reasoning, match_step).
+    match_step is "rules", "category", "themes", or "unmatched".
+    """
+    def __init__(self, config_manager: ConfigurationManager) -> None:
+        self.config_manager = config_manager
+        self.config = self.config_manager.get_class_config(self.__class__.__name__)          
+        self.client  = anthropic.Anthropic()   # reads ANTHROPIC_API_KEY from env
+        self.temperature = self.config["temperature"]
+        self.max_tokens = self.config["max_tokens"]
+        self.request_delay_s   = self.config.get("request_delay_s", 1)      # polite delay between ETF requests
+
+        self.prompt_cfg = self.config_manager.get_class_config("Prompts")
+        self.system_prompt = self.prompt_cfg["system_prompt"]
+        self.full_match_prompt = self.prompt_cfg["full_match"]
+        self.category_match_prompt = self.prompt_cfg["category_match"]
+
+        try:
+            self.claude_model = get_claude_model(config_manager)
+            logger.info(f"Using Claude model: {self.claude_model}")
+        except ModelSelectionError as e:
+            logger.error(f"[error] {e}")
+            sys.exit(1)
+            return None
+
+    @staticmethod
+    def _first_matching_rule( rules: list[tuple[bool, str, str]] ) -> tuple[str | None, str]:
+        for condition, asset_class, reason in rules:
+            if condition:
+                return asset_class, reason
+        return None, ""
+        
+    def _rule_based_asset_class(self, etf_data: ETFData) -> tuple[str | None, str]:
+        """Deterministic mapping using category and themes key/value semantics."""
+        category = (etf_data.category or "").lower()
+        themes_text = " ".join( f"{k} {v}" for k, v in etf_data.themes.items() if k or v ).lower()
+        etf_text = " ".join([category, themes_text])
+
+        def has(*terms: str) -> bool:
+            """Helper to check if any of the given terms are present in the combined ETF text."""
+            return any(term in etf_text for term in terms)
+
+        # Set flags for common attributes to simplify rule conditions.
+        flags = {
+            "is_equity": has("equity", "equities", "stock", "stocks"),
+            "is_bond": has("bond", "bonds", "treasury", "credit", "municipal", "muni", "tips"),
+            "is_foreign": has("foreign", "international", "ex-us", "ex u.s", "non-us", "non us", "developed markets"),
+            "is_emerging": has("emerging", "emrg", "em "),
+        }
+
+        # First apply direct rules that can be triggered by category or themes alone, without needing to distinguish equity vs bond.
+        direct_rules = [
+            (has("cash", "money market"), "Cash", "Rule match: cash/money-market"),
+            (has("real estate", "reit"), "Real Estate", "Rule match: real estate/REIT"),
+            (has("commodity", "commodities", "gold", "silver"), "Commodities", "Rule match: commodity exposure"),
+            (has("inflation") and not flags["is_bond"], "Inflation", "Rule match: inflation exposure"),
+        ]
+        asset_class, reason = self._first_matching_rule(direct_rules)
+        if asset_class:
+            return asset_class, reason
+
+        # Next, apply rules that depend on whether it's an equity or bond fund, using the flags set above.
+        if flags["is_bond"]:
+            bond_rules = [
+                (has("tips", "inflation-protected", "inflation protected"), "US Infl Protected Bonds", "Rule match: TIPS/inflation-protected bonds"),
+                (has("municipal", "muni", "tax-exempt", "tax exempt"), "US Tax-Exempt Bonds", "Rule match: municipal/tax-exempt bonds"),
+                (has("high yield", "high-yield", "junk"), "US High Yield Bonds", "Rule match: high-yield bonds"),
+                (flags["is_emerging"] and (flags["is_foreign"] or has("sovereign", "emerging markets")), "Non-US Emrg Bonds", "Rule match: emerging-markets bonds"),
+                (flags["is_foreign"] or has("international bond", "global bond", "non-us bond"), "Non-US Dev Bonds", "Rule match: non-US developed bonds"),
+                (has("short", "1-3 year", "1-5 year"), "US Txbl Short Term Bonds", "Rule match: short-term taxable bonds"),
+                (has("intermediate", "int term", "7-10 year"), "US Txbl Int Term Bonds", "Rule match: intermediate-term taxable bonds"),
+                (has("long", "20+ year", "long-term"), "US Txbl Long Term Bonds", "Rule match: long-term taxable bonds"),
+            ]
+            asset_class, reason = self._first_matching_rule(bond_rules)
+            if asset_class:
+                return asset_class, reason
+
+        if flags["is_equity"]:
+            is_us_equity = not (flags["is_foreign"] or flags["is_emerging"])
+            equity_rules = [
+                (has("large cap", "large-cap") and has("growth") and is_us_equity, "US Large Cap Growth", "Rule match: US large-cap growth"),
+                (has("large cap", "large-cap") and has("value") and is_us_equity, "US Large Cap Value", "Rule match: US large-cap value"),
+                (has("mid cap", "mid-cap") and has("growth") and is_us_equity, "US Mid Cap Growth", "Rule match: US mid-cap growth"),
+                (has("mid cap", "mid-cap") and has("value") and is_us_equity, "US Mid Cap Value", "Rule match: US mid-cap value"),
+                (has("small cap", "small-cap") and has("growth") and is_us_equity, "US Small Cap Growth", "Rule match: US small-cap growth"),
+                (has("small cap", "small-cap") and has("value") and is_us_equity, "US Small Cap Value", "Rule match: US small-cap value"),
+                (flags["is_emerging"], "Non-US Emrg Stk", "Rule match: emerging-markets equity"),
+                (flags["is_foreign"] or has("developed"), "Non-US Dev Stk", "Rule match: non-US developed equity"),
+            ]
+            return self._first_matching_rule(equity_rules)
+
+        return None, ""
+
+
+    def _classify_with_claude(self, etf_data: ETFData ) -> tuple[str | None, str, str, str]:
+        # ── Step 1: deterministic rules for obvious mappings ───────────────────
+        logger.info(f"classify_with_claude:  {etf_data}")
+        rule_asset_class, rule_reason = self._rule_based_asset_class(etf_data)
+        if rule_asset_class:
+            return rule_asset_class, "high", rule_reason, "rules"
+
+        # ── Step 2: category-only (fast path) ────────────────────────────────────
+        if etf_data.category:
+            user_msg = self.category_match_prompt.format(
+                ticker=etf_data.ticker,
+                category=etf_data.category,
+            )
+            result = self._call_claude(user_msg)
+            if result and result.get("asset_class") and result.get("confidence") != "low":
+                return (
+                    result["asset_class"],
+                    result["confidence"],
+                    result.get("reasoning", ""),
+                    "category",
+                )
+
+        # ── Step 3: full context (themes fallback) ───────────────────────────────
+        themes_str = ", ".join(
+            f"{k}: {v}" for k, v in etf_data.themes.items()
+        ) if etf_data.themes else "(none found)"
+
+        # Keep compatibility with prompts that still reference {region}.
+        region_hint = etf_data.themes.get("Region (General)") or etf_data.themes.get("Region (Specific)") or "(not found in themes)"
+        user_msg = self.full_match_prompt.format(
+            ticker=etf_data.ticker,
+            category=etf_data.category or "",
+            region=region_hint,
+            themes=themes_str,
+        )
+        result = self._call_claude( user_msg)
+        if result and result.get("asset_class"):
+            return (
+                result["asset_class"],
+                result.get("confidence", "low"),
+                result.get("reasoning", ""),
+                "themes",
+            )
+        else:
+            logger.info(f"  [warn] Claude could not classify {etf_data.ticker} with category or themes")
+            logger.info(f"user_msg:\n{user_msg}")
+
+        return None, "none", "Claude could not determine a match.", "unmatched"
+
+
+    def _call_claude(self, user_msg: str ) -> dict | None:
+        """Call the Claude API and parse the JSON response."""
+        response_text = ""
+        try:
+            response = self.client.messages.create(
+                model=self.claude_model,
+                max_tokens=self.max_tokens,
+                temperature=self.temperature,
+                system=self.system_prompt,
+                messages=[{"role": "user", "content": user_msg}],
+            )
+            # Extract text from the first TextBlock in response content
+            response_text = next(
+                (block.text for block in response.content if block.type == "text"),
+                None
+            )
+            if response_text is None:
+                raise ValueError("No text content in response")
+            response_text = response_text.strip()
+
+            # Strip markdown code fences if present
+            response_text = response_text.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+            return json.loads(response_text)
+
+        except json.JSONDecodeError as e:
+            logger.info(f"  [warn] JSON parse error: {e}  Raw: {response_text[:200] if response_text else 'None'}")
+            return None
+        except anthropic.APIError as e:
+            logger.info(f"  [error] Claude API error: {e}")
+            return None
+        
+
+    def run(self,etf_scraper,tickers_to_map: list[str]) -> list[ClassificationResult]:
+        """ Run the classification process for a list of tickers, including scraping and Claude classification.
+        Returns a list of ClassificationResult objects. """
+        
+        results : list[ClassificationResult] = []
+        unmatched_count = 0
+
+        for i, ticker in enumerate(tickers_to_map):
+            ticker = ticker.upper()
+            logger.info(f"[{i+1}/{len(tickers_to_map)}] {ticker}")
+
+            # 1 — Scrape etfdb.com
+            logger.info(f"  Scraping etfdb.com…")
+            etf_data = etf_scraper.scrape_etf(ticker)
+            if etf_data.error:
+                logger.warning(f"{etf_data.error}")
+
+            logger.info(f"  Category : {etf_data.category or '(none)'}")
+            theme_items = list(etf_data.themes.items())
+            theme_preview = ", ".join(f"{k}: {v}" for k, v in theme_items[:5]) if theme_items else "(none)"
+            logger.info(f"  Themes   : {theme_preview}{'…' if len(theme_items) > 5 else ''}")
+
+            # 2 — Classify with Claude
+            logger.info(f"  Classifying…")
+            asset_class, confidence, reasoning, step = self._classify_with_claude( etf_data )
+
+            result = ClassificationResult(
+                ticker=ticker,
+                category=etf_data.category,
+                themes=etf_data.themes,
+                asset_class=asset_class,
+                confidence=confidence,
+                reasoning=reasoning,
+                match_step=step,
+            )
+            results.append(result)
+
+            if step == "unmatched":
+                print_unmatched(result)
+            else:
+                icon = "✓" if asset_class else "✗"
+                logger.info(f"  {icon} {asset_class or 'UNMATCHED'}  [{confidence}]  via {step}")
+                logger.info(f"    → {reasoning}")
+
+            if step == "unmatched":
+                unmatched_count += 1
+                if unmatched_count >= 3:
+                    logger.info("\nStopping early: reached 3 unmatched ETFs.")
+                    break
+
+            # Polite delay between ETFs
+            if i < len(tickers_to_map) - 1:
+                time.sleep(self.request_delay_s)
+
+        return results
+
+
+# ── Output helpers ────────────────────────────────────────────────────────────
+
+
+unmatched_etfs = []  # Collect unmatched ETF messages for later review.
+
+def print_unmatched(result: ClassificationResult):
+    """ Nicely format unmatched results for easier debugging and prompt iteration.
+    Save this message and output at program completion for review for all unmatched ETFs. """
+    themes_text = ", ".join(f"{k}: {v}" for k, v in result.themes.items()) if result.themes else "(none)"
+    unmatched_msg = (
+        "\n" + "═" * 60 + "\n"
+        f"  ⚠  UNMATCHED: {result.ticker}\n"
+        f"  Category : {result.category or '(none)'}\n"
+        f"  Themes   : {themes_text}\n"
+        f"  Reasoning: {result.reasoning}\n"
+        + "═" * 60 + "\n"
+    )
+    unmatched_etfs.append(unmatched_msg)
+    logger.info(unmatched_msg)
+
+
+
+# ── Main ──────────────────────────────────────────────────────────────────────
+
+def main(cmd_line: list[str]) -> None:
+    parser = argparse.ArgumentParser(description="Map ETFs to Morningstar asset classes.")
+    parser.add_argument("--tickers", nargs="+", help="Override ticker list from config")
+    args = parser.parse_args()
+    from_cli_tickers = args.tickers is not None
+    if from_cli_tickers:  # remover --tickers from cmd_line for config manager
+        cmd_line = [arg for arg in cmd_line if arg not in ("--tickers",) and arg not in args.tickers]  
+        logger.info(f"Tickers provided via command line: {', '.join(args.tickers)}")
+
+    config_manager = ConfigurationManager(cmd_line)
+    etf_mapper = MapETFToAssetClass(config_manager)
+    etf_scraper = ETFDataScraper(config_manager)
+    claude_classifier = ClaudeClassifier(config_manager)    
+
+
+    # 1. Get tickers to classify (either from CLI or from positions file)
+    if from_cli_tickers:
+        tickers_to_map = [t.upper() for t in args.tickers]
+        logger.info(f"Classifying {len(tickers_to_map)} tickers from command line: {', '.join(tickers_to_map)}")
+    else:
+        tickers_to_map = etf_mapper.get_tickers()
+
+    if not tickers_to_map:
+        logger.info("No tickers to classify. Exiting.")
+        return
+
+    # 2. Classify the tickers with Claude (with scraping in same loop)
+    results = claude_classifier.run(etf_scraper, tickers_to_map)
+
+    # 3 — Save results (skip for ad-hoc CLI ticker runs)
+    if from_cli_tickers:
+        logger.info("\nSkipping file save because tickers were provided via --tickers.")
+    else:
+        etf_mapper.save_results(results)    
+
+    # 4 — Print unmatched messages (if any) before exit
+    if unmatched_etfs:
+        logger.info("\nUnmatched ETFs:")
+        logger.info("".join(unmatched_etfs))
+
+    # 5 — Summary
+    matched   = sum(1 for r in results if r.asset_class)
+    unmatched = len(results) - matched
+    logger.info(f"\nSummary: {matched} matched, {unmatched} unmatched out of {len(results)} ETFs.")
+
+
+if __name__ == "__main__":
+    main(sys.argv)
+    sys.exit("---\nDone!")

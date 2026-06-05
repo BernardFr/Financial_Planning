@@ -24,6 +24,10 @@
 
 # Release Notes
 
+### 6/5/2026
+
+* refactored `map_etf_asset_class.py` and `WFA_to_positions.py` to be more object oriented and have more consistent coding style
+
 ### 5/26/2026
 
 * Added `extract_outflows_from_lifeplan.py`to handle the new file formats for Envision_New from WFA

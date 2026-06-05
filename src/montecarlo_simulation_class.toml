@@ -1,7 +1,6 @@
 [default]
-BDAY = '04/09/1958'
-End_age = 101
-Death_age = 95
+End_year = 2059
+Death_age =2053
 
 [ConfigurationManager]
 PLT_STYLE = 'seaborn-v0_8-deep'
@@ -26,7 +25,8 @@ Success_threshold = 1.0
 mgt_fee =  7e-3
 rebalance_flag = true
 cross_correlated_rvs_flag = false  # determines whether we use Morningstar stats as is (false) or if we create cross-correlated RoR
-
+cashflow_file = "./life_plan_latest.xlsx"
+Default_inflation_rate = 2.5e-2  # 2.5 %
 
 [MorningstarStats]
 must_have_param = ['url_stats', 'url_corr', 'nb_smpl', 'model_file', 'xl_out_name']
@@ -57,10 +57,6 @@ STAT_CORR_NAME_MAP = [
         ["Real Estate", "Real Estate"]
 ]
 
-
-[Cashflow]
-Goals_file = "./Data/Envision_Goals.xlsx"
-Default_inflation_rate = 2.5e-2  # 2.5 %
 
 [Portfolio]
 DATA_DIR = '/Users/bfraenkel/Documents/Code/BenPlan/Holdings/'

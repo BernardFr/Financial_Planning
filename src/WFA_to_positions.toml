@@ -1,0 +1,17 @@
+[default]
+
+[ConfigurationManager]
+PLT_STYLE = 'seaborn-v0_8-deep'
+
+[WFAtoPositionsClass]
+input_directory = '/Users/bfraenkel/Documents/Code/BenPlan/Holdings'
+holdings_file_prefix = 'WFA_Portfolio_Positions'
+holdings_date_format = "%m%d%y"
+output_directory = '../Data'
+output_file_prefix = 'Positions'
+ETF_for_cash = 'SHY'
+cash_balance_description = 'Total Cash/Cash Alternatives & Margin'
+positions_section_label = 'ETFs'
+total_etf_label = 'Total ETFs'
+total_portfolio_label = 'Total Portfolio'
+validation_tolerance = 0.010

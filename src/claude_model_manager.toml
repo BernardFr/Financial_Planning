@@ -1,0 +1,14 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# claude_model_manager.toml  –  Configuration Claude Model Manager
+# ─────────────────────────────────────────────────────────────────────────────
+[default]
+
+[ConfigurationManager]
+PLT_STYLE = 'seaborn-v0_8-deep'
+
+[ClaudeModelManager]
+model   = "claude-sonnet-4-6"            # newer model; startup validation will verify availability
+max_tokens = 256                         # short structured answer; no need for more
+temperature = 0.0                        # deterministic — classification task
+model_recheck_days = 14                   # only re-validate/auto-select model once every N days
+model_cache_file = "./claude_model_cache.json"  # stores last validated model + timestamp

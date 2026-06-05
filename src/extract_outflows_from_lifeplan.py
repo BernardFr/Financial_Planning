@@ -119,8 +119,7 @@ class ExtractorClass:
         self.output_directory.mkdir(parents=True, exist_ok=True)
         output_path = self.output_directory / f"{self.output_file_prefix}_{date_str}.xlsx"
 
-        df_any: Any = data
-        df_any.to_excel(output_path, index=False)
+        data.to_excel(output_path, index=False)
         return output_path
 
     def run(self) -> None:

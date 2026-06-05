@@ -1,0 +1,113 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# etf_classifier.toml  –  Configuration for map_etf_asset_class.py
+# ─────────────────────────────────────────────────────────────────────────────
+[default]
+
+[ConfigurationManager]
+PLT_STYLE = 'seaborn-v0_8-deep'
+
+
+# ── Claude API ────────────────────────────────────────────────────────────────
+[ClaudeClassifier]
+model   = "claude-sonnet-4-6"            # newer model; startup validation will verify availability
+max_tokens = 256                         # short structured answer; no need for more
+temperature = 0.0                        # deterministic — classification task
+request_delay_s   = 1      # polite delay between ETF requests
+
+# ── Prompts ───────────────────────────────────────────────────────────────────
+[Prompts]
+
+system_prompt = """
+You are a financial data specialist. Your only job is to map an ETF to exactly
+one asset class from the Morningstar Expanded list. You are strict: you never
+invent asset classes, you always return one of the exact strings provided.
+
+Common abbreviations used in ETF category names:
+  Cap  = Capitalization
+  Dev  = Developed
+  Emrg / EM = Emerging (Markets)
+  Stk  = Stock / Equity
+  Inv  = Investment
+  Txbl = Taxable
+  Int  = Intermediate
+  Infl = Inflation
+  Muni = Municipal
+  HY   = High Yield
+  IG   = Investment Grade
+  TIPS = Treasury Inflation-Protected Securities
+  Govt = Government
+  Corp = Corporate
+  Non-US = International / ex-US / ex-USA
+
+Morningstar Expanded asset classes (choose exactly one):
+  US Large Cap Growth
+  US Large Cap Value
+  US Mid Cap Growth
+  US Mid Cap Value
+  US Small Cap Growth
+  US Small Cap Value
+  Non-US Dev Stk
+  Non-US Emrg Stk
+  US Txbl Long Term Bonds
+  US Txbl Int Term Bonds
+  US Txbl Short Term Bonds
+  US Infl Protected Bonds
+  US Tax-Exempt Bonds
+  US High Yield Bonds
+  Non-US Dev Bonds
+  Non-US Emrg Bonds
+  Cash
+  Real Estate
+  Commodities
+  Inflation
+
+Respond with ONLY a JSON object and nothing else:
+{
+  "asset_class": "<exact Morningstar class name>",
+  "confidence": "high" | "medium" | "low",
+  "reasoning": "<one sentence>"
+}
+If you cannot map with at least low confidence, set asset_class to null.
+"""
+
+# Step 1: category-only prompt (fast path)
+category_match = """
+ETF ticker : {ticker}
+ETF category: {category}
+
+Map this ETF to the single best-matching Morningstar Expanded asset class.
+"""
+
+# Step 2: full context prompt (fallback when category alone is ambiguous)
+full_match = """
+ETF ticker  : {ticker}
+ETF category: {category}
+ETF themes  : {themes}
+
+Use the category and themes together to map this ETF to the single
+best-matching Morningstar Expanded asset class.
+"""
+
+# ── Browser / scraping ────────────────────────────────────────────────────────
+[ETFDataScraper]
+etfdb_url_template = "https://etfdb.com/etf/{ticker}/#etf-ticker-profile"
+headless          = true
+page_load_wait_s  = 8      # seconds to wait after page load (JS rendering)
+timeout_ms        = 60000  # Playwright navigation timeout
+
+# ── MapETFToAssetClass ────────────────────────────────────────────────────────────────────
+[MapETFToAssetClass]
+input_directory = './Data'
+positions_file_prefix = 'Positions'
+positions_date_format = "%Y_%m_%d"
+output_directory = './Data'
+output_file_prefix = 'etf_asset_class_map'
+maps_date_format = "%Y_%m_%d"
+morningstar_url = "https://admainnew.morningstar.com/webhelp/dialog_boxes/cs_db_editassumptions.htm"
+
+[ClaudeModelManager]
+model   = "claude-sonnet-4-6"            # newer model; startup validation will verify availability
+max_tokens = 256                         # short structured answer; no need for more
+temperature = 0.0                        # deterministic — classification task
+model_recheck_days = 14                   # only re-validate/auto-select model once every N days
+model_cache_file = "./claude_model_cache.json"  # stores last validated model + timestamp

@@ -3,23 +3,30 @@ Financial Plan
 
 # Synopsis
 
-1. Holdings to Asset Classes
-   1. Optionally manually update the holdings file in `/Users/bfraenkel/Documents/Code/BenPlan/Holdings` - format: `WFA_Portfolio_Positions_mmddyy_nnnn.xlsx`
-   2. Optionally: manually update asset statistics / add new models
-   3. `WFA_to_positions.py`: Find the most recent holdings file, and aggregate positions by ETF ticker - save in `positions.xlsx`: 1 row per ticker with number of shares and market value (computed at the time when the holdings file was downloaded)
-   4. ... if mapping to asset classes is obsolete 
-      1. Map each holding to an asset class for each of the available sets of Asset Class Statistics Models. Save the mappings in a file and only map new ETF holdings
-         So far
-         1. Morningstar
-         2. JP Morgan
-         3. WF
-2. Load expected cashflow from latest Envision/Money file - don't recompute if the cashflow data  has not changed. `/Users/bfraenkel/Documents/Home/Finances/WFAdvisors/Envision_and_Performance` - format: `fraenkel.davis.life.plan.mm.dd.yy.pdf`
-3. 
-4. Load config
-5. Generate N portfolios of asset class, $_amount for each of the Asset Class Statistics Models
-6. For each of the Asset Class Statistics Models, generat sequences of RoR - Use `cross_correlated_rvs_flag` , if asset cross correlations are available (unless command line disables it)
-7. Run simulation with cashflows and portfolio for each model
-8. Show results for each model
+1. Get the latest data files - if necessary
+   1. Holdings from WF -- Manually update the holdings file in `/Users/bfraenkel/Documents/Code/BenPlan/Holdings` - format: `WFA_Portfolio_Positions_mmddyy_nnnn.xlsx`
+   2. Capital Markets Assumptions / Asset statistics: Morningstart, JPM, Vanguard, etc.
+      1. Manually download the "raw" files
+      2. Use the provider-specific to extract asset_statistics in 1 Excel file with Return & Stddev in 1 tab `Stats` and, if available, asset cross-correlation matrix, tab: `Correlation`
+
+   3. if either of the above is updated
+      1. Update ETF- to-asset-class mapping: `map_etf_asset_class.py` for each provider of asset statistics
+      2. Map holdings to positions by asset class. `WFA_to_positions.py`: Find the most recent holdings file, and aggregate positions by ETF ticker - save in `positions.xlsx`: 1 row per ticker with number of shares and market value (computed at the time when the holdings file was downloaded)Holdings to Asset Classes
+
+   4. Load expected cashflow from latest Envision/Money file - don't recompute if the cashflow data  has not changed.  `extract_outflows_from_lifeplan.py` `/Users/bfraenkel/Documents/Home/Finances/WFAdvisors/Envision_and_Performance` - format: `fraenkel.davis.life.plan.m{m}.d{d}.yy.pdf`  (month and day can be 1 or 2 digits). Output: `./Data/WFA_life_plan_YYYY_MM_DD.xlsx`
+
+2. Run Monte Carlo Simulation
+   1. Load config
+      1. Inputs are in `./Data: 
+         1. Positions (by asset class)
+         2. Stats for selected Capital Markets Models
+         3. Life plan cashflow
+
+   2. Generate N portfolios of asset class, $_amount for each of the Asset Capital MarketsModels - (N=nb_cpu)
+   3. For each of the Asset Class Statistics Models, generate sequences of RoR - Use `cross_correlated_rvs_flag` , if asset cross correlations are available (unless command line disables it)
+   4. Run simulation with cashflows and portfolio for each model
+   5. Show results for each model
+
 
 ### Options / Flags
 

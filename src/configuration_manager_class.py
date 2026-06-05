@@ -32,17 +32,13 @@ class ConfigurationManager:
     - the section under the ConfigurationManager class - values that are common to all classes
     The sections are merged together to form the final configuration.
 
-    get_start_end_ages is utility function that returns the start and end ages
+    Years are read from the lifeplan file (no longer use age)
     """
    
     def __init__(self,  cmd_line: List[str]):
         self.prog_name: str = Path(cmd_line[0]).stem
         self.full_config: dict[str, Any] = self._get_config(cmd_line[1:])
         self.config: dict[str, Any] = self.get_class_config(self.__class__.__name__)
-        self.start_age: int = self._compute_age_today()
-        self.end_age: int = int(self.config['End_age'])
-        self.config['start_age'] = self.start_age
-        self.config['end_age'] = self.end_age
          # Initialize and start tick timer
         self.tick_timer = TickTimer(name=self.prog_name)
         self._start_timer()
@@ -64,27 +60,6 @@ class ConfigurationManager:
         """Add a tick to the timer with a message."""
         self.tick_timer.tick(message)
 
-    def _compute_age_today(self) -> int:
-        """
-        Compute my age today based on my DoB
-        @return: age today
-
-        Assume dob has format mm/dd/YYYY
-        """
-        dob = self.config['BDAY']
-        dob_mo, dob_dy, dob_yr = map(int, dob.split('/'))  # extract month, day, year as int
-        dob_dt = dt.datetime(dob_yr, dob_mo, dob_dy)
-        today_dt =dt.datetime.now()
-        age_today_dt = today_dt - dob_dt
-        age_today = int(age_today_dt.days/365)
-        return age_today
-
-
-    def get_start_end_ages(self):
-        """
-        utility function that returns the start and end ages.
-        """
-        return self.start_age, self.end_age
 
     def _get_output_paths(self) -> Dict[str, str]:
         """Get all output file paths for the current directory."""
