@@ -27,6 +27,7 @@
 ### 6/5/2026
 
 * Added `test_dedupe_results_map_etf_asset_class.py` to validate deduping strategy
+* finished `map_etf_asset_class.py` to map positions to asset classes and aggregate market value by asset class
 
 ### 6/4/2026
 

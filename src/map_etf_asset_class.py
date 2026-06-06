@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3
 """
-map_etf_asset_class.py
+map_etf_Asset_class.py
 
 Maps a list of ETFs to Morningstar Expanded asset classes using:
   1. ETF category from etfdb.com  (fast path — name-similarity match via Claude)
@@ -14,9 +14,9 @@ Requirements:
     playwright install chromium
 
 Usage:
-    python map_etf_asset_class.py                     # uses etf_classifier.toml
-    python map_etf_asset_class.py --config my.toml
-    python map_etf_asset_class.py --tickers SPY QQQ   # override ticker list
+    python map_etf_Asset_class.py                     # uses etf_classifier.toml
+    python map_etf_Asset_class.py --config my.toml
+    python map_etf_Asset_class.py --tickers SPY QQQ   # override ticker list
 """
 
 import argparse
@@ -37,27 +37,27 @@ from find_most_recent import find_most_recent
 from logger import logger
 from claude_model_manager import ClaudeModelManager, ModelSelectionError
 
-BASE_RESULT_FIELDS = [ "ticker", "category", "asset_class", "confidence", "reasoning", "match_step" ]
+BASE_RESULT_FIELDS = [ "Ticker", "Category", "AssetClass", "Confidence", "Reasoning", "MatchStep" ]
 
 # ── Data classes ─────────────────────────────────────────────────────────────
 
 @dataclass
 class ETFData:
-    ticker:   str
-    category: str = ""
-    themes:   dict[str, str] = field(default_factory=dict)
-    error:    str = ""
+    Ticker:   str
+    Category: str = ""
+    Themes:   dict[str, str] = field(default_factory=dict)
+    Error:    str = ""
 
 
 @dataclass
 class ClassificationResult:
-    ticker:       str
-    category:     str
-    themes:       dict[str, str]
-    asset_class:  str | None
-    confidence:   str
-    reasoning:    str
-    match_step:   str   # "rules" | "category" | "themes" | "unmatched"
+    Ticker:       str
+    Category:     str
+    Themes:       dict[str, str]
+    AssetClass:   str | None
+    Confidence:   str
+    Reasoning:    str
+    MatchStep:    str   # "rules" | "category" | "themes" | "unmatched"
 
 
 def get_claude_model(config_manager: ConfigurationManager) -> str:
@@ -100,7 +100,7 @@ class MapETFToAssetClass:
 
     # ── Find unmapped tickers in Positions ──────────────────────────────────────────
 
-    def get_tickers(self) -> list[str]:
+    def get_tickers(self) -> tuple[list[str], str, str]:
                 
         positions_file, date_str = find_most_recent(
             self.input_directory,
@@ -126,8 +126,8 @@ class MapETFToAssetClass:
         try:
             if self.mapped_file:
                 self.df_mapped = pd.read_excel(self.mapped_file, header=0)
-                # Mapped tickers are those already present in the results file, where the 'asset_class' column is not empty.
-                mapped_tickers = self.df_mapped[self.df_mapped["asset_class"].notna()]["ticker"].str.strip().tolist()
+                # Mapped tickers are those already present in the results file, where the 'Asset_class' column is not empty.
+                mapped_tickers = self.df_mapped[self.df_mapped["Asset_class"].notna()]["Ticker"].str.strip().tolist()
                 logger.info(f"Loaded mapped tickers:\n{mapped_tickers}")
             else:
                 mapped_tickers = []
@@ -140,14 +140,14 @@ class MapETFToAssetClass:
             logger.info(f"No unmapped tickers found in {positions_file} - {len(position_tickers)} total.")
         else:
             logger.info(f"Found {len(tickers_to_map)} unmapped tickers in {positions_file} (out of {len(position_tickers)} total).")
-        return tickers_to_map  
+        return tickers_to_map, positions_file.name, date_str  
     
     def dedupe_results(self, in_df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, int, bool]:
         """
         Check for mismatched (different asset classes) - and unmapped (empty asset class) tickers in the results DataFrame.
         Use cases:
         1. if there are tickers with only empty asset classes, leave the entries, but report error for manual review, 
-        2. If there are duplicate tickers with different asset classes, log an error and return a flag indicating a dupe error, along with the duplicated entries for manual review. This indicates a data issue that needs to be resolved manually in the map_etf_asset_class function before re-running the script, as it may lead to duplicate entries in the output file.    
+        2. If there are duplicate tickers with different asset classes, log an error and return a flag indicating a dupe error, along with the duplicated entries for manual review. This indicates a data issue that needs to be resolved manually in the map_etf_Asset_class function before re-running the script, as it may lead to duplicate entries in the output file.    
         3. If there are duplicate tickers with the same asset class, keep the last one and drop the rest. Also drop any entries with the same ticker but empty asset class, if they exist.    
 
         Incorrect rows are removed from the output DataFrame and collected in a dupe_df for reporting. Asset class is set to:
@@ -167,64 +167,64 @@ class MapETFToAssetClass:
         dupe_df = pd.DataFrame(columns=in_df.columns)
         out_df = in_df.copy(deep=True)
 
-        if in_df["ticker"].duplicated().any(): 
-            duplicated_tickers = in_df[in_df["ticker"].duplicated()]["ticker"].tolist()
+        if in_df["Ticker"].duplicated().any(): 
+            duplicated_tickers = in_df[in_df["Ticker"].duplicated()]["Ticker"].tolist()
             logger.info(f"Duplicate tickers found in combined results: {duplicated_tickers}. Attempting to resolve duplicates ...")  
-            # for each duplicated ticker, check if the asset_class is the same for all entries with that ticker. If not, log a warning.
+            # for each duplicated ticker, check if the Asset_class is the same for all entries with that ticker. If not, log a warning.
             for ticker in set(duplicated_tickers):
-                ticker_entries = in_df[in_df["ticker"] == ticker]
+                ticker_entries = in_df[in_df["Ticker"] == ticker]
                 # list unique non-empty asset classes for this ticker
-                dupe_asset_classes = ticker_entries["asset_class"][
-                    ticker_entries["asset_class"].notna() & (ticker_entries["asset_class"] != "")
+                dupe_Asset_classes = ticker_entries["Asset_class"][
+                    ticker_entries["Asset_class"].notna() & (ticker_entries["Asset_class"] != "")
                 ].unique()
                 #  count how many entries have empty asset class for this ticker
-                empty_asset_classes_count = ticker_entries["asset_class"].isna().sum() + (ticker_entries["asset_class"] == "").sum()
-                if len(dupe_asset_classes) == 0:  # Use case 1
+                empty_Asset_classes_count = ticker_entries["Asset_class"].isna().sum() + (ticker_entries["Asset_class"] == "").sum()
+                if len(dupe_Asset_classes) == 0:  # Use case 1
                     dupe_error_count += 1
                     fatal_dupe_error_flag = True  # This indicates a data issue that needs to be resolved manually
                     # move all the rows with this ticker to the dupe_df for reporting, and drop them from the out_df
                     # Assign Category UNMAPPED to these entries in the dupe_df 
-                    ticker_entries["asset_class"] = "UNMAPPED"
+                    ticker_entries["Asset_class"] = "UNMAPPED"
                     dupe_df = pd.concat([dupe_df, ticker_entries], ignore_index=True)
-                    out_df = out_df[out_df["ticker"] != ticker]
+                    out_df = out_df[out_df["Ticker"] != ticker]
                     logger.error (f"Ticker {ticker} is UNMAPPED")
-                elif len(dupe_asset_classes) > 1:  # Use case 2
+                elif len(dupe_Asset_classes) > 1:  # Use case 2
                     dupe_error_count += 1  
                     fatal_dupe_error_flag = True  # This indicates a data issue that needs to be resolved manually
                     # move all the rows with this ticker to the dupe_df for reporting, and drop them from the out_df
-                    ticker_entries["asset_class"] = "MISMATCHED" # 
+                    ticker_entries["Asset_class"] = "MISMATCHED" # 
                     dupe_df = pd.concat([dupe_df, ticker_entries], ignore_index=True)
-                    out_df = out_df[out_df["ticker"] != ticker]
-                    logger.error(f"Ticker {ticker} is MISMATCHED: multiple different asset classes: {dupe_asset_classes}")
-                elif len(dupe_asset_classes) == 1:  # Use case 3  - Not fatal
-                    if empty_asset_classes_count > 0:
+                    out_df = out_df[out_df["Ticker"] != ticker]
+                    logger.error(f"Ticker {ticker} is MISMATCHED: multiple different asset classes: {dupe_Asset_classes}")
+                elif len(dupe_Asset_classes) == 1:  # Use case 3  - Not fatal
+                    if empty_Asset_classes_count > 0:
                         dupe_error_count += 1  
                         # move the rows with empty asset class for this ticker to the dupe_df for reporting, and drop them from the out_df
-                        empty_entries = ticker_entries[ticker_entries["asset_class"].isna() | (ticker_entries["asset_class"] == "")]
-                        empty_entries["asset_class"] = "EMPTY" 
+                        empty_entries = ticker_entries[ticker_entries["Asset_class"].isna() | (ticker_entries["Asset_class"] == "")]
+                        empty_entries["Asset_class"] = "EMPTY" 
                         dupe_df = pd.concat([dupe_df, empty_entries], ignore_index=True)
-                        out_df = out_df[~((out_df["ticker"] == ticker) & (out_df["asset_class"].isna() | (out_df["asset_class"] == "")))]
-                        logger.warning(f"Ticker {ticker} has {empty_asset_classes_count} entries with empty asset class that will be dropped.")
+                        out_df = out_df[~((out_df["Ticker"] == ticker) & (out_df["Asset_class"].isna() | (out_df["Asset_class"] == "")))]
+                        logger.warning(f"Ticker {ticker} has {empty_Asset_classes_count} entries with empty asset class that will be dropped.")
                     # also move the non-empty duplicate entries to the dupe_df for reporting, and mark them as EXTRA, then drop them from the out_df
                     # Keep the last entry in out_df, and mark the rest as EXTRA in the dupe_df
-                    non_empty_entries = ticker_entries[ticker_entries["asset_class"].notna() & (ticker_entries["asset_class"] != "")]
+                    non_empty_entries = ticker_entries[ticker_entries["Asset_class"].notna() & (ticker_entries["Asset_class"] != "")]
                     if len(non_empty_entries) > 1:
                         dupe_error_count += 1
                         extra_entries = non_empty_entries.iloc[:-1].copy()
-                        extra_entries["asset_class"] = "EXTRA"
+                        extra_entries["Asset_class"] = "EXTRA"
                         dupe_df = pd.concat([dupe_df, extra_entries], ignore_index=True)
-                        out_df = out_df[~((out_df["ticker"] == ticker) & (out_df.index.isin(extra_entries.index)))]
+                        out_df = out_df[~((out_df["Ticker"] == ticker) & (out_df.index.isin(extra_entries.index)))]
                         logger.warning(f"Ticker {ticker} has {len(extra_entries)} duplicate entries with the same asset class that will be dropped.")
 
         return out_df, dupe_df, dupe_error_count, fatal_dupe_error_flag
 
 
-    def save_results(self, results: list[ClassificationResult]) -> None:
+    def save_results(self, results: list[ClassificationResult]) -> str:
         """ Save classification results to an Excel file, appending to existing file if it exists.
          If save_results is called, it means there are new mappings to save, so we create a new mappings file, with today's date. """
         if not results:
             logger.warning("No new results to save.")
-            return
+            return ""
         previous_map_flag = True if self.mapped_file else False
 
         # Create new mapped file with today's date 
@@ -232,7 +232,19 @@ class MapETFToAssetClass:
         result_file  = str(Path(self.output_directory) / f"{self.output_file_prefix}_{date_str}.xlsx")
         logger.info(f"No existing mapped file found. Will create new file: {result_file}")
 
-        new_results_df = pd.DataFrame([asdict(r) for r in results])
+        # Keep output schema stable even though dataclass attributes are capitalized.
+        new_results_df = pd.DataFrame([
+            {
+                "Ticker": r.Ticker,
+                "category": r.Category,
+                "themes": r.Themes,
+                "Asset_class": r.AssetClass,
+                "confidence": r.Confidence,
+                "reasoning": r.Reasoning,
+                "match_step": r.MatchStep,
+            }
+            for r in results
+        ])
         # Make sure that new_results_df has the same columns as the existing mapped file, if it exists, to avoid issues when appending.
         if previous_map_flag:
                 missing_cols = set(self.df_mapped.columns) - set(new_results_df.columns)
@@ -244,9 +256,9 @@ class MapETFToAssetClass:
         # check that all entries in new_results_df are unique by ticker, to avoid duplicates in the output file
         deduped_result_df, duplicates_df, dupe_error_count,fatal_error_flag = self.dedupe_results(new_results_df)
         if fatal_error_flag > 0:
-            logger.error(f"Mismatched - or unmatched - tickers found in results: fix the map_etf_asset_class MANUALLY and re-run this script")
-            logger.error(f"Mismatched - tickers:\n{duplicates_df[duplicates_df['asset_class'] == 'MISMATCH']} ") 
-            logger.error(f"Unmapped - tickers:\n{duplicates_df[duplicates_df['asset_class'] == 'UNMAPPED']} ")
+            logger.error(f"Mismatched - or unmatched - tickers found in results: fix the map_etf_Asset_class MANUALLY and re-run this script")
+            logger.error(f"Mismatched - tickers:\n{duplicates_df[duplicates_df['Asset_class'] == 'MISMATCH']} ") 
+            logger.error(f"Unmapped - tickers:\n{duplicates_df[duplicates_df['Asset_class'] == 'UNMAPPED']} ")
             sys.exit("Mismatched or unmapped")
         
         try:
@@ -255,94 +267,7 @@ class MapETFToAssetClass:
         except Exception as e:
             logger.error(f"Error saving results to {result_file}: {e}")  
 
-        return None
-
-        # core_fields = ["ticker", "category", "asset_class", "confidence", "reasoning", "match_step"]
-
-        # if out_path.exists():
-        #     wb = load_workbook(out_path)
-        #     ws = wb.active
-        # else:
-        #     wb = Workbook()
-        #     ws = wb.active
-        # if ws is None:
-        #     logger.info(f"Error: could not access active worksheet in {out_path}")
-        #     return
-        
-        # ws.title = "ETF Mappings"
-
-        # # Build or read current header.
-        # existing_header = [
-        #     str(c.value).strip() for c in ws[1]
-        #     if c.value is not None and str(c.value).strip()
-        # ] if ws.max_row >= 1 else []
-
-        # if not existing_header:
-        #     header_fields: list[str] = core_fields.copy()
-        #     for idx, field in enumerate(header_fields, start=1):
-        #         ws.cell(row=1, column=idx, value=field)
-        # else:
-        #     header_fields = existing_header
-
-        # # Add any new theme keys as new columns.
-        # new_theme_keys: list[str] = []
-        # seen_new_theme_keys: set[str] = set()
-        # for r in results:
-        #     for k in r.themes.keys():
-        #         if k not in header_fields and k not in seen_new_theme_keys:
-        #             seen_new_theme_keys.add(k)
-        #             new_theme_keys.append(k)
-
-        # if new_theme_keys:
-        #     header_fields = header_fields + new_theme_keys
-        #     for idx, field in enumerate(header_fields, start=1):
-        #         ws.cell(row=1, column=idx, value=field)
-
-        # field_index = {name: i for i, name in enumerate(header_fields, start=1)}
-
-        # # Append only tickers not already present in the file.
-        # existing_tickers: set[str] = set()
-        # ticker_col = field_index.get("ticker")
-        # if ticker_col:
-        #     for row_idx in range(2, ws.max_row + 1):
-        #         cell_value = ws.cell(row=row_idx, column=ticker_col).value
-        #         if cell_value is not None:
-        #             existing_tickers.add(str(cell_value).strip().upper())
-
-        # appended = 0
-        # skipped_existing = 0
-        # for r in results:
-        #     ticker_key = (r.ticker or "").strip().upper()
-        #     if ticker_key and ticker_key in existing_tickers:
-        #         skipped_existing += 1
-        #         continue
-
-        #     row_map = {
-        #         "ticker": r.ticker,
-        #         "category": r.category,
-        #         "asset_class": r.asset_class,
-        #         "confidence": r.confidence,
-        #         "reasoning": r.reasoning,
-        #         "match_step": r.match_step,
-        #     }
-        #     for k, v in r.themes.items():
-        #         row_map[k] = v
-
-        #     row_values = [""] * len(header_fields)
-        #     for field, value in row_map.items():
-        #         col = field_index.get(field)
-        #         if col:
-        #             row_values[col - 1] = value
-
-        #     ws.append(row_values)
-        #     if ticker_key:
-        #         existing_tickers.add(ticker_key)
-        #     appended += 1
-
-        # wb.save(out_path)
-        # logger.info(f"\nResults appended → {out_path} (added {appended}, skipped existing {skipped_existing})")
-        return None
-
+        return result_file
 
 # ── Scraper ───────────────────────────────────────────────────────────────────
 class ETFDataScraper:
@@ -361,7 +286,7 @@ class ETFDataScraper:
         """Use Playwright to fetch category and themes from etfdb.com."""
         ticker_url  = self.url_template.replace("{ticker}", ticker.upper())
 
-        data = ETFData(ticker=ticker)
+        data = ETFData(Ticker=ticker)
 
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=self.headless)
@@ -437,7 +362,7 @@ class ETFDataScraper:
                             category = cells[1].strip()
                             break
 
-                data.category = category
+                data.Category = category
 
                 # ── ETF Database Themes table ────────────────────────────────────
 
@@ -513,17 +438,17 @@ class ETFDataScraper:
                                         themes[key] = value
 
                 except Exception as e:
-                    data.error = f"themes scrape error: {e}"
+                    data.Error = f"themes scrape error: {e}"
 
             except PlaywrightTimeout:
-                data.error = f"Timeout loading {ticker_url}"
+                data.Error = f"Timeout loading {ticker_url}"
             except Exception as e:
-                data.error = str(e)
+                data.Error = str(e)
             finally:
                 browser.close()
 
                 # Cap to avoid noise
-                data.themes = dict(list(themes.items())[:20])
+                data.Themes = dict(list(themes.items())[:20])
 
             return data
 
@@ -534,7 +459,7 @@ class ETFDataScraper:
 class ClaudeClassifier:
     """
     Use Claude to classify ETFs to Morningstar asset classes based on category and themes.    
-    Returns (asset_class, confidence, reasoning, match_step).
+    Returns (Asset_class, confidence, reasoning, match_step).
     match_step is "rules", "category", "themes", or "unmatched".
     """
     def __init__(self, config_manager: ConfigurationManager) -> None:
@@ -560,15 +485,15 @@ class ClaudeClassifier:
 
     @staticmethod
     def _first_matching_rule( rules: list[tuple[bool, str, str]] ) -> tuple[str | None, str]:
-        for condition, asset_class, reason in rules:
+        for condition, Asset_class, reason in rules:
             if condition:
-                return asset_class, reason
+                return Asset_class, reason
         return None, ""
         
-    def _rule_based_asset_class(self, etf_data: ETFData) -> tuple[str | None, str]:
+    def _rule_based_Asset_class(self, etf_data: ETFData) -> tuple[str | None, str]:
         """Deterministic mapping using category and themes key/value semantics."""
-        category = (etf_data.category or "").lower()
-        themes_text = " ".join( f"{k} {v}" for k, v in etf_data.themes.items() if k or v ).lower()
+        category = (etf_data.Category or "").lower()
+        themes_text = " ".join( f"{k} {v}" for k, v in etf_data.Themes.items() if k or v ).lower()
         etf_text = " ".join([category, themes_text])
 
         def has(*terms: str) -> bool:
@@ -590,9 +515,9 @@ class ClaudeClassifier:
             (has("commodity", "commodities", "gold", "silver"), "Commodities", "Rule match: commodity exposure"),
             (has("inflation") and not flags["is_bond"], "Inflation", "Rule match: inflation exposure"),
         ]
-        asset_class, reason = self._first_matching_rule(direct_rules)
-        if asset_class:
-            return asset_class, reason
+        Asset_class, reason = self._first_matching_rule(direct_rules)
+        if Asset_class:
+            return Asset_class, reason
 
         # Next, apply rules that depend on whether it's an equity or bond fund, using the flags set above.
         if flags["is_bond"]:
@@ -606,9 +531,9 @@ class ClaudeClassifier:
                 (has("intermediate", "int term", "7-10 year"), "US Txbl Int Term Bonds", "Rule match: intermediate-term taxable bonds"),
                 (has("long", "20+ year", "long-term"), "US Txbl Long Term Bonds", "Rule match: long-term taxable bonds"),
             ]
-            asset_class, reason = self._first_matching_rule(bond_rules)
-            if asset_class:
-                return asset_class, reason
+            Asset_class, reason = self._first_matching_rule(bond_rules)
+            if Asset_class:
+                return Asset_class, reason
 
         if flags["is_equity"]:
             is_us_equity = not (flags["is_foreign"] or flags["is_emerging"])
@@ -630,20 +555,20 @@ class ClaudeClassifier:
     def _classify_with_claude(self, etf_data: ETFData ) -> tuple[str | None, str, str, str]:
         # ── Step 1: deterministic rules for obvious mappings ───────────────────
         logger.info(f"classify_with_claude:  {etf_data}")
-        rule_asset_class, rule_reason = self._rule_based_asset_class(etf_data)
-        if rule_asset_class:
-            return rule_asset_class, "high", rule_reason, "rules"
+        rule_Asset_class, rule_reason = self._rule_based_Asset_class(etf_data)
+        if rule_Asset_class:
+            return rule_Asset_class, "high", rule_reason, "rules"
 
         # ── Step 2: category-only (fast path) ────────────────────────────────────
-        if etf_data.category:
+        if etf_data.Category:
             user_msg = self.category_match_prompt.format(
-                ticker=etf_data.ticker,
-                category=etf_data.category,
+                ticker=etf_data.Ticker,
+                category=etf_data.Category,
             )
             result = self._call_claude(user_msg)
-            if result and result.get("asset_class") and result.get("confidence") != "low":
+            if result and result.get("Asset_class") and result.get("confidence") != "low":
                 return (
-                    result["asset_class"],
+                    result["Asset_class"],
                     result["confidence"],
                     result.get("reasoning", ""),
                     "category",
@@ -651,27 +576,27 @@ class ClaudeClassifier:
 
         # ── Step 3: full context (themes fallback) ───────────────────────────────
         themes_str = ", ".join(
-            f"{k}: {v}" for k, v in etf_data.themes.items()
-        ) if etf_data.themes else "(none found)"
+            f"{k}: {v}" for k, v in etf_data.Themes.items()
+        ) if etf_data.Themes else "(none found)"
 
         # Keep compatibility with prompts that still reference {region}.
-        region_hint = etf_data.themes.get("Region (General)") or etf_data.themes.get("Region (Specific)") or "(not found in themes)"
+        region_hint = etf_data.Themes.get("Region (General)") or etf_data.Themes.get("Region (Specific)") or "(not found in themes)"
         user_msg = self.full_match_prompt.format(
-            ticker=etf_data.ticker,
-            category=etf_data.category or "",
+            ticker=etf_data.Ticker,
+            category=etf_data.Category or "",
             region=region_hint,
             themes=themes_str,
         )
         result = self._call_claude( user_msg)
-        if result and result.get("asset_class"):
+        if result and result.get("Asset_class"):
             return (
-                result["asset_class"],
+                result["Asset_class"],
                 result.get("confidence", "low"),
                 result.get("reasoning", ""),
                 "themes",
             )
         else:
-            logger.info(f"  [warn] Claude could not classify {etf_data.ticker} with category or themes")
+            logger.info(f"  [warn] Claude could not classify {etf_data.Ticker} with category or themes")
             logger.info(f"user_msg:\n{user_msg}")
 
         return None, "none", "Claude could not determine a match.", "unmatched"
@@ -723,34 +648,34 @@ class ClaudeClassifier:
             # 1 — Scrape etfdb.com
             logger.info(f"  Scraping etfdb.com…")
             etf_data = etf_scraper.scrape_etf(ticker)
-            if etf_data.error:
-                logger.warning(f"{etf_data.error}")
+            if etf_data.Error:
+                logger.warning(f"{etf_data.Error}")
 
-            logger.info(f"  Category : {etf_data.category or '(none)'}")
-            theme_items = list(etf_data.themes.items())
+            logger.info(f"  Category : {etf_data.Category or '(none)'}")
+            theme_items = list(etf_data.Themes.items())
             theme_preview = ", ".join(f"{k}: {v}" for k, v in theme_items[:5]) if theme_items else "(none)"
             logger.info(f"  Themes   : {theme_preview}{'…' if len(theme_items) > 5 else ''}")
 
             # 2 — Classify with Claude
             logger.info(f"  Classifying…")
-            asset_class, confidence, reasoning, step = self._classify_with_claude( etf_data )
+            Asset_class, confidence, reasoning, step = self._classify_with_claude( etf_data )
 
             result = ClassificationResult(
-                ticker=ticker,
-                category=etf_data.category,
-                themes=etf_data.themes,
-                asset_class=asset_class,
-                confidence=confidence,
-                reasoning=reasoning,
-                match_step=step,
+                Ticker=ticker,
+                Category=etf_data.Category,
+                Themes=etf_data.Themes,
+                AssetClass=Asset_class,
+                Confidence=confidence,
+                Reasoning=reasoning,
+                MatchStep=step,
             )
             results.append(result)
 
             if step == "unmatched":
                 print_unmatched(result)
             else:
-                icon = "✓" if asset_class else "✗"
-                logger.info(f"  {icon} {asset_class or 'UNMATCHED'}  [{confidence}]  via {step}")
+                icon = "✓" if Asset_class else "✗"
+                logger.info(f"  {icon} {Asset_class or 'UNMATCHED'}  [{confidence}]  via {step}")
                 logger.info(f"    → {reasoning}")
 
             if step == "unmatched":
@@ -774,18 +699,57 @@ unmatched_etfs = []  # Collect unmatched ETF messages for later review.
 def print_unmatched(result: ClassificationResult):
     """ Nicely format unmatched results for easier debugging and prompt iteration.
     Save this message and output at program completion for review for all unmatched ETFs. """
-    themes_text = ", ".join(f"{k}: {v}" for k, v in result.themes.items()) if result.themes else "(none)"
+    themes_text = ", ".join(f"{k}: {v}" for k, v in result.Themes.items()) if result.Themes else "(none)"
     unmatched_msg = (
         "\n" + "═" * 60 + "\n"
-        f"  ⚠  UNMATCHED: {result.ticker}\n"
-        f"  Category : {result.category or '(none)'}\n"
+        f"  ⚠  UNMATCHED: {result.Ticker}\n"
+        f"  Category : {result.Category or '(none)'}\n"
         f"  Themes   : {themes_text}\n"
-        f"  Reasoning: {result.reasoning}\n"
+        f"  Reasoning: {result.Reasoning}\n"
         + "═" * 60 + "\n"
     )
     unmatched_etfs.append(unmatched_msg)
     logger.info(unmatched_msg)
 
+def map_positions_to_Asset_classes(positions_file: str, etf_Asset_class_map_file: str, date_str: str) -> str:
+    """Map the Positions to their asset classes, aggregate market values by asset class, save to output file, and print summary of asset class distribution."""
+    try:
+        positions_df = pd.read_excel(positions_file, header=0)
+        # remove the "Total" row if it exists, which can interfere with mapping and aggregation
+        if positions_df["Ticker"].str.lower().eq("total").any():
+            positions_df = positions_df[~positions_df["Ticker"].str.lower().eq("total")]
+        logger.info(f"Total Market value in positions file: ${positions_df['Market Value'].sum():,.0f}")
+        map_df = pd.read_excel(etf_Asset_class_map_file, header=0)
+        logger.info(f"Mapping positions to asset classes using positions file: {positions_file}, map file: {etf_Asset_class_map_file}")
+        logger.info(f"{len(positions_df)} positions found, {len(map_df)} mapped ETFs found")
+        merged_df = positions_df.merge(map_df[["Ticker", "Asset_class"]], on="Ticker", how="left")
+        merged_df["Asset_class"] = merged_df["Asset_class"].fillna("UNMAPPED")
+        # List any tickers in positions that did not get mapped to an asset class, for review
+        unmapped_tickers = merged_df[merged_df["Asset_class"] == "UNMAPPED"]["Ticker"].tolist()
+        if unmapped_tickers:
+            logger.info(f"Unmapped tickers: {', '.join(unmapped_tickers)}")
+        logger.info(f"After merging,    {merged_df['Asset_class'].isna().sum()} positions have UNMAPPED asset class")
+        logger.info(f"Asset class distribution in merged data:\n{merged_df['Asset_class'].value_counts(dropna=False)}")
+
+        # Aggregate market values by asset class
+        agg_df = merged_df.groupby("Asset_class")["Market Value"].sum().reset_index()
+
+        # Save to output file
+        output_file = str(Path(positions_file).parent / f"portfolio_by_Asset_class_{date_str}.xlsx")
+        agg_df.to_excel(output_file, index=False)
+        logger.info(f"Portfolio by asset class saved → {output_file}")
+
+        # Print summary of asset class distribution
+        logger.info("\nAsset Class Distribution:")
+        for _, row in agg_df.iterrows():
+            logger.info(f"  {row['Asset_class']}: ${row['Market Value']:,.2f}")
+        logger.info(f"  Total: ${agg_df['Market Value'].sum():,.0f}")
+
+        return output_file
+
+    except Exception as e:
+        logger.error(f"Error mapping positions to asset classes: {e}")
+        sys.exit(1)
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -810,30 +774,37 @@ def main(cmd_line: list[str]) -> None:
         tickers_to_map = [t.upper() for t in args.tickers]
         logger.info(f"Classifying {len(tickers_to_map)} tickers from command line: {', '.join(tickers_to_map)}")
     else:
-        tickers_to_map = etf_mapper.get_tickers()
+        tickers_to_map, positions_file, date_str = etf_mapper.get_tickers()
+        print(f"Found {len(tickers_to_map)} unique tickers from positions file: {positions_file} (as of {date_str})")
 
     if not tickers_to_map:
-        logger.info("No tickers to classify. Exiting.")
-        return
+        logger.info("No tickers to classify")
+    else:  # classify the new tickers
+        # 2. Classify the tickers with Claude (with scraping in same loop)
+        results = claude_classifier.run(etf_scraper, tickers_to_map)
 
-    # 2. Classify the tickers with Claude (with scraping in same loop)
-    results = claude_classifier.run(etf_scraper, tickers_to_map)
+        # 3 — Save results (skip for ad-hoc CLI ticker runs)
+        if from_cli_tickers:
+            logger.info("\nSkipping file save because tickers were provided via --tickers.")
+        else:
+            etf_Asset_class_map_file = etf_mapper.save_results(results)    
 
-    # 3 — Save results (skip for ad-hoc CLI ticker runs)
-    if from_cli_tickers:
-        logger.info("\nSkipping file save because tickers were provided via --tickers.")
-    else:
-        etf_mapper.save_results(results)    
+        # 4 — Print unmatched messages (if any) before exit
+        if unmatched_etfs:
+            logger.info("\nUnmatched ETFs:")
+            logger.info("".join(unmatched_etfs))
 
-    # 4 — Print unmatched messages (if any) before exit
-    if unmatched_etfs:
-        logger.info("\nUnmatched ETFs:")
-        logger.info("".join(unmatched_etfs))
+        # 5 — Summary
+        matched   = sum(1 for r in results if r.AssetClass)
+        unmatched = len(results) - matched
+        logger.info(f"\nSummary: {matched} matched, {unmatched} unmatched out of {len(results)} ETFs.")
 
-    # 5 — Summary
-    matched   = sum(1 for r in results if r.asset_class)
-    unmatched = len(results) - matched
-    logger.info(f"\nSummary: {matched} matched, {unmatched} unmatched out of {len(results)} ETFs.")
+    # Map the Positions to their asset classes,and aggregate market values by asset class, save to output file, and print summary of asset class distribution.
+    # find the most recent mapped file to use for mapping positions to asset classes
+    etf_Asset_class_map_file, _ = find_most_recent(etf_mapper.output_directory, etf_mapper.output_file_prefix)
+    positions_file, _ = find_most_recent(etf_mapper.input_directory, etf_mapper.positions_file_prefix, etf_mapper.positions_date_format)
+    portfolio_by_Asset_class_file = map_positions_to_Asset_classes(positions_file, etf_Asset_class_map_file, date_str)
+    logger.info(f"Done! Portfolio by asset class saved to: {portfolio_by_Asset_class_file}")
 
 
 if __name__ == "__main__":
