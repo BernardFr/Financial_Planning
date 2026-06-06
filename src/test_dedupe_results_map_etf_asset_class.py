@@ -144,14 +144,14 @@ def _run_dedupe(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, int, bool
 
 
 
-def main() -> int:
+def main() -> None:
     repo_root = Path(__file__).resolve().parents[1]
 
     try:
         seed_df, copied_file = _seed_test_file(repo_root)
     except Exception as exc:
         print(f"ERROR: failed to create seed test file: {exc}")
-        return 2
+        sys.exit(1)
 
     print(f"Seed workbook copied to: {copied_file}")
     print(f"Seed rows loaded: {len(seed_df)}")
