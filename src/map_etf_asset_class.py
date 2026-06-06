@@ -31,6 +31,7 @@ import pandas as pd
 import anthropic
 from openpyxl import Workbook, load_workbook
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
+from yfinance import ticker
 from configuration_manager_class import ConfigurationManager
 from find_most_recent import find_most_recent
 from logger import logger
@@ -140,13 +141,89 @@ class MapETFToAssetClass:
         else:
             logger.info(f"Found {len(tickers_to_map)} unmapped tickers in {positions_file} (out of {len(position_tickers)} total).")
         return tickers_to_map  
+    
+    def dedupe_results(self, in_df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, int, bool]:
+        """
+        Check for mismatched (different asset classes) - and unmapped (empty asset class) tickers in the results DataFrame.
+        Use cases:
+        1. if there are tickers with only empty asset classes, leave the entries, but report error for manual review, 
+        2. If there are duplicate tickers with different asset classes, log an error and return a flag indicating a dupe error, along with the duplicated entries for manual review. This indicates a data issue that needs to be resolved manually in the map_etf_asset_class function before re-running the script, as it may lead to duplicate entries in the output file.    
+        3. If there are duplicate tickers with the same asset class, keep the last one and drop the rest. Also drop any entries with the same ticker but empty asset class, if they exist.    
+
+        Incorrect rows are removed from the output DataFrame and collected in a dupe_df for reporting. Asset class is set to:
+        "UNMAPPED": No entry for the ticker has an asset class value (all are empty)
+        "EMPTY": The ticker has one (or more)   entries with an empty asset class, but at least one entry with a non-empty asset class 
+        "EXTRA": Multiple entries with the same ticker have the same non-empty asset class (keep only one, mark the rest as EXTRA)
+        "MISMATCHED": 2 or more entries with the same ticker have different non-empty asset classes
+        The function returns the cleaned output DataFrame, the dupe_df for reporting, and a count of dupe errors found. The
+
+        dupe_error_count counts the number of tickers for which there are mismatched or unmapped entries, with the exception of tickers 
+        that have both multiple entries with the same non-empty asset class and entries with empty asset class
+        In this case, dupe_error_count += 2 for this ticker (1 for dupe identical asset class entries, 1 for empty asset class entries)
+
+        """
+        dupe_error_count = 0
+        fatal_dupe_error_flag = False
+        dupe_df = pd.DataFrame(columns=in_df.columns)
+        out_df = in_df.copy(deep=True)
+
+        if in_df["ticker"].duplicated().any(): 
+            duplicated_tickers = in_df[in_df["ticker"].duplicated()]["ticker"].tolist()
+            logger.info(f"Duplicate tickers found in combined results: {duplicated_tickers}. Attempting to resolve duplicates ...")  
+            # for each duplicated ticker, check if the asset_class is the same for all entries with that ticker. If not, log a warning.
+            for ticker in set(duplicated_tickers):
+                ticker_entries = in_df[in_df["ticker"] == ticker]
+                # list unique non-empty asset classes for this ticker
+                dupe_asset_classes = ticker_entries["asset_class"][
+                    ticker_entries["asset_class"].notna() & (ticker_entries["asset_class"] != "")
+                ].unique()
+                #  count how many entries have empty asset class for this ticker
+                empty_asset_classes_count = ticker_entries["asset_class"].isna().sum() + (ticker_entries["asset_class"] == "").sum()
+                if len(dupe_asset_classes) == 0:  # Use case 1
+                    dupe_error_count += 1
+                    fatal_dupe_error_flag = True  # This indicates a data issue that needs to be resolved manually
+                    # move all the rows with this ticker to the dupe_df for reporting, and drop them from the out_df
+                    # Assign Category UNMAPPED to these entries in the dupe_df 
+                    ticker_entries["asset_class"] = "UNMAPPED"
+                    dupe_df = pd.concat([dupe_df, ticker_entries], ignore_index=True)
+                    out_df = out_df[out_df["ticker"] != ticker]
+                    logger.error (f"Ticker {ticker} is UNMAPPED")
+                elif len(dupe_asset_classes) > 1:  # Use case 2
+                    dupe_error_count += 1  
+                    fatal_dupe_error_flag = True  # This indicates a data issue that needs to be resolved manually
+                    # move all the rows with this ticker to the dupe_df for reporting, and drop them from the out_df
+                    ticker_entries["asset_class"] = "MISMATCHED" # 
+                    dupe_df = pd.concat([dupe_df, ticker_entries], ignore_index=True)
+                    out_df = out_df[out_df["ticker"] != ticker]
+                    logger.error(f"Ticker {ticker} is MISMATCHED: multiple different asset classes: {dupe_asset_classes}")
+                elif len(dupe_asset_classes) == 1:  # Use case 3  - Not fatal
+                    if empty_asset_classes_count > 0:
+                        dupe_error_count += 1  
+                        # move the rows with empty asset class for this ticker to the dupe_df for reporting, and drop them from the out_df
+                        empty_entries = ticker_entries[ticker_entries["asset_class"].isna() | (ticker_entries["asset_class"] == "")]
+                        empty_entries["asset_class"] = "EMPTY" 
+                        dupe_df = pd.concat([dupe_df, empty_entries], ignore_index=True)
+                        out_df = out_df[~((out_df["ticker"] == ticker) & (out_df["asset_class"].isna() | (out_df["asset_class"] == "")))]
+                        logger.warning(f"Ticker {ticker} has {empty_asset_classes_count} entries with empty asset class that will be dropped.")
+                    # also move the non-empty duplicate entries to the dupe_df for reporting, and mark them as EXTRA, then drop them from the out_df
+                    # Keep the last entry in out_df, and mark the rest as EXTRA in the dupe_df
+                    non_empty_entries = ticker_entries[ticker_entries["asset_class"].notna() & (ticker_entries["asset_class"] != "")]
+                    if len(non_empty_entries) > 1:
+                        dupe_error_count += 1
+                        extra_entries = non_empty_entries.iloc[:-1].copy()
+                        extra_entries["asset_class"] = "EXTRA"
+                        dupe_df = pd.concat([dupe_df, extra_entries], ignore_index=True)
+                        out_df = out_df[~((out_df["ticker"] == ticker) & (out_df.index.isin(extra_entries.index)))]
+                        logger.warning(f"Ticker {ticker} has {len(extra_entries)} duplicate entries with the same asset class that will be dropped.")
+
+        return out_df, dupe_df, dupe_error_count, fatal_dupe_error_flag
 
 
     def save_results(self, results: list[ClassificationResult]) -> None:
         """ Save classification results to an Excel file, appending to existing file if it exists.
          If save_results is called, it means there are new mappings to save, so we create a new mappings file, with today's date. """
         if not results:
-            logger.info("No new results to save.")
+            logger.warning("No new results to save.")
             return
         previous_map_flag = True if self.mapped_file else False
 
@@ -154,8 +231,6 @@ class MapETFToAssetClass:
         date_str = time.strftime(self.maps_date_format)  # Today's date
         result_file  = str(Path(self.output_directory) / f"{self.output_file_prefix}_{date_str}.xlsx")
         logger.info(f"No existing mapped file found. Will create new file: {result_file}")
-
-        out_path = Path(result_file) 
 
         new_results_df = pd.DataFrame([asdict(r) for r in results])
         # Make sure that new_results_df has the same columns as the existing mapped file, if it exists, to avoid issues when appending.
@@ -165,9 +240,17 @@ class MapETFToAssetClass:
                     new_results_df[col] = ""  # Add missing columns with empty values
                 new_results_df = new_results_df[self.df_mapped.columns]  # Reorder columns to match existing file
                 new_results_df = pd.concat([self.df_mapped, new_results_df], ignore_index=True)
+
+        # check that all entries in new_results_df are unique by ticker, to avoid duplicates in the output file
+        deduped_result_df, duplicates_df, dupe_error_count,fatal_error_flag = self.dedupe_results(new_results_df)
+        if fatal_error_flag > 0:
+            logger.error(f"Mismatched - or unmatched - tickers found in results: fix the map_etf_asset_class MANUALLY and re-run this script")
+            logger.error(f"Mismatched - tickers:\n{duplicates_df[duplicates_df['asset_class'] == 'MISMATCH']} ") 
+            logger.error(f"Unmapped - tickers:\n{duplicates_df[duplicates_df['asset_class'] == 'UNMAPPED']} ")
+            sys.exit("Mismatched or unmapped")
         
         try:
-            new_results_df.to_excel(result_file, index=False)
+            deduped_result_df.to_excel(result_file, index=False)
             logger.info(f"Results saved → {result_file} (new file created with today's date: {date_str})")
         except Exception as e:
             logger.error(f"Error saving results to {result_file}: {e}")  

@@ -26,6 +26,10 @@
 
 ### 6/5/2026
 
+* Added `test_dedupe_results_map_etf_asset_class.py` to validate deduping strategy
+
+### 6/4/2026
+
 * refactored `map_etf_asset_class.py` and `WFA_to_positions.py` to be more object oriented and have more consistent coding style
 
 ### 5/26/2026
