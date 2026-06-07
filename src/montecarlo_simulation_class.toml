@@ -11,6 +11,11 @@ RoR_floor = 0.60  # corresponds to a -40% RoR
 Ror_ceiling = 1.40  # corresponds to a +40% RoR
 clip_flag = true
 
+[MontecarloSimulationDataLoader]
+input_directory = './Data'
+lifeplan_file_prefix = 'WFA_life_plan'
+lifeplan_date_format = "%Y_%m_%d"
+
 
 [MontecarloSimulation]
 run_cnt = 10_000
@@ -56,6 +61,7 @@ STAT_CORR_NAME_MAP = [
         ["Commodities", "Commodities"],
         ["Real Estate", "Real Estate"]
 ]
+
 
 
 [Portfolio]

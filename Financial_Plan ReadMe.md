@@ -9,12 +9,14 @@ Financial Plan
       1. Manually download the "raw" files
       2. Use the provider-specific to extract asset_statistics in 1 Excel file with Return & Stddev in 1 tab `Stats` and, if available, asset cross-correlation matrix, tab: `Correlation`
 
-   3. if either of the above is updated
-      1. Update ETF- to-asset-class mapping: `map_etf_asset_class.py` for each provider of asset statistics
-      2. Map holdings to positions by asset class. `WFA_to_positions.py`: Find the most recent holdings file, and aggregate positions by ETF ticker - save in `positions.xlsx`: 1 row per ticker with number of shares and market value (computed at the time when the holdings file was downloaded)Holdings to Asset Classes
-
+   3. if either of the above is updated: 
+      1. Map holdings to positions by asset class. `WFA_to_positions.py`: Find the most recent holdings file, and aggregate positions by ETF ticker - save in `Positions_YYYY_mm_dd.xlsx`: 1 row per ticker with number of shares and market value (computed at the time when the holdings file was downloaded)
+      2. Run `map_etf_asset_class.py`
+         1. Update ETF- to-asset-class mapping -> `etf_asset_class_map_YYYY_mm_dd.xlsx`
+         2. Map portfolio to assset classes (from tickers) -> `portfolio_by_Asset_class_YYYY_mm_dd.xlsx`
+      
    4. Load expected cashflow from latest Envision/Money file - don't recompute if the cashflow data  has not changed.  `extract_outflows_from_lifeplan.py` `/Users/bfraenkel/Documents/Home/Finances/WFAdvisors/Envision_and_Performance` - format: `fraenkel.davis.life.plan.m{m}.d{d}.yy.pdf`  (month and day can be 1 or 2 digits). Output: `./Data/WFA_life_plan_YYYY_MM_DD.xlsx`
-
+   
 2. Run Monte Carlo Simulation
    1. Load config
       1. Inputs are in `./Data: 

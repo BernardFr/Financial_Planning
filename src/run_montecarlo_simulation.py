@@ -6,6 +6,13 @@ projected lifetime cashflows.
 Optionally, iteratively adjusts either starting funds, or discretionary spending, in order to meet the target level of
 confidence.
 Classes:  Asset_Model, Cashflow and Monte_Carlo
+
+Inputs - in ./Data: use find_most_recent helper function to find the most recent file 
+- Portfolio: portfolio_by_Asset_class_YYYY_mm_dd.xlsx
+- Cashflows: WFA_life_plan_YYYY_MM_DD.xlsx
+- Asset model parameters (e.g. expected return, volatility, etc.)
+- Cashflow parameters (e.g. initial portfolio value, annual spending, etc.)
+- Monte Carlo simulation parameters (e.g. number of simulations, confidence level, etc.)
 """
 
 # FYI: CONVENTION: all percentage values are stored as float numbers: e.g. 10% is stored as 0.1 and not 10.0 - the
@@ -23,7 +30,6 @@ import matplotlib.pyplot as plt
 import logging
 from logger import logger
 from configuration_manager_class import ConfigurationManager
-from cashflow_class import Cashflow 
 from portfolio_class import Portfolio
 from morningstar_stats_class import MorningstarStats
 from arrayrandgen_class import ArrayRandGen
@@ -58,9 +64,6 @@ class RunMontecarloSimulation:
         self.multi_cpu_threshold = config_manager.config['multi_cpu_threshold']
         self.run_cnt = self.config['run_cnt']
         self.nb_cpu = self.config['nb_cpu']
-        self.start_age = my_age(self.config['BDAY'])
-        self.end_age = self.config['End_age']
-        self.nb_ages = self.end_age - self.start_age + 1
         self.assets_multiplier = 1.0
         self.delta_assets_multiplier = DEFAULT_DELTA_ASSETS_MULTIPLIER  # +/- 5%
         self.target_confidence_level = DEFAULT_TARGET_CONFIDENCE_LEVEL  # %
@@ -153,10 +156,8 @@ class RunMontecarloSimulation:
 
 def main(cmd_line: list[str]) -> None:
     config_manager = ConfigurationManager(cmd_line)
-    # change logger level to WARNING
-    logger.setLevel(logging.WARNING)
-    simulation_runner = RunMontecarloSimulation(config_manager)
     logger.setLevel(logging.INFO)
+    simulation_runner = RunMontecarloSimulation(config_manager)
     logger.info(f"Initialization done: Initial portfolio value: ${simulation_runner.initial_pfolio_value:,.0f}")
 
     nb_iter = 0

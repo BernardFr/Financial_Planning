@@ -24,6 +24,10 @@
 
 # Release Notes
 
+### 6/6/2026
+
+* Refactored `montecarlo_simulation_class.py` to read inputs from files (rather than computing them)
+
 ### 6/5/2026
 
 * Added `test_dedupe_results_map_etf_asset_class.py` to validate deduping strategy

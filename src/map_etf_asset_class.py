@@ -803,7 +803,7 @@ def main(cmd_line: list[str]) -> None:
     # find the most recent mapped file to use for mapping positions to asset classes
     etf_Asset_class_map_file, _ = find_most_recent(etf_mapper.output_directory, etf_mapper.output_file_prefix)
     positions_file, _ = find_most_recent(etf_mapper.input_directory, etf_mapper.positions_file_prefix, etf_mapper.positions_date_format)
-    portfolio_by_Asset_class_file = map_positions_to_Asset_classes(positions_file, etf_Asset_class_map_file, date_str)
+    portfolio_by_Asset_class_file = map_positions_to_Asset_classes(positions_file, etf_Asset_class_map_file, date_str) # pyright: ignore[reportPossiblyUnboundVariable, reportArgumentType]
     logger.info(f"Done! Portfolio by asset class saved to: {portfolio_by_Asset_class_file}")
 
 

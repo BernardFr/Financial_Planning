@@ -11,7 +11,9 @@ from typing import Any
 import numpy as np
 import pandas as pd
 from logger import logger
+import logging
 from configuration_manager_class import ConfigurationManager
+from find_most_recent import find_most_recent
 # from cashflow_class import Cashflow 
 from portfolio_class import Portfolio
 from morningstar_stats_class import MorningstarStats
@@ -36,35 +38,71 @@ class MontecarloSimulationDataLoader:
     def __init__(self, config_manager: ConfigurationManager) -> None:
         self.config_manager = config_manager
         #FYI: we have to use the class name "MontecarloSimulation" rather than __class__.__name__ 
-        self.config = self.config_manager.get_class_config("MontecarloSimulation")
-        self.target_end_funds = self.config['target_end_funds']
-        self.target_success_rate = self.config['target_success_rate']
+        # self.config = self.config_manager.get_class_config("MontecarloSimulationDataLoader")
+        self.config = self.config_manager.get_class_config(self.__class__.__name__)
+        self.cross_correlated_rvs_flag = self.config['cross_correlated_rvs_flag']
         self.run_cnt = self.config['run_cnt']
         self.nb_cpu = self.config['nb_cpu']
-        self.re_alloc_error = self.config['re_alloc_error']
-        self.Funds_step = self.config['Funds_step']
-        self.Discreet_step = self.config['Discreet_step']
-        self.Success_threshold = self.config['Success_threshold']
-        self.mgt_fee = self.config['mgt_fee']
-        self.rebalance_flag = self.config['rebalance_flag']
-        self.cross_correlated_rvs_flag = self.config['cross_correlated_rvs_flag']
         self.seed = self.config['seed']
+        self.morningstar_stats = MorningstarStats(config_manager)
         # Create a sequence of pseudo-random seeds for the random number generators for each CPU
         self.master_seed_sequence = np.random.SeedSequence(self.seed)  
-        self.morningstar_stats = MorningstarStats(self.config_manager)
-        self.cashflow_file = self.config['cashflow_file']
         self.load_data()
+        # set logger to info 
+        logger.setLevel(logging.INFO)
         logger.info(f"MontecarloSimulationDataLoader initialized - data loaded")
 
         return None
-
+    
+    def _load_cashflow_data(self) -> None:
+        """Load the cashflow data from the cashflow file and return a Series of cashflows by year"""
+        input_dir = self.config['input_directory']
+        lifeplan_prefix = self.config['lifeplan_file_prefix']
+        lifeplan_date_format = self.config['lifeplan_date_format']
+        life_plan_file, _ = find_most_recent(input_dir, lifeplan_prefix, lifeplan_date_format)
+        cashflow_df = pd.read_excel(life_plan_file, index_col=None, header=None)
+        self.cashflow_df = cashflow_df.T.set_index(0, drop=True)
+        self.cashflow_df.columns = ['Cashflow']
+        self.cashflow_df.index.name = 'Year'
+        self.year_lst = sorted(list(map(int, self.cashflow_df.index))) 
+        self.start_year = self.year_lst[0]
+        self.end_year = self.year_lst[-1]
+        self.nb_years = len(self.year_lst)
+        return None
+    
+    def _load_portfolio_data(self) -> None: 
+        """Load the portfolio data from the portfolio file and return a Series of assets by asset class"""
+        input_dir = self.config['input_directory']
+        portfolio_prefix = self.config['portfolio_file_prefix']
+        portfolio_date_format = self.config['portfolio_date_format']
+        portfolio_file, _ = find_most_recent(input_dir, portfolio_prefix, portfolio_date_format)
+        self.initial_asset_class_ser = pd.read_excel(portfolio_file, index_col=0)
+        return None
+    
+    def _load_morningstar_stats(self) -> None:
+        """Load the Morningstar stats and set the stats_df and corr_df attributes in the morningstar_stats object"""
+        input_dir = self.config['input_directory']
+        morningstar_prefix = self.config['morningstar_file_prefix']
+        morningstar_date_format = self.config['morningstar_date_format']
+        morningstar_file, _ = find_most_recent(input_dir, morningstar_prefix, morningstar_date_format)
+        print(f"Morningstar file: {morningstar_file}")
+        self.stats_df = pd.read_excel(morningstar_file, sheet_name='Stats', index_col=0, header=0)
+        self.corr_df = pd.read_excel(morningstar_file, sheet_name='Correlation', index_col=0, header=0)
+        self.stats_df.drop( columns=['Yield'], inplace=True) 
+        # Make sure that stats_df.index, corr_df.index and corr_df.columns are the same and in the same order
+        corr_columns = self.corr_df.columns 
+        corr_index = self.corr_df.index
+        stats_index = self.stats_df.index
+        if not (stats_index.equals(corr_columns) and stats_index.equals(corr_index)):
+            error_exit(f"Stats index and Correlation index and columns do not match:\nStats index: {stats_index}\nCorrelation index: {corr_index}\nCorrelation columns: {corr_columns}")
+        return None
+    
     def _initialize_rng_sequence(self) -> list[list[np.random.Generator]]:
         """Initialize the RNG sequence 
         Returns a list of lists of random number generator objects for
         There are nb_cpu lists, each with nb_assets random number generator objects
         """
-        master_seed_sequence = np.random.SeedSequence(self.seed)
-        seed_cpu_seqs = master_seed_sequence.spawn(self.nb_cpu)  # one per CPU   
+        seed_cpu_seqs = self.master_seed_sequence.spawn(self.nb_cpu)  # one per CPU   
         nb_assets = len(self.stats_df.index)
         
         rng_sequence = []
@@ -74,7 +112,7 @@ class MontecarloSimulationDataLoader:
             rng_sequence.append(rngs) # rng_sequence is a nb_cpu list of lists of nb_assets RNGs
         return rng_sequence
 
-    
+
     def _initialize_ror_data(self) -> None:
         """Initialize the ror data for the Montecarlo simulation"""
         self.rng_sequence = self._initialize_rng_sequence()  # list of lists of RNGs for computing RoR series
@@ -95,62 +133,36 @@ class MontecarloSimulationDataLoader:
                 # generate a list of ArrayRandGen objects for each asset class
                 gen_list = []
                 for (name, mean, stdv), rng in zip(self.stats_lst, rng_list):
-                    array_rand_gen = ArrayRandGen(self.config_manager, name, mean, stdv, rng)
+                    array_rand_gen = ArrayRandGen(self.config_manager, name, mean, stdv, rng, self.run_cnt * self.nb_years)
                     logger.debug(f"array_rand_gen (name): {array_rand_gen.name}")
                     gen_list.append(array_rand_gen)
                 ror_gen_list_list.append(gen_list)  # ror_gen_list_list is a nb_cpu list of lists of nb_assets RNGs
             self.ror_gen_list_list = ror_gen_list_list
         return None
 
-    def _load_cashflow_data(self) -> pd.DataFrame:
-        """Load the cashflow data from the cashflow file and return a Series of cashflows by year"""
-        outflow_df = pd.read_excel(self.cashflow_file, index_col=None, header=0)
-        self.cashflow_df = outflow_df
-        self.year_lst = list(map(int, outflow_df.index))
-        self.start_year = self.year_lst[0]
-        self.end_year = self.year_lst[-1]
-        self.nb_years = len(self.year_lst)
-        return outflow_df
-
-
     def load_data(self) -> None:
         """
         Load the necessary data for the Montecarlo simulation:
-        - goals
-        - generate cashflow series from goals
-        - load holdings 
-        - map to ETF asset classes and allocate cash to ETF -> initial asset allocation
-        - Load Morningstar stats
+        - Load the cashflow data: self.cashflow_df 
+        - Load the portfolio data: initial_asset_class_ser
+        - Load Morningstar stats: self.stats_df and self.corr_df
         - correlated RoR series or ror generators based on cross_correlated_rvs_flag
         """
         # Load the cashflow and set the cashflow series
-        cashflow_total_df = self._load_cashflow_data()
-        logger.info(f"Cashflow Total Series:\n{cashflow_total_df.map(dollar_str)}")
-
-        # Load holdings and compute the initial assets and set the initial assets
-        portfolio = Portfolio(self.config_manager)
-        holdings_df, cash_amount = portfolio.load_holdings_data()
-        logger.info(f"Holdings DataFrame:\n{holdings_df}")
-        logger.info(f"Cash amount: ${cash_amount:,.2f}")
-        holdings_df = portfolio.assign_cash_to_etf(holdings_df, cash_amount)
-        logger.info(f"Holdings DataFrame after reassigning cash to ETF_for_cash:\n{holdings_df}")
-        portfolio.set_holdings_df(holdings_df)
-        self.initial_asset_class_ser = portfolio.map_etf_to_asset_class()
-        logger.info(f"Asset Class Series:\n{self.initial_asset_class_ser.map(dollar_str)}")
-
-        # Get the Morningstar Asset Stats and create the asset allocation model
-        stats_df, corr_df = self.morningstar_stats.get_asset_stats()
-        logger.info(f'\nAsset Class Statistics\n{stats_df}')
-        logger.info(f'\nAsset Class Correlations\n{corr_df}')
-        # Match the stats and asset classes in the portfolio 
-        self.stats_df, self.corr_df = self.morningstar_stats.match_stats_vs_assets(self.initial_asset_class_ser)
-        # Update stats_df and corr_df in morningstar_stats
-        self.morningstar_stats.set_stat_df_and_corr_df(self.stats_df, self.corr_df)
-        logger.info(f"\nstats_df shape: {self.stats_df.shape} corr_df shape: {self.corr_df.shape}") 
-
+        self._load_cashflow_data()
+        logger.info(f"Cashflow Total Series:\n{self.cashflow_df.map(dollar_str)}")
+        self._load_portfolio_data()
+        logger.info(f"Initial Asset Class Series:\n{self.initial_asset_class_ser.map(dollar_str)}")
+        self._load_morningstar_stats()
+        logger.info(f'\nAsset Class Statistics\n{self.stats_df}')
+        logger.info(f'\nAsset Class Correlations\n{self.corr_df}')
         # Generate the RoR series for each asset class for each CPU
         # this must be done after the initial asset class series is set
         self._initialize_ror_data()
+
+
+        sys.exit("TMP")
+
 
         # Compute the weighted expected return across all asset classes
         summary_df = pd.DataFrame(index=self.stats_df.index, columns=['Market Value', 'Weight', 'Expected Return', 'Weighted Expected Return'])
@@ -191,24 +203,21 @@ class MontecarloSimulation:
         """
         self.config_manager = config_manager
         self.config = self.config_manager.get_class_config(self.__class__.__name__)
-
-        # load the initial data from the data loader
-        self.cross_correlated_rvs_flag = mc_data_loader.cross_correlated_rvs_flag
-        self.start_year = mc_data_loader.start_year
-        self.end_year = mc_data_loader.end_year
-        self.year_lst = mc_data_loader.year_lst
-        self.nb_years = mc_data_loader.nb_years
-        self.run_cnt = mc_data_loader.run_cnt
-        self.re_alloc_error = mc_data_loader.re_alloc_error
-        self.Funds_step = mc_data_loader.Funds_step
-        self.Discreet_step = mc_data_loader.Discreet_step
-        self.Success_threshold = mc_data_loader.Success_threshold
-        self.mgt_fee = mc_data_loader.mgt_fee
+        self.target_end_funds = self.config['target_end_funds']
+        self.target_success_rate = self.config['target_success_rate']
+        self.run_cnt = self.config['run_cnt']
+        self.nb_cpu = self.config['nb_cpu']
+        self.re_alloc_error = self.config['re_alloc_error']
+        self.Funds_step = self.config['Funds_step']
+        self.Discreet_step = self.config['Discreet_step']
+        self.Success_threshold = self.config['Success_threshold']
+        self.mgt_fee = self.config['mgt_fee']
+        self.rebalance_flag = self.config['rebalance_flag']
+        self.cross_correlated_rvs_flag = self.config['cross_correlated_rvs_flag']
+        self.seed = self.config['seed']
+        self.cross_correlated_rvs_flag = self.config['cross_correlated_rvs_flag']
         self.cpu_idx = cpu_idx
-        self.rng_sequence = mc_data_loader.rng_sequence
-        self.cross_correlated_rvs_flag = mc_data_loader.cross_correlated_rvs_flag
-        self.rebalance_flag = mc_data_loader.rebalance_flag
-        self.initial_pfolio_value = mc_data_loader.initial_pfolio_value
+
         
         # Load the data from the data loader
         mc_data_loader.load_data()
@@ -218,6 +227,12 @@ class MontecarloSimulation:
         self.nb_assets = len(self.asset_class_ser.index)
         self.initial_pfolio_value = mc_data_loader.initial_pfolio_value
         self.overall_weighted_expected_return = mc_data_loader.overall_weighted_expected_return
+        self.start_year = mc_data_loader.start_year
+        self.end_year = mc_data_loader.end_year
+        self.year_lst = mc_data_loader.year_lst
+        self.nb_years = mc_data_loader.nb_years
+        self.rng_sequence = mc_data_loader.rng_sequence
+        self.initial_pfolio_value = mc_data_loader.initial_pfolio_value
         if self.cross_correlated_rvs_flag:
             self.correlated_ror = mc_data_loader.correlated_ror
         else:

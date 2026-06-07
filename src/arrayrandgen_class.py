@@ -38,10 +38,10 @@ class ArrayRandGen:
     seed: int - the seed for the random number generator
     clip_flag: bool - whether to clip the random numbers to the floor and ceiling ... set it to False for testing
     """
-    def __init__(self,config_manager: ConfigurationManager, name: str, mean: float, stdv: float, seed) -> None:
+    def __init__(self,config_manager: ConfigurationManager, name: str, mean: float, stdv: float, seed: int, nb_samples:int) -> None:
         self.config_manager = config_manager
         self.config = self.config_manager.get_class_config(self.__class__.__name__)
-        self.nb_rv = self.config['end_age'] - self.config['start_age'] + 1  # number of random values to generate
+        self.nb_rv = nb_samples # number of random values to generate
         self.mean = mean
         self.stdv = stdv
         self.seed = seed
@@ -69,7 +69,7 @@ class ArrayRandGen:
         # Clip the final RoR values to historical bounds
         if self.clip_flag:
             ror_values = np.clip(ror_values, self.ror_floor, self.ror_ceiling)
-        return ror_values.tolist()
+        return np.atleast_1d(ror_values).tolist()
 
 
 def main(cmd_line: list[str]) -> None:
