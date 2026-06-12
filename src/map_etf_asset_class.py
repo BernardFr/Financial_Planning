@@ -25,17 +25,21 @@ import re
 import sys
 import time
 import tomllib
+from io import StringIO
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
+from typing import List
 import pandas as pd
 import anthropic
 from openpyxl import Workbook, load_workbook
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
+from bs4 import BeautifulSoup
 from yfinance import ticker
 from configuration_manager_class import ConfigurationManager
 from find_most_recent import find_most_recent
 from logger import logger
 from claude_model_manager import ClaudeModelManager, ModelSelectionError
+from morningstar_stats_class import MorningstarStats
 
 BASE_RESULT_FIELDS = [ "Ticker", "Category", "AssetClass", "Confidence", "Reasoning", "MatchStep" ]
 
@@ -95,6 +99,7 @@ class MapETFToAssetClass:
             logger.info(f"Most recent mapped file: {self.mapped_file} (date: {self.mapped_date_str})")
         else:
             logger.info(f"No existing mapped file found with prefix '{self.output_file_prefix}' in {self.output_directory}")
+
         return None
     
 
@@ -142,6 +147,7 @@ class MapETFToAssetClass:
             logger.info(f"Found {len(tickers_to_map)} unmapped tickers in {positions_file} (out of {len(position_tickers)} total).")
         return tickers_to_map, positions_file.name, date_str  
     
+    
     def dedupe_results(self, in_df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, int, bool]:
         """
         Check for mismatched (different asset classes) - and unmapped (empty asset class) tickers in the results DataFrame.
@@ -172,7 +178,7 @@ class MapETFToAssetClass:
             logger.info(f"Duplicate tickers found in combined results: {duplicated_tickers}. Attempting to resolve duplicates ...")  
             # for each duplicated ticker, check if the Asset_class is the same for all entries with that ticker. If not, log a warning.
             for ticker in set(duplicated_tickers):
-                ticker_entries = in_df[in_df["Ticker"] == ticker]
+                ticker_entries = in_df[in_df["Ticker"] == ticker].copy(deep=True)
                 # list unique non-empty asset classes for this ticker
                 dupe_Asset_classes = ticker_entries["Asset_class"][
                     ticker_entries["Asset_class"].notna() & (ticker_entries["Asset_class"] != "")
@@ -184,7 +190,7 @@ class MapETFToAssetClass:
                     fatal_dupe_error_flag = True  # This indicates a data issue that needs to be resolved manually
                     # move all the rows with this ticker to the dupe_df for reporting, and drop them from the out_df
                     # Assign Category UNMAPPED to these entries in the dupe_df 
-                    ticker_entries["Asset_class"] = "UNMAPPED"
+                    ticker_entries.loc[:, "Asset_class"] = "UNMAPPED"
                     dupe_df = pd.concat([dupe_df, ticker_entries], ignore_index=True)
                     out_df = out_df[out_df["Ticker"] != ticker]
                     logger.error (f"Ticker {ticker} is UNMAPPED")
@@ -192,7 +198,7 @@ class MapETFToAssetClass:
                     dupe_error_count += 1  
                     fatal_dupe_error_flag = True  # This indicates a data issue that needs to be resolved manually
                     # move all the rows with this ticker to the dupe_df for reporting, and drop them from the out_df
-                    ticker_entries["Asset_class"] = "MISMATCHED" # 
+                    ticker_entries.loc[:, "Asset_class"] = "MISMATCHED" # 
                     dupe_df = pd.concat([dupe_df, ticker_entries], ignore_index=True)
                     out_df = out_df[out_df["Ticker"] != ticker]
                     logger.error(f"Ticker {ticker} is MISMATCHED: multiple different asset classes: {dupe_Asset_classes}")
@@ -200,18 +206,18 @@ class MapETFToAssetClass:
                     if empty_Asset_classes_count > 0:
                         dupe_error_count += 1  
                         # move the rows with empty asset class for this ticker to the dupe_df for reporting, and drop them from the out_df
-                        empty_entries = ticker_entries[ticker_entries["Asset_class"].isna() | (ticker_entries["Asset_class"] == "")]
-                        empty_entries["Asset_class"] = "EMPTY" 
+                        empty_entries = ticker_entries[ticker_entries["Asset_class"].isna() | (ticker_entries["Asset_class"] == "")].copy(deep=True)
+                        empty_entries.loc[:, "Asset_class"] = "EMPTY" 
                         dupe_df = pd.concat([dupe_df, empty_entries], ignore_index=True)
                         out_df = out_df[~((out_df["Ticker"] == ticker) & (out_df["Asset_class"].isna() | (out_df["Asset_class"] == "")))]
                         logger.warning(f"Ticker {ticker} has {empty_Asset_classes_count} entries with empty asset class that will be dropped.")
                     # also move the non-empty duplicate entries to the dupe_df for reporting, and mark them as EXTRA, then drop them from the out_df
                     # Keep the last entry in out_df, and mark the rest as EXTRA in the dupe_df
-                    non_empty_entries = ticker_entries[ticker_entries["Asset_class"].notna() & (ticker_entries["Asset_class"] != "")]
+                    non_empty_entries = ticker_entries[ticker_entries["Asset_class"].notna() & (ticker_entries["Asset_class"] != "")].copy(deep=True)
                     if len(non_empty_entries) > 1:
                         dupe_error_count += 1
                         extra_entries = non_empty_entries.iloc[:-1].copy()
-                        extra_entries["Asset_class"] = "EXTRA"
+                        extra_entries.loc[:, "Asset_class"] = "EXTRA"
                         dupe_df = pd.concat([dupe_df, extra_entries], ignore_index=True)
                         out_df = out_df[~((out_df["Ticker"] == ticker) & (out_df.index.isin(extra_entries.index)))]
                         logger.warning(f"Ticker {ticker} has {len(extra_entries)} duplicate entries with the same asset class that will be dropped.")
@@ -255,17 +261,25 @@ class MapETFToAssetClass:
 
         # check that all entries in new_results_df are unique by ticker, to avoid duplicates in the output file
         deduped_result_df, duplicates_df, dupe_error_count,fatal_error_flag = self.dedupe_results(new_results_df)
-        if fatal_error_flag > 0:
-            logger.error(f"Mismatched - or unmatched - tickers found in results: fix the map_etf_Asset_class MANUALLY and re-run this script")
-            logger.error(f"Mismatched - tickers:\n{duplicates_df[duplicates_df['Asset_class'] == 'MISMATCH']} ") 
-            logger.error(f"Unmapped - tickers:\n{duplicates_df[duplicates_df['Asset_class'] == 'UNMAPPED']} ")
-            sys.exit("Mismatched or unmapped")
-        
+
+        # Save the successfully deduped results first, even if some tickers need manual review.
         try:
             deduped_result_df.to_excel(result_file, index=False)
             logger.info(f"Results saved → {result_file} (new file created with today's date: {date_str})")
         except Exception as e:
-            logger.error(f"Error saving results to {result_file}: {e}")  
+            logger.error(f"Error saving results to {result_file}: {e}")
+
+        if fatal_error_flag > 0:
+            logger.error(f"{dupe_error_count} Mismatched - or unmatched - tickers found in results: fix the map_etf_Asset_class MANUALLY and re-run this script")
+            tmp = duplicates_df[duplicates_df["Asset_class"] == "MISMATCHED"]
+            if len(tmp) > 0:
+                logger.error(f"Mismatched tickers and their asset classes:\n{tmp[['Ticker', 'Asset_class']]}")
+            tmp = duplicates_df[duplicates_df["Asset_class"] == "UNMAPPED"]
+            if len(tmp) > 0:
+                # just print each ticker once
+                tmp = tmp.drop_duplicates(subset=["Ticker"])
+                logger.error(f"Unmapped tickers:\n{tmp[['Ticker', 'Asset_class']]}")
+            sys.exit("-- Exit due Mismatched or unmapped ETFs that require manual fix")
 
         return result_file
 
@@ -371,7 +385,7 @@ class ETFDataScraper:
                 try:
                     # Find the section header
                     section = page.locator(
-                        "h2:has-text('ETF Database Themes'), "
+                        "h3:has-text('ETF Database Themes'), "
                         "h3:has-text('ETF Database Themes'), "
                         "h4:has-text('ETF Database Themes'), "
                         "th:has-text('ETF Database Themes')"
@@ -474,6 +488,7 @@ class ClaudeClassifier:
         self.system_prompt = self.prompt_cfg["system_prompt"]
         self.full_match_prompt = self.prompt_cfg["full_match"]
         self.category_match_prompt = self.prompt_cfg["category_match"]
+        self.morningstar_categories = self._get_morningstar_categories()
 
         try:
             self.claude_model = get_claude_model(config_manager)
@@ -482,6 +497,10 @@ class ClaudeClassifier:
             logger.error(f"[error] {e}")
             sys.exit(1)
             return None
+        
+        # Insert the morningstar categories into the prompts
+        self.system_prompt = self.system_prompt.replace("{morningstar_categories}", ", ".join(self.morningstar_categories))
+        logger.info(f"System prompt after inserting Morningstar categories:\n{self.system_prompt}")
 
     @staticmethod
     def _first_matching_rule( rules: list[tuple[bool, str, str]] ) -> tuple[str | None, str]:
@@ -489,6 +508,27 @@ class ClaudeClassifier:
             if condition:
                 return Asset_class, reason
         return None, ""
+    
+    def _get_morningstar_categories(self) -> List[str]:
+        # Find the most recent Morningstar stats file to extract the list of valid Morningstar asset classes for prompt injection.
+        stats_file, date_str = find_most_recent(
+            self.config["morningstar_directory"],
+            filename_prefix=self.config["morningstar_file_prefix"].rstrip("*."),
+            date_format=self.config["morningstar_date_format"])
+        if not stats_file:
+            logger.error(f"No Morningstar stats file found with prefix '{self.config['morningstar_file_prefix']}' in {self.config['morningstar_directory']}")
+            sys.exit(1)
+        logger.info(f"Most recent Morningstar stats file: {stats_file} (date: {date_str})")
+        try:
+            ms_stats = pd.read_excel(stats_file, sheet_name=self.config["morningstar_sheet_name"], header=0, index_col=0)
+            idx = ms_stats.index.tolist()
+            logger.info(f"Extracted Morningstar asset classes for prompt injection:\n{idx}")
+        except Exception as e:
+            logger.error(f"Error extracting Morningstar categories from {stats_file}: {e}")
+            sys.exit(1)
+        
+        return idx  
+
         
     def _rule_based_Asset_class(self, etf_data: ETFData) -> tuple[str | None, str]:
         """Deterministic mapping using category and themes key/value semantics."""
@@ -552,12 +592,12 @@ class ClaudeClassifier:
         return None, ""
 
 
-    def _classify_with_claude(self, etf_data: ETFData ) -> tuple[str | None, str, str, str]:
+    def _classify_with_claude(self, etf_data: ETFData) -> tuple[str | None, str, str, str]:
         # ── Step 1: deterministic rules for obvious mappings ───────────────────
         logger.info(f"classify_with_claude:  {etf_data}")
-        rule_Asset_class, rule_reason = self._rule_based_Asset_class(etf_data)
-        if rule_Asset_class:
-            return rule_Asset_class, "high", rule_reason, "rules"
+        # rule_Asset_class, rule_reason = self._rule_based_Asset_class(etf_data)
+        # if rule_Asset_class:
+        #     return rule_Asset_class, "high", rule_reason, "rules"
 
         # ── Step 2: category-only (fast path) ────────────────────────────────────
         if etf_data.Category:
@@ -566,9 +606,9 @@ class ClaudeClassifier:
                 category=etf_data.Category,
             )
             result = self._call_claude(user_msg)
-            if result and result.get("Asset_class") and result.get("confidence") != "low":
+            if result and result.get("asset_class") and result.get("confidence") != "low":
                 return (
-                    result["Asset_class"],
+                    result["asset_class"],
                     result["confidence"],
                     result.get("reasoning", ""),
                     "category",
@@ -588,9 +628,9 @@ class ClaudeClassifier:
             themes=themes_str,
         )
         result = self._call_claude( user_msg)
-        if result and result.get("Asset_class"):
+        if result and result.get("asset_class"):
             return (
-                result["Asset_class"],
+                result["asset_class"],
                 result.get("confidence", "low"),
                 result.get("reasoning", ""),
                 "themes",
@@ -680,9 +720,9 @@ class ClaudeClassifier:
 
             if step == "unmatched":
                 unmatched_count += 1
-                if unmatched_count >= 3:
-                    logger.info("\nStopping early: reached 3 unmatched ETFs.")
-                    break
+                # if unmatched_count >= 3:
+                #     logger.info("\nStopping early: reached 3 unmatched ETFs.")
+                #     break
 
             # Polite delay between ETFs
             if i < len(tickers_to_map) - 1:
@@ -692,7 +732,6 @@ class ClaudeClassifier:
 
 
 # ── Output helpers ────────────────────────────────────────────────────────────
-
 
 unmatched_etfs = []  # Collect unmatched ETF messages for later review.
 

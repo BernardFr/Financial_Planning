@@ -24,6 +24,10 @@
 
 # Release Notes
 
+### 6/11/2026
+
+* Kinda working version of `run_montecarlo_simulation_class.py` & `montecarlo_simulation_class.py`
+
 ### 6/6/2026
 
 * Refactored `montecarlo_simulation_class.py` to read inputs from files (rather than computing them)

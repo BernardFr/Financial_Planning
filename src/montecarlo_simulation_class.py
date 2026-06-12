@@ -76,11 +76,13 @@ class MontecarloSimulationDataLoader:
         portfolio_prefix = self.config['portfolio_file_prefix']
         portfolio_date_format = self.config['portfolio_date_format']
         portfolio_file, _ = find_most_recent(input_dir, portfolio_prefix, portfolio_date_format)
-        self.initial_asset_class_ser = pd.read_excel(portfolio_file, index_col=0)
+        self.initial_asset_class_ser = pd.read_excel(portfolio_file, index_col=0).squeeze(axis=1)
         return None
     
     def _load_morningstar_stats(self) -> None:
-        """Load the Morningstar stats and set the stats_df and corr_df attributes in the morningstar_stats object"""
+        """Load the Morningstar stats and set the stats_df and corr_df attributes in the morningstar_stats object
+        Use the index of the correlation matrix as the source of truth for the asset classes
+        """
         input_dir = self.config['input_directory']
         morningstar_prefix = self.config['morningstar_file_prefix']
         morningstar_date_format = self.config['morningstar_date_format']
@@ -90,8 +92,8 @@ class MontecarloSimulationDataLoader:
         self.corr_df = pd.read_excel(morningstar_file, sheet_name='Correlation', index_col=0, header=0)
         self.stats_df.drop( columns=['Yield'], inplace=True) 
         # Make sure that stats_df.index, corr_df.index and corr_df.columns are the same and in the same order
+        corr_index = self.corr_df.index   # source of truth
         corr_columns = self.corr_df.columns 
-        corr_index = self.corr_df.index
         stats_index = self.stats_df.index
         if not (stats_index.equals(corr_columns) and stats_index.equals(corr_index)):
             error_exit(f"Stats index and Correlation index and columns do not match:\nStats index: {stats_index}\nCorrelation index: {corr_index}\nCorrelation columns: {corr_columns}")
@@ -133,7 +135,7 @@ class MontecarloSimulationDataLoader:
                 # generate a list of ArrayRandGen objects for each asset class
                 gen_list = []
                 for (name, mean, stdv), rng in zip(self.stats_lst, rng_list):
-                    array_rand_gen = ArrayRandGen(self.config_manager, name, mean, stdv, rng, self.run_cnt * self.nb_years)
+                    array_rand_gen = ArrayRandGen(self.config_manager, name, mean, stdv, rng, self.nb_years)
                     logger.debug(f"array_rand_gen (name): {array_rand_gen.name}")
                     gen_list.append(array_rand_gen)
                 ror_gen_list_list.append(gen_list)  # ror_gen_list_list is a nb_cpu list of lists of nb_assets RNGs
@@ -154,28 +156,38 @@ class MontecarloSimulationDataLoader:
         self._load_portfolio_data()
         logger.info(f"Initial Asset Class Series:\n{self.initial_asset_class_ser.map(dollar_str)}")
         self._load_morningstar_stats()
+
+
+        # Only keep the asset classes in the portfolio in df_stats and df_corr. Also reorder initial_asset_class_ser to match the order in stats_df and corr_df
+        assert isinstance(self.initial_asset_class_ser, pd.Series), "initial_asset_class_ser must be a pandas Series"
+        asset_class_lst = list(self.initial_asset_class_ser.index)
+        not_in_stats_lst = [asset for asset in asset_class_lst if asset not in self.stats_df.index]
+        assert not not_in_stats_lst, f"Some asset classes in the portfolio are missing from Morningstar stats: {not_in_stats_lst}"
+        extra_stats_lst = [asset for asset in self.stats_df.index if asset not in asset_class_lst]
+        # Remove the extra asset classes from stats_df and corr_df
+        self.stats_df = self.stats_df.drop(index=extra_stats_lst).copy(deep=True)
+        self.corr_df = self.corr_df.drop(index=extra_stats_lst, columns=extra_stats_lst).copy(deep=True)
         logger.info(f'\nAsset Class Statistics\n{self.stats_df}')
         logger.info(f'\nAsset Class Correlations\n{self.corr_df}')
+
         # Generate the RoR series for each asset class for each CPU
         # this must be done after the initial asset class series is set
         self._initialize_ror_data()
 
-
-        sys.exit("TMP")
-
-
         # Compute the weighted expected return across all asset classes
         summary_df = pd.DataFrame(index=self.stats_df.index, columns=['Market Value', 'Weight', 'Expected Return', 'Weighted Expected Return'])
+        # Set initial_asset_class_ser index to be the same as stats_df index so that we can use it in summary_df
+        self.initial_asset_class_ser.index = self.stats_df.index
         summary_df['Market Value'] = self.initial_asset_class_ser
-        self.initial_pfolio_value = float(summary_df['Market Value'].sum().item())
-        summary_df['Weight'] = summary_df['Market Value'].map(lambda x: float(x) / self.initial_pfolio_value)
+        total_market_value = summary_df['Market Value'].sum().item()
+        summary_df['Weight'] = summary_df['Market Value'].map(lambda x: x / total_market_value) 
         assert summary_df['Weight'].sum().item() == 1.0, f"Weights do not sum to 1.0: {summary_df['Weight'].sum().item()}"  
-        summary_df['Expected Return'] = self.stats_df['Expected Return']
-        # Multiply the expected return by the weights
-        summary_df['Weighted Expected Return'] = summary_df['Expected Return'].mul(summary_df['Weight'], axis=0)
-        logger.info(f"Summary of Asssets and Returns:\n{summary_df}")
+        summary_df['Expected Return'] = self.stats_df['Expected Return']  # both DF have same index
+        summary_df['Weighted Expected Return'] = self.stats_df['Expected Return'].mul(summary_df['Weight'], axis=0) 
+        logger.info(f"summary_df after setting Market Value:\n{summary_df}")
         self.overall_weighted_expected_return = summary_df['Weighted Expected Return'].sum().item()
-        logger.info(f"Total Asset Value: ${self.initial_pfolio_value:,.0f} - Weighted Expected Return: {self.overall_weighted_expected_return:,.2f}%")
+        logger.info(f"Initial Total Market Value: ${total_market_value:,.0f} - Weighted Expected Return: {self.overall_weighted_expected_return:,.2f}%")
+        self.initial_pfolio_value = total_market_value
         logger.info(f"---- Done loading Initial Data for Montecarlo Simulation ----\n")
         return None
 
@@ -325,7 +337,7 @@ class MontecarloSimulation:
         """Run one iteration of the simulation
         Calls mk_ror_df() to generate a new RoR series
         """
-        portfolio_ser = pd.Series(self.asset_class_ser.copy(deep=True))
+        portfolio_ser = pd.Series(self.asset_class_ser).copy(deep=True)
         # logger.info(f"portfolio value at start of iteration: {portfolio_ser.sum().item():,.2f}")
 
         busted_flag = False

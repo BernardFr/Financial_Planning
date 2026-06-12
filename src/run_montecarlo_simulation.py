@@ -60,8 +60,9 @@ class RunMontecarloSimulation:
         self.config_manager = config_manager
         self.config = self.config_manager.get_class_config(self.__class__.__name__)
         self.done_flag = False
-        self.cross_correlated_rvs_flag = self.config_manager.config['cross_correlated_rvs_flag']
-        self.multi_cpu_threshold = config_manager.config['multi_cpu_threshold']
+        self.cross_correlated_rvs_flag = self.config['cross_correlated_rvs_flag']
+        print(f"config: {self.config_manager.config}")
+        self.multi_cpu_threshold = self.config['multi_cpu_threshold']
         self.run_cnt = self.config['run_cnt']
         self.nb_cpu = self.config['nb_cpu']
         self.assets_multiplier = 1.0
@@ -89,11 +90,11 @@ class RunMontecarloSimulation:
     def reinitialize_data(self, assets_multiplier: float) -> None:
         self.assets_multiplier = assets_multiplier
         if self.nb_cpu == 1:
-            print(f"Reinitializing data for single CPU case: assets_multiplier: {assets_multiplier}")
+            print(f"Reinitializing data for single CPU case: assets_multiplier: {assets_multiplier:,.2f}")
             self.mc_sim.initialize_data(assets_multiplier)
         else: # Multi-CPU case
             for mc_sim in self.montecarlo_simulation_list:
-                print(f"Reinitializing data for CPU {mc_sim.cpu_idx}: assets_multiplier: {assets_multiplier}")
+                print(f"Reinitializing data for CPU {mc_sim.cpu_idx}: assets_multiplier: {assets_multiplier:,.2f}")
                 mc_sim.initialize_data(assets_multiplier)
         return None
 

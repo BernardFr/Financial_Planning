@@ -14,6 +14,15 @@ max_tokens = 256                         # short structured answer; no need for 
 temperature = 0.0                        # deterministic — classification task
 request_delay_s   = 1      # polite delay between ETF requests
 
+# NOTE: there is a typo in cols on the web
+# morningstar_corr_url = "https://admainnew.morningstar.com/webhelp/Practice/Plans/Correlation_Matrix_of_the_14_Asset_Classes.htm"
+# url_stats = "https://admainnew.morningstar.com/webhelp/dialog_boxes/cs_db_editassumptions.htm"
+morningstar_directory = './Data'
+morningstar_file_prefix = 'Morningstar_asset_stats'
+morningstar_date_format = "%Y_%m_%d"
+morningstar_sheet_name = "Stats"
+
+
 # ── Prompts ───────────────────────────────────────────────────────────────────
 [Prompts]
 
@@ -40,26 +49,27 @@ Common abbreviations used in ETF category names:
   Non-US = International / ex-US / ex-USA
 
 Morningstar Expanded asset classes (choose exactly one):
-  US Large Cap Growth
-  US Large Cap Value
-  US Mid Cap Growth
-  US Mid Cap Value
-  US Small Cap Growth
-  US Small Cap Value
-  Non-US Dev Stk
-  Non-US Emrg Stk
-  US Txbl Long Term Bonds
-  US Txbl Int Term Bonds
-  US Txbl Short Term Bonds
-  US Infl Protected Bonds
-  US Tax-Exempt Bonds
-  US High Yield Bonds
-  Non-US Dev Bonds
-  Non-US Emrg Bonds
-  Cash
-  Real Estate
-  Commodities
-  Inflation
+{morningstar_categories}
+
+This list is intentionally broad (only ~14 buckets), so many ETFs will not be
+a perfect fit. Always choose the closest matching bucket rather than
+returning null - reserve null for assets that have no reasonable equity,
+bond, cash, commodity, or real estate analog (e.g. crypto, currencies,
+leveraged/inverse funds, options-income/derivative-based funds).
+
+Closest-match guidance for common edge cases:
+  - Broad / "Total" / "Aggregate" / "Core" bond funds spanning multiple
+    credit qualities and durations -> "U.S. Investment Grade Bonds"
+    (investment-grade issues dominate these funds by weight).
+  - Convertible bond and preferred stock funds (hybrid debt/equity,
+    credit-sensitive, higher volatility than core bonds) ->
+    "U.S. High Yield Bonds".
+  - Sector or "Multi-Cap"/"Blend" equity funds with no single cap-size or
+    growth/value tilt -> classify by the dominant cap size of the sector's
+    largest constituents (most US sector ETFs are large-cap weighted), and
+    pick "Growth" for cyclical/tech-oriented sectors or "Value" for
+    cyclical/defensive sectors (e.g. materials, industrials, financials,
+    utilities, energy, homebuilders).
 
 Respond with ONLY a JSON object and nothing else:
 {
@@ -67,7 +77,7 @@ Respond with ONLY a JSON object and nothing else:
   "confidence": "high" | "medium" | "low",
   "reasoning": "<one sentence>"
 }
-If you cannot map with at least low confidence, set asset_class to null.
+Use "low" confidence for closest-match guesses rather than returning null.
 """
 
 # Step 1: category-only prompt (fast path)
@@ -86,6 +96,7 @@ ETF themes  : {themes}
 
 Use the category and themes together to map this ETF to the single
 best-matching Morningstar Expanded asset class.
+The names usually include references to a region (US, Foreign, Emerging), the type of asset (stock, bond), the type of underlying securities in the ETF (large cap, mid-cap, small cap, government, corporate) and optionally type of stock (growth, value) - these can be matched with the information in "themes"
 """
 
 # ── Browser / scraping ────────────────────────────────────────────────────────
@@ -104,6 +115,7 @@ output_directory = './Data'
 output_file_prefix = 'etf_asset_class_map'
 maps_date_format = "%Y_%m_%d"
 morningstar_url = "https://admainnew.morningstar.com/webhelp/dialog_boxes/cs_db_editassumptions.htm"
+
 
 [ClaudeModelManager]
 model   = "claude-sonnet-4-6"            # newer model; startup validation will verify availability
