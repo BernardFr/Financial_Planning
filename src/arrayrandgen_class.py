@@ -35,10 +35,10 @@ class ArrayRandGen:
     name: str - the name of the asset class
     mean: float - the mean of the random numbers
     stdv: float - the stddev of the random numbers
-    seed: int - the seed for the random number generator
+    seed: int | np.random.Generator - the seed or generator for the random number generator
     clip_flag: bool - whether to clip the random numbers to the floor and ceiling ... set it to False for testing
     """
-    def __init__(self,config_manager: ConfigurationManager, name: str, mean: float, stdv: float, seed: int, nb_samples:int) -> None:
+    def __init__(self,config_manager: ConfigurationManager, name: str, mean: float, stdv: float, seed: int | np.random.Generator, nb_samples:int) -> None:
         self.config_manager = config_manager
         self.config = self.config_manager.get_class_config(self.__class__.__name__)
         self.nb_rv = nb_samples # number of random values to generate

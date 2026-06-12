@@ -49,7 +49,7 @@ max_iter_to_print_param = 1e4  # Save iteration results if nb_iter_param smaller
 DEFAULT_DELTA_ASSETS_MULTIPLIER = 0.05  # +/- 5%
 DEFAULT_TARGET_CONFIDENCE_LEVEL = 80  # %
 CONFIDENCE_LEVEL_TOLERANCE = 5.0  # +/- 5%
-MAX_ITER = 20
+MAX_ITER = 4
 pd.options.display.float_format = '{:,.2f}'.format  # Display 2 decimal places and commas for floats
 
 class RunMontecarloSimulation:

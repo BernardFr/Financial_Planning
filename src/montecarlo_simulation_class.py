@@ -7,7 +7,7 @@ so that each MC simulation can be initialized quickly with the same data.
 
 """
 
-from typing import Any
+from typing import Any, cast
 import numpy as np
 import pandas as pd
 from logger import logger
@@ -36,6 +36,8 @@ class MontecarloSimulationDataLoader:
     Load the initial data for the Montecarlo simulation
     """
     def __init__(self, config_manager: ConfigurationManager) -> None:
+        self.cashflow_df: pd.DataFrame
+        self.initial_asset_class_ser: pd.Series
         self.config_manager = config_manager
         #FYI: we have to use the class name "MontecarloSimulation" rather than __class__.__name__ 
         # self.config = self.config_manager.get_class_config("MontecarloSimulationDataLoader")
@@ -60,8 +62,9 @@ class MontecarloSimulationDataLoader:
         lifeplan_prefix = self.config['lifeplan_file_prefix']
         lifeplan_date_format = self.config['lifeplan_date_format']
         life_plan_file, _ = find_most_recent(input_dir, lifeplan_prefix, lifeplan_date_format)
-        cashflow_df = pd.read_excel(life_plan_file, index_col=None, header=None)
-        self.cashflow_df = cashflow_df.T.set_index(0, drop=True)
+        cashflow_data = pd.read_excel(life_plan_file, index_col=None, header=None)
+        assert isinstance(cashflow_data, pd.DataFrame), "cashflow data must be a pandas DataFrame"
+        self.cashflow_df = cast(pd.DataFrame, cashflow_data.T.set_index(0, drop=True))
         self.cashflow_df.columns = ['Cashflow']
         self.cashflow_df.index.name = 'Year'
         self.year_lst = sorted(list(map(int, self.cashflow_df.index))) 
@@ -76,7 +79,9 @@ class MontecarloSimulationDataLoader:
         portfolio_prefix = self.config['portfolio_file_prefix']
         portfolio_date_format = self.config['portfolio_date_format']
         portfolio_file, _ = find_most_recent(input_dir, portfolio_prefix, portfolio_date_format)
-        self.initial_asset_class_ser = pd.read_excel(portfolio_file, index_col=0).squeeze(axis=1)
+        portfolio_data = pd.read_excel(portfolio_file, index_col=0)
+        assert isinstance(portfolio_data, pd.DataFrame), "portfolio data must be a pandas DataFrame"
+        self.initial_asset_class_ser = cast(pd.Series, portfolio_data.squeeze(axis=1))
         return None
     
     def _load_morningstar_stats(self) -> None:
@@ -152,8 +157,11 @@ class MontecarloSimulationDataLoader:
         """
         # Load the cashflow and set the cashflow series
         self._load_cashflow_data()
-        logger.info(f"Cashflow Total Series:\n{self.cashflow_df.map(dollar_str)}")
+        assert isinstance(self.cashflow_df, pd.DataFrame), "cashflow_df must be a pandas DataFrame"
+        cashflow_log_df = self.cashflow_df.apply(lambda col: col.map(dollar_str))
+        logger.info(f"Cashflow Total Series:\n{cashflow_log_df}")
         self._load_portfolio_data()
+        assert isinstance(self.initial_asset_class_ser, pd.Series), "initial_asset_class_ser must be a pandas Series"
         logger.info(f"Initial Asset Class Series:\n{self.initial_asset_class_ser.map(dollar_str)}")
         self._load_morningstar_stats()
 
@@ -286,7 +294,7 @@ class MontecarloSimulation:
         self.rebalance_flag = False  # needed so that we don't use initial_asset_class_ser for rebalancing
         self.cross_correlated_rvs_flag = False
         self.run_cnt = 1  # since stddev = 0, we only need to run 1 iteration
-        self.ror_gen_list = [ArrayRandGen(self.config_manager, "Single Asset", riskless_ror, 0.0, self.rng_sequence[0][0])]
+        self.ror_gen_list = [ArrayRandGen(self.config_manager, "Single Asset", riskless_ror, 0.0, self.rng_sequence[0][0], self.nb_years)]
         logger.info(f"initialize_data_for_riskless_ror:length of ror_gen_list: {len(self.ror_gen_list)}")
         self.busted_years = []
         self.busted_cnt = 0

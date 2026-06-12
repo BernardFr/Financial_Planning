@@ -8,7 +8,8 @@ Financial Plan
    2. Capital Markets Assumptions / Asset statistics: Morningstart, JPM, Vanguard, etc.
       1. Manually download the "raw" files
       2. Use the provider-specific to extract asset_statistics in 1 Excel file with Return & Stddev in 1 tab `Stats` and, if available, asset cross-correlation matrix, tab: `Correlation`
-
+         1. e.g. Use `morningstar_stats_class.py` to generate `Morningstar_asset_stats_2025_12_21.xlsx`
+      
    3. if either of the above is updated: 
       1. Map holdings to positions by asset class. `WFA_to_positions.py`: Find the most recent holdings file, and aggregate positions by ETF ticker - save in `Positions_YYYY_mm_dd.xlsx`: 1 row per ticker with number of shares and market value (computed at the time when the holdings file was downloaded)
       2. Run `map_etf_asset_class.py`
@@ -146,4 +147,4 @@ for cpu_seq in cpu_seqs:
 
 # References
 
-* [Cholesky Decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition) - see "Applications/Monte Carlo" simulation section	
+* [Cholesky Decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition) - see "Applications/Monte Carlo" simulation section		
