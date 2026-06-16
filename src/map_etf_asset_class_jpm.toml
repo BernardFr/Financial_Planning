@@ -1,0 +1,122 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Configuration for map_etf_asset_class.py
+# ─────────────────────────────────────────────────────────────────────────────
+[default]
+
+[ConfigurationManager]
+PLT_STYLE = 'seaborn-v0_8-deep'
+
+
+# ── Claude API ────────────────────────────────────────────────────────────────
+[ClaudeClassifier]
+model   = "claude-sonnet-4-6"            # newer model; startup validation will verify availability
+max_tokens = 256                         # short structured answer; no need for more
+temperature = 0.0                        # deterministic — classification task
+request_delay_s   = 1      # polite delay between ETF requests
+
+jpm_directory = './Data'
+jpm_file_prefix = 'jpm_stats'
+jpm_date_format = "%Y_%m_%d"
+jpm_sheet_name = "Stats"
+
+
+# ── Prompts ───────────────────────────────────────────────────────────────────
+[Prompts]
+
+system_prompt = """
+You are a financial data specialist. Your only job is to map an ETF to exactly
+one asset class from the JP Morgan Chase (JPM) Expanded list. You are strict: you never
+invent asset classes, you always return one of the exact strings provided.
+
+Common abbreviations used in ETF category names:
+  Cap  = Capitalization
+  Dev  = Developed
+  Emrg / EM = Emerging (Markets)
+  Stk  = Stock / Equity
+  Inv  = Investment
+  Txbl = Taxable
+  Int  = Intermediate
+  Infl = Inflation
+  Muni = Municipal
+  HY   = High Yield
+  IG   = Investment Grade
+  TIPS = Treasury Inflation-Protected Securities
+  Govt = Government
+  Corp = Corporate
+  Non-US = International / ex-US / ex-USA
+
+JPM Expanded asset classes (choose exactly one):
+{jpm_categories}
+
+Many ETFs will not be
+a perfect fit. Always choose the closest matching bucket rather than
+returning null - reserve null for assets that have no reasonable equity,
+bond, cash, commodity, or real estate analog (e.g. crypto, currencies,
+leveraged/inverse funds, options-income/derivative-based funds).
+
+Closest-match guidance for common edge cases:
+  - Use the "Asset Type" column to inform mapping to bond, stock, or other
+  - Broad / "Total" / "Aggregate" / "Core" bond funds spanning multiple
+    credit qualities and durations -> "U.S. Investment Grade Bonds"
+    (investment-grade issues dominate these funds by weight).
+  - Convertible bond and preferred stock funds (hybrid debt/equity,
+    credit-sensitive, higher volatility than core bonds) ->
+    "U.S. High Yield Bonds".
+  - Sector or "Multi-Cap"/"Blend" equity funds with no single cap-size or
+    growth/value tilt -> classify by the dominant cap size of the sector's
+    largest constituents (most US sector ETFs are large-cap weighted), and
+    pick "Growth" for cyclical/tech-oriented sectors or "Value" for
+    cyclical/defensive sectors (e.g. materials, industrials, financials,
+    utilities, energy, homebuilders).
+
+Respond with ONLY a JSON object and nothing else:
+{
+  "asset_class": "<exact JPM class name>",
+  "confidence": "high" | "medium" | "low",
+  "reasoning": "<one sentence>"
+}
+Use "low" confidence for closest-match guesses rather than returning null.
+"""
+
+# Step 1: category-only prompt (fast path)
+category_match = """
+ETF ticker : {ticker}
+ETF category: {category}
+
+Map this ETF to the single best-matching JPM Expanded asset class.
+"""
+
+# Step 2: full context prompt (fallback when category alone is ambiguous)
+full_match = """
+ETF ticker  : {ticker}
+ETF category: {category}
+ETF themes  : {themes}
+
+Use the category and themes together to map this ETF to the single
+best-matching JPM Expanded asset class.
+The names usually include references to a region (US, Foreign, Emerging), the type of asset (stock, bond), the type of underlying securities in the ETF (large cap, mid-cap, small cap, government, corporate) and optionally type of stock (growth, value) - these can be matched with the information in "themes"
+"""
+
+# ── Browser / scraping ────────────────────────────────────────────────────────
+[ETFDataScraper]
+etfdb_url_template = "https://etfdb.com/etf/{ticker}/#etf-ticker-profile"
+headless          = true
+page_load_wait_s  = 8      # seconds to wait after page load (JS rendering)
+timeout_ms        = 60000  # Playwright navigation timeout
+
+# ── MapETFToAssetClass ────────────────────────────────────────────────────────────────────
+[MapETFToAssetClass]
+input_directory = './Data'
+positions_file_prefix = 'Positions'
+positions_date_format = "%Y_%m_%d"
+output_directory = './Data'
+output_file_prefix = 'etf_asset_class_map_jpm'
+maps_date_format = "%Y_%m_%d"
+
+
+[ClaudeModelManager]
+model   = "claude-sonnet-4-6"            # newer model; startup validation will verify availability
+max_tokens = 256                         # short structured answer; no need for more
+temperature = 0.0                        # deterministic — classification task
+model_recheck_days = 14                   # only re-validate/auto-select model once every N days
+model_cache_file = "./claude_model_cache.json"  # stores last validated model + timestamp

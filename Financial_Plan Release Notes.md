@@ -24,6 +24,10 @@
 
 # Release Notes
 
+### 6/16/26
+
+* Added utilities for JP Morgan Chase Capital Market model: `map_etf_asset_class_jpm.py` and `extract_jpm_stats.py`	
+
 ### 6/15/2026
 
 * Improved `test_run_one_year.py` to create a spreadsheet  output to verify calculations ... see file `test_run_one_year_DATE_with_formulas.xlsx` for the formulas
