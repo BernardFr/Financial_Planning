@@ -6,6 +6,9 @@ seed = 42
 
 [RunMontecarloSimulation]
 multi_cpu_threshold = 100  # Use multiple cpus if the run_cnt is above (>=) this threshold
+delta_assets_multiplier = 0.025 # +/- 5%
+target_confidence_level = 80  # 80%
+
 
 [ConfigurationManager]
 PLT_STYLE = 'seaborn-v0_8-deep'

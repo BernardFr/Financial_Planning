@@ -29,17 +29,14 @@ DEBUG_FLAG = False
 #                 'TBills': 200000,
 #                 'Cash': 100000}
 # INITIAL_HOLDINGS = pd.DataFrame({'Market Value': ASSET_CLASSES})
-ROR_STATS = [ (1.1, 0.0),(1.01, 0.0)]  
-ASSET_CLASSES = {'Stocks': 1000,
+ASSET_CLASSES = {'Stocks': 2000,
                 'Bonds': 1000}
 INITIAL_HOLDINGS = pd.DataFrame({'Market Value': ASSET_CLASSES})
+# ROR_STATS = [ (1.1, 0.5),(1.01, 0.2)]  
 ROR_LST = [1.1, 1.01]
-CASHFLOW_VAL = 100
-RUN_CNT = 1000
-BUSTED_THRESHOLD = 0.2  # 80% success rate
-CASHFLOW_MULTIPLIER = 1.1
-MAX_ITER_CNT = 1000
-NB_AGES = 35
+CASHFLOW_VAL = 150
+NB_YEARS = 10
+ROR_STTDEV = 0.1  # Standard deviation of the RoR 
 
 class TestRunOneYear:
     def __init__(self, config_manager: ConfigurationManager) -> None:
@@ -51,55 +48,62 @@ class TestRunOneYear:
         """
         self.config_manager = config_manager
         self.config = self.config_manager.get_class_config(self.__class__.__name__)
-        self.cross_correlated_rvs_flag = self.config['cross_correlated_rvs_flag']  # determines whether we use Morningstar stats as is (false) or if we create cross-correlated RoR
-        self.run_cnt = self.config['run_cnt']
-        self.nb_cpu = self.config['nb_cpu']
-        self.seed = self.config['seed']
         self.data_loader = MontecarloSimulationDataLoader(self.config_manager)
+        self.mc_sim = MontecarloSimulation(self.config_manager, self.data_loader, 1) # 1 cpu
+        self.mc_sim.set_run_cnt(self.data_loader.run_cnt)
+        # Overload the initialization of the MontecarloSimulation class with our test data
+        # self.mc_sim.initial_asset_class_ser = INITIAL_HOLDINGS['Market Value'].copy(deep=True)
+        # self.mc_sim.initial_pfolio_value = self.mc_sim.initial_asset_class_ser.sum().item()
+        # self.mc_sim.asset_allocation__ratio_ser = self.mc_sim.initial_asset_class_ser.div(self.mc_sim.initial_asset_class_ser.sum().item())    
+        # self.asset_class_ser = self.mc_sim.initial_asset_class_ser.copy(deep=True)
+
         return None
 
 
     def run(self) -> None:
-        montecarlo_simulation = MontecarloSimulation(self.config_manager, self.data_loader)
-        montecarlo_simulation.set_run_cnt(self.config['run_cnt'])
 
-        ror_lst = ROR_LST
+        # Compute random RORs for each asset class - constants over the years in this test case
+        # Value is gau
+        ror_lst = [np.random.normal(loc=1.0, scale=ROR_STTDEV) for _ in range(len(self.mc_sim.asset_class_ser.index)) ]
         print(f"ror_lst: {ror_lst}")
+
+        result_index = []
+        for asset_class in self.mc_sim.asset_class_ser.index:
+            result_index.append(f"{asset_class}")
+        for nb, _ in enumerate(ror_lst):
+            result_index.append(f"RoR_{nb}")
+        result_index.append("Cashflow")
+        result_index.append("Mgt_Fee") # will be calculated in Excel
+        result_index.append("Computed Portfolio Value")
+        result_df = pd.DataFrame(index=result_index, dtype=float)
+        # ror_lst = ROR_LST
+        # print(f"ror_lst: {ror_lst}")
         cashflow_val = CASHFLOW_VAL 
-        previous_busted_flag = False
-        prev_cashflow_val = cashflow_val
-        portfolio_ser = INITIAL_HOLDINGS['Market Value'].copy(deep=True)
+        # portfolio_ser = INITIAL_HOLDINGS['Market Value'].copy(deep=True)
+        portfolio_ser = self.mc_sim.initial_asset_class_ser.copy(deep=True)
         print(f"Initial portfolio value: {portfolio_ser.sum():,.0f}")
-        """ 
-        Note: we only run one iteration for NB_AGES years
-        there is no need to run multiple iterations since the RoR are constant (not randomized)
-        then we adjust the cashflow_val based on the average final value and the busted ratio
-        """ 
-        for iter_cnt in range(MAX_ITER_CNT):  # make sure we don't run forever
-            portfolio_ser = INITIAL_HOLDINGS['Market Value'].copy(deep=True)
-            busted_flag = False
-            print(f"--\nIter: {iter_cnt} - Portfolio value: {portfolio_ser.sum():,.0f} - cashflow_val: {cashflow_val:,.0f}")
-            for yr in range(NB_AGES):
-                portfolio_ser, busted_flag = montecarlo_simulation.run_one_year(portfolio_ser, ror_lst, cashflow_val)
-                print(f"Year: {yr} - Busted: {busted_flag} - Portfolio value: {portfolio_ser.sum():,.0f}")
-                if busted_flag:
-                    break
-                # print(f"portfolio_value: {portfolio_value:,.2f} - previous_portfolio_value: {previous_portfolio_value:,.2f}")
-                # print(f"ratio: {portfolio_value / (previous_portfolio_value +CASHFLOW_VAL):.6f}")
-            final_value = portfolio_ser.sum()
-            print(f"Iter: {iter_cnt} -Busted: {busted_flag}  - Final value: {final_value:,.0f}")
-            if iter_cnt > 0:  # skip first iteration, so we don't have a previous value to compare to
-                if previous_busted_flag != busted_flag:
-                    print(f"Done:cashflow_val: {prev_cashflow_val:,.2f}")
-                    break
-            prev_cashflow_val = cashflow_val
-            if busted_flag:  # diminished cashflow_val
-                cashflow_val = cashflow_val / CASHFLOW_MULTIPLIER
-                print(f"Diminished cashflow_val: {cashflow_val:,.2f}")
-            else:
-                cashflow_val = cashflow_val * CASHFLOW_MULTIPLIER
-                print(f"Increased cashflow_val: {cashflow_val:,.2f}")
-            previous_busted_flag = busted_flag
+        busted_flag = False
+        print(f"--\nPortfolio value: {portfolio_ser.sum():,.0f} - cashflow_val: {cashflow_val:,.0f}")
+        for yr in range(NB_YEARS):
+            print(f"portfolio_ser before year {yr}: {portfolio_ser}")
+            print(f"ror_lst: {ror_lst} - cashflow_val: {cashflow_val}")
+            value_sub_total = portfolio_ser.sum()
+            result_list = list(portfolio_ser.values) + [value_sub_total] + ror_lst
+            result_list.append(cashflow_val)
+            result_list.append(0.0) # Mgt fee - will be calculated in Excel
+            portfolio_ser, busted_flag = self.mc_sim.run_one_year(portfolio_ser, ror_lst, cashflow_val)
+            result_list.append(portfolio_ser.sum())
+            result_df[yr] = result_list
+            print(f"Year: {yr} - Busted: {busted_flag} - Portfolio value: {portfolio_ser.sum():,.0f}")
+            if busted_flag:
+                break
+            # print(f"portfolio_value: {portfolio_value:,.2f} - previous_portfolio_value: {previous_portfolio_value:,.2f}")
+            # print(f"ratio: {portfolio_value / (previous_portfolio_value +CASHFLOW_VAL):.6f}")
+        final_value = portfolio_ser.sum()
+        print(f"Final portfolio value: {final_value:,.2f}")
+        result_df.columns = [f"Year_{x}" for x in result_df.columns]
+        print(f"result_df:\n{result_df}")
+        result_df.to_excel("test_run_one_year_result.xlsx", index=True, header=True)
         return None
 
 if __name__ == "__main__":

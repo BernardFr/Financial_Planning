@@ -17,7 +17,7 @@ for handler in logger.handlers:
 
 Assets = ['Asset_1', 'Asset_2', 'Asset_3', 'Asset_4']
 init_portfolio_ser = pd.Series([100000, 200000, 300000, 400000], index= Assets)
-ror_ser = pd.Series([1.2, -1.1, 1.5, 0.4], index=Assets)
+ror_ser = pd.Series([1.1, 0.9, 1.05, 1.04], index=Assets) # Note that ror < 1, means negative returns
 cashflow_val = 10000
 mgt_fee = 0.01
 run_cnt = 10

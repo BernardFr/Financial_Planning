@@ -46,9 +46,7 @@ DEBUG = False
 # Configuration
 plt.style.use('seaborn-v0_8-deep')
 max_iter_to_print_param = 1e4  # Save iteration results if nb_iter_param smaller than this
-DEFAULT_DELTA_ASSETS_MULTIPLIER = 0.05  # +/- 5%
-DEFAULT_TARGET_CONFIDENCE_LEVEL = 80  # %
-CONFIDENCE_LEVEL_TOLERANCE = 5.0  # +/- 5%
+CONFIDENCE_LEVEL_TOLERANCE = 2.0  # +/- 2%
 MAX_ITER = 4
 pd.options.display.float_format = '{:,.2f}'.format  # Display 2 decimal places and commas for floats
 
@@ -66,8 +64,8 @@ class RunMontecarloSimulation:
         self.run_cnt = self.config['run_cnt']
         self.nb_cpu = self.config['nb_cpu']
         self.assets_multiplier = 1.0
-        self.delta_assets_multiplier = DEFAULT_DELTA_ASSETS_MULTIPLIER  # +/- 5%
-        self.target_confidence_level = DEFAULT_TARGET_CONFIDENCE_LEVEL  # %
+        self.delta_assets_multiplier = self.config['delta_assets_multiplier']
+        self.target_confidence_level = self.config['target_confidence_level'] 
         self.prev_confidence_level = 0.0
         self.montecarlo_simulation_list = []
         if self.nb_cpu > 1:
@@ -87,22 +85,23 @@ class RunMontecarloSimulation:
         return
 
 
-    def reinitialize_data(self, assets_multiplier: float) -> None:
-        self.assets_multiplier = assets_multiplier
+    def reinitialize_data(self, new_assets_multiplier: float) -> None:
         if self.nb_cpu == 1:
-            print(f"Reinitializing data for single CPU case: assets_multiplier: {assets_multiplier:,.2f}")
-            self.mc_sim.initialize_data(assets_multiplier)
+            self.mc_sim.assets_multiplier = new_assets_multiplier
+            logger.debug(f"Reinitializing data for single CPU case: assets_multiplier: {self.mc_sim.assets_multiplier:,.3f}")
+            self.mc_sim.initialize_data()
         else: # Multi-CPU case
             for mc_sim in self.montecarlo_simulation_list:
-                print(f"Reinitializing data for CPU {mc_sim.cpu_idx}: assets_multiplier: {assets_multiplier:,.2f}")
-                mc_sim.initialize_data(assets_multiplier)
+                mc_sim.assets_multiplier = new_assets_multiplier
+                logger.debug(f"Reinitializing data for CPU {mc_sim.cpu_idx}: assets_multiplier: {mc_sim.assets_multiplier:,.3f}")
+                mc_sim.initialize_data()
         return None
 
     def run(self) -> None:
         """Run the Montecarlo simulation"""
 
         if self.nb_cpu == 1:    # Single CPU case
-            self.final_result_series, self.busted_ages_dict, self.busted_cnt = self.mc_sim.run()
+            self.final_result_series, self.busted_years_dict, self.busted_cnt = self.mc_sim.run()
         else:    # Multi-CPU case
             with Pool(processes=self.nb_cpu) as pool:
                 # Run each of the Montecarlo simulations on a different CPU in parallel
@@ -110,35 +109,38 @@ class RunMontecarloSimulation:
                 result_list = result_obj.get()
                 # Each simulation run produces (1) a [m, N] DF of resulting assets DF and (2) a [N,] series of final ages
                 final_result_series_list = [x[0] for x in result_list]
-                busted_ages_dict_list = [x[1] for x in result_list]
+                busted_years_dict_list = [x[1] for x in result_list]
                 busted_cnt_list = [x[2] for x in result_list]
                 # Concatenate the final result series into a single series
                 self.final_result_series = pd.concat(final_result_series_list, ignore_index=True)
                 # Aggregate the busted ages dict into a single dict
-                self.busted_ages_dict = sum((Counter(d) for d in busted_ages_dict_list), Counter())
+                self.busted_years_dict = sum((Counter(d) for d in busted_years_dict_list), Counter())
                 self.busted_cnt = sum(busted_cnt_list)
 
         return None
 
     def analyze_results(self) -> tuple[bool, float]:
         """Analyze the results of the Montecarlo simulation and adjust the assets multiplier"""
+        self.display_results()
         confidence_level = 100.0 *  (self.run_cnt - self.busted_cnt) / self.run_cnt
         delta_confidence_level = confidence_level - self.target_confidence_level
-        logger.info(f"Busted Count: {self.busted_cnt} - Confidence Level: {confidence_level:.2f}%")
         if self.busted_cnt > 0:
-            logger.info(f"Busted Ages Dict:\n{self.busted_ages_dict}")
-        logger.info(f"Final result series MEAN: ${self.final_result_series.mean():,.2f}")
-        if confidence_level <= self.target_confidence_level or abs(delta_confidence_level) <= CONFIDENCE_LEVEL_TOLERANCE:
+            self.busted_years_dict = dict(sorted(self.busted_years_dict.items(), key=lambda item: item[0])) # Sort the dict by year
+            logger.info(f"Busted Years Dict:\n{self.busted_years_dict}")
+        if abs(delta_confidence_level) <= CONFIDENCE_LEVEL_TOLERANCE:
             keep_running = False
         elif self.prev_confidence_level * confidence_level < 0: # Sign of confidence level has changed - and is not zero (first iteration)
             keep_running = False
         else:
+            keep_running = True
+
+        if keep_running:
             self.prev_confidence_level = confidence_level
             # Delta positive -> reduce assets multiplier
             self.assets_multiplier = self.assets_multiplier - np.sign(delta_confidence_level) * self.delta_assets_multiplier
             if self.assets_multiplier < 0.0:
                 keep_running = False
-                error_exit(f"Assets multiplier is less than zero: {self.assets_multiplier:.2f}")
+                error_exit(f"Assets multiplier is less than zero: {self.assets_multiplier:.3f}")
             else:
                 keep_running = True
             logger.info(f"Delta confidence level: {delta_confidence_level:.2f} - New Assets multiplier: {self.assets_multiplier:.2f}\n")
@@ -147,12 +149,13 @@ class RunMontecarloSimulation:
 
     def display_results(self) -> None:
         """Display the results of the Montecarlo simulation"""
-        logger.info(f"--\n Final Assets multiplier: {self.assets_multiplier:.2f}")
+        logger.info(f"Assets multiplier: {self.assets_multiplier:.3f} -- "
+                    f"Adjusted starting portfolio value: ${self.initial_pfolio_value * self.assets_multiplier:,.0f}")
         confidence_level = 100.0 *  (self.run_cnt - self.busted_cnt) / self.run_cnt
-        logger.info(f"Confidence Level: {confidence_level:.2f}% - Busted Count: {self.busted_cnt} - Busted Ages Dict:\n{self.busted_ages_dict}")
-        logger.info(f"Adjusted starting portfolio value: ${self.initial_pfolio_value * self.assets_multiplier:,.0f}")
-        logger.info(f"Final result series MEAN: ${self.final_result_series.mean():,.2f}")
-        logger.info(f"Final result  stats:\n{self.final_result_series.describe()}")
+        # sort busted years dict by year
+        self.busted_years_dict = dict(sorted(self.busted_years_dict.items(), key=lambda item: item[0]))
+        logger.info(f"Confidence Level: {confidence_level:.2f}% - Busted Count: {self.busted_cnt} - Busted Years Dict:\n{self.busted_years_dict}")
+        logger.info(f"Result stats:\n{self.final_result_series.describe()}")
         return None
 
 def main(cmd_line: list[str]) -> None:
@@ -167,13 +170,14 @@ def main(cmd_line: list[str]) -> None:
     while keep_running:
         simulation_runner.run()
         keep_running, assets_multiplier = simulation_runner.analyze_results()
-        logger.info(f"Assets multiplier: {assets_multiplier:.2f}")
+        logger.info(f"Assets multiplier: {assets_multiplier:.3f}")
         nb_iter += 1
         if nb_iter >= MAX_ITER:
             keep_running = False
         simulation_runner.reinitialize_data(assets_multiplier)
 
     # Done
+    logger.info(f"----\nFinal results:")
     simulation_runner.display_results()
 
 if __name__ == "__main__":

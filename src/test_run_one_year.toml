@@ -5,10 +5,6 @@ Death_age = 95
 
 [TestRunOneYear]
 multi_cpu_threshold = 100  # Use multiple cpus if the run_cnt is above (>=) this threshold
-cross_correlated_rvs_flag = false  # determines whether we use Morningstar stats as is (false) or if we create cross-correlated RoR
-run_cnt = 10
-nb_cpu = 1
-seed = 42
 
 [ConfigurationManager]
 PLT_STYLE = 'seaborn-v0_8-deep'
@@ -17,7 +13,7 @@ PLT_STYLE = 'seaborn-v0_8-deep'
 # See ReadMe - historically, S&P 500 has a floor of -47% and a ceiling of 53% - we will use a max of +/- 40% for RoR
 RoR_floor = 0.60  # corresponds to a -40% RoR
 Ror_ceiling = 1.40  # corresponds to a +40% RoR
-
+clip_flag = true
 
 [MontecarloSimulation]
 target_end_funds = 5e5
@@ -26,9 +22,23 @@ re_alloc_error = 1e-6
 Funds_step = 1e5
 Discreet_step = 0.01
 Success_threshold = 1.0
-mgt_fee =  0
-rebalance_flag = false
+mgt_fee =  7e-3
+rebalance_flag = true
+cashflow_file = "./life_plan_latest.xlsx"
+Default_inflation_rate = 2.5e-2  # 2.5 %
 
+[MontecarloSimulationDataLoader]
+run_cnt = 10
+seed = 42
+nb_cpu = 1
+input_directory = './Data'
+lifeplan_file_prefix = 'WFA_life_plan'
+lifeplan_date_format = "%Y_%m_%d"
+portfolio_file_prefix = 'portfolio_by_Asset_class'
+portfolio_date_format = "%Y_%m_%d"
+morningstar_file_prefix = 'Morningstar_asset_stats'
+morningstar_date_format = "%Y_%m_%d"
+cross_correlated_rvs_flag = false  # determines whether we use Morningstar stats as is (false) or if we create cross-correlated RoR
 
 [MorningstarStats]
 must_have_param = ['url_stats', 'url_corr', 'nb_smpl', 'model_file', 'xl_out_name']

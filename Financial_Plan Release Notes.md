@@ -24,6 +24,11 @@
 
 # Release Notes
 
+### 6/15/2026
+
+* Improved `test_run_one_year.py` to create a spreadsheet  output to verify calculations ... see file `test_run_one_year_DATE_with_formulas.xlsx` for the formulas
+* Fine-tuned `run_montecarlo_simulation.py`
+
 ### 6/11/2026
 
 * Kinda working version of `run_montecarlo_simulation_class.py` & `montecarlo_simulation_class.py`

@@ -195,7 +195,6 @@ class MontecarloSimulationDataLoader:
         logger.info(f"summary_df after setting Market Value:\n{summary_df}")
         self.overall_weighted_expected_return = summary_df['Weighted Expected Return'].sum().item()
         logger.info(f"Initial Total Market Value: ${total_market_value:,.0f} - Weighted Expected Return: {self.overall_weighted_expected_return:,.2f}%")
-        self.initial_pfolio_value = total_market_value
         logger.info(f"---- Done loading Initial Data for Montecarlo Simulation ----\n")
         return None
 
@@ -225,34 +224,34 @@ class MontecarloSimulation:
         self.config = self.config_manager.get_class_config(self.__class__.__name__)
         self.target_end_funds = self.config['target_end_funds']
         self.target_success_rate = self.config['target_success_rate']
-        self.run_cnt = self.config['run_cnt']
-        self.nb_cpu = self.config['nb_cpu']
         self.re_alloc_error = self.config['re_alloc_error']
         self.Funds_step = self.config['Funds_step']
         self.Discreet_step = self.config['Discreet_step']
         self.Success_threshold = self.config['Success_threshold']
         self.mgt_fee = self.config['mgt_fee']
         self.rebalance_flag = self.config['rebalance_flag']
-        self.cross_correlated_rvs_flag = self.config['cross_correlated_rvs_flag']
-        self.seed = self.config['seed']
-        self.cross_correlated_rvs_flag = self.config['cross_correlated_rvs_flag']
         self.cpu_idx = cpu_idx
 
         
         # Load the data from the data loader
         mc_data_loader.load_data()
+        self.run_cnt = mc_data_loader.run_cnt
+        self.nb_cpu = mc_data_loader.nb_cpu
+        self.cross_correlated_rvs_flag = mc_data_loader.cross_correlated_rvs_flag
+        self.seed = mc_data_loader.seed
+
         self.cashflow_df = mc_data_loader.cashflow_df
         self.initial_asset_class_ser = mc_data_loader.initial_asset_class_ser
         self.asset_class_ser = self.initial_asset_class_ser.copy(deep=True)  # Used when we iterate over starting funds values
+        self.initial_pfolio_value = self.initial_asset_class_ser.sum().item()
+        self.asset_allocation__ratio_ser = self.initial_asset_class_ser.div(self.initial_pfolio_value)  # allocation by asset class as a percentage of the total portfolio value
         self.nb_assets = len(self.asset_class_ser.index)
-        self.initial_pfolio_value = mc_data_loader.initial_pfolio_value
         self.overall_weighted_expected_return = mc_data_loader.overall_weighted_expected_return
         self.start_year = mc_data_loader.start_year
         self.end_year = mc_data_loader.end_year
         self.year_lst = mc_data_loader.year_lst
         self.nb_years = mc_data_loader.nb_years
         self.rng_sequence = mc_data_loader.rng_sequence
-        self.initial_pfolio_value = mc_data_loader.initial_pfolio_value
         if self.cross_correlated_rvs_flag:
             self.correlated_ror = mc_data_loader.correlated_ror
         else:
@@ -260,19 +259,19 @@ class MontecarloSimulation:
 
         # Initialize the data for the simulation
         self.assets_multiplier = 1.0
-        self.initialize_data(self.assets_multiplier)
+        self.initialize_data()
         return None
 
-    def initialize_data(self, assets_multiplier: float) -> None:
+    def initialize_data(self) -> None:
         """Reinitialize the data for a new simulation run
         """
         # Scale the initial asset classes by the assets_multiplier
         self.busted_years = []
         self.busted_cnt = 0
-        self.asset_class_ser = self.initial_asset_class_ser.mul(assets_multiplier, axis=0).copy(deep=True)
-        logger.info(f"portfolio value after reinitialization: {self.asset_class_ser.sum().item():,.2f}")
-        assert abs(self.asset_class_ser.sum().item() - self.initial_pfolio_value * assets_multiplier) < ROUNDING_ERROR, \
-            f"Asset class df sum does not match initial portfolio value: {self.asset_class_ser.sum().item():,.2f} != {self.initial_pfolio_value * assets_multiplier:,.2f}"
+        self.asset_class_ser = self.initial_asset_class_ser.mul(self.assets_multiplier, axis=0).copy(deep=True)
+        logger.debug(f"multiplier = {self.assets_multiplier:.2f} - portfolio value after reinitialization: {self.asset_class_ser.sum().item():,.0f}")
+        assert abs(self.asset_class_ser.sum().item() - self.initial_pfolio_value * self.assets_multiplier) < ROUNDING_ERROR, \
+            f"Asset class df sum does not match initial portfolio value: {self.asset_class_ser.sum().item():,.2f} != {self.initial_pfolio_value * self.assets_multiplier:,.2f}"
         self.final_result_df = pd.DataFrame(index=self.asset_class_ser.index, columns=range(self.run_cnt))
 
         if self.cross_correlated_rvs_flag:
@@ -384,13 +383,15 @@ class MontecarloSimulation:
         5. If the portfolio is not busted, rebalance the portfolio based on rebalance flag, and
         return the portfolio and the busted flag (false)
 
-        Note: cashflow_val is negative if it is a cashflow going out, and positive if it is a cashflow coming in
+        Note: cashflow_val is positive if it is a cashflow going out, and negative if it is a cashflow coming in
         mgt_fee is a positive value that will be subtracted from the portfolio value
         """
+        # print(f"pfolio_ser before year: {portfolio_ser}")
+        # print(f"ror_lst: {ror_lst}")
         pfolio_ser = portfolio_ser.mul(ror_lst, axis=0)  # add the returns to the portfolio
         pfolio_value = pfolio_ser.sum().item()  # always positive - RoR cannot be > 100%
         management_fee_value = pfolio_value * self.mgt_fee
-        wdrwl_value = cashflow_val - management_fee_value  # money going out
+        wdrwl_value = - cashflow_val - management_fee_value  # money going out
         adjusted_pfolio_value = pfolio_value + wdrwl_value
 
         if adjusted_pfolio_value <= 0.0:  # withdrawls are greater than the portfolio value
@@ -421,7 +422,7 @@ class MontecarloSimulation:
         logger.debug(f"final_result_series:\n{final_result_series.map(dollar_str)}")
         # compute the average by asset class (rows  )
         average_by_asset_class = self.final_result_df.mean(axis=1)
-        logger.info(f"result average_by_asset_class:\n{average_by_asset_class.map(dollar_str)}")
+        logger.debug(f"result average_by_asset_class:\n{average_by_asset_class.map(dollar_str)}")
 
         # Create a dict that counts the number of busted ages
         busted_years_dict = dict(collections.Counter(self.busted_years))
