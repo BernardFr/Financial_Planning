@@ -34,7 +34,7 @@ from portfolio_class import Portfolio
 from morningstar_stats_class import MorningstarStats
 from arrayrandgen_class import ArrayRandGen
 from montecarlo_simulation_class import MontecarloSimulation, MontecarloSimulationDataLoader
-from utilities import error_exit, display_series, dollar_str, my_age
+from utilities import error_exit, display_series, dollar_str
 from collections import Counter
 
 def _run_mc_simulation(simulation):
@@ -46,8 +46,6 @@ DEBUG = False
 # Configuration
 plt.style.use('seaborn-v0_8-deep')
 max_iter_to_print_param = 1e4  # Save iteration results if nb_iter_param smaller than this
-CONFIDENCE_LEVEL_TOLERANCE = 2.0  # +/- 2%
-MAX_ITER = 4
 pd.options.display.float_format = '{:,.2f}'.format  # Display 2 decimal places and commas for floats
 
 class RunMontecarloSimulation:
@@ -66,6 +64,7 @@ class RunMontecarloSimulation:
         self.assets_multiplier = 1.0
         self.delta_assets_multiplier = self.config['delta_assets_multiplier']
         self.target_confidence_level = self.config['target_confidence_level'] 
+        self.confidence_level_tolerance = self.config['confidence_level_tolerance']
         self.prev_confidence_level = 0.0
         self.montecarlo_simulation_list = []
         if self.nb_cpu > 1:
@@ -127,7 +126,7 @@ class RunMontecarloSimulation:
         if self.busted_cnt > 0:
             self.busted_years_dict = dict(sorted(self.busted_years_dict.items(), key=lambda item: item[0])) # Sort the dict by year
             logger.info(f"Busted Years Dict:\n{self.busted_years_dict}")
-        if abs(delta_confidence_level) <= CONFIDENCE_LEVEL_TOLERANCE:
+        if abs(delta_confidence_level) <= self.confidence_level_tolerance:
             keep_running = False
         elif self.prev_confidence_level * confidence_level < 0: # Sign of confidence level has changed - and is not zero (first iteration)
             keep_running = False
@@ -172,7 +171,7 @@ def main(cmd_line: list[str]) -> None:
         keep_running, assets_multiplier = simulation_runner.analyze_results()
         logger.info(f"Assets multiplier: {assets_multiplier:.3f}")
         nb_iter += 1
-        if nb_iter >= MAX_ITER:
+        if nb_iter >= config_manager.config['max_iter']:
             keep_running = False
         simulation_runner.reinitialize_data(assets_multiplier)
 
