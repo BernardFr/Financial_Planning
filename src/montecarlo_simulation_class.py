@@ -84,18 +84,19 @@ class MontecarloSimulationDataLoader:
         self.initial_asset_class_ser = cast(pd.Series, portfolio_data.squeeze(axis=1))
         return None
     
-    def _load_morningstar_stats(self) -> None:
-        """Load the Morningstar stats and set the stats_df and corr_df attributes in the morningstar_stats object
+    def _load_capital_markets_stats(self) -> None:
+        """Load the Capital Markets stats and set the stats_df and corr_df attributes in the morningstar_stats object
         Use the index of the correlation matrix as the source of truth for the asset classes
         """
         input_dir = self.config['input_directory']
         morningstar_prefix = self.config['morningstar_file_prefix']
-        morningstar_date_format = self.config['morningstar_date_format']
-        morningstar_file, _ = find_most_recent(input_dir, morningstar_prefix, morningstar_date_format)
-        print(f"Morningstar file: {morningstar_file}")
-        self.stats_df = pd.read_excel(morningstar_file, sheet_name='Stats', index_col=0, header=0)
-        self.corr_df = pd.read_excel(morningstar_file, sheet_name='Correlation', index_col=0, header=0)
-        self.stats_df.drop( columns=['Yield'], inplace=True) 
+        capital_markets_date_format = self.config['capital_markets_date_format']
+        capital_markets_file, _ = find_most_recent(input_dir, capital_markets_prefix, capital_markets_date_format)
+        print(f"Morningstar file: {capital_markets_file}")
+        self.stats_df = pd.read_excel(capital_markets_file, sheet_name='Stats', index_col=0, header=0)
+        self.corr_df = pd.read_excel(capital_markets_file, sheet_name='Correlation', index_col=0, header=0)
+        if "Yield" in self.stats_df.columns:
+            self.stats_df.drop( columns=['Yield'], inplace=True) 
         # Make sure that stats_df.index, corr_df.index and corr_df.columns are the same and in the same order
         corr_index = self.corr_df.index   # source of truth
         corr_columns = self.corr_df.columns 
@@ -163,7 +164,7 @@ class MontecarloSimulationDataLoader:
         self._load_portfolio_data()
         assert isinstance(self.initial_asset_class_ser, pd.Series), "initial_asset_class_ser must be a pandas Series"
         logger.info(f"Initial Asset Class Series:\n{self.initial_asset_class_ser.map(dollar_str)}")
-        self._load_morningstar_stats()
+        self._load_capital_markets_stats()
 
 
         # Only keep the asset classes in the portfolio in df_stats and df_corr. Also reorder initial_asset_class_ser to match the order in stats_df and corr_df

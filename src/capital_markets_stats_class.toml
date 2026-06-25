@@ -1,0 +1,19 @@
+[default]
+run_cnt = 10000
+max_iter = 50
+XLabelLenDefault = 5  # Length of the X axis labels
+quick_flag = false
+nb_smpl_default = 100_000
+validation_error_margin = 1e-2 
+
+
+[ConfigurationManager]
+PLT_STYLE = 'seaborn-v0_8-deep'
+
+[CapitalMarketsStats]
+valid_capital_market_models = ["Morningstar", "JPM"]  # supported Capital Markets Models
+capital_market_model = "JPM"
+validate_cross_correlation_flag = true
+data_directory = './Data'
+cpm_file_prefix = '_cpm_stats'
+cpm_date_format = "%Y_%m_%d"

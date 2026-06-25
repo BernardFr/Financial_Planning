@@ -38,6 +38,39 @@ Financial Plan
 * Asset_class_model: only run the specified Asset Class Statistics Model
 * "make it work": i.e. adjust spending in down years
 
+## Capital Market Models
+
+### `capital_markets_stats_class.py`
+
+Read the stats (and correlation matrix) for the capital markets stats from input file 
+e.g. Morningstar / JP Morgan Capital Market 
+
+Synopsis:
+- Determine which capital market model to use (Morningstar, JP Morgan, etc.) based on the configuration file
+- Read the stats and correlation matrix from the input file
+- Validate that the correlation matrix is positive definite (i.e. all eigen values are positive)
+- Validate that the stats and correlation matrix are consistent with each other (i.e. the correlation matrix is consistent with the stats) and consistent with the assets in the portfolio
+- Generate correlated random variables based on the stats and correlation matrix
+
+#### Filename Conventions
+
+Files are in sub-directory of the master directory. Each capital market model has its directory.
+The directory contains one Excel file for Stats and Correlation matrix. The file is in Excel format with 2 sheets: Stats and Correlation. 
+The directory also contains the asset allocation of the portfolio in a separate file - and a file to map ETF to Asset Class 
+
+Filename convention - assume Capital Market Model is CMM (Morningstar, JPM, etc.)
+Master directory: `./Data`
+Sub-directory: `./Data/CMM`
+Stats and Correlation matrix file: `./Data/CMM/CMM_Stats_YYYY_MM_DD.xlsx`
+Portfolio allocation file: `./Data/CMM/CMM_Portfolio_Allocations_YYYY_MM_DD.xlsx`
+ETF to Asset Class mapping file: `./Data/CMM/CMM_ETF_Asset_Class_Mapping_YYYY_MM_DD.xlsx`
+
+Note that `YYYY_MM_DD` are the date of the file creation and will be different for each file. The program will use the latest file based on the date in the filename.
+
+## ETF Mapping
+
+
+
 ## Montecarlo_Simulation
 
 ### Inputs

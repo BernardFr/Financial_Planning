@@ -374,7 +374,7 @@ class MorningstarStats:
         """
         # self.corr_df = pd.DataFrame(index=labels, columns=labels)
         dimension = len(labels)
-        self.corr_df = pd.DataFrame(make_spd_matrix(dimension, random_state=seed), index=labels, columns=labels)
+        self.corr_df = pd.DataFrame(make_spd_matrix(dimension, random_state=seed), index=labels, columns=labels, dtype=float)
         corr_df = self.corr_df
         # Make it a correlation matrix
         diag_inv = [1 / np.sqrt(float(corr_df.iloc[i, i])) for i in range(dimension)]
@@ -496,10 +496,10 @@ class MorningstarStats:
         error_margin = self.validation_error_margin
         # FYI: the _validate variables are (flag, error) tuples
         mean_ser = data_df.mean(axis=1)
-        mean_validate, mean_error = matrix_equal(mean_ser, stat_df.iloc[:,0], error_margin)  # mean is the first column
+        mean_validate, mean_error = matrix_equal(mean_ser.to_frame(), stat_df.iloc[:,0:1], error_margin)  # mean is the first column
 
         std_ser = data_df.std(axis=1)
-        stddev_validate, stddev_error = matrix_equal(std_ser, stat_df.iloc[:,1], error_margin)  # std_dev is second column
+        stddev_validate, stddev_error = matrix_equal(std_ser.to_frame(), stat_df.iloc[:,1:2], error_margin)  # std_dev is second column
 
         # IMPORTANT: astype(float) is needed otherwise, corr() returns empty DF
         data_corr = data_df.T.astype(float).corr()  # Corr works on columns
