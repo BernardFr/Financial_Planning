@@ -7,3 +7,4 @@ LOG_LEVEL = "DEBUG"
 [EtfDataDownloader]
 input_file = "ETF.xlsx"
 data_file = "ETF_back_data.parquet"
+monthly_file = "ETF_monthly_prices.xlsx"

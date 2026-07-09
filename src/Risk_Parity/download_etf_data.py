@@ -43,6 +43,8 @@ class EtfDataDownloader:
         self.config = self.config_manager.get_class_config(self.__class__.__name__)
         self.input_file = Path(self.config["input_file"])
         self.data_file = Path(self.config["data_file"])
+        self.monthly_file = Path(self.config["monthly_file"])
+        self.monthly_prices: pd.DataFrame = pd.DataFrame()
         self.new_tickers: list[str] = []
         self.prices: pd.DataFrame = pd.DataFrame()
         self.expected_last_day: pd.Timestamp = self._last_expected_trading_day()
@@ -60,9 +62,12 @@ class EtfDataDownloader:
         logger.info(f"Updating data (expected last trading day: {self.expected_last_day.date()})...")
 
         series_by_ticker = {ticker: self.prices[ticker].dropna() for ticker in self.prices.columns}
+        new_data_flag = False
         for ticker in self.new_tickers:
             try:
-                self._update_ticker(ticker, series_by_ticker)
+                updated = self._update_ticker(ticker, series_by_ticker)
+                if updated:
+                    new_data_flag = True
             except Exception as e:
                 logger.error(f"  {ticker}: failed ({e})")
 
@@ -72,7 +77,8 @@ class EtfDataDownloader:
             lambda acc, idx: acc.union(idx),
             (series.index for series in series_by_ticker.values()),
             pd.Index([]),
-        )
+        ) # Incrementally build the union of all indexes (idx) into acc
+        all_dates = all_dates.sort_values() # sort all_dates to ensure chronological order
         logger.debug(f"All dates count: {len(all_dates)}")
         logger.info(f"# series: {len(series_by_ticker)}")
         for ticker, series in series_by_ticker.items():
@@ -81,7 +87,12 @@ class EtfDataDownloader:
         self.prices = pd.concat(series_by_ticker, axis=1, ignore_index=False)
         self.prices = self.prices.loc[self.prices.index.sort_values()]
         logger.info(f"Final prices shape: {self.prices.shape}")
-        self._save_cache()
+        if new_data_flag:
+            self._save_cache()
+            self.monthly_prices = self.sample_monthly_prices()
+            self.monthly_prices.to_excel(self.monthly_file, header=True, index=True, float_format="%.2f")  
+        else:
+            logger.info("No new data found. No files were updated.")
         return None
 
     def _load_ticker_list(self) -> list[str]:
@@ -122,12 +133,28 @@ class EtfDataDownloader:
         )
         return None
 
+    def sample_monthly_prices(self) -> pd.DataFrame:
+        """self.prices resampled to month-end (last available price per ticker per month)."""
+        monthly = self.prices.resample("ME").last()  # ME = month-end
+        self._log_date_summary(monthly, "Computed monthly")
+        return monthly
+
     def _last_expected_trading_day(self) -> pd.Timestamp:
         """Most recent business day strictly before today (avoids assuming today's close is posted)."""
         today = pd.Timestamp.now().normalize()
         return today - BDAY_US
 
-    def _update_ticker( self, ticker: str, series_by_ticker: dict[str, pd.Series], ) -> None:
+    def _update_ticker( self, ticker: str, series_by_ticker: dict[str, pd.Series], ) -> bool:
+        """
+        Update the cached series for a given ticker with new data.
+        Args:
+            ticker (str): The ticker symbol to update.
+            series_by_ticker (dict[str, pd.Series]): Dictionary of existing prices by ticker.
+
+        Returns:
+            bool: True if the series was updated, False otherwise.
+        
+        """
         existing = series_by_ticker.get(ticker, None)
 
         if existing is not None and not existing.empty:  # we already have some data for this ticker in the cache
@@ -136,7 +163,7 @@ class EtfDataDownloader:
             logger.info(f"  {ticker}: existing data from {first_date.date()} to {last_date.date()}")
             if last_date >= self.expected_last_day:
                 logger.info(f"  {ticker}: up to date (last={last_date.date()})")
-                return None
+                return False
             start = last_date + pd.Timedelta(days=1)
             logger.info(f"  {ticker}: refreshing from {start.date()}")
         else:  # First time seeing this ticker
@@ -146,12 +173,12 @@ class EtfDataDownloader:
         new_data = self._download_close(ticker, start)
         if new_data is None:
             logger.info(f"  {ticker}: no new data returned")
-            return None
+            return False
 
         combined = new_data if existing is None else pd.concat([existing, new_data])
         combined = combined.loc[combined.index.sort_values()]
         series_by_ticker[ticker] = combined[~combined.index.duplicated(keep="last")]
-        return None
+        return True
 
     def _download_close(self, ticker: str, start: pd.Timestamp | None) -> pd.Series | None:
         kwargs: dict[str, bool | str] = {"auto_adjust": True, "progress": False}

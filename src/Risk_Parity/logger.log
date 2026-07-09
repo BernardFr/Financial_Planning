@@ -857,3 +857,87 @@ Date
 2026-07-08 19:30:29,372 - INFO - run - Final prices shape: (6448, 5)
 2026-07-08 19:30:29,391 - INFO - _log_date_summary - Saved ETF_back_data.parquet: number of rows=6448, number of tickers=5
    most recent date=2026-07-08, oldest date=2000-11-13, oldest date with all tickers present=2006-06-23
+2026-07-09 10:25:43,550 - INFO - run - Read 5 tickers from ETF.xlsx
+2026-07-09 10:25:43,655 - INFO - _log_date_summary - Loaded ETF_back_data.parquet: number of rows=6448, number of tickers=5
+   most recent date=2026-07-08, oldest date=2000-11-13, oldest date with all tickers present=2006-06-23
+2026-07-09 10:25:43,655 - INFO - run - Read 6448 tickers from ETF_back_data.parquet
+2026-07-09 10:25:43,655 - INFO - run - Updating data (expected last trading day: 2026-07-08)...
+2026-07-09 10:25:43,656 - INFO - _update_ticker -   VUG: existing data from 2004-01-30 to 2026-07-08
+2026-07-09 10:25:43,656 - INFO - _update_ticker -   VUG: up to date (last=2026-07-08)
+2026-07-09 10:25:43,656 - INFO - _update_ticker -   VTI: existing data from 2001-06-15 to 2026-07-08
+2026-07-09 10:25:43,656 - INFO - _update_ticker -   VTI: up to date (last=2026-07-08)
+2026-07-09 10:25:43,656 - INFO - _update_ticker -   VFIAX: existing data from 2000-11-13 to 2026-07-08
+2026-07-09 10:25:43,657 - INFO - _update_ticker -   VFIAX: up to date (last=2026-07-08)
+2026-07-09 10:25:43,657 - INFO - _update_ticker -   VSMAX: existing data from 2000-11-13 to 2026-07-08
+2026-07-09 10:25:43,657 - INFO - _update_ticker -   VSMAX: up to date (last=2026-07-08)
+2026-07-09 10:25:43,657 - INFO - _update_ticker -   VEMAX: existing data from 2006-06-23 to 2026-07-08
+2026-07-09 10:25:43,657 - INFO - _update_ticker -   VEMAX: up to date (last=2026-07-08)
+2026-07-09 10:25:43,660 - INFO - run - # series: 5
+2026-07-09 10:25:43,660 - INFO - run - VUG: 6448
+2026-07-09 10:25:43,660 - INFO - run - VTI: 6448
+2026-07-09 10:25:43,661 - INFO - run - VFIAX: 6448
+2026-07-09 10:25:43,661 - INFO - run - VSMAX: 6448
+2026-07-09 10:25:43,661 - INFO - run - VEMAX: 6448
+2026-07-09 10:25:43,662 - INFO - run - Final prices shape: (6448, 5)
+2026-07-09 10:25:43,685 - INFO - _log_date_summary - Saved ETF_back_data.parquet: number of rows=6448, number of tickers=5
+   most recent date=2026-07-08, oldest date=2000-11-13, oldest date with all tickers present=2006-06-23
+2026-07-09 10:31:29,741 - INFO - run - Read 5 tickers from ETF.xlsx
+2026-07-09 10:31:29,846 - INFO - _log_date_summary - Loaded ETF_back_data.parquet: number of rows=6448, number of tickers=5
+   most recent date=2026-07-08, oldest date=2000-11-13, oldest date with all tickers present=2006-06-23
+2026-07-09 10:31:29,846 - INFO - run - Read 6448 tickers from ETF_back_data.parquet
+2026-07-09 10:31:29,847 - INFO - run - Updating data (expected last trading day: 2026-07-08)...
+2026-07-09 10:31:29,848 - INFO - _update_ticker -   VUG: existing data from 2004-01-30 to 2026-07-08
+2026-07-09 10:31:29,848 - INFO - _update_ticker -   VUG: up to date (last=2026-07-08)
+2026-07-09 10:31:29,848 - INFO - _update_ticker -   VTI: existing data from 2001-06-15 to 2026-07-08
+2026-07-09 10:31:29,848 - INFO - _update_ticker -   VTI: up to date (last=2026-07-08)
+2026-07-09 10:31:29,848 - INFO - _update_ticker -   VFIAX: existing data from 2000-11-13 to 2026-07-08
+2026-07-09 10:31:29,848 - INFO - _update_ticker -   VFIAX: up to date (last=2026-07-08)
+2026-07-09 10:31:29,848 - INFO - _update_ticker -   VSMAX: existing data from 2000-11-13 to 2026-07-08
+2026-07-09 10:31:29,848 - INFO - _update_ticker -   VSMAX: up to date (last=2026-07-08)
+2026-07-09 10:31:29,849 - INFO - _update_ticker -   VEMAX: existing data from 2006-06-23 to 2026-07-08
+2026-07-09 10:31:29,849 - INFO - _update_ticker -   VEMAX: up to date (last=2026-07-08)
+2026-07-09 10:31:29,852 - INFO - run - # series: 5
+2026-07-09 10:31:29,852 - INFO - run - VUG: 6448
+2026-07-09 10:31:29,853 - INFO - run - VTI: 6448
+2026-07-09 10:31:29,853 - INFO - run - VFIAX: 6448
+2026-07-09 10:31:29,853 - INFO - run - VSMAX: 6448
+2026-07-09 10:31:29,853 - INFO - run - VEMAX: 6448
+2026-07-09 10:31:29,855 - INFO - run - Final prices shape: (6448, 5)
+2026-07-09 10:31:29,855 - INFO - run - No new data found. No files were updated.
+2026-07-09 10:32:17,095 - INFO - run - Read 6 tickers from ETF.xlsx
+2026-07-09 10:32:17,196 - INFO - _log_date_summary - Loaded ETF_back_data.parquet: number of rows=6448, number of tickers=5
+   most recent date=2026-07-08, oldest date=2000-11-13, oldest date with all tickers present=2006-06-23
+2026-07-09 10:32:17,196 - INFO - run - Read 6448 tickers from ETF_back_data.parquet
+2026-07-09 10:32:17,196 - INFO - run - Updating data (expected last trading day: 2026-07-08)...
+2026-07-09 10:32:17,197 - INFO - _update_ticker -   VUG: existing data from 2004-01-30 to 2026-07-08
+2026-07-09 10:32:17,197 - INFO - _update_ticker -   VUG: up to date (last=2026-07-08)
+2026-07-09 10:32:17,197 - INFO - _update_ticker -   VTI: existing data from 2001-06-15 to 2026-07-08
+2026-07-09 10:32:17,197 - INFO - _update_ticker -   VTI: up to date (last=2026-07-08)
+2026-07-09 10:32:17,197 - INFO - _update_ticker -   VFIAX: existing data from 2000-11-13 to 2026-07-08
+2026-07-09 10:32:17,197 - INFO - _update_ticker -   VFIAX: up to date (last=2026-07-08)
+2026-07-09 10:32:17,197 - INFO - _update_ticker -   VSMAX: existing data from 2000-11-13 to 2026-07-08
+2026-07-09 10:32:17,198 - INFO - _update_ticker -   VSMAX: up to date (last=2026-07-08)
+2026-07-09 10:32:17,198 - INFO - _update_ticker -   VEMAX: existing data from 2006-06-23 to 2026-07-08
+2026-07-09 10:32:17,198 - INFO - _update_ticker -   VEMAX: up to date (last=2026-07-08)
+2026-07-09 10:32:17,198 - INFO - _update_ticker -   VEUSX: downloading full history
+2026-07-09 10:32:17,974 - INFO - _download_close -   VEUSX: downloaded data:
+Price           Close       High        Low       Open Volume
+Ticker          VEUSX      VEUSX      VEUSX      VEUSX  VEUSX
+Date                                                         
+2001-08-13  22.258686  22.258686  22.258686  22.258686      0
+2001-08-14  22.507980  22.507980  22.507980  22.507980      0
+2001-08-15  22.681589  22.681589  22.681589  22.681589      0
+2001-08-16  22.481268  22.481268  22.481268  22.481268      0
+2001-08-17  22.209717  22.209717  22.209717  22.209717      0
+2026-07-09 10:32:17,980 - INFO - run - # series: 6
+2026-07-09 10:32:17,981 - INFO - run - VUG: 6448
+2026-07-09 10:32:17,981 - INFO - run - VTI: 6448
+2026-07-09 10:32:17,981 - INFO - run - VFIAX: 6448
+2026-07-09 10:32:17,982 - INFO - run - VSMAX: 6448
+2026-07-09 10:32:17,982 - INFO - run - VEMAX: 6448
+2026-07-09 10:32:17,984 - INFO - run - VEUSX: 6448
+2026-07-09 10:32:17,986 - INFO - run - Final prices shape: (6448, 6)
+2026-07-09 10:32:18,010 - INFO - _log_date_summary - Saved ETF_back_data.parquet: number of rows=6448, number of tickers=6
+   most recent date=2026-07-08, oldest date=2000-11-13, oldest date with all tickers present=2006-06-23
+2026-07-09 10:32:18,016 - INFO - _log_date_summary - Computed monthly ETF_back_data.parquet: number of rows=309, number of tickers=6
+   most recent date=2026-07-31, oldest date=2000-11-30, oldest date with all tickers present=2006-06-30
