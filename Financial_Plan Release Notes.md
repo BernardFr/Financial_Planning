@@ -24,6 +24,9 @@
 
 # Release Notes
 
+### 7/8/2026
+* Added Risk_Parity directory under `src` with scripts to experiment with risk-parity asset allocation strategy
+
 ### 6/16/26
 
 * Added utilities for JP Morgan Chase Capital Market model: `map_etf_asset_class_jpm.py` and `extract_jpm_stats.py`	

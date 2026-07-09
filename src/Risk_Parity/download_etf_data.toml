@@ -1,0 +1,9 @@
+[default]
+
+[ConfigurationManager]
+PLT_STYLE = 'seaborn-v0_8-deep'
+LOG_LEVEL = "DEBUG"
+
+[EtfDataDownloader]
+input_file = "ETF.xlsx"
+data_file = "ETF_back_data.parquet"

@@ -61,16 +61,6 @@ class ConfigurationManager:
         self.tick_timer.tick(message)
 
 
-    def _get_output_paths(self) -> Dict[str, str]:
-        """Get all output file paths for the current directory."""
-        base_path = self.data_dir + self.current_dir + '/'
-        paths_dict =  {'xl_out_filename': base_path + self.prog_name + '_' + self.current_dir + '.xlsx',
-                'out_file': base_path + self.prog_name + '_' + self.current_dir + '_out.txt',
-                'plt_file': self.prog_name + '_plots_' + self.current_dir + '.pdf',
-                'quick_dir': base_path + self.quick_dir}
-        return paths_dict
-
-
     def _read_config_file(self) -> dict[str, Any]:
         this_dir = os.path.dirname(os.path.abspath(__file__))
         config_file = os.path.join(this_dir, self.prog_name + '.toml')
