@@ -23,7 +23,7 @@ from typing import List
 
 import pandas as pd
                             
-from utilities import error_exit
+from utilities import error_exit, clean_excel_text
 from configuration_manager_class import ConfigurationManager
 from logger import logger
 
@@ -98,7 +98,7 @@ class Portfolio:
         """Load the holdings data from the file"""
         in_file = os.path.join(self.data_dir, holdings_file)
         # openpyxl does not work with .xls files - use xlrd instead
-        in_df = pd.read_excel(in_file, sheet_name='WFA_Positions', dtype=str, engine='xlrd')
+        in_df = clean_excel_text(pd.read_excel(in_file, sheet_name='WFA_Positions', dtype=str, engine='xlrd'))
         cash_amount = self._get_cash_amount(in_df)
         # Find the row where the first value is 'ETFs'
         etfs_row_idx = in_df[in_df.iloc[:, 0] == 'ETFs'].index[0]
@@ -172,7 +172,7 @@ class Portfolio:
         Returns a Series of the asset class market values"""
         # read the mapping file ETF -> Asset Class
         # Read into a dictionary - where ETF is the key and Asset Class is the value
-        etf_asset_class_df = pd.read_excel(self.etf_asset_class_map_file, sheet_name='ETF - Asset Class', dtype=str, engine='openpyxl')
+        etf_asset_class_df = clean_excel_text(pd.read_excel(self.etf_asset_class_map_file, sheet_name='ETF - Asset Class', dtype=str, engine='openpyxl'))
         # Create a mapping dictionary using the first column as key and second column as value
         etf_asset_class_map_dict = etf_asset_class_df.set_index(etf_asset_class_df.columns[0])[etf_asset_class_df.columns[1]].to_dict()
         

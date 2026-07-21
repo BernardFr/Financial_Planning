@@ -13,6 +13,7 @@ from pathlib import Path
 import pandas as pd
 sys.path.insert(0, '../Color_Map/')  # Add path to the directory containing plot_color_matrix
 from plot_color_matrix import plot_color_matrix as pcm
+from utilities import clean_excel_text
 
 
 ProgName = ''  # placeholder for program name
@@ -77,7 +78,7 @@ def main(argv: [str]) -> None:
         print(f"Input file: {in_xl_file}")
     plt_file = in_xl_file.replace(".xlsx", "_out.pdf")  # replace the ".xlsx" extension
 
-    in_df = pd.read_excel(in_xl_file, sheet_name='validation', header=0, index_col=0)
+    in_df = clean_excel_text(pd.read_excel(in_xl_file, sheet_name='validation', header=0, index_col=0))
     legend_dict = dict()
     legend_dict['title'] = "Asset Class Correlation Matrix"
     legend_dict['x_label'] = "Asset Class"

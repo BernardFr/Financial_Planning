@@ -48,7 +48,7 @@ from plot_color_matrix import plot_color_matrix as pcm
 from configuration_manager_class import ConfigurationManager
 from logger import logger
 from typing import Any, List, Optional, Sequence, Tuple, cast
-from utilities import error_exit
+from utilities import error_exit, clean_excel_text
 
  
 # For testing 
@@ -135,7 +135,7 @@ class CapitalMarketsStats:
         logger.info(f"Reading Capital Market stats from file: {cpm_file}")
         # Check that the file contains the expected sheets: Stats and Correlation
         try:
-            stat_df = pd.read_excel(cpm_file, sheet_name='Stats', header=0, engine='openpyxl', index_col=0)
+            stat_df = clean_excel_text(pd.read_excel(cpm_file, sheet_name='Stats', header=0, engine='openpyxl', index_col=0))
             logger.info(f"stat_df =\n{stat_df}")
         except Exception as e:
             logger.error(f"Failed to read Stats sheet from file: {cpm_file}. Error: {e}\nAborting")
@@ -144,7 +144,7 @@ class CapitalMarketsStats:
         try:
             xls = pd.ExcelFile(cpm_file, engine='openpyxl')
             if 'Correlation' in xls.sheet_names:
-                corr_df = pd.read_excel(cpm_file, sheet_name='Correlation', header=0, engine='openpyxl', index_col=0)
+                corr_df = clean_excel_text(pd.read_excel(cpm_file, sheet_name='Correlation', header=0, engine='openpyxl', index_col=0))
                 logger.info(f"corr_df =\n{corr_df}")
             else:
                 logger.info(f"Correlation sheet not found in file: {cpm_file}. Correlation matrix will be None")
@@ -463,7 +463,7 @@ def main_old(argv: Sequence[str]) -> None:
     delta.to_excel(xl_wr, sheet_name='delta', float_format='%0.2f', header=True, index=True)
 
     # Perform portfolio mapping from Ben's Portfolio
-    alloc_df = pd.read_excel(model_file, sheet_name='Models', header=0, engine='openpyxl')
+    alloc_df = clean_excel_text(pd.read_excel(model_file, sheet_name='Models', header=0, engine='openpyxl'))
     alloc_df.to_excel(xl_wr, sheet_name='Mappings', float_format='%0.2f', header=True, index=True)
     bf_alloc = self._xx_make_ben_model(alloc_df)
     logger.info('\n\nPortfolio allocation')

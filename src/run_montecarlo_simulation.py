@@ -11,7 +11,6 @@ Inputs - in ./Data: use find_most_recent helper function to find the most recent
 - Portfolio: portfolio_by_Asset_class_YYYY_mm_dd.xlsx
 - Cashflows: WFA_life_plan_YYYY_MM_DD.xlsx
 - Asset model parameters (e.g. expected return, volatility, etc.)
-- Cashflow parameters (e.g. initial portfolio value, annual spending, etc.)
 - Monte Carlo simulation parameters (e.g. number of simulations, confidence level, etc.)
 """
 

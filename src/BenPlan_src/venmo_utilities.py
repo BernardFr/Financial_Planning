@@ -12,6 +12,8 @@ import openpyxl
 import pandas as pd
 from openpyxl.styles import Alignment, Font
 
+from utils import clean_excel_text
+
 BFName = 'Bernard Fraenkel'
 
 ZOOM_LEVEL = 110  # Zoom level for the Venmo files
@@ -214,11 +216,11 @@ def check_bad_categories(vmo_file: str, bp_map_file: str) -> pd.DataFrame:
     :param bp_map_file:
     :return:
     """
-    df = pd.read_excel(vmo_file, sheet_name=VENMO_STATEMENT_SHEET, header=0)
+    df = clean_excel_text(pd.read_excel(vmo_file, sheet_name=VENMO_STATEMENT_SHEET, header=0))
     # print(f"Venmo DF w/ NO flags:\n{df}")
-    category_df = pd.read_excel(bp_map_file, sheet_name="Categories", header=0)
+    category_df = clean_excel_text(pd.read_excel(bp_map_file, sheet_name="Categories", header=0))
     category_lst = list(category_df["Category"])
-    tags_df = pd.read_excel(bp_map_file, sheet_name="Travel", header=0)
+    tags_df = clean_excel_text(pd.read_excel(bp_map_file, sheet_name="Travel", header=0))
     tags_lst = list(tags_df["Vacation"])
     # covers case where category is not filled
     df["bad_cat"] = df["Category"].apply(lambda x: x not in category_lst)
@@ -306,7 +308,7 @@ def process_all_venmo_files(venmo_dir: str, venmo_xl_file: str, bp_map_file: str
 
     # Get the data of the latest entry in the already-processed file
     if os.path.exists(venmo_xl_file):
-        venmo_todate_df = pd.read_excel(venmo_xl_file, sheet_name=VENMO_STATEMENT_SHEET, header=0)
+        venmo_todate_df = clean_excel_text(pd.read_excel(venmo_xl_file, sheet_name=VENMO_STATEMENT_SHEET, header=0))
         if venmo_debug:
             print(f"Read {len(venmo_todate_df.index)} Venmo Entries")
     else:

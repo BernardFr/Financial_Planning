@@ -26,6 +26,7 @@ from pandas.tseries.offsets import CustomBusinessDay
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 from configuration_manager_class import ConfigurationManager
 from logger import logger
+from utilities import clean_excel_text
 
 DEBUG_FLAG = False
 BDAY_US = CustomBusinessDay(calendar=USFederalHolidayCalendar())
@@ -97,7 +98,7 @@ class EtfDataDownloader:
 
     def _load_ticker_list(self) -> list[str]:
         """First column of input_file, deduped and upper-cased."""
-        df = pd.read_excel(self.input_file, header=0)
+        df = clean_excel_text(pd.read_excel(self.input_file, header=0))
         tickers = df.loc[:, 'Ticker'].dropna().astype(str).str.strip().str.upper()
         return tickers.unique().tolist()
 

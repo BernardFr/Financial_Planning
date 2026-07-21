@@ -44,8 +44,9 @@ lifeplan_file_prefix = 'WFA_life_plan'
 lifeplan_date_format = "%Y_%m_%d"
 portfolio_file_prefix = 'portfolio_by_Asset_class'
 portfolio_date_format = "%Y_%m_%d"
-morningstar_file_prefix = 'Morningstar_asset_stats'
-morningstar_date_format = "%Y_%m_%d"
+# capital_markets_file_prefix = 'Morningstar_asset_stats'
+capital_markets_file_prefix = 'jpm_cpm_stats'
+capital_markets_date_format = "%Y_%m_%d"
 
 
 [MorningstarStats]
@@ -59,21 +60,4 @@ validate_cross_correlation_flag = true
 validation_error_margin = 1e-2 
 model_file = "./Data/Morningstar_Asset_Stats/Models.xlsx"
 xl_out_name = "./Data/Morningstar_asset_stats"
-# Dict to map the Morningstar asset statistics labels to those of Morningstar Correlations
-STAT_CORR_NAME_MAP = [
-        ["US Large Cap Growth", "U.S. Lg Cap Growth"],
-        ["US Large Cap Value", "U.S. Lg Cap Val"],
-        ["US Mid Cap Growth", "U.S. Mid Cap Growth"],
-        ["US Mid Cap Value",  "U.S. Mid Cap Val"],
-        ["US Small Cap Growth", "U.S. Sm Cap Growth"],
-        ["US Small Cap Value", "U.S. Sm Cap Val"],
-        ["Non-US Dev Stk", "Foreign Industrialzed Mkts Stocks"],
-        ["Non-US Emrg Stk", "Emerging Mkts Stks"], 
-        ["US Inv Grade Bonds", "U.S. Investment Grade Bonds"],
-        ["US High Yield Bonds", "U.S. High Yield Bonds"],
-        ["Non-US Dev Bonds", "Non-U.S. Bonds"],
-        ["Cash", "Cash"],
-        ["Commodities", "Commodities"],
-        ["Real Estate", "Real Estate"]
-]
 

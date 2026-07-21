@@ -32,7 +32,7 @@ from plot_color_matrix import plot_color_matrix as pcm
 from configuration_manager_class import ConfigurationManager
 from logger import logger
 from typing import Any, List, Optional, Sequence, Tuple, cast
-from utilities import error_exit
+from utilities import error_exit, clean_excel_text
 
 XLabelLenDefault = 5  # Length of the X axis labels
 QuickFlagDefault = False
@@ -598,7 +598,7 @@ def main_old(argv: Sequence[str]) -> None:
     delta.to_excel(xl_wr, sheet_name='delta', float_format='%0.2f', header=True, index=True)
 
     # Perform portfolio mapping from Ben's Portfolio
-    alloc_df = pd.read_excel(model_file, sheet_name='Models', header=0, engine='openpyxl')
+    alloc_df = clean_excel_text(pd.read_excel(model_file, sheet_name='Models', header=0, engine='openpyxl'))
     alloc_df.to_excel(xl_wr, sheet_name='Mappings', float_format='%0.2f', header=True, index=True)
     bf_alloc = self._xx_make_ben_model(alloc_df)
     logger.info('\n\nPortfolio allocation')

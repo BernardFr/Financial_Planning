@@ -22,6 +22,8 @@ import getopt
 import pandas as pd
 import numpy as np
 
+from utils import clean_excel_text
+
 start_month = None
 end_month = None
 ref_start = None
@@ -160,7 +162,7 @@ def main(argv):
     current_dir = max(dir_files)
     in_file_name = DATA_DIR + '/' + current_dir + '/Benplan-' + current_dir + '.xlsx'
     print(f"Reading data from: {in_file_name}")
-    df_benplan = pd.read_excel(in_file_name, sheet_name="BenPlan Categories", index_col=0, header=0, engine='openpyxl')
+    df_benplan = clean_excel_text(pd.read_excel(in_file_name, sheet_name="BenPlan Categories", index_col=0, header=0, engine='openpyxl'))
     print(df_benplan.head())
 
     # Copy relevant data to 2 DF: target and reference

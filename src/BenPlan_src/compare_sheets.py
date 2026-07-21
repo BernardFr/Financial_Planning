@@ -11,6 +11,7 @@ import os
 import re
 from openpyxl import load_workbook
 from pandas.api.types import is_string_dtype
+from utils import clean_excel_text
 
 
 HOME_DIR = '/Users/bfraenkel/Documents/Code/BenPlan/'
@@ -109,8 +110,8 @@ def same_sheet_names(bp_file: str, bp_oo_file: str) -> bool:
 def compare_sheets(bp_file: str, bp_oo_file: str, sheet_name: str) -> bool:
     """Compare the two sheets with the same name."""
     # 1st row is the header, 1st column is the index
-    df_bp = pd.read_excel(bp_file, sheet_name=sheet_name, header=0, index_col=0)
-    df_oo = pd.read_excel(bp_oo_file, sheet_name=sheet_name, header=0, index_col=0)
+    df_bp = clean_excel_text(pd.read_excel(bp_file, sheet_name=sheet_name, header=0, index_col=0))
+    df_oo = clean_excel_text(pd.read_excel(bp_oo_file, sheet_name=sheet_name, header=0, index_col=0))
     # compare the two dataframes
     if df_bp.equals(df_oo):
         return True

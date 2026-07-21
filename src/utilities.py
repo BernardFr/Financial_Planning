@@ -13,12 +13,33 @@ Zoom_level = 110
 XL_col_width = 11  # Width of a column for $ in Excel
 XL_col_1_width = 18  # Width of 1st column
 
-
-
 Money_format = '$#,##0.00_);[Red]($#,##0.00)'  # Excel cell number format for dollar values
 Zoom_level = 110
 XL_col_width = 11  # Width of a column for $ in Excel
 XL_col_1_width = 18  # Width of 1st column
+
+def clean_text(value):
+    """Strip non-printable/non-ASCII characters (e.g. Excel's non-breaking spaces, smart
+    quotes) from a string and collapse whitespace. Non-string values pass through unchanged.
+    tabs, newlines, carriage returns, and other non-printable characters are replaced with a space before collapsing whitespace.
+    """
+    if not isinstance(value, str):
+        return value
+    value = re.sub(r'[^\x20-\x7E]', ' ', value) # replace non-printable/non-ASCII characters with a space
+    # collapse multiple whitespace characters into a single space and strip leading/trailing whitespace
+    return re.sub(r'\s+', ' ', value).strip() 
+
+
+def clean_excel_text(df: pd.DataFrame) -> pd.DataFrame:
+    """Apply clean_text to column labels, the index, and every string cell of a
+    DataFrame just loaded from Excel."""
+    df = df.rename(columns=clean_text)
+    df.index = df.index.map(clean_text)
+    for col in df.columns:
+        if df[col].dtype == object:
+            df[col] = df[col].map(clean_text)
+    return df
+
 
 def get_prog_name() -> str:
     """ Get the program name from the path """

@@ -43,6 +43,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from multiprocessing import Pool, set_start_method
 from functools import partial
 import asset_stats_util as asst
+from utilities import clean_excel_text
 # import itertools
 # from multiprocessing import cpu_count
 # from asset_stats_util import *
@@ -287,9 +288,9 @@ def get_stats_and_model(mc_model_file, url_stats, url_corr, model_file):
 
     # Get morningstar stats and create portfolio models
     if os.path.isfile(mc_model_file):  # if the file already exists, just read from it
-        df_stat = pd.read_excel(mc_model_file, sheet_name='Stats', header=0, index_col=0)
-        df_corr = pd.read_excel(mc_model_file, sheet_name='Correlation', header=0, index_col=0)
-        alloc_scenarios = pd.read_excel(mc_model_file, sheet_name='Allocation Scenarios', header=0)
+        df_stat = clean_excel_text(pd.read_excel(mc_model_file, sheet_name='Stats', header=0, index_col=0))
+        df_corr = clean_excel_text(pd.read_excel(mc_model_file, sheet_name='Correlation', header=0, index_col=0))
+        alloc_scenarios = clean_excel_text(pd.read_excel(mc_model_file, sheet_name='Allocation Scenarios', header=0))
     else:  # Get morningstar stats and create portfolio models
         mc_xl_wr = pd.ExcelWriter(mc_model_file)
         # Get portfolio mapping from Ben's Portfolio

@@ -9,6 +9,8 @@ import pandas
 import pandas as pd
 import datetime as dt
 
+from utilities import clean_excel_text
+
 DEBUG = False
 
 
@@ -23,7 +25,7 @@ def process_goals_file(goals_filename: str, dob: str, death_age: int, end_age: i
     @param default_inflation_rate: value for inflation when labeled 'Default' in the file
     @return: DF: rows are cashflows column are (1) age at which cashflow starts (2) cashflow ends (3) inflation rate
     """
-    df_in = pd.read_excel(goals_filename, sheet_name='Goals', index_col=0)
+    df_in = clean_excel_text(pd.read_excel(goals_filename, sheet_name='Goals', index_col=0))
     age_today = compute_age_today(dob)  # compute my current age
     # Replace strings Death and End with numeric values
     goals_df_age = df_in[['Start_age', 'End_age']]

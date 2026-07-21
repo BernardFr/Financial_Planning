@@ -13,7 +13,7 @@ import typing
 
 import pandas as pd
 
-from utils import make_dollar_pretty, my_age, print_out, this_function
+from utils import make_dollar_pretty, my_age, print_out, this_function, clean_excel_text
 HOME_DIR = '/Users/bfraenkel/Documents/Code/BenPlan/'
 DATA_DIR = HOME_DIR + '/Data/'
 ENVISION_FILE = DATA_DIR + 'Envision/Envision_Projections.xlsx'
@@ -212,7 +212,7 @@ def compare_w_envision(pivot: pd.DataFrame, age_set: list, outf: typing.TextIO) 
     xl = pd.ExcelFile(ENVISION_FILE, engine='openpyxl')
     # Sheet names are YYYY-MM-DD so that max() provides the latest
     latest_sheet = max(xl.sheet_names)
-    envision_df = pd.read_excel(ENVISION_FILE, sheet_name=latest_sheet, header=1, index_col=0, engine='openpyxl')
+    envision_df = clean_excel_text(pd.read_excel(ENVISION_FILE, sheet_name=latest_sheet, header=1, index_col=0, engine='openpyxl'))
     envision_df.fillna(0.0, inplace=True)
 
     # ---- Compute aggregate values to compare BenPlan with Envision ----

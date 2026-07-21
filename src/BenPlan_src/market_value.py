@@ -31,7 +31,7 @@ import yfinance as yf
 import openpyxl
 
                              
-from utils import get_prog_name, to_dollar_str
+from utils import get_prog_name, to_dollar_str, clean_excel_text
 from mv_configuration_manager_class import ConfigurationManager
 from mv_data_loader_class import DataLoader
 from logger import logger
@@ -159,7 +159,7 @@ class MarketValueProcessor:
         with pd.ExcelFile(xl_outf) as xls:
             if MARKET_VALUE_SHEET in xls.sheet_names:
                 # read the existing DF of market_value from the sheet
-                market_value_df = pd.read_excel(xl_outf, sheet_name=MARKET_VALUE_SHEET)
+                market_value_df = clean_excel_text(pd.read_excel(xl_outf, sheet_name=MARKET_VALUE_SHEET))
                 # Check if today is in the Date column - if not append it
                 if today not in market_value_df['Date'].values:
                     market_value_df.loc[len(market_value_df)] = {'Date': today, MARKET_VALUE_COL: market_value}

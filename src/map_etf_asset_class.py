@@ -38,6 +38,7 @@ from yfinance import ticker
 from configuration_manager_class import ConfigurationManager
 from find_most_recent import find_most_recent
 from logger import logger
+from utilities import clean_excel_text
 from claude_model_manager import ClaudeModelManager, ModelSelectionError
 from morningstar_stats_class import MorningstarStats
 
@@ -119,7 +120,7 @@ class MapETFToAssetClass:
 
         # Load tickers from positions file
         try:
-            df = pd.read_excel(positions_file, header=0, usecols=["Ticker"])
+            df = clean_excel_text(pd.read_excel(positions_file, header=0, usecols=["Ticker"]))
             position_tickers = df["Ticker"].dropna().astype(str).str.strip().tolist()
             position_tickers = [t for t in position_tickers if t.lower() not in ['total', 'cash']]
             logger.info(f"Loaded position tickers:\n{position_tickers}")
@@ -130,7 +131,7 @@ class MapETFToAssetClass:
         # Load mapped tickers from the existing results file to avoid re-mapping them.
         try:
             if self.mapped_file:
-                self.df_mapped = pd.read_excel(self.mapped_file, header=0)
+                self.df_mapped = clean_excel_text(pd.read_excel(self.mapped_file, header=0))
                 # Mapped tickers are those already present in the results file, where the 'Asset_class' column is not empty.
                 mapped_tickers = self.df_mapped[self.df_mapped["Asset_class"].notna()]["Ticker"].str.strip().tolist()
                 logger.info(f"Loaded mapped tickers:\n{mapped_tickers}")
@@ -520,7 +521,7 @@ class ClaudeClassifier:
             sys.exit(1)
         logger.info(f"Most recent Morningstar stats file: {stats_file} (date: {date_str})")
         try:
-            ms_stats = pd.read_excel(stats_file, sheet_name=self.config["morningstar_sheet_name"], header=0, index_col=0)
+            ms_stats = clean_excel_text(pd.read_excel(stats_file, sheet_name=self.config["morningstar_sheet_name"], header=0, index_col=0))
             idx = ms_stats.index.tolist()
             logger.info(f"Extracted Morningstar asset classes for prompt injection:\n{idx}")
         except Exception as e:
@@ -753,12 +754,12 @@ def print_unmatched(result: ClassificationResult):
 def map_positions_to_Asset_classes(positions_file: str, etf_Asset_class_map_file: str, date_str: str) -> str:
     """Map the Positions to their asset classes, aggregate market values by asset class, save to output file, and print summary of asset class distribution."""
     try:
-        positions_df = pd.read_excel(positions_file, header=0)
+        positions_df = clean_excel_text(pd.read_excel(positions_file, header=0))
         # remove the "Total" row if it exists, which can interfere with mapping and aggregation
         if positions_df["Ticker"].str.lower().eq("total").any():
             positions_df = positions_df[~positions_df["Ticker"].str.lower().eq("total")]
         logger.info(f"Total Market value in positions file: ${positions_df['Market Value'].sum():,.0f}")
-        map_df = pd.read_excel(etf_Asset_class_map_file, header=0)
+        map_df = clean_excel_text(pd.read_excel(etf_Asset_class_map_file, header=0))
         logger.info(f"Mapping positions to asset classes using positions file: {positions_file}, map file: {etf_Asset_class_map_file}")
         logger.info(f"{len(positions_df)} positions found, {len(map_df)} mapped ETFs found")
         merged_df = positions_df.merge(map_df[["Ticker", "Asset_class"]], on="Ticker", how="left")

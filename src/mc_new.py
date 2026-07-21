@@ -22,6 +22,7 @@ from scipy.linalg import norm as matrix_norm
 import openpyxl
 import mc_new_utilities as UT
 import plot_color_matrix as plot_c_m
+from utilities import clean_excel_text
 
 plt.style.use('seaborn-deep')
 ProgName = ''  # Place holder for program name
@@ -142,10 +143,10 @@ class AssetModel:
         ms_file_lst.sort(reverse=True)
         morningstar_file = f"./{params['MORNINGSTAR_DIR']}/{ms_file_lst[0]}"
         print(f"Morningstar file: {morningstar_file}")
-        self.asset_stats = pd.read_excel(morningstar_file, sheet_name='Stats', header=0, index_col=0, engine='openpyxl')
-        self.asset_corr = pd.read_excel(morningstar_file, sheet_name='Correlation', header=0, index_col=0,
-                                        engine='openpyxl')
-        self.alloc_model = pd.read_excel(morningstar_file, sheet_name='Model', header=0, index_col=0, engine='openpyxl')
+        self.asset_stats = clean_excel_text(pd.read_excel(morningstar_file, sheet_name='Stats', header=0, index_col=0, engine='openpyxl'))
+        self.asset_corr = clean_excel_text(pd.read_excel(morningstar_file, sheet_name='Correlation', header=0, index_col=0,
+                                        engine='openpyxl'))
+        self.alloc_model = clean_excel_text(pd.read_excel(morningstar_file, sheet_name='Model', header=0, index_col=0, engine='openpyxl'))
         self.asset_alloc = self.alloc_model[user_params["STRATEGY"]].copy(deep=True)
         self.blended_return = 0.01 * self.asset_stats['Expected Return'].dot(self.asset_alloc)
 
@@ -201,7 +202,7 @@ class AssetModel:
         @return: DF: rows are cashflows column are (1) age at which cashflow starts (2) cashflow ends (3) inflation rate
         """
         goals_filename = params['GOALS_FILE']
-        df_in = pd.read_excel(goals_filename, sheet_name='Goals', index_col=0, engine='openpyxl')
+        df_in = clean_excel_text(pd.read_excel(goals_filename, sheet_name='Goals', index_col=0, engine='openpyxl'))
         age_today = compute_age_today(user_params['BDAY'])  # compute my current age
         death_age = user_params['DEATH_AGE']
         end_age = user_params['END_AGE']

@@ -14,6 +14,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from matplotlib.backends.backend_pdf import PdfPages
+from utilities import clean_excel_text
 
 ProgName = ''  # placeholder for program name
 DEBUG = False
@@ -116,7 +117,7 @@ def main(argv: [str]) -> None:
         in_xl_file = ProgName + "_in.xlsx"
 
     plt_file = in_xl_file.replace("_in.xlsx", "_out.pdf")
-    in_df = pd.read_excel(in_xl_file, header=0, index_col=0)
+    in_df = clean_excel_text(pd.read_excel(in_xl_file, header=0, index_col=0))
     print(f"in_df head:\n{in_df.head()}")
     legend_dict = dict()
     legend_dict['title'] = "Configence Level by Strategy and Starting Funds"

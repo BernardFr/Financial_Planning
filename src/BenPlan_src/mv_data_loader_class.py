@@ -8,6 +8,7 @@ import pandas as pd
 
 from logger import logger
 from mv_configuration_manager_class import ConfigurationManager
+from utils import clean_excel_text
 
 Cols_2_Keep = ['Symbol', 'Account Number', 'Shares', 'Description', 'Tax Term']
 account_map: Dict[str, str] = {'*8475': 'BRKG', '*3672': '401K'}
@@ -95,7 +96,7 @@ class DataLoader:
         """Load the holdings data from the file"""
         in_file = os.path.join(self.data_dir, holdings_file)
         # openpyxl does not work with .xls files - use xlrd instead
-        in_df = pd.read_excel(in_file, sheet_name='WFA_Positions', dtype=str, engine='xlrd')
+        in_df = clean_excel_text(pd.read_excel(in_file, sheet_name='WFA_Positions', dtype=str, engine='xlrd'))
         cash_amount = self._get_cash_amount(in_df)
         # Find the row where the first value is 'ETFs'
         etfs_row_idx = in_df[in_df.iloc[:, 0] == 'ETFs'].index[0]

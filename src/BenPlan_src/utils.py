@@ -27,6 +27,26 @@ OTHER_PCT = 0.2  # 20%
 A_Z = list(string.ascii_uppercase)  # ['A', .., 'Z']
 
 
+def clean_text(value):
+    """Strip non-printable/non-ASCII characters (e.g. Excel's non-breaking spaces, smart
+    quotes) from a string and collapse whitespace. Non-string values pass through unchanged."""
+    if not isinstance(value, str):
+        return value
+    value = re.sub(r'[^\x20-\x7E]', ' ', value)
+    return re.sub(r'\s+', ' ', value).strip()
+
+
+def clean_excel_text(df: pd.DataFrame) -> pd.DataFrame:
+    """Apply clean_text to column labels, the index, and every string cell of a
+    DataFrame just loaded from Excel."""
+    df = df.rename(columns=clean_text)
+    df.index = df.index.map(clean_text)
+    for col in df.columns:
+        if df[col].dtype == object:
+            df[col] = df[col].map(clean_text)
+    return df
+
+
 def get_prog_name() -> str:
     """ Get the program name from the path """
     basename = os.path.basename(sys.argv[0])

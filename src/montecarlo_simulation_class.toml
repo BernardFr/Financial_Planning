@@ -44,25 +44,6 @@ validation_error_margin = 5e-3
 model_file = "./Data/Morningstar_Asset_Stats/Models.xlsx"
 xl_out_name = "./Data/Morningstar_asset_stats"
 
-# Dict to map the Morningstar asset statistics labels to those of Morningstar Correlations
-STAT_CORR_NAME_MAP = [
-        ["US Large Cap Growth", "U.S. Lg Cap Growth"],
-        ["US Large Cap Value", "U.S. Lg Cap Val"],
-        ["US Mid Cap Growth", "U.S. Mid Cap Growth"],
-        ["US Mid Cap Value",  "U.S. Mid Cap Val"],
-        ["US Small Cap Growth", "U.S. Sm Cap Growth"],
-        ["US Small Cap Value", "U.S. Sm Cap Val"],
-        ["Non-US Dev Stk", "Foreign Industrialzed Mkts Stocks"],
-        ["Non-US Emrg Stk", "Emerging Mkts Stks"], 
-        ["US Inv Grade Bonds", "U.S. Investment Grade Bonds"],
-        ["US High Yield Bonds", "U.S. High Yield Bonds"],
-        ["Non-US Dev Bonds", "Non-U.S. Bonds"],
-        ["Cash", "Cash"],
-        ["Commodities", "Commodities"],
-        ["Real Estate", "Real Estate"]
-]
-
-
 
 [Portfolio]
 DATA_DIR = '/Users/bfraenkel/Documents/Code/BenPlan/Holdings/'

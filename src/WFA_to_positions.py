@@ -13,6 +13,7 @@ import pandas as pd
 from configuration_manager_class import ConfigurationManager
 from find_most_recent import find_most_recent
 from logger import logger
+from utilities import clean_excel_text
 
 
 def dollar_str(x: float) -> str:
@@ -167,7 +168,7 @@ class WFAtoPositionsClass:
             )
 
         logger.info(f"Using holdings file: {holdings_file.name}")
-        raw_df = pd.read_excel(holdings_file, header=None, dtype=object)
+        raw_df = clean_excel_text(pd.read_excel(holdings_file, header=None, dtype=object))
         cash_balance = self._find_cash_balance(raw_df)
         logger.info(f"Cash Balance: {dollar_str(cash_balance)}")
 

@@ -38,12 +38,16 @@ ToDo:
 import argparse
 import sys
 from dataclasses import dataclass
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
 import yfinance as yf
 from scipy.optimize import minimize
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+from utilities import clean_excel_text
 
 LOOKBACK_DAYS_DEFAULT = 252  # ~1 year of trading days
 
@@ -58,7 +62,7 @@ class Holding:
 
 
 def load_holdings(path: str) -> list[Holding]:
-    df = pd.read_excel(path)
+    df = clean_excel_text(pd.read_excel(path))
     df.columns = [c.strip().lower() for c in df.columns]
     if "ticker" not in df.columns or "shares" not in df.columns:
         raise ValueError("Excel must have 'ticker' and 'shares' columns")

@@ -18,7 +18,7 @@ from find_most_recent import find_most_recent
 from portfolio_class import Portfolio
 from morningstar_stats_class import MorningstarStats
 from arrayrandgen_class import ArrayRandGen
-from utilities import error_exit, display_series, dollar_str
+from utilities import error_exit, display_series, dollar_str, clean_excel_text
 import collections
 import sys
 DEBUG_FLAG = False
@@ -49,12 +49,16 @@ class MontecarloSimulationDataLoader:
         self.morningstar_stats = MorningstarStats(config_manager)
         # Create a sequence of pseudo-random seeds for the random number generators for each CPU
         self.master_seed_sequence = np.random.SeedSequence(self.seed)  
-        self.load_data()
         # set logger to info 
         logger.setLevel(logging.INFO)
         logger.info(f"MontecarloSimulationDataLoader initialized - data loaded")
 
         return None
+    
+    def run(self) -> None:
+        self.load_data()
+        return None
+
     
     def _load_cashflow_data(self) -> None:
         """Load the cashflow data from the cashflow file and return a Series of cashflows by year"""
@@ -62,7 +66,7 @@ class MontecarloSimulationDataLoader:
         lifeplan_prefix = self.config['lifeplan_file_prefix']
         lifeplan_date_format = self.config['lifeplan_date_format']
         life_plan_file, _ = find_most_recent(input_dir, lifeplan_prefix, lifeplan_date_format)
-        cashflow_data = pd.read_excel(life_plan_file, index_col=None, header=None)
+        cashflow_data = clean_excel_text(pd.read_excel(life_plan_file, index_col=None, header=None))
         assert isinstance(cashflow_data, pd.DataFrame), "cashflow data must be a pandas DataFrame"
         self.cashflow_df = cast(pd.DataFrame, cashflow_data.T.set_index(0, drop=True))
         self.cashflow_df.columns = ['Cashflow']
@@ -79,7 +83,7 @@ class MontecarloSimulationDataLoader:
         portfolio_prefix = self.config['portfolio_file_prefix']
         portfolio_date_format = self.config['portfolio_date_format']
         portfolio_file, _ = find_most_recent(input_dir, portfolio_prefix, portfolio_date_format)
-        portfolio_data = pd.read_excel(portfolio_file, index_col=0)
+        portfolio_data = clean_excel_text(pd.read_excel(portfolio_file, index_col=0))
         assert isinstance(portfolio_data, pd.DataFrame), "portfolio data must be a pandas DataFrame"
         self.initial_asset_class_ser = cast(pd.Series, portfolio_data.squeeze(axis=1))
         return None
@@ -89,12 +93,12 @@ class MontecarloSimulationDataLoader:
         Use the index of the correlation matrix as the source of truth for the asset classes
         """
         input_dir = self.config['input_directory']
-        morningstar_prefix = self.config['morningstar_file_prefix']
+        capital_markets_file_prefix = self.config['capital_markets_file_prefix']
         capital_markets_date_format = self.config['capital_markets_date_format']
-        capital_markets_file, _ = find_most_recent(input_dir, capital_markets_prefix, capital_markets_date_format)
-        print(f"Morningstar file: {capital_markets_file}")
-        self.stats_df = pd.read_excel(capital_markets_file, sheet_name='Stats', index_col=0, header=0)
-        self.corr_df = pd.read_excel(capital_markets_file, sheet_name='Correlation', index_col=0, header=0)
+        capital_markets_file, _ = find_most_recent(input_dir, capital_markets_file_prefix, capital_markets_date_format)
+        print(f"Capital Markets file: {capital_markets_file}")
+        self.stats_df = clean_excel_text(pd.read_excel(capital_markets_file, sheet_name='Stats', index_col=0, header=0))
+        self.corr_df = clean_excel_text(pd.read_excel(capital_markets_file, sheet_name='Correlation', index_col=0, header=0))
         if "Yield" in self.stats_df.columns:
             self.stats_df.drop( columns=['Yield'], inplace=True) 
         # Make sure that stats_df.index, corr_df.index and corr_df.columns are the same and in the same order
@@ -171,7 +175,8 @@ class MontecarloSimulationDataLoader:
         assert isinstance(self.initial_asset_class_ser, pd.Series), "initial_asset_class_ser must be a pandas Series"
         asset_class_lst = list(self.initial_asset_class_ser.index)
         not_in_stats_lst = [asset for asset in asset_class_lst if asset not in self.stats_df.index]
-        assert not not_in_stats_lst, f"Some asset classes in the portfolio are missing from Morningstar stats: {not_in_stats_lst}"
+
+        assert not not_in_stats_lst, f"Some asset classes in the portfolio are missing from Capital Markets stats: {not_in_stats_lst}"
         extra_stats_lst = [asset for asset in self.stats_df.index if asset not in asset_class_lst]
         # Remove the extra asset classes from stats_df and corr_df
         self.stats_df = self.stats_df.drop(index=extra_stats_lst).copy(deep=True)
@@ -235,7 +240,7 @@ class MontecarloSimulation:
 
         
         # Load the data from the data loader
-        mc_data_loader.load_data()
+        mc_data_loader.run()
         self.run_cnt = mc_data_loader.run_cnt
         self.nb_cpu = mc_data_loader.nb_cpu
         self.cross_correlated_rvs_flag = mc_data_loader.cross_correlated_rvs_flag

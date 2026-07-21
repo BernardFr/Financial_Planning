@@ -18,6 +18,7 @@ import numpy as np
 import pandas as pd
 from numpy.linalg import norm as matrix_norm
 from asset_stats_util import get_asset_stats, correlated_rvs, make_ben_model
+from utilities import clean_excel_text
 import getopt
 
 # Use helper functions from Color_Map
@@ -117,7 +118,7 @@ def main(argv):
     delta.to_excel(xl_wr, sheet_name='delta', float_format='%0.2f', header=True, index=True)
 
     # Perform portfolio mapping from Ben's Portfolio
-    alloc_df = pd.read_excel(model_file, sheet_name='Models', header=0, engine='openpyxl')
+    alloc_df = clean_excel_text(pd.read_excel(model_file, sheet_name='Models', header=0, engine='openpyxl'))
     alloc_df.to_excel(xl_wr, sheet_name='Mappings', float_format='%0.2f', header=True, index=True)
     bf_alloc = make_ben_model(alloc_df)
     print('\n\nPortfolio allocation')

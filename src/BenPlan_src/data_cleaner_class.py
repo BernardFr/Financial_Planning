@@ -6,6 +6,7 @@ import datetime as dt
 
 from configuration_manager_class import ConfigurationManager
 from logger import logger
+from utils import clean_excel_text
 
 COLUMN_ORDER = ['Date', 'Payee', 'OriginalCat', 'Category', 'Memo/Notes', 'Tags',  'Amount', 'Source', 'Month', 'MasterCat', 'BenPlan', 'Discretionary']
 
@@ -64,8 +65,8 @@ class DataCleaner:
         master_cat_file = self.config_manager.master_cat_file
         bad_cat_flag = False
         # Read the Master Categories files
-        read_df = pd.read_excel(master_cat_file, sheet_name='Categories', header=0,
-                                engine='openpyxl')
+        read_df = clean_excel_text(pd.read_excel(master_cat_file, sheet_name='Categories', header=0,
+                                engine='openpyxl'))
         # Remove useless columns
         master_cat_df = read_df[
             ['Category', 'MappedCat', 'MasterCat', 'BenPlan', 'Discretionary']].copy(deep=True)
@@ -114,8 +115,8 @@ class DataCleaner:
         """
         Map Memo Entries to Vacation entries in the master category file / Travel sheet
         """
-        travel_cat_df = pd.read_excel(self.config_manager.master_cat_file, sheet_name='Travel', header=0,
-                                      engine='openpyxl')
+        travel_cat_df = clean_excel_text(pd.read_excel(self.config_manager.master_cat_file, sheet_name='Travel', header=0,
+                                      engine='openpyxl'))
         travel_map = dict(zip(travel_cat_df['Memo'], travel_cat_df['Vacation']))
         vacation_list = list(set(list(travel_cat_df['Vacation'])))
         return travel_map, vacation_list

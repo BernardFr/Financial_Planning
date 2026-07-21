@@ -14,6 +14,8 @@ import numpy as np
 from scipy.linalg import cholesky
 from scipy.stats import norm
 
+from utils import clean_excel_text
+
 
 url_corr = 'https://admainnew.morningstar.com/webhelp/Practice/Plans/Correlation_Matrix_of_the_14_Asset_Classes.htm'
 # url_stats = 'https://admainnew.morningstar.com/webhelp/Advisor_Workstation_Office.htm#Practice/Plans/'
@@ -132,7 +134,7 @@ delta = df_corr - df2
 delta.to_excel(xl_wr, sheet_name='delta', float_format='%0.2f', header=True, index=True)
 
 # Perform portfolio mappying from Ben's Portfolio
-alloc_df = pd.read_excel(model_file, sheet_name='Models', header=0, engine='openpyxl')
+alloc_df = clean_excel_text(pd.read_excel(model_file, sheet_name='Models', header=0, engine='openpyxl'))
 alloc_df.to_excel(xl_wr, sheet_name='Mappings', float_format='%0.2f', header=True, index=True)
 # Create the list of allocation choices  %stock/%bond
 allocation_choices = []

@@ -7,7 +7,7 @@ import sys
 from configuration_manager_class import ConfigurationManager
 from logger import logger
 import venmo_utilities as Vmo
-from utils import this_function
+from utils import this_function, clean_excel_text
 
 # # Settings used in this file
 brkg_wrksheet = ['WF_LoC', 'Brokerage', 'WF_3400']  # Worksheets in brokerage file
@@ -122,7 +122,7 @@ class DataLoader:
 
     def get_travel_cat_df(self) -> pd.DataFrame:
         """ Get the travel category dataframe """
-        return pd.read_excel(self.master_cat_file, sheet_name='Travel', header=0, dtype=str, engine='openpyxl')
+        return clean_excel_text(pd.read_excel(self.master_cat_file, sheet_name='Travel', header=0, dtype=str, engine='openpyxl'))
 
 def _process_file(in_file, q_flag=False):
     """ read account transactions from CSV file, clean up, and return in DF """
@@ -299,7 +299,7 @@ def _brkg_process_file(in_file):
         print('Processing file:', in_file, 'Sheet: ', sheet_name)
         assert sheet_name in brkg_wrksheet, f'Unknown worksheet in brokerage file: {sheet_name}'
         # Forcing dtype to str to read the date properly
-        df = pd.read_excel(in_file, sheet_name=sheet_name, header=0, dtype=str, engine='openpyxl')
+        df = clean_excel_text(pd.read_excel(in_file, sheet_name=sheet_name, header=0, dtype=str, engine='openpyxl'))
         df = df.dropna(how='all', axis=1)  # Remove empty columns
         df = df.dropna(how='all', axis=0)  # Remove empty rows
         df['Amount'] = df['Amount'].map(float)  # Get amount back to float
