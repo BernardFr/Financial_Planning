@@ -30,34 +30,25 @@ seed = 42
 re_alloc_error = 1e-6 
 nb_cpu = 1
 Funds_step = 1e5
-Discreet_step = 0.01
+Discret_step = 0.01
 Success_threshold = 1.0
 mgt_fee =  7e-3
 rebalance_flag = true
 cross_correlated_rvs_flag = true  # determines whether we use Morningstar stats as is (false) or if we create cross-correlated RoR
-cashflow_file = "./life_plan_latest.xlsx"
-Default_inflation_rate = 2.5e-2  # 2.5 %
+default_inflation_rate = 2.5e-2  # 2.5 %
 
 [MontecarloSimulationDataLoader]
 input_directory = './Data'
 lifeplan_file_prefix = 'WFA_life_plan'
 lifeplan_date_format = "%Y_%m_%d"
-portfolio_file_prefix = 'portfolio_by_Asset_class'
+portfolio_file_prefix = 'JPM/portfolio_by_Asset_class'
 portfolio_date_format = "%Y_%m_%d"
+
+[CapitalMarkets]
 # capital_markets_file_prefix = 'Morningstar_asset_stats'
-capital_markets_file_prefix = 'jpm_cpm_stats'
+capital_markets_file_prefix = './JPM/jpm_capital_markets_stats'
 capital_markets_date_format = "%Y_%m_%d"
-
-
-[MorningstarStats]
-must_have_param = ['url_stats', 'url_corr', 'nb_smpl', 'model_file', 'xl_out_name']
 XLabelLen = 5  # Length of the X axis labels
 quick_flag = false
-url_corr = "https://admainnew.morningstar.com/webhelp/Practice/Plans/Correlation_Matrix_of_the_14_Asset_Classes.htm"
-url_stats = "https://admainnew.morningstar.com/webhelp/dialog_boxes/cs_db_editassumptions.htm"
 nb_smpl = 1000000
-validate_cross_correlation_flag = true
-validation_error_margin = 1e-2 
-model_file = "./Data/Morningstar_Asset_Stats/Models.xlsx"
-xl_out_name = "./Data/Morningstar_asset_stats"
 

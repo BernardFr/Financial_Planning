@@ -16,7 +16,7 @@ from configuration_manager_class import ConfigurationManager
 from find_most_recent import find_most_recent
 # from cashflow_class import Cashflow 
 from portfolio_class import Portfolio
-from morningstar_stats_class import MorningstarStats
+from capital_markets_class import CapitalMarkets
 from arrayrandgen_class import ArrayRandGen
 from utilities import error_exit, display_series, dollar_str, clean_excel_text
 import collections
@@ -46,7 +46,7 @@ class MontecarloSimulationDataLoader:
         self.run_cnt = self.config['run_cnt']
         self.nb_cpu = self.config['nb_cpu']
         self.seed = self.config['seed']
-        self.morningstar_stats = MorningstarStats(config_manager)
+        self.capital_markets_stats = CapitalMarkets(config_manager)
         # Create a sequence of pseudo-random seeds for the random number generators for each CPU
         self.master_seed_sequence = np.random.SeedSequence(self.seed)  
         # set logger to info 
@@ -88,26 +88,6 @@ class MontecarloSimulationDataLoader:
         self.initial_asset_class_ser = cast(pd.Series, portfolio_data.squeeze(axis=1))
         return None
     
-    def _load_capital_markets_stats(self) -> None:
-        """Load the Capital Markets stats and set the stats_df and corr_df attributes in the morningstar_stats object
-        Use the index of the correlation matrix as the source of truth for the asset classes
-        """
-        input_dir = self.config['input_directory']
-        capital_markets_file_prefix = self.config['capital_markets_file_prefix']
-        capital_markets_date_format = self.config['capital_markets_date_format']
-        capital_markets_file, _ = find_most_recent(input_dir, capital_markets_file_prefix, capital_markets_date_format)
-        print(f"Capital Markets file: {capital_markets_file}")
-        self.stats_df = clean_excel_text(pd.read_excel(capital_markets_file, sheet_name='Stats', index_col=0, header=0))
-        self.corr_df = clean_excel_text(pd.read_excel(capital_markets_file, sheet_name='Correlation', index_col=0, header=0))
-        if "Yield" in self.stats_df.columns:
-            self.stats_df.drop( columns=['Yield'], inplace=True) 
-        # Make sure that stats_df.index, corr_df.index and corr_df.columns are the same and in the same order
-        corr_index = self.corr_df.index   # source of truth
-        corr_columns = self.corr_df.columns 
-        stats_index = self.stats_df.index
-        if not (stats_index.equals(corr_columns) and stats_index.equals(corr_index)):
-            error_exit(f"Stats index and Correlation index and columns do not match:\nStats index: {stats_index}\nCorrelation index: {corr_index}\nCorrelation columns: {corr_columns}")
-        return None
     
     def _initialize_rng_sequence(self) -> list[list[np.random.Generator]]:
         """Initialize the RNG sequence 
@@ -130,8 +110,8 @@ class MontecarloSimulationDataLoader:
         self.rng_sequence = self._initialize_rng_sequence()  # list of lists of RNGs for computing RoR series
         if self.cross_correlated_rvs_flag: # Create the cross-correlated RoR series
             logger.info(f"Using cross-correlated RoR series")
-            self.morningstar_stats.set_nb_smpl(self.run_cnt * self.nb_years)
-            self.correlated_ror = self.morningstar_stats.generate_correlated_ror(self.rng_sequence) 
+            self.capital_markets_stats.set_nb_smpl(self.run_cnt * self.nb_years)
+            self.correlated_ror = self.capital_markets_stats.generate_correlated_ror(self.rng_sequence) 
             logger.info(f"Correlated RoR multipliers Series (%):\n{self.correlated_ror}")
 
         else:          # Use Morningstar stats as is  

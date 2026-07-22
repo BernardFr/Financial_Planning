@@ -1,0 +1,45 @@
+[default]
+run_cnt = 10000
+Max_iter = 50
+BDAY = '04/09/1958'
+End_age = 101
+
+[MonteCarloMulti]
+seed = 42
+re_alloc_error = 1e-6
+nb_cpu = 4
+Funds_step = 1e5
+Discret_step = 0.01
+Success_threshold = 1.0
+
+[ConfigurationManager]
+goals_file = "./Data/Envision_Goals.xlsx"
+PLT_STYLE = 'seaborn-v0_8-deep'
+
+[Portfolio]
+start_funds = 4.0e6
+target_end_funds = 1e5
+default_inflation_rate = 0.03
+target_success_rate = 80
+Death_age = 95
+
+[pfolio_alloc]
+Stocks = 0.80
+Bonds = 0.1
+TBills = 0.1
+Cash = 0.0
+
+[CapitalMarkets]
+input_directory = './Data/JPM'
+capital_markets_file_prefix = 'jpm_capital_markets_stats'
+capital_markets_date_format = "%Y_%m_%d"
+XLabelLen = 5  # Length of the X axis labels
+quick_flag = false
+nb_smpl = 1000000
+model_file = "./Data/Morningstar_Asset_Stats/Models.xlsx"
+xl_out_name = "./Data/Morningstar_asset_stats"
+
+[CapitalMarketsValidation]
+validate_cross_correlation_flag = true
+validation_error_margin = 1e-2 
+nb_iter = 5  # Number of iterations to run the validation test for correlated RoR

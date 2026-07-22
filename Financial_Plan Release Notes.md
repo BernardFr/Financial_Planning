@@ -24,7 +24,14 @@
 
 # Release Notes
 
+### 7/21/2026
+
+* Added `capital_markets_stats.py` to separate reading the stats (from a simulation run) from generating/refreshing the stats (which is infrequent)
+* **Now need to update the data gathering for both Morningstar and JPM (and others) **
+* **Also need to make it easy to select a model (JPM vs MS vs other) in running simulations - e.g risk parity model**
+
 ### 7/8/2026
+
 * Added Risk_Parity directory under `src` with scripts to experiment with risk-parity asset allocation strategy
 
 ### 6/16/26
