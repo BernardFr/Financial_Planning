@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/local/bin/python3
 """
 Object-Oriented BenPlan - Financial Analysis Tool
 
@@ -75,11 +75,14 @@ class MarketValueProcessor:
             return None
 
 
-    def get_quote(self,symbol: str) -> float:
+    def get_quote(self,symbol: str) -> float | None:
         """Get the last day close price for a given ticker symbol 
         Returns None if error getting the quote """
         try:
-            last_close = float(self.get_last_day_close(symbol))
+            price = self.get_last_day_close(symbol)
+            if price is None:
+                return None
+            last_close = float(price)
             return last_close
         except Exception as e:
             logger.error(f"Error getting quote for {symbol}: {e}")
@@ -134,6 +137,22 @@ class MarketValueProcessor:
 
         self._save_results(cumul_df)
 
+    def _plot_market_value(self, market_value_df: pd.DataFrame) -> None:
+        """Plot the market value over time.
+        Make sure that the horizontal axis accounts for the fact that the Dates values are not evenly spaced - so use a scatter plot with lines connecting the points
+        """
+        plt.figure(figsize=(10, 6))
+        plt.plot(market_value_df['Date'], market_value_df[MARKET_VALUE_COL], marker='o')
+        plt.title('Market Value Over Time')
+        plt.xlabel('Date')
+        plt.ylabel('Market Value ($)')
+        plt.xticks(rotation=45)
+        plt.grid()
+        plt.tight_layout()
+        plt.show()
+        return None
+    
+
     def _save_results(self, cumul_df:pd.DataFrame) -> None:
         """Save the results to a file"""
         market_value = cumul_df['Sub_Total'].sum()
@@ -182,6 +201,22 @@ class MarketValueProcessor:
             tmp_df = market_value_df[['Date', MARKET_VALUE_COL]]
             tmp_df[MARKET_VALUE_COL] = tmp_df[MARKET_VALUE_COL].map(to_dollar_str)
             logger.info(f"Market Values:\n{tmp_df}")
+            max_mv = np.max(market_value_df[MARKET_VALUE_COL])
+            max_date = market_value_df.loc[market_value_df[MARKET_VALUE_COL] == max_mv, 'Date'].values[0] # type: ignore
+            min_mv = np.min(market_value_df[MARKET_VALUE_COL])
+            min_date = market_value_df.loc[market_value_df[MARKET_VALUE_COL] == min_mv, 'Date'].values[0] # type: ignore
+            if max_date== today:
+                logger.info(f"\nMarket Value: ${market_value:,.0f} (All-time HIGH!)")            
+            elif min_date == today:
+                logger.info(f"\nMarket Value: ${market_value:,.0f} (All-time LOW!)")
+            else:
+                logger.info(f"Market Value: ${market_value:,.0f}\n"
+                            f"\tAll-time high: ${max_mv:,.0f} on {max_date} +{100*(max_mv-market_value)/max_mv:,.2f} %\n"
+                            f"\tAll-time low: ${min_mv:,.0f} on {min_date} -{100*(market_value-min_mv)/min_mv:,.2f} %")
+            # ask the user if they want to plot the market value over time
+            plot_flag = input("Plot market value over time? (y/n): ")
+            if plot_flag.lower() == 'y':
+                self._plot_market_value(market_value_df)
 
         return
 
@@ -251,8 +286,8 @@ def main(cmd_line: List[str]):
         exit_code = -2
     finally:
         # Only call cleanup if there was an exception or interrupt
-        end_time = dt.datetime.now()
-        logger.info(f'End: {str(end_time)} -- Run Time: {str(end_time - start_time)}\n')
+        # end_time = dt.datetime.now()
+        # logger.info(f'End: {str(end_time)} -- Run Time: {str(end_time - start_time)}\n')
         sys.exit(exit_code)
 
 if __name__ == "__main__":
