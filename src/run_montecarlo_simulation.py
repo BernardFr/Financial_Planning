@@ -22,7 +22,6 @@ Inputs - in ./Data: use find_most_recent helper function to find the most recent
 #  they are always added (no subtraction)
 
 import sys
-from multiprocessing import Pool
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -30,13 +29,9 @@ import logging
 from logger import logger
 from configuration_manager_class import ConfigurationManager
 from montecarlo_simulation_class import MontecarloSimulation, MontecarloSimulationDataLoader
-from utilities import error_exit, display_series, dollar_str
+from simulation_worker_class import SimulationWorker
+from utilities import error_exit
 from collections import Counter
-
-def _run_mc_simulation(simulation):
-    """ calls the run method of the Montecarlo simulation object - used for parallel processing
-    """
-    return simulation.run()
 
 DEBUG = False
 # Configuration
@@ -62,55 +57,49 @@ class RunMontecarloSimulation:
         self.target_confidence_level = self.config['target_confidence_level'] 
         self.confidence_level_tolerance = self.config['confidence_level_tolerance']
         self.prev_confidence_level = 0.0
-        self.montecarlo_simulation_list = []
-        if self.nb_cpu > 1:
-            self.simul_run_cnt = int(round(self.run_cnt / self.nb_cpu, 0))  # number of simulations to run on each CPU
-            self.run_cnt = self.simul_run_cnt * self.nb_cpu  # total number of simulations to run
-            for cpu_idx in range(self.nb_cpu):
-                mc_sim = MontecarloSimulation(self.config_manager, self.data_loader, cpu_idx)
-                mc_sim.set_run_cnt(self.simul_run_cnt)
-                self.montecarlo_simulation_list.append(mc_sim)
-            self.initial_pfolio_value = self.montecarlo_simulation_list[0].initial_pfolio_value
-        else: # 1 CPU case
-            self.mc_sim = MontecarloSimulation(self.config_manager, self.data_loader, 0)
-            self.simul_run_cnt = self.run_cnt
-            self.initial_pfolio_value = self.mc_sim.initial_pfolio_value
+        self.worker_list: list[SimulationWorker] = []
+        self.simul_run_cnt = int(round(self.run_cnt / self.nb_cpu, 0))  # number of simulations to run on each CPU
+        self.run_cnt = self.simul_run_cnt * self.nb_cpu  # total number of simulations to run
+        for cpu_idx in range(self.nb_cpu):
+            mc_sim = MontecarloSimulation(self.config_manager, self.data_loader, cpu_idx)
+            mc_sim.set_run_cnt(self.simul_run_cnt)
+            self.initial_pfolio_value = mc_sim.initial_pfolio_value
+            # One long-lived process per CPU (also when nb_cpu == 1) - keeps its simulation (and RoR table) across
+            # iterations, and starts every iteration from the same random-number state
+            self.worker_list.append(SimulationWorker(mc_sim))
         logger.info(f"Run count: {self.run_cnt} - Number of CPUs: {self.nb_cpu} - Number of simulations to run on each CPU: {self.simul_run_cnt}")
 
         return
 
 
     def reinitialize_data(self, new_assets_multiplier: float) -> None:
-        if self.nb_cpu == 1:
-            self.mc_sim.assets_multiplier = new_assets_multiplier
-            logger.debug(f"Reinitializing data for single CPU case: assets_multiplier: {self.mc_sim.assets_multiplier:,.3f}")
-            self.mc_sim.initialize_data()
-        else: # Multi-CPU case
-            for mc_sim in self.montecarlo_simulation_list:
-                mc_sim.assets_multiplier = new_assets_multiplier
-                logger.debug(f"Reinitializing data for CPU {mc_sim.cpu_idx}: assets_multiplier: {mc_sim.assets_multiplier:,.3f}")
-                mc_sim.initialize_data()
+        # Each worker applies the multiplier at the start of its next iteration
+        self.assets_multiplier = new_assets_multiplier
+        logger.debug(f"Reinitializing data for {self.nb_cpu} CPUs: assets_multiplier: {self.assets_multiplier:,.3f}")
+        return None
+
+    def close(self) -> None:
+        """Stop the worker processes"""
+        for worker in self.worker_list:
+            worker.close()
         return None
 
     def run(self) -> None:
         """Run the Montecarlo simulation"""
 
-        if self.nb_cpu == 1:    # Single CPU case
-            self.final_result_series, self.busted_years_dict, self.busted_cnt = self.mc_sim.run()
-        else:    # Multi-CPU case
-            with Pool(processes=self.nb_cpu) as pool:
-                # Run each of the Montecarlo simulations on a different CPU in parallel
-                result_obj = pool.map_async(_run_mc_simulation, self.montecarlo_simulation_list)
-                result_list = result_obj.get()
-                # Each simulation run produces (1) a [m, N] DF of resulting assets DF and (2) a [N,] series of final ages
-                final_result_series_list = [x[0] for x in result_list]
-                busted_years_dict_list = [x[1] for x in result_list]
-                busted_cnt_list = [x[2] for x in result_list]
-                # Concatenate the final result series into a single series
-                self.final_result_series = pd.concat(final_result_series_list, ignore_index=True)
-                # Aggregate the busted ages dict into a single dict
-                self.busted_years_dict = sum((Counter(d) for d in busted_years_dict_list), Counter())
-                self.busted_cnt = sum(busted_cnt_list)
+        # Start all workers first so they run in parallel, then collect their results
+        for worker in self.worker_list:
+            worker.submit(self.assets_multiplier)
+        result_list = [worker.result() for worker in self.worker_list]
+        # Each simulation run produces (1) a [m, N] DF of resulting assets DF and (2) a [N,] series of final ages
+        final_result_series_list = [x[0] for x in result_list]
+        busted_years_dict_list = [x[1] for x in result_list]
+        busted_cnt_list = [x[2] for x in result_list]
+        # Concatenate the final result series into a single series
+        self.final_result_series = pd.concat(final_result_series_list, ignore_index=True)
+        # Aggregate the busted ages dict into a single dict
+        self.busted_years_dict = sum((Counter(d) for d in busted_years_dict_list), Counter())
+        self.busted_cnt = sum(busted_cnt_list)
 
         return None
 
@@ -162,19 +151,23 @@ def main(cmd_line: list[str]) -> None:
     nb_iter = 0
     keep_running = True
     assets_multiplier = 1.0
-    while keep_running:
-        simulation_runner.run()
-        keep_running, assets_multiplier = simulation_runner.analyze_results()
-        logger.info(f"Assets multiplier: {assets_multiplier:.3f}")
-        nb_iter += 1
-        if nb_iter >= config_manager.config['max_iter']:
-            keep_running = False
-        simulation_runner.reinitialize_data(assets_multiplier)
+    try:
+        while keep_running:
+            logger.info(f"----\nStarting iteration {nb_iter + 1}")
+            simulation_runner.run()
+            keep_running, assets_multiplier = simulation_runner.analyze_results()
+            logger.info(f"Assets multiplier: {assets_multiplier:.3f}")
+            nb_iter += 1
+            if nb_iter >= config_manager.config['max_iter']:
+                keep_running = False
+            simulation_runner.reinitialize_data(assets_multiplier)
+    finally:
+        simulation_runner.close()
 
     # Done
-    logger.info(f"----\nFinal results:")
+    logger.info(f"----\nFinal results: after {nb_iter} iterations")
     simulation_runner.display_results()
 
 if __name__ == "__main__":
     main(sys.argv)
-    sys.exit("---\nDone!")
+    print("---\nDone!")

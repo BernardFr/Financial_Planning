@@ -24,110 +24,30 @@
 
 # Release Notes
 
-### 7/21/2026
-
-* Added `capital_markets_stats.py` to separate reading the stats (from a simulation run) from generating/refreshing the stats (which is infrequent)
-* **Now need to update the data gathering for both Morningstar and JPM (and others) **
-* **Also need to make it easy to select a model (JPM vs MS vs other) in running simulations - e.g risk parity model**
-
-### 7/8/2026
-
-* Added Risk_Parity directory under `src` with scripts to experiment with risk-parity asset allocation strategy
-
-### 6/16/26
-
-* Added utilities for JP Morgan Chase Capital Market model: `map_etf_asset_class_jpm.py` and `extract_jpm_stats.py`	
-
-### 6/15/2026
-
-* Improved `test_run_one_year.py` to create a spreadsheet  output to verify calculations ... see file `test_run_one_year_DATE_with_formulas.xlsx` for the formulas
-* Fine-tuned `run_montecarlo_simulation.py`
-
-### 6/11/2026
-
-* Kinda working version of `run_montecarlo_simulation_class.py` & `montecarlo_simulation_class.py`
-
-### 6/6/2026
-
-* Refactored `montecarlo_simulation_class.py` to read inputs from files (rather than computing them)
-
-### 6/5/2026
-
-* Added `test_dedupe_results_map_etf_asset_class.py` to validate deduping strategy
-* finished `map_etf_asset_class.py` to map positions to asset classes and aggregate market value by asset class
-
-### 6/4/2026
-
-* refactored `map_etf_asset_class.py` and `WFA_to_positions.py` to be more object oriented and have more consistent coding style
-
-### 5/26/2026
-
-* Added `extract_outflows_from_lifeplan.py`to handle the new file formats for Envision_New from WFA
-
-### 2/27/2026
-
-* Updated code for multi-cpu: all use cases work: {1, multi-CPU} x `correlated_rvs`= {false, true}
-* Updated code for multi-cpu - use case: 1-CPU with `correlated_rvs = false` works 
-
-### 2/25/2026
-
-* eplaced `default_rng` with `scipy.stats.norm.rvs` as random number generator in `ArrayRandGen`
-
-### 2/24/2026
-
-* Added `default_rng_vs_rvs.py` which shows that `spipy.stats.norm.rvs`  is better than `np.random.default_rng.normal`  used in `ArrayRandGen`
-
-### 2/23/2026
-
-* In `montecarlo_simulation_class`, added `initialize_data_for_riskless_ror` to run the simulation with a single asset that has a fixed interest rate as parameter (`stddev = 0`)
-
-### 2/20/2026
-
-* Working version of `run_montecarlo_simulation` - including with `cross_correlated_rvs` 
-  * `correlated_rvs_flag` true works ... but likely bugs in `mk_ror_df`
-* WIP - montecarlo_simiulation_class is probably good - run_montecarlo_simulation Not good
-* WIP - structure is correct - calculations are wrong
-
-### 2/11/2026
-
-* Created `test_rng.py` to validate the proper way to run the random number generator - including w/ multiple CPUs
-  * Removed the tests in `arrayrandgen_class.py`
-
-### 2/10/2026
-
-* Added various tests to validate RoR generation
-
-### 1/21/2026
-
-* added option to use `correlated_rvs` to `montecarlo_simulation_class`
-
-### 1/20/2026
-
-* working version of `montecarlo_simulation_class`
-
-### 1/19/2026
-
-* working version of `montecarlo_simulation_class`
-
-### 1/12/2026
-
-* ``test_ror.py`: test creating the ror array
-  * **NOTE**: added a floor and a ceiling (currently +/- 40%) for a given year to align with reality -- See ReadMe
-* test_one_year.py`: test the one year loop
-
-### 1/11/2026
-
-* Merged `Morningstar_stats_class`, `cashflow_class` and `holdings_class` into `montecarlo_multi`
-
-### 1/10/2026
-
-* Basic version `holdings_class.py`: reads holdings, maps them to asset class - with market value
-* Basic `cashflow_class`
-
-### 1/9/2026
-
-* Optimized `Morningstar_stats_class.py`
-
-### 1/7/2026
-
-* Basic version of `Morningstar_stats_class.py`:  fetches the data correctly from Morningstar
+| Date | Changes |
+|------|---------|
+| 11/5/2026 | • Optimized for M6 (6 CPU cores are optimal)<br />• The common data is only loaded once for each process |
+| 7/21/2026 | • Added `capital_markets_stats.py` to separate reading the stats (from a simulation run) from generating/refreshing the stats (which is infrequent)<br>• **Now need to update the data gathering for both Morningstar and JPM (and others)**<br>• **Also need to make it easy to select a model (JPM vs MS vs other) in running simulations - e.g risk parity model** |
+| 7/8/2026 | • Added Risk_Parity directory under `src` with scripts to experiment with risk-parity asset allocation strategy |
+| 6/16/26 | • Added utilities for JP Morgan Chase Capital Market model: `map_etf_asset_class_jpm.py` and `extract_jpm_stats.py` |
+| 6/15/2026 | • Improved `test_run_one_year.py` to create a spreadsheet  output to verify calculations ... see file `test_run_one_year_DATE_with_formulas.xlsx` for the formulas<br>• Fine-tuned `run_montecarlo_simulation.py` |
+| 6/11/2026 | • Kinda working version of `run_montecarlo_simulation_class.py` & `montecarlo_simulation_class.py` |
+| 6/6/2026 | • Refactored `montecarlo_simulation_class.py` to read inputs from files (rather than computing them) |
+| 6/5/2026 | • Added `test_dedupe_results_map_etf_asset_class.py` to validate deduping strategy<br>• finished `map_etf_asset_class.py` to map positions to asset classes and aggregate market value by asset class |
+| 6/4/2026 | • refactored `map_etf_asset_class.py` and `WFA_to_positions.py` to be more object oriented and have more consistent coding style |
+| 5/26/2026 | • Added `extract_outflows_from_lifeplan.py`to handle the new file formats for Envision_New from WFA |
+| 2/27/2026 | • Updated code for multi-cpu: all use cases work: {1, multi-CPU} x `correlated_rvs`= {false, true}<br>• Updated code for multi-cpu - use case: 1-CPU with `correlated_rvs = false` works |
+| 2/25/2026 | • eplaced `default_rng` with `scipy.stats.norm.rvs` as random number generator in `ArrayRandGen` |
+| 2/24/2026 | • Added `default_rng_vs_rvs.py` which shows that `spipy.stats.norm.rvs`  is better than `np.random.default_rng.normal`  used in `ArrayRandGen` |
+| 2/23/2026 | • In `montecarlo_simulation_class`, added `initialize_data_for_riskless_ror` to run the simulation with a single asset that has a fixed interest rate as parameter (`stddev = 0`) |
+| 2/20/2026 | • Working version of `run_montecarlo_simulation` - including with `cross_correlated_rvs`<br>&nbsp;&nbsp;&nbsp;&nbsp;◦ `correlated_rvs_flag` true works ... but likely bugs in `mk_ror_df`<br>• WIP - montecarlo_simiulation_class is probably good - run_montecarlo_simulation Not good<br>• WIP - structure is correct - calculations are wrong |
+| 2/11/2026 | • Created `test_rng.py` to validate the proper way to run the random number generator - including w/ multiple CPUs<br>&nbsp;&nbsp;&nbsp;&nbsp;◦ Removed the tests in `arrayrandgen_class.py` |
+| 2/10/2026 | • Added various tests to validate RoR generation |
+| 1/21/2026 | • added option to use `correlated_rvs` to `montecarlo_simulation_class` |
+| 1/20/2026 | • working version of `montecarlo_simulation_class` |
+| 1/19/2026 | • working version of `montecarlo_simulation_class` |
+| 1/12/2026 | • `test_ror.py`: test creating the ror array<br>&nbsp;&nbsp;&nbsp;&nbsp;◦ **NOTE**: added a floor and a ceiling (currently +/- 40%) for a given year to align with reality -- See ReadMe<br>• `test_one_year.py`: test the one year loop |
+| 1/11/2026 | • Merged `Morningstar_stats_class`, `cashflow_class` and `holdings_class` into `montecarlo_multi` |
+| 1/10/2026 | • Basic version `holdings_class.py`: reads holdings, maps them to asset class - with market value<br>• Basic `cashflow_class` |
+| 1/9/2026 | • Optimized `Morningstar_stats_class.py` |
+| 1/7/2026 | • Basic version of `Morningstar_stats_class.py`:  fetches the data correctly from Morningstar |

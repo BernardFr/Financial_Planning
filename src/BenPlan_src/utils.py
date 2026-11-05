@@ -18,7 +18,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.ticker import FuncFormatter
 
 from plot_functions import lineplot_df
-from logger import logger
+from custom_logger import custom_logger as logger
 
 AGG_COLS = ['YearlyAvgAll', 'Last12Mo']
 MY_BD = '04-09-1958'

@@ -7,7 +7,7 @@ import getopt
 import tomli
 import matplotlib.pyplot as plt
 from tick_timer_class import TickTimer
-from logger import logger
+from custom_logger import custom_logger as logger
 
 class ConfigurationManager:
     """Manages configuration settings and constants for BenPlan."""

@@ -34,7 +34,7 @@ import openpyxl
 from utils import get_prog_name, to_dollar_str, clean_excel_text
 from mv_configuration_manager_class import ConfigurationManager
 from mv_data_loader_class import DataLoader
-from logger import logger
+from custom_logger import custom_logger as logger
 
 MARKET_VALUE_SHEET = 'Market Value'
 MARKET_VALUE_COL = 'Market Value'
@@ -142,7 +142,13 @@ class MarketValueProcessor:
         Make sure that the horizontal axis accounts for the fact that the Dates values are not evenly spaced - so use a scatter plot with lines connecting the points
         """
         plt.figure(figsize=(10, 6))
-        plt.plot(market_value_df['Date'], market_value_df[MARKET_VALUE_COL], marker='o')
+        # plt.plot(market_value_df['Date'], market_value_df[MARKET_VALUE_COL], marker='o')
+        #         Make sure that the horizontal axis accounts for the fact that the Dates values are not evenly spaced - so use a scatter plot with lines connecting the points
+
+        # Dates are stored as 'YYYY-MM-DD' strings; convert so matplotlib uses a time axis, not categories
+        dates = pd.to_datetime(market_value_df['Date'])
+        plt.scatter(dates, market_value_df[MARKET_VALUE_COL], marker='o')
+        plt.plot(dates, market_value_df[MARKET_VALUE_COL], linestyle='-')
         plt.title('Market Value Over Time')
         plt.xlabel('Date')
         plt.ylabel('Market Value ($)')

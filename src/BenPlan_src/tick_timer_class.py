@@ -1,6 +1,6 @@
 
 import time 
-from logger import logger
+from custom_logger import custom_logger as logger
 VERBOSE = False
 
 class TimerError(Exception):

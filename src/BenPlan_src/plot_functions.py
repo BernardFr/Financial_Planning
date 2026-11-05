@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 import numpy as np
 import pandas as pd
-from logger import logger
+from custom_logger import custom_logger as logger
 MAX_X_LABELS_LENGTH = 24  # Max number of labels written out on X axis of a plot
 
 def tick_format(x, pos) -> str:  # pylint: disable=[W0613]

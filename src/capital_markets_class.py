@@ -4,23 +4,15 @@
 Capital Markets Operations 
 """
 
-from logging import config
 import sys
-import os
-import re
-import datetime as dt
 
 import numpy as np
 import pandas as pd
-from numpy.linalg import norm as matrix_norm
 from numpy.random import default_rng
 
 from scipy.stats import norm
 from scipy.linalg import cholesky
 from sklearn.datasets import make_spd_matrix
-# Use helper functions from Color_Map
-sys.path.insert(0, '../Color_Map/')  # Add path to the directory containing plot_color_matrix
-from plot_color_matrix import plot_color_matrix as pcm
 from configuration_manager_class import ConfigurationManager
 from logger import logger
 from typing import Any, List, Optional, Sequence, Tuple, cast
@@ -174,14 +166,15 @@ class CapitalMarkets:
         return corr_df
 
 
-    def generate_correlated_ror(self) -> pd.DataFrame:
+    def generate_correlated_ror(self, rng_list: Optional[Sequence[np.random.Generator]] = None) -> pd.DataFrame:
         """ Generate nb_smpl of Random Variable which are cross-correlated
         stat_df contains 2 columns: "Expected Return" i.e. mean and "Standard Deviation"
         corr_df is the cross-correlation matrix of the variables
         Must have stat_df.index == corr_df.index == corr_df.columns
         nb_smpl is the number of samples that are generated
+        @param rng_list: one random number generator per asset class (for reproducible runs) - unseeded if None
         Returns a DF with the index as the asset classes and the columns as the samples
-        The values are the RoR multipliers - ie. 1.18 (<- 18%) -- 1 + 0.01 * rvs ...  
+        The values are the RoR multipliers - ie. 1.18 (<- 18%) -- 1 + 0.01 * rvs ...
         """
         if self.stats_df is None or self.corr_df is None:
             self.load_capital_markets_stats()
@@ -202,11 +195,11 @@ class CapitalMarkets:
         data_series_list = []  # list of nb_asset data series
         return_list = list[float](stat_df['Expected Return'].values)
         stddev_list = list[float](stat_df['Standard Deviation'].values)
-        # FIXME for mult-CPU support
-        rng_sequence = np.random.SeedSequence()
-        child_seeds = rng_sequence.spawn(len(stat_df.index))
-        for child_seed in child_seeds:
-            rng = default_rng(child_seed)
+        if rng_list is None:
+            rng_list = [default_rng(seed) for seed in np.random.SeedSequence().spawn(len(stat_df.index))]
+        if len(rng_list) != len(stat_df.index):
+            error_exit(f"generate_correlated_ror: expected {len(stat_df.index)} generators (one per asset class) - got {len(rng_list)}")
+        for rng in rng_list:
             x1 = norm.rvs(size=self.nb_smpl, loc=0.0, scale=1.0, random_state=rng)  # create a series w/ the desired stats
             data_series_list.append(x1)  # add data series list to list of lists
         data_matrix = np.asarray(data_series_list, dtype=float)   # shape: (nb_asset, nb_smpl)

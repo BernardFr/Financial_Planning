@@ -4,7 +4,6 @@ import re
 from pathlib import Path
 from datetime import date as dt, datetime
 from tempfile import TemporaryDirectory
-from logger import logger
 
 DEFAULT_DATE_FORMAT = "%Y_%m_%d"
 
@@ -39,7 +38,10 @@ def _datetime_format_to_regex(date_format: str) -> str:
 
 
 def find_most_recent( directory_path: str, filename_prefix: str, date_format: str = DEFAULT_DATE_FORMAT) -> tuple[Path | None, str]:
-    directory = Path(directory_path)
+    # The prefix may include a subdirectory (e.g. 'JPM/portfolio'): search in that subdirectory
+    prefix_path = Path(filename_prefix)
+    directory = Path(directory_path) / prefix_path.parent
+    filename_prefix = prefix_path.name
     date_regex = _datetime_format_to_regex(date_format)
     pattern = re.compile(rf"^{re.escape(filename_prefix)}_({date_regex})")
 
@@ -131,19 +133,27 @@ def _run_main_tests() -> int:
             "date_format": "%m%d%y",
             "expected": "2026_05_23",
         },
+        {
+            "name": "prefix includes a subdirectory",
+            "filename": "JPM/portfolio_2026_06_10.xlsx",
+            "prefix": "JPM/portfolio",
+            "date_format": "%Y_%m_%d",
+            "expected": "2026_06_10",
+        },
     ]
 
     passed = 0
     for scenario in scenarios:
         with TemporaryDirectory() as tmp_dir:
             test_file = Path(tmp_dir) / scenario["filename"]
+            test_file.parent.mkdir(parents=True, exist_ok=True)
             test_file.touch()
             result, date_str = find_most_recent(
                 tmp_dir,
                 scenario["prefix"],
                 scenario["date_format"],
             )
-            ok = result is not None and result.name == scenario["filename"] and date_str == scenario["expected"]
+            ok = result == test_file and date_str == scenario["expected"]
             status = "PASS" if ok else "FAIL"
             print(f"[{status}] {scenario['name']}: file={scenario['filename']} -> {date_str}")
             if ok:

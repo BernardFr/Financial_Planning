@@ -6,7 +6,7 @@ from typing import Dict, List
 
 import pandas as pd
 
-from logger import logger
+from custom_logger import custom_logger as logger
 from mv_configuration_manager_class import ConfigurationManager
 from utils import clean_excel_text
 
@@ -90,7 +90,7 @@ class DataLoader:
         """ Match the Cash_Amount_String in the input dataframe in the first column and return
         the value in the third
          column"""
-        return float(in_df[in_df.iloc[:, 0] == Cash_Amount_String].iloc[:, 2].values[0])
+        return float(in_df[in_df.iloc[:, 0] == Cash_Amount_String].iloc[:, 2].to_numpy(dtype=float)[0])
 
     def _load_holdings_data(self, holdings_file: str) -> tuple[pd.DataFrame, float]:
         """Load the holdings data from the file"""
