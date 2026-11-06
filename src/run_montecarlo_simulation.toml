@@ -38,13 +38,14 @@ default_inflation_rate = 2.5e-2  # 2.5 %
 input_directory = './Data'
 lifeplan_file_prefix = 'WFA_life_plan'
 lifeplan_date_format = "%Y_%m_%d"
-portfolio_file_prefix = 'JPM/portfolio_by_Asset_class'
+# portfolio_file_prefix = 'JPM/portfolio_by_Asset_class'
+portfolio_file_prefix = 'Morningstar/portfolio_by_Asset_class'
 portfolio_date_format = "%Y_%m_%d"
 
 [CapitalMarkets]
 input_directory = './Data'
-# capital_markets_file_prefix = 'Morningstar_asset_stats'
-capital_markets_file_prefix = './JPM/jpm_capital_markets_stats'
+# capital_markets_file_prefix = './JPM/jpm_capital_markets_stats'
+capital_markets_file_prefix = 'Morningstar/Morningstar_asset_stats'
 capital_markets_date_format = "%Y_%m_%d"
 XLabelLen = 5  # Length of the X axis labels
 quick_flag = false

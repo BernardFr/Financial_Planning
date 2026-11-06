@@ -24,23 +24,18 @@ import json
 import re
 import sys
 import time
-import tomllib
-from io import StringIO
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List
 import pandas as pd
 import anthropic
-from openpyxl import Workbook, load_workbook
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
-from bs4 import BeautifulSoup
-from yfinance import ticker
 from configuration_manager_class import ConfigurationManager
 from find_most_recent import find_most_recent
 from logger import logger
 from utilities import clean_excel_text
 from claude_model_manager import ClaudeModelManager, ModelSelectionError
-from morningstar_stats_class import MorningstarStats
+from etf_mapping_merge import ask_keep_new_mapping, ask_reuse_existing_mappings, apply_fixed_mappings, merge_mappings, KeepNewMapping
 
 BASE_RESULT_FIELDS = [ "Ticker", "Category", "AssetClass", "Confidence", "Reasoning", "MatchStep" ]
 
@@ -87,6 +82,9 @@ class MapETFToAssetClass:
         self.output_directory = self.config["output_directory"]
         self.output_file_prefix = self.config["output_file_prefix"]
         self.maps_date_format = self.config["maps_date_format"]
+        # Tickers whose asset class is set in the config and never sent to Claude (e.g. individual stocks such as BRK.B)
+        self.fixed_mappings: dict[str, str] = dict(self.config.get("fixed_mappings", {}))
+        self.reuse_existing = True  # set by get_tickers()
 
         self.positions_file_prefix = str(self.config["positions_file_prefix"])
         self.positions_date_format = str(self.config["positions_date_format"])
@@ -106,8 +104,10 @@ class MapETFToAssetClass:
 
     # ── Find unmapped tickers in Positions ──────────────────────────────────────────
 
-    def get_tickers(self) -> tuple[list[str], str, str]:
-                
+    def get_tickers(self, reuse_existing: bool = True) -> tuple[list[str], str, str]:
+        """Tickers to classify (fixed mappings excluded): only the unmapped ones when reuse_existing, else every ticker in the positions file"""
+        self.reuse_existing = reuse_existing
+
         positions_file, date_str = find_most_recent(
             self.input_directory,
             filename_prefix=self.positions_file_prefix.rstrip("*."),
@@ -135,9 +135,12 @@ class MapETFToAssetClass:
                 # Mapped tickers are those already present in the results file, where the 'Asset_class' column is not empty.
                 mapped_tickers = self.df_mapped[self.df_mapped["Asset_class"].notna()]["Ticker"].str.strip().tolist()
                 logger.info(f"Loaded mapped tickers:\n{mapped_tickers}")
+                if not reuse_existing:
+                    logger.info("Refresh requested: re-classifying every ticker in the positions file")
+                    mapped_tickers = []
             else:
                 mapped_tickers = []
-            tickers_to_map = [t for t in position_tickers if t not in mapped_tickers]
+            tickers_to_map = [t for t in position_tickers if t not in mapped_tickers and t not in self.fixed_mappings]
         except Exception as e:
             logger.info(f"Error loading mapped tickers from {self.mapped_file}: {e}")
             sys.exit(1)
@@ -226,18 +229,22 @@ class MapETFToAssetClass:
         return out_df, dupe_df, dupe_error_count, fatal_dupe_error_flag
 
 
-    def save_results(self, results: list[ClassificationResult]) -> str:
-        """ Save classification results to an Excel file, appending to existing file if it exists.
-         If save_results is called, it means there are new mappings to save, so we create a new mappings file, with today's date. """
+    def save_results(self, results: list[ClassificationResult], keep_new: KeepNewMapping = ask_keep_new_mapping) -> str:
+        """ Merge classification results into the existing mappings (see merge_mappings) and save them.
+        Re-use: the new mappings are added to the existing file. Refresh, or no existing file: new file with today's date.
+        keep_new decides, for each ticker whose new asset class differs from the existing one, which mapping is kept. """
         if not results:
             logger.warning("No new results to save.")
             return ""
         previous_map_flag = True if self.mapped_file else False
 
-        # Create new mapped file with today's date 
         date_str = time.strftime(self.maps_date_format)  # Today's date
-        result_file  = str(Path(self.output_directory) / f"{self.output_file_prefix}_{date_str}.xlsx")
-        logger.info(f"No existing mapped file found. Will create new file: {result_file}")
+        if previous_map_flag and self.reuse_existing:
+            result_file = str(self.mapped_file)
+            logger.info(f"Adding new mappings to existing file: {result_file}")
+        else:
+            result_file = str(Path(self.output_directory) / f"{self.output_file_prefix}_{date_str}.xlsx")
+            logger.info(f"Creating new mappings file: {result_file}")
 
         # Keep output schema stable even though dataclass attributes are capitalized.
         new_results_df = pd.DataFrame([
@@ -258,7 +265,9 @@ class MapETFToAssetClass:
                 for col in missing_cols:
                     new_results_df[col] = ""  # Add missing columns with empty values
                 new_results_df = new_results_df[self.df_mapped.columns]  # Reorder columns to match existing file
-                new_results_df = pd.concat([self.df_mapped, new_results_df], ignore_index=True)
+                new_results_df = merge_mappings(self.df_mapped, new_results_df, keep_new)
+
+        new_results_df = apply_fixed_mappings(new_results_df, self.fixed_mappings)
 
         # check that all entries in new_results_df are unique by ticker, to avoid duplicates in the output file
         deduped_result_df, duplicates_df, dupe_error_count,fatal_error_flag = self.dedupe_results(new_results_df)
@@ -266,7 +275,7 @@ class MapETFToAssetClass:
         # Save the successfully deduped results first, even if some tickers need manual review.
         try:
             deduped_result_df.to_excel(result_file, index=False)
-            logger.info(f"Results saved → {result_file} (new file created with today's date: {date_str})")
+            logger.info(f"Results saved → {result_file}")
         except Exception as e:
             logger.error(f"Error saving results to {result_file}: {e}")
 
@@ -481,7 +490,6 @@ class ClaudeClassifier:
         self.config_manager = config_manager
         self.config = self.config_manager.get_class_config(self.__class__.__name__)          
         self.client  = anthropic.Anthropic()   # reads ANTHROPIC_API_KEY from env
-        self.temperature = self.config["temperature"]
         self.max_tokens = self.config["max_tokens"]
         self.request_delay_s   = self.config.get("request_delay_s", 1)      # polite delay between ETF requests
 
@@ -650,7 +658,6 @@ class ClaudeClassifier:
             response = self.client.messages.create(
                 model=self.claude_model,
                 max_tokens=self.max_tokens,
-                temperature=self.temperature,
                 system=self.system_prompt,
                 messages=[{"role": "user", "content": user_msg}],
             )
@@ -751,7 +758,7 @@ def print_unmatched(result: ClassificationResult):
     unmatched_etfs.append(unmatched_msg)
     logger.info(unmatched_msg)
 
-def map_positions_to_Asset_classes(positions_file: str, etf_Asset_class_map_file: str, date_str: str) -> str:
+def map_positions_to_Asset_classes(positions_file: str, etf_Asset_class_map_file: str, date_str: str, fixed_mappings: dict[str, str] | None = None) -> str:
     """Map the Positions to their asset classes, aggregate market values by asset class, save to output file, and print summary of asset class distribution."""
     try:
         positions_df = clean_excel_text(pd.read_excel(positions_file, header=0))
@@ -759,7 +766,7 @@ def map_positions_to_Asset_classes(positions_file: str, etf_Asset_class_map_file
         if positions_df["Ticker"].str.lower().eq("total").any():
             positions_df = positions_df[~positions_df["Ticker"].str.lower().eq("total")]
         logger.info(f"Total Market value in positions file: ${positions_df['Market Value'].sum():,.0f}")
-        map_df = clean_excel_text(pd.read_excel(etf_Asset_class_map_file, header=0))
+        map_df = apply_fixed_mappings(clean_excel_text(pd.read_excel(etf_Asset_class_map_file, header=0)), fixed_mappings or {})
         logger.info(f"Mapping positions to asset classes using positions file: {positions_file}, map file: {etf_Asset_class_map_file}")
         logger.info(f"{len(positions_df)} positions found, {len(map_df)} mapped ETFs found")
         merged_df = positions_df.merge(map_df[["Ticker", "Asset_class"]], on="Ticker", how="left")
@@ -775,7 +782,8 @@ def map_positions_to_Asset_classes(positions_file: str, etf_Asset_class_map_file
         agg_df = merged_df.groupby("Asset_class")["Market Value"].sum().reset_index()
 
         # Save to output file
-        output_file = str(Path(positions_file).parent / f"portfolio_by_Asset_class_{date_str}.xlsx")
+        # Saved next to the ETF map (Morningstar-specific)
+        output_file = str(Path(etf_Asset_class_map_file).parent / f"portfolio_by_Asset_class_{date_str}.xlsx")
         agg_df.to_excel(output_file, index=False)
         logger.info(f"Portfolio by asset class saved → {output_file}")
 
@@ -814,7 +822,8 @@ def main(cmd_line: list[str]) -> None:
         tickers_to_map = [t.upper() for t in args.tickers]
         logger.info(f"Classifying {len(tickers_to_map)} tickers from command line: {', '.join(tickers_to_map)}")
     else:
-        tickers_to_map, positions_file, date_str = etf_mapper.get_tickers()
+        reuse_existing = ask_reuse_existing_mappings(etf_mapper.mapped_file) if etf_mapper.mapped_file else True
+        tickers_to_map, positions_file, date_str = etf_mapper.get_tickers(reuse_existing)
         print(f"Found {len(tickers_to_map)} unique tickers from positions file: {positions_file} (as of {date_str})")
 
     if not tickers_to_map:
@@ -843,7 +852,7 @@ def main(cmd_line: list[str]) -> None:
     # find the most recent mapped file to use for mapping positions to asset classes
     etf_Asset_class_map_file, _ = find_most_recent(etf_mapper.output_directory, etf_mapper.output_file_prefix)
     positions_file, _ = find_most_recent(etf_mapper.input_directory, etf_mapper.positions_file_prefix, etf_mapper.positions_date_format)
-    portfolio_by_Asset_class_file = map_positions_to_Asset_classes(positions_file, etf_Asset_class_map_file, date_str) # pyright: ignore[reportPossiblyUnboundVariable, reportArgumentType]
+    portfolio_by_Asset_class_file = map_positions_to_Asset_classes(positions_file, etf_Asset_class_map_file, date_str, etf_mapper.fixed_mappings) # pyright: ignore[reportPossiblyUnboundVariable, reportArgumentType]
     logger.info(f"Done! Portfolio by asset class saved to: {portfolio_by_Asset_class_file}")
 
 

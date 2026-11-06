@@ -11,7 +11,6 @@ PLT_STYLE = 'seaborn-v0_8-deep'
 [ClaudeClassifier]
 model   = "claude-sonnet-4-6"            # newer model; startup validation will verify availability
 max_tokens = 256                         # short structured answer; no need for more
-temperature = 0.0                        # deterministic — classification task
 request_delay_s   = 1      # polite delay between ETF requests
 
 # NOTE: there is a typo in cols on the web
@@ -108,10 +107,12 @@ timeout_ms        = 60000  # Playwright navigation timeout
 
 # ── MapETFToAssetClass ────────────────────────────────────────────────────────────────────
 [MapETFToAssetClass]
+# Tickers mapped from this table, never sent to Claude - e.g. individual stocks, which are not ETFs
+fixed_mappings = { 'BRK.B' = 'U.S. Lg Cap Val' }
 input_directory = './Data'
 positions_file_prefix = 'Positions'
 positions_date_format = "%Y_%m_%d"
-output_directory = './Data'
+output_directory = './Data/Morningstar'  # ETF map and portfolio_by_Asset_class files
 output_file_prefix = 'etf_asset_class_map'
 maps_date_format = "%Y_%m_%d"
 morningstar_url = "https://admainnew.morningstar.com/webhelp/dialog_boxes/cs_db_editassumptions.htm"
@@ -120,6 +121,5 @@ morningstar_url = "https://admainnew.morningstar.com/webhelp/dialog_boxes/cs_db_
 [ClaudeModelManager]
 model   = "claude-sonnet-4-6"            # newer model; startup validation will verify availability
 max_tokens = 256                         # short structured answer; no need for more
-temperature = 0.0                        # deterministic — classification task
 model_recheck_days = 14                   # only re-validate/auto-select model once every N days
 model_cache_file = "./claude_model_cache.json"  # stores last validated model + timestamp

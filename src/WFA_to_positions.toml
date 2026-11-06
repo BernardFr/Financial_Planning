@@ -11,7 +11,7 @@ output_directory = '../Data'
 output_file_prefix = 'Positions'
 ETF_for_cash = 'SHY'
 cash_balance_description = 'Total Cash/Cash Alternatives & Margin'
-positions_section_label = 'ETFs'
-total_etf_label = 'Total ETFs'
+# Sections of the WFA export holding positions: section label -> its total-row label (a missing section is skipped)
+positions_sections = { 'ETFs' = 'Total ETFs', 'Stocks' = 'Total Stocks' }
 total_portfolio_label = 'Total Portfolio'
 validation_tolerance = 0.010

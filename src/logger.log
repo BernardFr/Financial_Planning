@@ -1,1 +1,128 @@
 2026-11-05 13:13:35,593 - INFO - __init__ - MontecarloSimulationDataLoader initialized - data loaded
+2026-11-05 17:30:17,057 - INFO - run - Scanning directory: /Users/bfraenkel/Documents/Code/BenPlan/Holdings
+2026-11-05 17:30:17,058 - INFO - run - Using holdings file: WFA_Portfolio_Positions_110426_2001.xls
+2026-11-05 17:30:17,071 - INFO - run - Cash Balance: $ 40,147.80
+2026-11-05 17:30:17,093 - INFO - run - Positions after cash balance:
+   Ticker  Shares $ Market Value
+0    BNDX   617.0    $ 29,301.33
+1    CGGE   828.0    $ 28,516.32
+2     CWB   497.0    $ 46,553.99
+3    DBEF  1583.0    $ 88,410.55
+4    DBEM  2248.0    $ 81,304.33
+5    DFAS   370.0    $ 29,929.30
+6    FENI   731.0    $ 29,488.54
+7    FLDR   577.0    $ 28,815.38
+8     IWM   150.0    $ 42,603.00
+9     IWN   313.0    $ 68,437.45
+10    IWO   126.0    $ 44,947.98
+11    MGC   453.0   $ 127,297.53
+12   PDBC  1473.0    $ 27,441.99
+13    PGX  2895.0    $ 29,065.80
+14   SCHP  2880.0    $ 73,584.00
+15    SCZ  1480.0   $ 124,586.40
+16    SHY     0.0    $ 40,147.80
+17   SPTL  2423.0    $ 60,502.31
+18    VBK   252.0    $ 84,200.76
+19    VBR   124.0    $ 30,908.24
+20   VCIT   370.0    $ 29,485.30
+21    VEA  5909.0   $ 418,475.38
+22   VGIT  4485.0   $ 258,425.70
+23   VGLT  1157.0    $ 60,719.36
+24   VGSH  1866.0   $ 107,780.16
+25     VO  2726.0   $ 224,540.62
+26    VTI   174.0    $ 65,584.08
+27   VTIP  1341.0    $ 65,320.11
+28    VTV  2148.0   $ 496,145.04
+29    VUG  5300.0   $ 456,542.00
+30    VWO  3931.0   $ 221,236.68
+31   VWOB   229.0    $ 14,683.48
+32   VXUS  4978.0   $ 417,554.64
+2026-11-05 17:30:17,104 - INFO - run - Total Portfolio Value: $ 3,984,964.58
+2026-11-05 17:30:17,104 - INFO - run - Computed Total Value: $ 3,952,535.55
+2026-11-05 17:30:17,104 - INFO - run - Delta: $ -32,429.03
+2026-11-05 17:36:17,883 - INFO - run - Scanning directory: /Users/bfraenkel/Documents/Code/BenPlan/Holdings
+2026-11-05 17:36:17,883 - INFO - run - Using holdings file: WFA_Portfolio_Positions_110426_2001.xls
+2026-11-05 17:36:17,897 - INFO - run - Cash Balance: $ 40,147.80
+2026-11-05 17:36:17,930 - INFO - run - Positions after cash balance:
+   Ticker  Shares $ Market Value
+0    BNDX   617.0    $ 29,301.33
+1   BRK.B    56.0    $ 32,429.04
+2    CGGE   828.0    $ 28,516.32
+3     CWB   497.0    $ 46,553.99
+4    DBEF  1583.0    $ 88,410.55
+5    DBEM  2248.0    $ 81,304.33
+6    DFAS   370.0    $ 29,929.30
+7    FENI   731.0    $ 29,488.54
+8    FLDR   577.0    $ 28,815.38
+9     IWM   150.0    $ 42,603.00
+10    IWN   313.0    $ 68,437.45
+11    IWO   126.0    $ 44,947.98
+12    MGC   453.0   $ 127,297.53
+13   PDBC  1473.0    $ 27,441.99
+14    PGX  2895.0    $ 29,065.80
+15   SCHP  2880.0    $ 73,584.00
+16    SCZ  1480.0   $ 124,586.40
+17    SHY     0.0    $ 40,147.80
+18   SPTL  2423.0    $ 60,502.31
+19    VBK   252.0    $ 84,200.76
+20    VBR   124.0    $ 30,908.24
+21   VCIT   370.0    $ 29,485.30
+22    VEA  5909.0   $ 418,475.38
+23   VGIT  4485.0   $ 258,425.70
+24   VGLT  1157.0    $ 60,719.36
+25   VGSH  1866.0   $ 107,780.16
+26     VO  2726.0   $ 224,540.62
+27    VTI   174.0    $ 65,584.08
+28   VTIP  1341.0    $ 65,320.11
+29    VTV  2148.0   $ 496,145.04
+30    VUG  5300.0   $ 456,542.00
+31    VWO  3931.0   $ 221,236.68
+32   VWOB   229.0    $ 14,683.48
+33   VXUS  4978.0   $ 417,554.64
+2026-11-05 17:36:17,940 - INFO - run - Total Portfolio Value: $ 3,984,964.58
+2026-11-05 17:36:17,940 - INFO - run - Computed Total Value: $ 3,984,964.59
+2026-11-05 17:36:17,941 - INFO - run - Delta: $ 0.01
+2026-11-05 17:36:17,967 - INFO - run - Saved positions to: /Users/bfraenkel/Documents/Code/Financial_Plan/Data/Positions_2026_11_04.xlsx
+2026-11-05 17:36:26,545 - INFO - run - Scanning directory: /Users/bfraenkel/Documents/Code/BenPlan/Holdings
+2026-11-05 17:36:26,545 - INFO - run - Using holdings file: WFA_Portfolio_Positions_110426_2001.xls
+2026-11-05 17:36:26,557 - INFO - run - Cash Balance: $ 40,147.80
+2026-11-05 17:36:26,590 - INFO - run - Positions after cash balance:
+   Ticker  Shares $ Market Value
+0    BNDX   617.0    $ 29,301.33
+1   BRK.B    56.0    $ 32,429.04
+2    CGGE   828.0    $ 28,516.32
+3     CWB   497.0    $ 46,553.99
+4    DBEF  1583.0    $ 88,410.55
+5    DBEM  2248.0    $ 81,304.33
+6    DFAS   370.0    $ 29,929.30
+7    FENI   731.0    $ 29,488.54
+8    FLDR   577.0    $ 28,815.38
+9     IWM   150.0    $ 42,603.00
+10    IWN   313.0    $ 68,437.45
+11    IWO   126.0    $ 44,947.98
+12    MGC   453.0   $ 127,297.53
+13   PDBC  1473.0    $ 27,441.99
+14    PGX  2895.0    $ 29,065.80
+15   SCHP  2880.0    $ 73,584.00
+16    SCZ  1480.0   $ 124,586.40
+17    SHY     0.0    $ 40,147.80
+18   SPTL  2423.0    $ 60,502.31
+19    VBK   252.0    $ 84,200.76
+20    VBR   124.0    $ 30,908.24
+21   VCIT   370.0    $ 29,485.30
+22    VEA  5909.0   $ 418,475.38
+23   VGIT  4485.0   $ 258,425.70
+24   VGLT  1157.0    $ 60,719.36
+25   VGSH  1866.0   $ 107,780.16
+26     VO  2726.0   $ 224,540.62
+27    VTI   174.0    $ 65,584.08
+28   VTIP  1341.0    $ 65,320.11
+29    VTV  2148.0   $ 496,145.04
+30    VUG  5300.0   $ 456,542.00
+31    VWO  3931.0   $ 221,236.68
+32   VWOB   229.0    $ 14,683.48
+33   VXUS  4978.0   $ 417,554.64
+2026-11-05 17:36:26,601 - INFO - run - Total Portfolio Value: $ 3,984,964.58
+2026-11-05 17:36:26,601 - INFO - run - Computed Total Value: $ 3,984,964.59
+2026-11-05 17:36:26,601 - INFO - run - Delta: $ 0.01
+2026-11-05 17:36:26,623 - INFO - run - Saved positions to: /Users/bfraenkel/Documents/Code/Financial_Plan/Data/Positions_2026_11_04.xlsx

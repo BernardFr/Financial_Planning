@@ -8,11 +8,9 @@ Can be imported by other scripts or run standalone.
 
 from __future__ import annotations
 
-import argparse
 import difflib
 import json
 import sys
-import tomllib
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -35,7 +33,6 @@ class ClaudeModelManager:
         self.client = anthropic.Anthropic()
         self.model   = self.config["model"]
         self.max_tokens = self.config["max_tokens"]                         # short structured answer; no need for more
-        self.temperature = self.config["temperature"]                        # deterministic — classification task
         self.model_recheck_days = self.config["model_recheck_days"]                   # only re-validate/auto-select model once every N days
         self.model_cache_file = self.config["model_cache_file"]  # stores last validated model + timestamp
 
@@ -122,7 +119,6 @@ class ClaudeModelManager:
             self.client.messages.create(
                 model=configured_model,
                 max_tokens=1,
-                temperature=0,
                 system="Model validation check.",
                 messages=[{"role": "user", "content": "ping"}],
             )

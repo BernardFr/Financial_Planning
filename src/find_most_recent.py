@@ -2,10 +2,12 @@
 import sys
 import re
 from pathlib import Path
-from datetime import date as dt, datetime
+from datetime import datetime
 from tempfile import TemporaryDirectory
 
 DEFAULT_DATE_FORMAT = "%Y_%m_%d"
+
+EXCEL_EXTENSIONS = (".xlsx", ".xls")  # only Excel files are candidates - e.g. WFA exports are .xls
 
 
 def _datetime_format_to_regex(date_format: str) -> str:
@@ -51,7 +53,7 @@ def find_most_recent( directory_path: str, filename_prefix: str, date_format: st
 
     for f in directory.iterdir():
         # Make sure f is a file
-        if not f.is_file():
+        if not f.is_file() or not f.name.endswith(EXCEL_EXTENSIONS):
             continue
         m = pattern.match(f.name)
         if m:
@@ -67,18 +69,11 @@ def find_most_recent( directory_path: str, filename_prefix: str, date_format: st
                 best = f
                 date_str = parsed_date.strftime("%Y_%m_%d")
 
-    # if we don't find any matching files, look for files with the prefix but no date
+    # No fallback to undated files: picking "any file with the prefix" silently used stale data
     if best is None:
-        print(f"No files found with prefix {filename_prefix!r} and date in {directory_path}")
-        print("Looking for files with prefix but no date.", file=sys.stderr)
-        for f in directory.iterdir():
-            if f.name.startswith(filename_prefix):
-                best = f
-                # date_str is today's date in YYYY_MM_DD format
-                date_str = dt.today().strftime("%Y_%m_%d")
-                break
+        print(f"No files found with prefix {filename_prefix!r} and date format {date_format!r} in {directory}", file=sys.stderr)
 
-    return best, date_str   
+    return best, date_str
 
 
 def _run_main_tests() -> int:

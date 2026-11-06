@@ -2,14 +2,6 @@
 
 ## ToDo
 
-* in `ArrayRandGen` replace`np.random.default_rng.normal` with `spipy.stats.norm.rvs`  - per the results of `default_rng_vs_rvs` 
-* Fix seed - so that we get same RoR DF when we re_initialize funds
-* **Fix cross_correlated_rvs**
-  * Seed initialization does not work (i.e. does not produce same ror each run)
-  * Std in final result stats is very high
-  * `Morningstar - cross_correlated_rvs`: should use a generator rather than computing all the RoR at once
-
-* Fix `nb_cpu > 1`: need to handle the seed for each instance of `montecarlo_simulation`
 * in `portfolio_class.py` : get today's market value of assets rather than the one at time of download
 * Find another source for historical asset statistics - Morningstar seems to be dated 2023
   * See JP [Morgan	](https://am.jpmorgan.com/us/en/asset-management/liq/insights/portfolio-insights/ltcma/interactive-assumptions-matrices/)	
@@ -19,14 +11,13 @@
 
 ## Other Models
 
-* [Vanguard](https://corporate.vanguard.com/content/corporatesite/us/en/corp/vemo/vemo-return-forecasts.html)
-* 
+* [Vanguard](https://corporate.vanguard.com/content/corporatesite/us/en/corp/vemo/vemo-return-forecasts.html) 
 
 # Release Notes
 
 | Date | Changes |
 |------|---------|
-| 11/5/2026 | • Optimized for M6 (6 CPU cores are optimal)<br />• The common data is only loaded once for each process |
+| 11/5/2026 | • Optimized for M6 (6 CPU cores are optimal)<br />• The common data is only loaded once for each process<br />• Cleaned up code and file locations |
 | 7/21/2026 | • Added `capital_markets_stats.py` to separate reading the stats (from a simulation run) from generating/refreshing the stats (which is infrequent)<br>• **Now need to update the data gathering for both Morningstar and JPM (and others)**<br>• **Also need to make it easy to select a model (JPM vs MS vs other) in running simulations - e.g risk parity model** |
 | 7/8/2026 | • Added Risk_Parity directory under `src` with scripts to experiment with risk-parity asset allocation strategy |
 | 6/16/26 | • Added utilities for JP Morgan Chase Capital Market model: `map_etf_asset_class_jpm.py` and `extract_jpm_stats.py` |

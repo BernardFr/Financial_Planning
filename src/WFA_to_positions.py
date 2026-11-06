@@ -42,12 +42,13 @@ class WFAtoPositionsClass:
         self.script_directory = Path(__file__).resolve().parent
         self.input_directory = self._resolve_path(self.config["input_directory"])
         self.holdings_file_prefix = str(self.config["holdings_file_prefix"])
+        self.holdings_date_format = str(self.config["holdings_date_format"])
         self.output_directory = self._resolve_path(self.config["output_directory"])
         self.output_file_prefix = str(self.config["output_file_prefix"])
         self.etf_for_cash = str(self.config["ETF_for_cash"])
         self.cash_balance_description = str(self.config["cash_balance_description"])
-        self.positions_section_label = str(self.config["positions_section_label"])
-        self.total_etf_label = str(self.config["total_etf_label"])
+        # section label -> label of its total row, e.g. {'ETFs': 'Total ETFs', 'Stocks': 'Total Stocks'}
+        self.positions_sections = cast(dict[str, str], self.config["positions_sections"])
         self.total_portfolio_label = str(self.config["total_portfolio_label"])
         self.validation_tolerance = float(self.config.get("validation_tolerance", 0.01))
         return None
@@ -97,22 +98,37 @@ class WFAtoPositionsClass:
         return float(_to_numeric(total_portfolio_row).iloc[1])
 
     def _extract_positions_table(self, raw_df: pd.DataFrame) -> pd.DataFrame:
+        """Positions from all configured sections (e.g. ETFs and Stocks), one row per ticker"""
         normalized = raw_df.map(lambda value: "" if pd.isna(value) else str(value).strip())
-        etf_rows = normalized.apply(lambda row: row.eq(self.positions_section_label).any(), axis=1)
-        if not etf_rows.any():
-            raise ValueError(f"Row labeled {self.positions_section_label!r} not found.")
+        section_df_list = []
+        for section_label, total_label in self.positions_sections.items():
+            section_df = self._extract_section(raw_df, normalized, section_label, total_label)
+            if section_df is None:
+                logger.info(f"Section {section_label!r} not found - skipped")
+                continue
+            section_df_list.append(section_df)
+        if not section_df_list:
+            raise ValueError(f"None of the position sections were found: {list(self.positions_sections)}")
+        positions = pd.concat(section_df_list, ignore_index=True)
+        return positions.groupby("Ticker", as_index=False).sum()
 
-        etf_idx: int = int(etf_rows[etf_rows].index[0])
-        header_idx: int = etf_idx + 1
+    def _extract_section(self, raw_df: pd.DataFrame, normalized: pd.DataFrame, section_label: str, total_label: str) -> pd.DataFrame | None:
+        """Positions (Ticker, Shares, Market Value) between the section_label row and its total_label row - None if no such section"""
+        section_rows = normalized.apply(lambda row: row.eq(section_label).any(), axis=1)
+        if not section_rows.any():
+            return None
+
+        section_idx: int = int(section_rows[section_rows].index[0])
+        header_idx: int = section_idx + 1
         header = list(raw_df.iloc[header_idx].tolist())
 
-        total_etf_rows = normalized.apply(lambda row: row.eq(self.total_etf_label).any(), axis=1)
-        if not total_etf_rows.any():
-            raise ValueError(f"Row labeled {self.total_etf_label!r} not found.")
+        total_rows = normalized.apply(lambda row: row.eq(total_label).any(), axis=1)
+        total_rows = total_rows[total_rows & (total_rows.index > section_idx)]
+        if total_rows.empty:
+            raise ValueError(f"Row labeled {total_label!r} not found after {section_label!r}.")
 
-        total_etf_idx: int = int(total_etf_rows[total_etf_rows].index[0])
-        raw_df = raw_df.iloc[: total_etf_idx + 1]
-        positions = raw_df.iloc[header_idx + 1 :].copy()
+        total_idx: int = int(total_rows.index[0])
+        positions = raw_df.iloc[header_idx + 1 : total_idx].copy()
         positions.columns = header
         positions = positions.dropna(how="all")
 
@@ -130,7 +146,7 @@ class WFAtoPositionsClass:
         positions = positions.dropna(subset=["Symbol"])
         positions = positions[["Symbol", "Shares", "Market Value"]].rename(columns={"Symbol": "Ticker"})
         positions["Market Value"] = positions["Market Value"].astype(float)
-        return positions.groupby("Ticker", as_index=False).sum()
+        return positions
 
     def _apply_cash_balance(self, positions_df: pd.DataFrame, cash_balance: float) -> pd.DataFrame:
         positions_df = positions_df.copy()
@@ -161,7 +177,7 @@ class WFAtoPositionsClass:
 
     def run(self) -> None:
         logger.info(f"Scanning directory: {self.input_directory}")
-        holdings_file, date_str = find_most_recent(str(self.input_directory), self.holdings_file_prefix)
+        holdings_file, date_str = find_most_recent(str(self.input_directory), self.holdings_file_prefix, self.holdings_date_format)
         if holdings_file is None:
             raise FileNotFoundError(
                 f"No holdings file found in {self.input_directory} with prefix {self.holdings_file_prefix!r}."
@@ -212,4 +228,4 @@ def main(cmd_line: list[str]) -> None:
 
 if __name__ == "__main__":
     main(sys.argv)
-    sys.exit("---\nDone!")
+    print("---\nDone!")

@@ -11,11 +11,10 @@ PLT_STYLE = 'seaborn-v0_8-deep'
 [ClaudeClassifier]
 model   = "claude-sonnet-4-6"            # newer model; startup validation will verify availability
 max_tokens = 256                         # short structured answer; no need for more
-temperature = 0.0                        # deterministic — classification task
 request_delay_s   = 1      # polite delay between ETF requests
 
-jpm_directory = './Data'
-jpm_file_prefix = 'jpm_stats'
+jpm_directory = './Data/JPM'
+jpm_file_prefix = 'jpm_capital_markets_stats'
 jpm_date_format = "%Y_%m_%d"
 jpm_sheet_name = "Stats"
 
@@ -106,10 +105,12 @@ timeout_ms        = 60000  # Playwright navigation timeout
 
 # ── MapETFToAssetClass ────────────────────────────────────────────────────────────────────
 [MapETFToAssetClass]
+# Tickers mapped from this table, never sent to Claude - e.g. individual stocks, which are not ETFs
+fixed_mappings = { 'BRK.B' = 'U.S. Large Cap' }
 input_directory = './Data'
 positions_file_prefix = 'Positions'
 positions_date_format = "%Y_%m_%d"
-output_directory = './Data'
+output_directory = './Data/JPM'  # ETF map and portfolio_by_Asset_class files (read by the Monte Carlo simulation)
 output_file_prefix = 'etf_asset_class_map_jpm'
 maps_date_format = "%Y_%m_%d"
 
@@ -117,6 +118,5 @@ maps_date_format = "%Y_%m_%d"
 [ClaudeModelManager]
 model   = "claude-sonnet-4-6"            # newer model; startup validation will verify availability
 max_tokens = 256                         # short structured answer; no need for more
-temperature = 0.0                        # deterministic — classification task
 model_recheck_days = 14                   # only re-validate/auto-select model once every N days
 model_cache_file = "./claude_model_cache.json"  # stores last validated model + timestamp
