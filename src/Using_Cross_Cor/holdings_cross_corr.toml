@@ -1,0 +1,29 @@
+# Configuration for holdings_cross_corr.py
+
+# Prefix of the positions file: Positions_YYYY_MM_DD.xlsx
+positions_prefix = "Positions_"
+
+# Folder holding the positions files
+input_folder = "../../Data"
+
+# Date format used in both the positions file name and the cache file names
+date_format = "%Y_%m_%d"
+
+# Folder holding the per-ticker JSON cache files
+cache_folder = "../../Data/Cross_Corr_Cache"
+
+# Folder for the result file <program stem>_out_<date>.xlsx (project top folder)
+output_folder = "../../Data/Cross_Corr"
+
+# Column in the positions file that holds the tickers
+ticker_column = "Ticker"
+
+# Years of daily history to download
+history_years = 10
+
+# Holdings ticker -> Yahoo Finance ticker, for tickers whose symbol differs on Yahoo
+yf_ticker_map = { "BRK.B" = "BRK-B" }
+
+[meta]
+# Starting log level for custom_logger
+log_level = "INFO"

@@ -1,0 +1,250 @@
+import os
+import re
+import sys
+import pandas as pd
+import datetime as dt
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+from custom_logger import custom_logger as logger
+import inspect
+from typing import Any, NoReturn, cast
+Money_format = '$#,##0.00_);[Red]($#,##0.00)'  # Excel cell number format for dollar values
+Zoom_level = 110
+XL_col_width = 11  # Width of a column for $ in Excel
+XL_col_1_width = 18  # Width of 1st column
+
+Money_format = '$#,##0.00_);[Red]($#,##0.00)'  # Excel cell number format for dollar values
+Zoom_level = 110
+XL_col_width = 11  # Width of a column for $ in Excel
+XL_col_1_width = 18  # Width of 1st column
+UNKNOWN_CALLER = "<unknown>"  # error_exit: when the calling function cannot be found
+
+def clean_text(value):
+    """Strip non-printable/non-ASCII characters (e.g. Excel's non-breaking spaces, smart
+    quotes) from a string and collapse whitespace. Non-string values pass through unchanged.
+    tabs, newlines, carriage returns, and other non-printable characters are replaced with a space before collapsing whitespace.
+    """
+    if not isinstance(value, str):
+        return value
+    value = re.sub(r'[^\x20-\x7E]', ' ', value) # replace non-printable/non-ASCII characters with a space
+    # collapse multiple whitespace characters into a single space and strip leading/trailing whitespace
+    return re.sub(r'\s+', ' ', value).strip() 
+
+
+def clean_excel_text(df: pd.DataFrame) -> pd.DataFrame:
+    """Apply clean_text to column labels, the index, and every string cell of a
+    DataFrame just loaded from Excel."""
+    df = df.rename(columns=clean_text)
+    df.index = df.index.map(clean_text)
+    for col in df.columns:
+        if df[col].dtype == object:
+            df[col] = df[col].map(clean_text)
+    return df
+
+
+def get_prog_name() -> str:
+    """ Get the program name from the path """
+    basename = os.path.basename(sys.argv[0])
+    prog_name = re.sub("\\.py$", "", basename)
+
+    return prog_name
+
+def my_age(dob: str) -> int:
+    """Returns my age"""
+    today = dt.datetime.now().strftime("%m-%d-%Y")
+    # Find out if the separator is a '/' or a '-'
+    if '/' in dob:
+        sep = '/'
+    else:
+        sep = '-'
+    my_mo, my_dy, my_yr = [int(x) for x in dob.split(sep)]
+    today_mo, today_dy, today_yr = [int(x) for x in today.split('-')]
+    if today_mo > my_mo or (today_mo == my_mo and today_dy >= my_dy):
+        return today_yr - my_yr
+    else:
+        return today_yr - my_yr -1
+
+
+
+def error_exit(error_message: str) -> NoReturn:
+    """ Exit the program with an error message """
+    # Find the function name that called this function  
+    frame = inspect.currentframe()
+    caller = frame.f_back if frame is not None else None
+    calling_function = caller.f_code.co_name if caller is not None else UNKNOWN_CALLER
+    logger.error(f"{calling_function} - {error_message}")
+    sys.exit(-1)
+
+def make_date_string() -> str:
+    return dt.datetime.strftime(dt.datetime.now(), "%Y-%m-%d")
+
+
+def mv_last_n_to_front(lst, n):
+    """ Moves the last n elements of a list to first positions (in the same order """
+    return lst[len(lst)-n:]+lst[:-n]
+
+
+def mv_last_n_col_to_front(df, n):
+    """ Moves the last n columns of a DF to first positions (in the same order """
+    col = list(df.columns)
+    return df[mv_last_n_to_front(col, n)]
+
+
+def linear_transform_on_matrix(col, v, w):
+    """
+    Linear transformation on a matrix
+    Given a matrix M, and vector X with columns ['a', 'b'], perform y = a*x + b for each cell x
+    R[i,j] = M[i,j] * X['a'][j] +  X['b'][j]  - by row
+    R[i,j] = M[i,j] * X['a'][i] +  X['b'][i]  - by column
+
+    # FYI: Note that the index/column values need to be reset after the apply operation
+    """
+    return pd.Series([float(x * y + z) for x, y, z in zip(col.values, v.values, w.values)])
+
+
+def print_df(df: pd.DataFrame, msg: str | None = None) -> None:
+    """ Print troubleshooting info on a DF """
+    if msg is not None:
+        print(f"{msg}\n{len(df.index)} rows")
+    print(f"Columns: {df.columns}")
+    print(f"Index: {df.index}")
+    print(df.head())
+    print('/* ... */')
+    print(df.tail())
+    print('/* --------- */')
+    return
+
+def display_series(in_seri: pd.Series, dcml: int = 2) -> str:
+    """
+    Compact display of a series as a string in the form of ... index: value; ...
+    @param in_seri: input Series
+    @param dcml: (optional) decimal - default to 2
+    @return: string  "index[0]: rounded(in_seri[0], dcml); index[1]: rounded(in_seri[1], dcml); ..."
+    """
+    if not dcml:
+        dcml = 2
+    if dcml == 0:
+        return "; ".join([f"{idx}: {round(x,dcml):,.0f}" for idx, x in zip(in_seri.index, in_seri)])
+    elif dcml <= 2:
+        return "; ".join([f"{idx}: {round(x,dcml):,.2f}" for idx, x in zip(in_seri.index, in_seri)])
+    elif dcml <= 4:
+        return "; ".join([f"{idx}: {round(x,dcml):,.4f}" for idx, x in zip(in_seri.index, in_seri)])
+    else:
+        return "; ".join([f"{idx}: {round(x,dcml):,.f}" for idx, x in zip(in_seri.index, in_seri)])
+
+def dollar_str(x: float) -> str:
+    """
+    Convert a float to a string prepended with '$', and with commas rounded 2 digits
+    :param x: float
+    :return: string
+    """
+    return f"$ {x:,.0f}" 
+    
+
+def pct_str(pct: float, decml: int = 2) -> str:
+    """ Convert a decimal number that represents a percentage to a printable string
+     e.g.  pct_s(0.2) -> "20.00%"
+     pct(0.2423436, 4) -> "24.2344%"
+     @param pct: float number representing a percent 01. for 10%
+     @param decml: number of decimals in the string - default 2
+     """
+    return f"{round(100 * pct, decml):,f}%"
+
+
+def print_out(outfile, msg='\n'):
+    """ Prints message to both outfile and terminal
+    :rtype: None
+    """
+    print(msg)
+    outfile.write(msg)
+    return
+
+
+def write_nice_df_2_xl(xlw: pd.ExcelWriter, df: pd.DataFrame, sheet: str, index: bool = False, mv_last: int | None = None) -> None:
+    """
+    Writes to an Excel worksheet and formats nicely a DF whose values represent $
+    """
+    if mv_last:  # Move last columns to front
+        df = mv_last_n_col_to_front(df, mv_last)
+    df.to_excel(xlw, sheet_name=sheet, float_format='%.2f', header=True, index=index)
+    # Format the data in the worksheet
+    workbook = cast(Any, xlw.book)  # xlsxwriter Workbook (add_format) - requires engine='xlsxwriter'
+    money_fmt = workbook.add_format({'num_format': Money_format})
+    # bg_color does not seem to work
+    header_row_fmt = workbook.add_format({'bold': True, 'align': 'center'})
+    header_col_fmt = workbook.add_format({'bold': True, 'align': 'left'})
+    worksheet = xlw.sheets[sheet]
+    worksheet.set_zoom(Zoom_level)
+    if mv_last:
+        worksheet.freeze_panes(1, 1+mv_last)
+    else:
+        worksheet.freeze_panes(1, 1)
+    # Format header row, header col and data cells by column
+    worksheet.set_row(0, None, header_row_fmt)
+    worksheet.set_column(0, 0, XL_col_1_width, header_col_fmt)
+    worksheet.set_column(1, len(df.columns), XL_col_width, money_fmt)
+    return
+
+
+def to_dollar(x):
+    """Converts a number to a string prepended with '$", and with commas rounded 2 digits"""
+    return "${:,.2f}".format(x)
+
+
+def tick_format(x, pos):
+    """
+    Convert a floating number to a string showing a dollar value
+    Prepend with '$', add commas, 2 decimal points
+    Note: The unused 'pos' argument is necessary for FuncFormatter (see below)
+    """
+    # Reference: https://matplotlib.org/api/ticker_api.html#matplotlib.ticker.FuncFormatter
+    return "{:,.0f}".format(x)
+
+
+def tick_format_w_dollar(x, pos):
+    """
+    Convert a floating number to a string showing a dollar value
+    Prepend with '$', add commas, 2 decimal points
+    Note: The unused 'pos' argument is necessary for FuncFormatter (see below)
+    """
+    # Reference: https://matplotlib.org/api/ticker_api.html#matplotlib.ticker.FuncFormatter
+    return "${:,.0f}".format(x)
+
+
+def plot_with_rails(df: pd.DataFrame, title: str | None = None, plt_file: str | None = None, rails: bool = False, dollar: bool = False, plot_flag: bool = False) -> None:
+    """ Single line plot with rails: Average and +/- std dev"""
+    plt.figure(figsize=(8, 6))
+    ax = plt.gca()
+    x_tick = range(df.shape[0])
+    plt.plot(x_tick, list(df.values), color="steelblue")
+    if rails:  # Plot lines for mean & rails for stddev
+        # Build array of containing the mean value for all entries - as a Reference
+        values = df.to_numpy(dtype=float)  # single-column DF: mean/std over all its values (not a Series)
+        df_mean = float(values.mean())
+        df_stddev = float(values.std(ddof=1))  # sample std dev, as pandas DataFrame.std()
+        # Create horizontal lines showing mean, +/- stddev
+        ax.axhline(y=df_mean, color="red", ls="solid", alpha=0.5)
+        ax.axhline(y=df_mean + df_stddev, color="red", ls="dashed", alpha=0.5)
+        ax.axhline(y=df_mean - df_stddev, color="red", ls="dashed", alpha=0.5)
+
+    # Decorate plot w/ labels, title etc
+    plt.xticks(x_tick, list(df.index), rotation=0)
+    if dollar:
+        ax.yaxis.set_major_formatter(FuncFormatter(tick_format_w_dollar))
+    else:
+        ax.yaxis.set_major_formatter(FuncFormatter(tick_format))
+    ax.set_facecolor("#E6E6E6")
+    box = ax.get_position()
+    ax.set_position((box.x0 + 0.05, box.y0, box.width, box.height))
+    plt.grid(
+        axis="y", which="both", color="darkgreen", linestyle="-", linewidth=1, alpha=0.5
+    )
+    if title is not None:
+        plt.title(title)
+    if plt_file is not None:
+        # bbox_inches -> makes the legend fit
+        plt.savefig(plt_file, format="pdf", dpi=300, bbox_inches="tight")
+    if plot_flag:
+        plt.show()
+    return
+

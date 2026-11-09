@@ -9,8 +9,8 @@ from pathlib import Path
 
 import pandas as pd
 
-SRC_DIR = Path(__file__).resolve().parent.parent / "src"
-sys.path.insert(0, str(SRC_DIR))
+CODE_DIR = Path(__file__).resolve().parent.parent / "src" / "Using_Cross_Cor"
+sys.path.insert(0, str(CODE_DIR))
 
 from file_cache import CacheEntry, FileCache  # noqa: E402
 from show_cache import CachedSeriesFinder  # noqa: E402
@@ -58,6 +58,17 @@ def test_get_returns_none_when_stale(tmp_path: Path) -> None:
 
     assert cache.get("SPY", date(2026, 10, 31)) is not None
     assert cache.get("SPY", TODAY) is None  # new calendar month
+
+
+def test_split_fresh_separates_cached_from_stale_and_missing(tmp_path: Path) -> None:
+    cache = make_cache(tmp_path)
+    cache.put("SPY", sample_df(), TODAY)
+    cache.put("QQQ", sample_df(), date(2026, 10, 31))  # previous month: stale
+
+    cached, to_refresh = cache.split_fresh(["SPY", "QQQ", "BND"], TODAY)
+
+    assert list(cached) == ["SPY"]
+    assert to_refresh == ["QQQ", "BND"]
 
 
 def test_entries_parse_tickers_with_separator(tmp_path: Path) -> None:

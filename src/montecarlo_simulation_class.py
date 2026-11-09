@@ -10,8 +10,7 @@ so that each MC simulation can be initialized quickly with the same data.
 from typing import cast
 import numpy as np
 import pandas as pd
-from logger import logger
-import logging
+from custom_logger import custom_logger as logger
 from configuration_manager_class import ConfigurationManager
 from find_most_recent import find_most_recent
 # from cashflow_class import Cashflow 

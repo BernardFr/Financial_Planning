@@ -1,0 +1,6 @@
+{
+    "executionEnvironments": [
+        { "root": "src/Using_Cross_Cor" },
+        { "root": "src" }
+    ]
+}

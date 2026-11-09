@@ -9,8 +9,8 @@ from pathlib import Path
 
 import pandas as pd
 
-SRC_DIR = Path(__file__).resolve().parent.parent / "src"
-sys.path.insert(0, str(SRC_DIR))
+CODE_DIR = Path(__file__).resolve().parent.parent / "src" / "Using_Cross_Cor"
+sys.path.insert(0, str(CODE_DIR))
 
 import holdings_cross_corr as hcc  # noqa: E402
 from ticker_class import Ticker  # noqa: E402
@@ -28,13 +28,26 @@ def test_config_loads_map_with_uppercase_keys(tmp_path: Path) -> None:
     script = tmp_path / "prog.py"
     (tmp_path / "prog.toml").write_text(
         'positions_prefix = "Positions_"\ninput_folder = "."\n'
-        f'date_format = "{DATE_FORMAT}"\ncache_folder = "cache"\n'
+        f'date_format = "{DATE_FORMAT}"\ncache_folder = "cache"\noutput_folder = ".."\n'
         'yf_ticker_map = { "brk.b" = "BRK-B" }\n'
     )
 
     cfg = hcc.Config.load(script)
 
     assert cfg.yf_ticker_map == {"BRK.B": "BRK-B"}
+    assert cfg.output_folder == tmp_path.resolve().parent  # relative to the script's folder
+
+
+def test_result_path_in_output_folder_with_date(tmp_path: Path) -> None:
+    cfg = hcc.Config(
+        positions_prefix="Positions_",
+        input_folder=tmp_path,
+        date_format=DATE_FORMAT,
+        cache_folder=tmp_path / "cache",
+        output_folder=tmp_path / "out",
+    )
+
+    assert hcc.result_path("holdings_cross_corr", cfg, TODAY) == tmp_path / "out" / "holdings_cross_corr_out_2026_11_09.xlsx"
 
 
 def test_download_uses_mapped_yahoo_ticker(tmp_path: Path, monkeypatch) -> None:
@@ -43,6 +56,7 @@ def test_download_uses_mapped_yahoo_ticker(tmp_path: Path, monkeypatch) -> None:
         input_folder=tmp_path,
         date_format=DATE_FORMAT,
         cache_folder=tmp_path / "cache",
+        output_folder=tmp_path,
         yf_ticker_map={"BRK.B": "BRK-B"},
     )
     requested: list[str] = []
@@ -56,8 +70,9 @@ def test_download_uses_mapped_yahoo_ticker(tmp_path: Path, monkeypatch) -> None:
                         classmethod(lambda cls, f, col, m: [cls(s, m.get(s)) for s in ["BRK.B", "SPY"]]))
     monkeypatch.setattr(Ticker, "download", fake_download)
 
-    data = hcc.load_holdings_data(cfg, today=TODAY)
+    ticker_lst = hcc.load_holdings_data(cfg, today=TODAY)
 
     assert requested == ["BRK-B", "SPY"]
-    assert list(data) == ["BRK.B", "SPY"]
+    assert [t.symbol for t in ticker_lst] == ["BRK.B", "SPY"]
+    assert all(t.history is not None for t in ticker_lst)
     assert (tmp_path / "cache" / "BRK.B_2026_11_09.json").exists()
