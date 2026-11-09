@@ -38,6 +38,19 @@ Financial Plan
 * Asset_class_model: only run the specified Asset Class Statistics Model
 * "make it work": i.e. adjust spending in down years
 
+## New Version - Using_Cross_Corr
+
+In the **`Using_Cross_Corr`** folder, a new version of `run_montecarlo_simulation.py` runs using statistics computed on the Tickers directly - rather than mapping tickers to Asset Classes (like Morningstar) and then using the statistics of the Asset Classes to run the simulation. 
+
+The main motivations for this are:
+
+1. It's difficult to find statistics on asset classes ... they vary quite a bit depending on the source
+2. The mapping of holdings (tickers) to asset classes is widely imperfect
+
+The stats on the Tickers are computed using `holdings_cross_corr.py` , which aggregates the latest positions, refreshes the day-close prices ("adjusted" to include dividends, etc), and computes Expected Return, Standard Deviation and Cross Correlation using a 10 year price history.
+
+* The price history is cached in `./Data/Cross_Corr_Cache` and is refreshed if the data is more than 1 month old
+
 ## Capital Market Models
 
 ### `capital_markets_stats_class.py`
