@@ -13,6 +13,7 @@ SRC_DIR = Path(__file__).resolve().parent.parent / "src"
 sys.path.insert(0, str(SRC_DIR))
 
 import holdings_cross_corr as hcc  # noqa: E402
+from ticker_class import Ticker  # noqa: E402
 
 DATE_FORMAT = "%Y_%m_%d"
 TODAY = date(2026, 11, 9)
@@ -46,13 +47,14 @@ def test_download_uses_mapped_yahoo_ticker(tmp_path: Path, monkeypatch) -> None:
     )
     requested: list[str] = []
 
-    def fake_download(ticker: str, years: int) -> pd.DataFrame:
-        requested.append(ticker)
+    def fake_download(self: Ticker, years: int) -> pd.DataFrame:
+        requested.append(self.yf_symbol)
         return sample_df()
 
     monkeypatch.setattr(hcc, "find_latest_positions_file", lambda c: (tmp_path / "p.xlsx", TODAY))
-    monkeypatch.setattr(hcc, "read_tickers", lambda f, col: ["BRK.B", "SPY"])
-    monkeypatch.setattr(hcc, "download_adj_close", fake_download)
+    monkeypatch.setattr(Ticker, "read_positions",
+                        classmethod(lambda cls, f, col, m: [cls(s, m.get(s)) for s in ["BRK.B", "SPY"]]))
+    monkeypatch.setattr(Ticker, "download", fake_download)
 
     data = hcc.load_holdings_data(cfg, today=TODAY)
 
