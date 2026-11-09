@@ -51,6 +51,8 @@ The stats on the Tickers are computed using `holdings_cross_corr.py` , which agg
 
 * The price history is cached in `./Data/Cross_Corr_Cache` and is refreshed if the data is more than 1 month old
 
+NOTE: there are **quite a bit of subtelties in computing the stats** - see `Cross-Correlation of Holdings - Claude Instructions.md` for details.
+
 ## Capital Market Models
 
 ### `capital_markets_stats_class.py`
