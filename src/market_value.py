@@ -23,6 +23,8 @@ from pathlib import Path
 from typing import List
 
 import matplotlib.pyplot as plt
+from matplotlib.ticker import PercentFormatter
+import numpy as np
 import pandas as pd
 import yfinance as yf
 
@@ -37,6 +39,8 @@ DATE_COL = 'Date'
 CASH_SYMBOL = 'Cash'
 DATE_FORMAT = '%Y-%m-%d'
 PLOT_FIG_SIZE = (10, 6)
+PLOT_TITLE = 'Market Value Over Time'
+PLOT_SAVE_FORMAT = 'svg'
 PLOT_PROMPT = "Plot market value over time? (y/n): "
 DEBUG_FLAG = False
 
@@ -173,15 +177,32 @@ class MarketValueProcessor:
         """
         Plot the market value over time.
         The dates are not evenly spaced, so the x-axis is a time axis: markers connected by lines.
+        The right y-axis shows the % delta of each value compared to the oldest value.
         """
         # Dates are stored as 'YYYY-MM-DD' strings: convert them so matplotlib uses a time axis, not categories
         dates = pd.to_datetime(market_value_df[DATE_COL])
-        _, ax = plt.subplots(figsize=PLOT_FIG_SIZE)
+        oldest_value = float(market_value_df[MARKET_VALUE_COL].iloc[dates.argmin()])
+        # The save button of the plot window uses this format
+        plt.rcParams['savefig.format'] = PLOT_SAVE_FORMAT
+        fig, ax = plt.subplots(figsize=PLOT_FIG_SIZE)
+        # The title is in the plot (and in the saved file): remove the 'Figure 1' label of the plot window
+        if fig.canvas.manager is not None:
+            fig.canvas.manager.set_window_title('')
         ax.scatter(dates, market_value_df[MARKET_VALUE_COL], marker='o')
         ax.plot(dates, market_value_df[MARKET_VALUE_COL], linestyle='-')
-        ax.set_title('Market Value Over Time')
+        ax.set_title(PLOT_TITLE)
         ax.set_xlabel(DATE_COL)
         ax.set_ylabel('Market Value ($)')
+        # The right axis is a linear transform of the left axis, so both axes always stay aligned
+        pct_ax = ax.secondary_yaxis(
+            'right',
+            functions=(
+                lambda value: (np.asarray(value) / oldest_value - 1) * 100,
+                lambda pct: (np.asarray(pct) / 100 + 1) * oldest_value,
+            ),
+        )
+        pct_ax.yaxis.set_major_formatter(PercentFormatter())
+        pct_ax.set_ylabel('Delta vs. Oldest Value (%)')
         ax.tick_params(axis='x', labelrotation=45)
         ax.grid()
         plt.tight_layout()

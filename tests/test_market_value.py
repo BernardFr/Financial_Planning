@@ -4,7 +4,9 @@ Tests for MarketValueProcessor in src/market_value.py.
 
     - _save_results: creates and updates the market value history.
     - _log_summary: runs and does not change its input.
-    - _plot_market_value: places points on the x-axis in proportion to the time between dates.
+    - _plot_market_value: places points on the x-axis in proportion to the time between dates,
+      and shows the % delta vs. the oldest value on the right y-axis.
+      The plot window has no 'Figure N' label, and its save button uses SVG.
 """
 
 import sys
@@ -20,7 +22,9 @@ import pytest
 
 matplotlib.use('Agg')
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'src'))
-from market_value import DATE_COL, MARKET_VALUE_COL, MARKET_VALUE_SHEET, MarketValueProcessor  # noqa: E402
+from market_value import (  # noqa: E402
+    DATE_COL, MARKET_VALUE_COL, MARKET_VALUE_SHEET, PLOT_SAVE_FORMAT, PLOT_TITLE, MarketValueProcessor,
+)
 
 TEST_XL_FILE = Path(__file__).resolve().parent / 'test_market_value.xlsx'
 PLOT_DATES = ['2026-01-01', '2026-01-15', '2026-03-01', '2026-09-20', '2026-10-31']
@@ -86,6 +90,32 @@ def test_plot_x_spacing_is_proportional_to_time(processor, date_values):
     scatter_x = np.asarray(ax.collections[0].get_offsets()[:, 0], dtype=float)
     np.testing.assert_allclose(np.diff(line_x), EXPECTED_GAPS_DAYS)
     np.testing.assert_allclose(np.diff(scatter_x), EXPECTED_GAPS_DAYS)
+
+
+def test_plot_right_axis_shows_pct_delta_vs_oldest_value(processor):
+    # Rows are not in date order: the oldest value is the one with the earliest date, not the first row
+    market_value_df = pd.DataFrame({DATE_COL: PLOT_DATES[::-1], MARKET_VALUE_COL: PLOT_VALUES[::-1]})
+    with patch.object(plt, 'show'):
+        processor._plot_market_value(market_value_df)
+    fig = plt.gcf()
+    fig.canvas.draw()
+    ax = fig.axes[0]
+    pct_ax = ax.child_axes[0]
+
+    oldest_value = PLOT_VALUES[0]
+    expected_pct_lim = (np.array(ax.get_ylim()) / oldest_value - 1) * 100
+    np.testing.assert_allclose(pct_ax.get_ylim(), expected_pct_lim)
+
+
+def test_plot_title_shows_once_and_saves_as_svg(processor):
+    market_value_df = pd.DataFrame({DATE_COL: PLOT_DATES, MARKET_VALUE_COL: PLOT_VALUES})
+    with patch.object(plt, 'show'):
+        processor._plot_market_value(market_value_df)
+    fig = plt.gcf()
+
+    assert fig.axes[0].get_title() == PLOT_TITLE
+    assert fig.canvas.manager.get_window_title() == ''
+    assert fig.canvas.get_default_filetype() == PLOT_SAVE_FORMAT == 'svg'
 
 
 if __name__ == '__main__':

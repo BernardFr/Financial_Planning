@@ -1,0 +1,42 @@
+2026-11-26 10:26:27,189 - INFO - load_all_transaction_data - Holdings file: WFA_Portfolio_Positions_112326_1415.xls - Holdings date: 2026-11-23 - days old: 3
+2026-11-26 10:26:27,204 - INFO - load_all_transaction_data - Cash amount: $40,718.22
+2026-11-26 10:26:30,813 - INFO - _log_summary - Market Values:
+          Date   Market Value
+0   2025-08-27  $3,724,372.28
+1   2025-09-03  $3,705,190.44
+2   2025-09-05  $3,734,707.27
+3   2025-09-08  $3,753,592.48
+4   2025-09-09  $3,735,275.23
+..         ...            ...
+62  2026-11-02  $3,908,114.77
+63  2026-11-04  $3,952,535.50
+64  2026-11-17  $3,808,403.97
+65  2026-11-23  $3,737,184.89
+66  2026-11-26  $3,726,890.38
+
+[67 rows x 2 columns]
+2026-11-26 10:26:30,813 - INFO - _log_summary - Today's market value: $3,726,890
+2026-11-26 10:26:30,813 - INFO - _log_summary -  Min Market Value: $3,643,643 - Delta ($83,248) (2.23%) on 2026-03-30
+2026-11-26 10:26:30,813 - INFO - _log_summary -  Max Market Value: $4,151,693 - Delta ($424,803) (11.40%) on 2026-08-14
+2026-11-26 10:31:42,911 - INFO - main - End: 2026-11-26 10:31:42.911323 -- Run Time: 0:05:15.721488
+
+2026-11-26 10:31:44,465 - INFO - load_all_transaction_data - Holdings file: WFA_Portfolio_Positions_112326_1415.xls - Holdings date: 2026-11-23 - days old: 3
+2026-11-26 10:31:44,474 - INFO - load_all_transaction_data - Cash amount: $40,718.22
+2026-11-26 10:31:48,169 - INFO - _log_summary - Market Values:
+          Date   Market Value
+0   2025-08-27  $3,724,372.28
+1   2025-09-03  $3,705,190.44
+2   2025-09-05  $3,734,707.27
+3   2025-09-08  $3,753,592.48
+4   2025-09-09  $3,735,275.23
+..         ...            ...
+62  2026-11-02  $3,908,114.77
+63  2026-11-04  $3,952,535.50
+64  2026-11-17  $3,808,403.97
+65  2026-11-23  $3,737,184.89
+66  2026-11-26  $3,726,890.38
+
+[67 rows x 2 columns]
+2026-11-26 10:31:48,169 - INFO - _log_summary - Today's market value: $3,726,890
+2026-11-26 10:31:48,169 - INFO - _log_summary -  Min Market Value: $3,643,643 - Delta ($83,248) (2.23%) on 2026-03-30
+2026-11-26 10:31:48,169 - INFO - _log_summary -  Max Market Value: $4,151,693 - Delta ($424,803) (11.40%) on 2026-08-14
