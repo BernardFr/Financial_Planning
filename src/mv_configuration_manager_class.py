@@ -1,13 +1,10 @@
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List
 import os
-import re
-import string
 import sys
 import getopt
-import tomli
+import tomllib
 import matplotlib.pyplot as plt
-from tick_timer_class import TickTimer
-from custom_logger import custom_logger as logger
+from mv_tick_timer_class import TickTimer
 
 class ConfigurationManager:
     """Manages configuration settings and constants for BenPlan."""
@@ -49,11 +46,11 @@ class ConfigurationManager:
         return paths_dict
 
 
-    def  _read_config_file(self) -> dict:
+    def _read_config_file(self) -> dict:
         this_dir = os.path.dirname(os.path.abspath(__file__))
         config_file = os.path.join(this_dir, self.prog_name + '.toml')
         with open(config_file, mode="rb") as fp:
-            config = tomli.load(fp)
+            config = tomllib.load(fp)
         return config
 
 
@@ -66,7 +63,7 @@ class ConfigurationManager:
         cmd_line_param = {}
         try:
             opts, args = getopt.getopt(cmd_args, "hpv")
-        except getopt.GetoptError: 
+        except getopt.GetoptError:
             print(f"{Usage}\n{__doc__}")
             sys.exit(2)
         for opt, arg in opts:

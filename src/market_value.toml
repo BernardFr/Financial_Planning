@@ -1,0 +1,12 @@
+[meta]
+log_level = 'INFO'
+
+[default]
+HOME_DIR = '/Users/bfraenkel/Documents/Code/BenPlan/'
+DATA_DIR = 'Holdings/'
+
+[ConfigurationManager]
+PLT_STYLE = 'seaborn-v0_8-deep'
+
+[DataLoader]
+FILE_NAME_PATTERN = 'WFA_Portfolio_Positions_\d{6}_\d{4}'

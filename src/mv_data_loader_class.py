@@ -6,9 +6,9 @@ from typing import Dict, List
 
 import pandas as pd
 
-from custom_logger import custom_logger as logger
+from mv_custom_logger import custom_logger as logger
 from mv_configuration_manager_class import ConfigurationManager
-from utils import clean_excel_text
+from mv_utils import clean_excel_text
 
 Cols_2_Keep = ['Symbol', 'Account Number', 'Shares', 'Description', 'Tax Term']
 account_map: Dict[str, str] = {'*8475': 'BRKG', '*3672': '401K'}
@@ -90,7 +90,11 @@ class DataLoader:
         """ Match the Cash_Amount_String in the input dataframe in the first column and return
         the value in the third
          column"""
-        return float(in_df[in_df.iloc[:, 0] == Cash_Amount_String].iloc[:, 2].to_numpy(dtype=float)[0])
+        raw_value = in_df[in_df.iloc[:, 0] == Cash_Amount_String].iloc[:, 2].values[0]
+        value_text = str(raw_value).strip().replace('$', '').replace(',', '')
+        if value_text.startswith('(') and value_text.endswith(')'):
+            value_text = f'-{value_text[1:-1]}'
+        return float(value_text)
 
     def _load_holdings_data(self, holdings_file: str) -> tuple[pd.DataFrame, float]:
         """Load the holdings data from the file"""
